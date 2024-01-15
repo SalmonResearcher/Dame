@@ -19,7 +19,7 @@ private:
     short moveSpeed;
     short dash;
     float moveY = 0;
-
+    bool isJumping = false;
 
 public:
     Player(GameObject* parent);
@@ -32,7 +32,7 @@ public:
 
     XMFLOAT3 GetPlayerPos()
     {
-        return transform_.position_;
+        return tPlayer_.position_;
     }
 };
 

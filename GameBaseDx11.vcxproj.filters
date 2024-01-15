@@ -105,6 +105,9 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
+    <ClCompile Include="BackRooms.cpp">
+      <Filter>ToyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -181,6 +184,9 @@
       <Filter>ToyBox</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
+      <Filter>ToyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="BackRooms.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
   </ItemGroup>

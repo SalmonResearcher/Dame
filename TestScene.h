@@ -4,6 +4,7 @@
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

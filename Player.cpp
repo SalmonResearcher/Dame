@@ -28,24 +28,51 @@ void Player::Update()
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &data); //レイを発射
 
-	RayCastData player;
-	player.start = tPlayer_.position_;   //レイの発射位置
-	player.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hGroundModel, &player); //レイを発射
-
-	moveY -= 0.01;
-
-	//レイが当たったら
-	if (data.hit && player.dist <= 0.5)
+	RayCastData play;
+	play.start = tPlayer_.position_;   //レイの発射位置
+	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+	Model::RayCast(hGroundModel, &play); //レイを発射
+	
+	if (data.hit)
 	{
-		moveY = 0;
-		tPlayer_.position_.y = -data.dist;
+		//ジャンプ
+		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
+		{
+			isJumping = true;
+			moveY += 0.5;
+		}
+		
+		else if (isJumping)
+		{
+			//自由落下
+			moveY -= 0.03;
+
+			if (moveY <= -0.2f)
+			{
+				moveY = -0.2f;
+			}
+		}
+
+		if (play.dist <= 0.3 && isJumping)
+		{
+			moveY = 0.0f;
+			isJumping = false;
+		}
+
+		if (!isJumping)
+		{
+			tPlayer_.position_.y = -data.dist;
+		}
+
+		tPlayer_.position_.y += moveY;
 	}
-
-	if (Input::IsKeyDown(DIK_SPACE))
-		moveY = 0.5;
-
-	tPlayer_.position_.y += moveY;
+	//↓デバック用
+	Debug::Log("isJumping = ");
+	Debug::Log(isJumping, true);
+	Debug::Log("play.dist = ");
+	Debug::Log(play.dist, true);
+	//↑デバッグ用
+	
 
 	if (Input::IsKey(DIK_LSHIFT))
 		dash = 2;
@@ -53,24 +80,9 @@ void Player::Update()
 	else
 		dash = 1;
 
-	//if (Input::IsKey(DIK_W))
-	//{
-	//	tPlayer_.position_.z += SPEED * dash;
-	//}
-
-	//if (Input::IsKey(DIK_S))
-	//{
-	//	tPlayer_.position_.z -= SPEED * dash;
-	//}
-
-	//if (Input::IsKey(DIK_A))
-	//{
-
-	//}
-
 	static bool debug = true;
 	//マウス位置固定
-	if (Input::IsKeyDown(DIK_SPACE))
+	if (Input::IsKeyDown(DIK_RSHIFT))
 	{
 		if (debug)
 		{
@@ -98,10 +110,7 @@ void Player::Update()
 	camMove.y = move.x;
 	camMove.x = move.y;
 
-	//↓デバック用
-	Debug::Log("camMove.y = ");
-	Debug::Log(camMove.x, true);
-	//↑デバッグ用
+	
 
 	//マウスセンシティビリティ
 	camMove.x *= 0.1;
