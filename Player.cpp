@@ -29,7 +29,7 @@ void Player::Update()
 	Model::RayCast(hGroundModel, &data); //レイを発射
 
 	RayCastData play;
-	play.start = tPlayer_.position_;   //レイの発射位置
+	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &play); //レイを発射
 	
@@ -47,13 +47,13 @@ void Player::Update()
 			//自由落下
 			moveY -= 0.03;
 
-			if (moveY <= -0.2f)
+			if (moveY <= -0.25f)
 			{
-				moveY = -0.2f;
+				moveY = -0.25f;
 			}
 		}
 
-		if (play.dist <= 0.3 && isJumping)
+		if (play.dist <= 0.25 && isJumping)
 		{
 			moveY = 0.0f;
 			isJumping = false;
@@ -67,10 +67,10 @@ void Player::Update()
 		tPlayer_.position_.y += moveY;
 	}
 	//↓デバック用
-	Debug::Log("isJumping = ");
-	Debug::Log(isJumping, true);
-	Debug::Log("play.dist = ");
-	Debug::Log(play.dist, true);
+	//Debug::Log("isJumping = ");
+	//Debug::Log(isJumping, true);
+	//Debug::Log("play.dist = ");
+	//Debug::Log(play.dist, true);
 	//↑デバッグ用
 	
 
@@ -81,7 +81,8 @@ void Player::Update()
 		dash = 1;
 
 	static bool debug = true;
-	//マウス位置固定
+
+	
 	if (Input::IsKeyDown(DIK_RSHIFT))
 	{
 		if (debug)
@@ -93,7 +94,7 @@ void Player::Update()
 			debug = true;
 		}
 	}
-
+	//マウス位置固定
 	if (debug)
 		SetCursorPos(800, 400);
 
@@ -139,7 +140,7 @@ void Player::Update()
 	XMMATRIX rotMatX = XMMatrixRotationX(XMConvertToRadians(tCamera.rotate_.x));
 
 	//移動ベクトル
-	XMVECTOR nowVec = XMLoadFloat3(&tPlayer_.position_);			//今のカメラ位置座標
+	XMVECTOR nowVec = XMLoadFloat3(& tPlayer_.position_);			//今のカメラ位置座標
 	XMVECTOR frontMove = XMVectorSet(0, 0, SPEED * dash, 0);		//z座標に動く速度
 	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
 
@@ -189,8 +190,20 @@ void Player::Update()
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
+	RayCastData cam;
+	cam.start = camTarget;  //レイの発射位置
+	cam.dir = Camposition_;       //レイの方向
+	Model::RayCast(hGroundModel, &cam); //レイを発射
+
+	Debug::Log("cam to mat");
+	Debug::Log(Camposition_.z, true);
+	tPlayer_.position_.y = -data.dist;
+
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
+
+	
+
 }
 
 void Player::Draw()

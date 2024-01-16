@@ -19,7 +19,7 @@ Stage::~Stage()
 //‰Šú‰»
 void Stage::Initialize()
 {
-    hModel_ = Model::Load("Stage2.fbx");
+    hModel_ = Model::Load("Stage3.fbx");
     assert(hModel_ >= 0);
 }
 
