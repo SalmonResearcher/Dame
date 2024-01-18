@@ -196,7 +196,7 @@ void Player::Update()
 	Model::RayCast(hGroundModel, &cam); //ƒŒƒC‚ğ”­Ë
 
 	Debug::Log("cam to mat");
-	Debug::Log(Camposition_.z, true);
+	Debug::Log(Camposition_.y - Camposition_.z, true);
 	tPlayer_.position_.y = -data.dist;
 
 	//ƒJƒƒ‰ˆÚ“®
