@@ -5,16 +5,24 @@
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
+#include "Engine/SphereCollider.h"
 
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), dash(1)
 {
 }
 
+Player::~Player() {
+
+}
+
 void Player::Initialize()
 {
 	hModel_ = Model::Load("Player.fbx");
 	assert(hModel_ >= 0);
+
+	SphereCollider* collider = new SphereCollider(XMFLOAT3(0.3, 0.3, 0.3), 1.0f);
+	AddCollider(collider);
 
 }
 
@@ -176,13 +184,14 @@ void Player::Update()
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
 	//カメラ移動
-	XMStoreFloat3(&tCamera.position_, nowVec);
+	//XMStoreFloat3(&tCamera.position_, nowVec);
 
 	//カメラ本体
 	XMVECTOR vCam = { 0,0,-10,0 };
 
 	//カメラ注視点
-	XMFLOAT3 camTarget = tPlayer_.position_;
+	XMFLOAT3 camTarget = { tPlayer_.position_};
+
 	//camTarget.z += 2;
 	Camera::SetTarget(camTarget);
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
@@ -191,13 +200,14 @@ void Player::Update()
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
 	RayCastData cam;
-	cam.start = camTarget;  //レイの発射位置
+	cam.start = tPlayer_.position_;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hGroundModel, &cam); //レイを発射
-
-	Debug::Log("cam to mat");
-	Debug::Log(Camposition_.y - Camposition_.z, true);
-	tPlayer_.position_.y = -data.dist;
+	
+	Debug::Log("cam");
+	Debug::Log(cam.hit, true); 
+	Debug::Log("camz");
+	Debug::Log(cam.dist, true);
 
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
