@@ -5,7 +5,7 @@
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
-#include "Engine/SphereCollider.h"
+#include "Engine/BoxCollider.h"
 
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), dash(1)
@@ -21,7 +21,7 @@ void Player::Initialize()
 	hModel_ = Model::Load("Player.fbx");
 	assert(hModel_ >= 0);
 
-	SphereCollider* collider = new SphereCollider(XMFLOAT3(0.3, 0.3, 0.3), 1.0f);
+	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
 
 }
@@ -74,12 +74,7 @@ void Player::Update()
 
 		tPlayer_.position_.y += moveY;
 	}
-	//↓デバック用
-	//Debug::Log("isJumping = ");
-	//Debug::Log(isJumping, true);
-	//Debug::Log("play.dist = ");
-	//Debug::Log(play.dist, true);
-	//↑デバッグ用
+
 	
 
 	if (Input::IsKey(DIK_LSHIFT))
@@ -213,7 +208,7 @@ void Player::Update()
 	Camera::SetPosition(Camposition_);
 
 	
-
+	transform_ = tPlayer_;
 }
 
 void Player::Draw()
