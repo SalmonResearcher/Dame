@@ -162,26 +162,33 @@ void Player::Update()
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
 	if (Input::IsKey(DIK_W))
 	{
-		vecPlayer_ += frontMove;
+		vecPlayer_ = frontMove;
 	}
 
 	if (Input::IsKey(DIK_S))
 	{
-		vecPlayer_ -= frontMove;
+		vecPlayer_ = -frontMove;
 	}
 
 	if (Input::IsKey(DIK_A))
 	{
-		vecPlayer_ -= leftRightMove;
+		vecPlayer_ = -leftRightMove;
 	}
 
 	if (Input::IsKey(DIK_D))
 	{
-		vecPlayer_ += leftRightMove;
+		vecPlayer_ = leftRightMove;
 	}
 
+	vecPlayer_ = XMVector3Normalize(vecPlayer_);
+	
+	XMStoreFloat3(&movePlayer, vecPlayer_);
 
-	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
+	tPlayer_.position_.x += movePlayer.x;
+	tPlayer_.position_.z += movePlayer.z;
+
+	Debug::Log("vecPlayer =");
+	Debug::Log(movePlayer.x,true);
 
 	//ÉJÉÅÉâà⁄ìÆ
 	//XMStoreFloat3(&tCamera.position_, nowVec);

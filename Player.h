@@ -10,6 +10,7 @@ private:
     Transform tCamera;  //カメラのトランスフォーム
 
     XMVECTOR vecPlayer_;    //プレイヤーの向いている方向ベクトル
+    XMFLOAT3 movePlayer;
 
     XMFLOAT3 Camposition_;
 
