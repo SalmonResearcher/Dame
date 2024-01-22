@@ -5,7 +5,7 @@
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
-#include "Engine/SphereCollider.h"
+#include "Engine/BoxCollider.h"
 
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), dash(1)
@@ -21,7 +21,7 @@ void Player::Initialize()
 	hModel_ = Model::Load("Player.fbx");
 	assert(hModel_ >= 0);
 
-	SphereCollider* collider = new SphereCollider(XMFLOAT3(0.3, 0.3, 0.3), 1.0f);
+	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
 
 }
@@ -74,12 +74,7 @@ void Player::Update()
 
 		tPlayer_.position_.y += moveY;
 	}
-	//↓デバック用
-	//Debug::Log("isJumping = ");
-	//Debug::Log(isJumping, true);
-	//Debug::Log("play.dist = ");
-	//Debug::Log(play.dist, true);
-	//↑デバッグ用
+
 	
 
 	if (Input::IsKey(DIK_LSHIFT))
@@ -206,6 +201,12 @@ void Player::Update()
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
+	//実装したいもの
+	//カメラが地形にめり込まず、地形に沿うようになる
+	//イメージとしては、マリオオデッセイや、スプラトゥーンのようにカメラを下に向けても地形に沿ってカメラがプレイヤーに近づくあれ。
+	//考えていた実装方法->プレイヤーの現在地からカメラの方向にレイを飛ばす
+	//レイが当たった位置（dist）がカメラの位置-プレイヤーの位置よりも小さい（近い）時、レイの当たった位置までカメラをプレイヤーに近づける
+
 	RayCastData cam;
 	cam.start = tPlayer_.position_;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
@@ -220,7 +221,7 @@ void Player::Update()
 	Camera::SetPosition(Camposition_);
 
 	
-
+	transform_ = tPlayer_;
 }
 
 void Player::Draw()
