@@ -3,7 +3,6 @@
 #include "Engine/Input.h"
 #include "Engine/Sprite.h"
 
-
 #include "Player.h"
 
 //コンストラクタ
@@ -22,7 +21,6 @@ void Stage::Initialize()
 {
     hModel_ = Model::Load("Stage3.fbx");
     assert(hModel_ >= 0);
-
 }
 
 //更新

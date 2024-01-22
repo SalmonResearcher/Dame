@@ -12,10 +12,6 @@ Player::Player(GameObject* parent)
 {
 }
 
-Player::~Player() {
-
-}
-
 void Player::Initialize()
 {
 	hModel_ = Model::Load("Player.fbx");
@@ -157,43 +153,35 @@ void Player::Update()
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
 	if (Input::IsKey(DIK_W))
 	{
-		vecPlayer_ = frontMove;
+		vecPlayer_ += frontMove;
 	}
 
 	if (Input::IsKey(DIK_S))
 	{
-		vecPlayer_ = -frontMove;
+		vecPlayer_ -= frontMove;
 	}
 
 	if (Input::IsKey(DIK_A))
 	{
-		vecPlayer_ = -leftRightMove;
+		vecPlayer_ -= leftRightMove;
 	}
 
 	if (Input::IsKey(DIK_D))
 	{
-		vecPlayer_ = leftRightMove;
+		vecPlayer_ += leftRightMove;
 	}
 
-	vecPlayer_ = XMVector3Normalize(vecPlayer_);
-	
-	XMStoreFloat3(&movePlayer, vecPlayer_);
 
-	tPlayer_.position_.x += movePlayer.x;
-	tPlayer_.position_.z += movePlayer.z;
-
-	Debug::Log("vecPlayer =");
-	Debug::Log(movePlayer.x,true);
+	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
 	//カメラ移動
-	//XMStoreFloat3(&tCamera.position_, nowVec);
+	XMStoreFloat3(&tCamera.position_, nowVec);
 
 	//カメラ本体
 	XMVECTOR vCam = { 0,0,-10,0 };
 
 	//カメラ注視点
-	XMFLOAT3 camTarget = { tPlayer_.position_};
-
+	XMFLOAT3 camTarget = tPlayer_.position_;
 	//camTarget.z += 2;
 	Camera::SetTarget(camTarget);
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
@@ -202,14 +190,13 @@ void Player::Update()
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
 	RayCastData cam;
-	cam.start = tPlayer_.position_;  //レイの発射位置
+	cam.start = camTarget;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hGroundModel, &cam); //レイを発射
-	
-	Debug::Log("cam");
-	Debug::Log(cam.hit, true); 
-	Debug::Log("camz");
-	Debug::Log(cam.dist, true);
+
+	Debug::Log("cam to mat");
+	Debug::Log(Camposition_.y - Camposition_.z, true);
+	tPlayer_.position_.y = -data.dist;
 
 	//カメラ移動
 	Camera::SetPosition(Camposition_);

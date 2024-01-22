@@ -24,7 +24,6 @@ private:
 
 public:
     Player(GameObject* parent);
-    ~Player() override;
     void Initialize() override;
     void Update() override;
     void Draw() override;
