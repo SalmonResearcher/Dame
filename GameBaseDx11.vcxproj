@@ -149,9 +149,14 @@
     <ClCompile Include="Engine\Text.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StandingState.cpp" />
+    <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="WalkingState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackRooms.h" />
@@ -178,9 +183,14 @@
     <ClInclude Include="Engine\Text.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="JumpingState.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StandingState.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="WalkingState.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

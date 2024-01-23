@@ -1,8 +1,7 @@
 #include "Player.h"
-#include "Stage.h"
+
 
 #include "Engine/Input.h"
-#include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
@@ -24,9 +23,6 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	Stage* pStage = (Stage*)FindObject("Stage");    //ステージオブジェクトを探す
-	int hGroundModel = pStage->GetModelHandle();    //モデル番号を取得
-
 	RayCastData data;
 	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
@@ -35,7 +31,7 @@ void Player::Update()
 	RayCastData play;
 	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hGroundModel, &play); //レイを発射
+	Model::RayCast(hStage_, &play); //レイを発射
 	
 	if (data.hit)
 	{
@@ -235,4 +231,15 @@ void Player::Draw()
 
 void Player::Release()
 {
+}
+
+void Player::StageRay()
+{
+	if ((Stage*)FindObject("Stage") != nullptr)
+	{
+		hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+		
+		RayCastData down;
+	}
+
 }
