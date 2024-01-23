@@ -15,7 +15,8 @@ private:
 
 
     int hModel_;
-    const float SPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
+    const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
+    float speed_ = 0;
     short moveSpeed;
     short dash;
     float moveY = 0;

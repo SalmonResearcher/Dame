@@ -144,17 +144,40 @@ void Player::Update()
 
 	//移動ベクトル
 	XMVECTOR nowVec = XMLoadFloat3(& tPlayer_.position_);			//今のカメラ位置座標
-	XMVECTOR frontMove = XMVectorSet(0, 0, SPEED * dash, 0);		//z座標に動く速度
+	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash, 0);		//z座標に動く速度
 	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
 
 	//上下左右回転
-	XMVECTOR upDownMove = XMVectorSet(0, SPEED * dash, 0, 0);
+	XMVECTOR upDownMove = XMVectorSet(0, speed_ * dash, 0, 0);
 	upDownMove = XMVector3TransformCoord(upDownMove, rotMatY);
-	XMVECTOR leftRightMove = XMVectorSet(SPEED * dash, 0, 0, 0);
+	XMVECTOR leftRightMove = XMVectorSet(speed_ * dash, 0, 0, 0);
 	leftRightMove = XMVector3TransformCoord(leftRightMove, rotMatY);
 
 	//プレイヤーもここで移動させる
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
+
+	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D))&&!isJumping)
+	{
+		speed_ += 0.01f;
+		if (speed_ >= MAXSPEED)
+			speed_ = MAXSPEED;
+	}
+	else if (isJumping)
+	{
+		speed_ = speed_;
+		
+	}
+
+	else
+	{
+		speed_ -= 0.01f;
+		if (speed_ < 0.0f)
+			speed_ = 0.0f;
+	}
+
+	Debug::Log("speed_ = ");
+	Debug::Log(speed_, true);
+
 	if (Input::IsKey(DIK_W))
 	{
 		vecPlayer_ += frontMove;
@@ -175,6 +198,7 @@ void Player::Update()
 		vecPlayer_ += leftRightMove;
 	}
 
+	
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
@@ -205,10 +229,10 @@ void Player::Update()
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hGroundModel, &cam); //レイを発射
 	
-	Debug::Log("cam");
-	Debug::Log(cam.hit, true); 
-	Debug::Log("camz");
-	Debug::Log(cam.dist, true);
+	//Debug::Log("cam");
+	//Debug::Log(cam.hit, true); 
+	//Debug::Log("camz");
+	//Debug::Log(cam.dist, true);
 
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
