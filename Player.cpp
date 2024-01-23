@@ -162,11 +162,7 @@ void Player::Update()
 		if (speed_ >= MAXSPEED)
 			speed_ = MAXSPEED;
 	}
-	else if (isJumping)
-	{
-		speed_ = speed_;
 		
-	}
 
 	else
 	{
@@ -180,6 +176,7 @@ void Player::Update()
 
 	if (Input::IsKey(DIK_W))
 	{
+
 		vecPlayer_ += frontMove;
 	}
 
