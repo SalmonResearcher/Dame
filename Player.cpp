@@ -28,12 +28,12 @@ void Player::Update()
 	int hGroundModel = pStage->GetModelHandle();    //モデル番号を取得
 
 	RayCastData data;
-	data.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
+	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &data); //レイを発射
 
 	RayCastData play;
-	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
+	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &play); //レイを発射
 	
@@ -43,7 +43,7 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 10;
+			moveY += 0.5f;
 		}
 		
 		else if (isJumping)
@@ -65,10 +65,10 @@ void Player::Update()
 
 		if (!isJumping)
 		{
-			transform_.position_.y = -data.dist;
+			tPlayer_.position_.y = -data.dist;
 		}
 
-		transform_.position_.y += moveY;
+		tPlayer_.position_.y += moveY;
 	}
 
 	
@@ -202,7 +202,7 @@ void Player::Update()
 	XMVECTOR vCam = { 0,0,-10,0 };
 
 	//カメラ注視点
-	XMFLOAT3 camTarget = transform_.position_;
+	XMFLOAT3 camTarget = tPlayer_.position_;
 	//camTarget.z += 2;
 	Camera::SetTarget(camTarget);
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
@@ -224,12 +224,12 @@ void Player::Update()
 	Camera::SetPosition(Camposition_);
 
 	
-	transform_ = transform_;
+	transform_ = tPlayer_;
 }
 
 void Player::Draw()
 {
-	Model::SetTransform(hModel_, transform_);
+	Model::SetTransform(hModel_, tPlayer_);
 	Model::Draw(hModel_);
 }
 
