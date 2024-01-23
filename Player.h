@@ -10,6 +10,7 @@ private:
     Transform tCamera;  //カメラのトランスフォーム
 
     XMVECTOR vecPlayer_;    //プレイヤーの向いている方向ベクトル
+    XMFLOAT3 movePlayer;
 
     XMFLOAT3 Camposition_;
 
@@ -24,7 +25,6 @@ private:
 
 public:
     Player(GameObject* parent);
-    ~Player() override;
     void Initialize() override;
     void Update() override;
     void Draw() override;

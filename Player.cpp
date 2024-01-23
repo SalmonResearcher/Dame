@@ -12,10 +12,6 @@ Player::Player(GameObject* parent)
 {
 }
 
-Player::~Player() {
-
-}
-
 void Player::Initialize()
 {
 	hModel_ = Model::Load("Player.fbx");
@@ -32,12 +28,12 @@ void Player::Update()
 	int hGroundModel = pStage->GetModelHandle();    //モデル番号を取得
 
 	RayCastData data;
-	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
+	data.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &data); //レイを発射
 
 	RayCastData play;
-	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
+	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hGroundModel, &play); //レイを発射
 	
@@ -47,7 +43,7 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 0.5;
+			moveY += 10;
 		}
 		
 		else if (isJumping)
@@ -69,10 +65,10 @@ void Player::Update()
 
 		if (!isJumping)
 		{
-			tPlayer_.position_.y = -data.dist;
+			transform_.position_.y = -data.dist;
 		}
 
-		tPlayer_.position_.y += moveY;
+		transform_.position_.y += moveY;
 	}
 
 	
@@ -200,14 +196,13 @@ void Player::Update()
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
 	//カメラ移動
-	//XMStoreFloat3(&tCamera.position_, nowVec);
+	XMStoreFloat3(&tCamera.position_, nowVec);
 
 	//カメラ本体
 	XMVECTOR vCam = { 0,0,-10,0 };
 
 	//カメラ注視点
-	XMFLOAT3 camTarget = { tPlayer_.position_};
-
+	XMFLOAT3 camTarget = transform_.position_;
 	//camTarget.z += 2;
 	Camera::SetTarget(camTarget);
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
@@ -215,14 +210,8 @@ void Player::Update()
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
-	//実装したいもの
-	//カメラが地形にめり込まず、地形に沿うようになる
-	//イメージとしては、マリオオデッセイや、スプラトゥーンのようにカメラを下に向けても地形に沿ってカメラがプレイヤーに近づくあれ。
-	//考えていた実装方法->プレイヤーの現在地からカメラの方向にレイを飛ばす
-	//レイが当たった位置（dist）がカメラの位置-プレイヤーの位置よりも小さい（近い）時、レイの当たった位置までカメラをプレイヤーに近づける
-
 	RayCastData cam;
-	cam.start = tPlayer_.position_;  //レイの発射位置
+	cam.start = camTarget;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hGroundModel, &cam); //レイを発射
 	
@@ -235,12 +224,12 @@ void Player::Update()
 	Camera::SetPosition(Camposition_);
 
 	
-	transform_ = tPlayer_;
+	transform_ = transform_;
 }
 
 void Player::Draw()
 {
-	Model::SetTransform(hModel_, tPlayer_);
+	Model::SetTransform(hModel_, transform_);
 	Model::Draw(hModel_);
 }
 
