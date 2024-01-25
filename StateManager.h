@@ -1,4 +1,6 @@
 #pragma once
+#include "Player.h"
+
 class StateManager
 {
 public:

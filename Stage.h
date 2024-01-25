@@ -7,7 +7,9 @@ class Sprite;
 class Stage : public GameObject
 {
     int hModel_;    //モデル番号
+    int hModel_2;
     Transform transStage_;
+    Transform transSky_;
 
 public:
     //コンストラクタ

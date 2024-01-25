@@ -52,7 +52,7 @@ public:
     //プレイヤーが判定するステージ
     int GetPlayerStage()
     {
-        return 
+        return 0;
     }
 };
 

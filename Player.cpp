@@ -23,10 +23,12 @@ void Player::Initialize()
 
 void Player::Update()
 {
+	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+
 	RayCastData data;
 	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hGroundModel, &data); //レイを発射
+	Model::RayCast(hStage_, &data); //レイを発射
 
 	RayCastData play;
 	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
@@ -209,7 +211,7 @@ void Player::Update()
 	RayCastData cam;
 	cam.start = camTarget;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
-	Model::RayCast(hGroundModel, &cam); //レイを発射
+	Model::RayCast(hStage_, &cam); //レイを発射
 	
 	//Debug::Log("cam");
 	//Debug::Log(cam.hit, true); 
