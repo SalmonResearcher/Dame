@@ -1,7 +1,9 @@
 #pragma once
 #include "PlayerState.h"
-class StandingState :
-    public PlayerState
+#include "PlayerStateManager.h"
+
+//—§‚¿ó‘Ô
+class StandingState : public PlayerState
 {
 public:
 	void Update(Player* _p);

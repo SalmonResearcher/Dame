@@ -17,7 +17,7 @@ private:
 
     XMFLOAT3 Camposition_;
 
-    const XMFLOAT3 PLAYERSIZE{ 1,1,1 };
+    
     int hModel_;
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
@@ -26,10 +26,13 @@ private:
     float moveY = 0;
     bool isJumping = false;
 
+protected:
+    const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
     Stage* pStage;    //モデル番号を取得
-    int hStage_;//ステージモデルの番号
+
 
 public:
+
     Player(GameObject* parent);
     void Initialize() override;
     void Update() override;
