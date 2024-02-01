@@ -19,6 +19,7 @@ private:
 
     
     int hModel_;
+    int hStage_;
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
     short moveSpeed;
@@ -27,11 +28,13 @@ private:
     bool isJumping = false;
 
 protected:
-    const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
     Stage* pStage;    //モデル番号を取得
 
 
 public:
+    //プレイヤーの大きさ。
+    // 基本的には中央が原点なので2で割る。
+    const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
 
     Player(GameObject* parent);
     void Initialize() override;
@@ -40,7 +43,7 @@ public:
     void Release() override;
 
     void StageRay();
-
+    void GetState() {return };
 
     XMFLOAT3 GetPlayerPos()
     {

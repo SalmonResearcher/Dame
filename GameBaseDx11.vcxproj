@@ -152,6 +152,7 @@
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayerStateManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StandingState.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayerStateManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StandingState.h" />
     <ClInclude Include="StateManager.h" />

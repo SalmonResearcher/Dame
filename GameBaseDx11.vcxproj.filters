@@ -126,6 +126,9 @@
     <ClCompile Include="JumpingState.cpp">
       <Filter>PlayerState</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerStateManager.cpp">
+      <Filter>PlayerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -220,6 +223,9 @@
       <Filter>PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="WalkingState.h">
+      <Filter>PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateManager.h">
       <Filter>PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
