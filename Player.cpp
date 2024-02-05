@@ -41,13 +41,13 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 0.5f;
+			moveY += 0.2f;
 		}
 		
 		else if (isJumping)
 		{
 			//Ž©—R—Ž‰º
-			moveY -= 0.03;
+			moveY -= 0.01;
 
 			if (moveY <= -0.25f)
 			{
@@ -156,11 +156,9 @@ void Player::Update()
 		if (speed_ >= MAXSPEED)
 			speed_ = MAXSPEED;
 	}
-		
-
-	else
+	else if(isJumping)
 	{
-		speed_ -= 0.01f;
+		speed_ -= 0.0f;
 		if (speed_ < 0.0f)
 			speed_ = 0.0f;
 	}

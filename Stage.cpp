@@ -19,7 +19,7 @@ Stage::~Stage()
 //èâä˙âª
 void Stage::Initialize()
 {
-    hModel_ = Model::Load("Stage3.fbx");
+    hModel_ = Model::Load("Stage4.fbx");
     assert(hModel_ >= 0);
 
     hModel_2 = Model::Load("skysphere.fbx");
@@ -29,7 +29,8 @@ void Stage::Initialize()
 //çXêV
 void Stage::Update()
 {
-    transSky_.rotate_.y += 0.05f;
+    transSky_.rotate_.y += 0.2f;
+    transSky_.scale_ = { 1.5,1.5,1.5 };
 }
 
 //ï`âÊ
