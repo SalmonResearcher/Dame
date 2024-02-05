@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
 #include "Stage.h"
+#include "PlayerStateManager.h"
 
 class Stage;
 
@@ -28,7 +29,10 @@ private:
     bool isJumping = false;
 
 protected:
-    Stage* pStage;    //ƒ‚ƒfƒ‹”Ô†‚ğæ“¾
+    PlayerStateManager* pState_;
+
+    Stage* pStage_;    //ƒ‚ƒfƒ‹”Ô†‚ğæ“¾
+
 
 
 public:
@@ -43,7 +47,7 @@ public:
     void Release() override;
 
     void StageRay();
-    void GetState() {return };
+    void GetState() {};
 
     XMFLOAT3 GetPlayerPos()
     {

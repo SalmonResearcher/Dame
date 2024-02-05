@@ -18,6 +18,7 @@ public:
 	PlayerState* nowState_;
 	PlayerState* prevState_;
 
+	//ステート一覧
 	PlayerState* pPlayerState_;
 	StandingState* pStand_;
 	WalkingState* pWalk_;
