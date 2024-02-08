@@ -156,10 +156,10 @@ void Player::Update()
 		if (speed_ >= MAXSPEED)
 			speed_ = MAXSPEED;
 	}
-	else if(isJumping)
+	else
 	{
-		speed_ -= 0.0f;
-		if (speed_ < 0.0f)
+		speed_ -= 0.01f;
+		if (speed_ <= 0.0f)
 			speed_ = 0.0f;
 	}
 

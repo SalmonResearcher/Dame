@@ -157,6 +157,7 @@
     <ClCompile Include="StandingState.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WalkingState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +193,7 @@
     <ClInclude Include="StandingState.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WalkingState.h" />
   </ItemGroup>
   <ItemGroup>

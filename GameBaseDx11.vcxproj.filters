@@ -30,6 +30,9 @@
     <Filter Include="PlayerState">
       <UniqueIdentifier>{2f728bfb-888b-4631-a59b-e551e23b699a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{f086a384-8849-4183-b32d-17664ff426dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -77,16 +80,12 @@
     <ClCompile Include="Engine\Main.cpp">
       <Filter>01Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\SceneManager.cpp">
-      <Filter>01Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Texture.cpp">
       <Filter>01Engine\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Transform.cpp">
       <Filter>01Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Engine\Audio.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
@@ -128,6 +127,15 @@
     </ClCompile>
     <ClCompile Include="PlayerStateManager.cpp">
       <Filter>PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SceneManager.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,16 +184,12 @@
     <ClInclude Include="Engine\Global.h">
       <Filter>01Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\SceneManager.h">
-      <Filter>01Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Texture.h">
       <Filter>01Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Transform.h">
       <Filter>01Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Engine\Audio.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
@@ -227,6 +231,15 @@
     </ClInclude>
     <ClInclude Include="PlayerStateManager.h">
       <Filter>PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SceneManager.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
