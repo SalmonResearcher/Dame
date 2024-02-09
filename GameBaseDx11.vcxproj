@@ -154,6 +154,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayerStateManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="StandingState.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerStateManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="StandingState.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="TestScene.h" />

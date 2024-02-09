@@ -1,16 +1,12 @@
 #pragma once
 #include "Engine/GameObject.h"
-class TitleScene :
+class StageSelectScene :
     public GameObject
 {
-private:
-	Transform trPict_;
-	short hImage_;
-
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	TitleScene(GameObject* parent);
+	StageSelectScene(GameObject* parent);
 
 	//初期化
 	void Initialize() override;

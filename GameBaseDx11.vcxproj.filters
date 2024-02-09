@@ -137,6 +137,9 @@
     <ClCompile Include="TestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="StageSelectScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -239,6 +242,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelectScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
