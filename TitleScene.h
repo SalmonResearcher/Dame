@@ -1,13 +1,17 @@
 #pragma once
 #include "Engine/GameObject.h"
-class TitleScene :
-    public GameObject
+#include <string.h>
+
+class TitleScene :public GameObject
 {
 private:
 	Transform trPict_;
 	short hImage_;
+	float wave;
+
 
 public:
+
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
 	TitleScene(GameObject* parent);

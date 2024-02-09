@@ -4,10 +4,11 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
+#include "Engine/Debug.h"
 
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "Title"),hImage_(0)
+	: GameObject(parent, "Title"),hImage_(0),wave(0)
 {
 }
 
@@ -23,11 +24,21 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
+	if (wave >= 3)
+	{
+		wave = 0;
+	}
+	float moveY = (float)sin(wave) / 5;
 	if (Input::IsKeyDown(DIK_SPACE))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_SELECT);
 	}
+
+	wave += 0.02;
+	trPict_.scale_ = {moveY,moveY,moveY};
+	Debug::Log("wave = ");
+	Debug::Log(wave, true);
 }
 
 //描画
