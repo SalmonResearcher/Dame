@@ -149,6 +149,7 @@
     <ClCompile Include="Engine\Text.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="FadeIn_FadeOut.cpp" />
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Engine\Text.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="FadeIn_FadeOut.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />

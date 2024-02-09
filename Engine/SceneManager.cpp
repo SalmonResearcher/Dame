@@ -2,6 +2,7 @@
 
 #include "../TestScene.h"
 #include "../TitleScene.h"
+#include "../StageSelectScene.h"
 //#include "../GameScene.h"
 //#include "../GameOverScene.h"
 
@@ -45,6 +46,7 @@ void SceneManager::Update()
 		{
 		case SCENE_ID_TEST: Instantiate<TestScene>(this); break;
 		case SCENE_ID_TITLE:Instantiate<TitleScene>(this); break;
+		case SCENE_ID_SELECT:Instantiate<StageSelectScene>(this); break;
 //		case SCENE_ID_GAME: Instantiate<GameScene>(this); break;
 //		case SCENE_ID_OVER: Instantiate<GameOverScene>(this); break;
 		}
