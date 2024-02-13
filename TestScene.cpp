@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Stage.h"
 #include "Enemy.h"
+#include "Jewel.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -14,7 +15,7 @@ void TestScene::Initialize()
 {
 	Player* pPlayer = Instantiate<Player>(this);
 	Stage* pStage = Instantiate<Stage>(this);
-
+	Jewel* pJewel = Instantiate<Jewel>(this);
 
 }
 

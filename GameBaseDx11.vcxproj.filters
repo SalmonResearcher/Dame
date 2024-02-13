@@ -33,6 +33,12 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{f086a384-8849-4183-b32d-17664ff426dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBox\Player">
+      <UniqueIdentifier>{d8193028-da3f-4628-9d1f-a2b7d175fa36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\Enemies">
+      <UniqueIdentifier>{37e2df20-c794-47b6-809a-4cb623182f1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -101,9 +107,6 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ToyBox</Filter>
-    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
@@ -140,9 +143,19 @@
     <ClCompile Include="StageSelectScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="FadeIn_FadeOut.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Attack.cpp">
+      <Filter>ToyBox\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ToyBox\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ToyBox\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeIn_FadeOut.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Jewel.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
   </ItemGroup>
@@ -213,9 +226,6 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ToyBox</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
@@ -252,9 +262,19 @@
     <ClInclude Include="StageSelectScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="FadeIn_FadeOut.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Attack.h">
+      <Filter>ToyBox\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ToyBox\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ToyBox\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeIn_FadeOut.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Jewel.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
   </ItemGroup>
