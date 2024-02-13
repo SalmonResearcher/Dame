@@ -4,7 +4,7 @@
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
-
+	bool spawn = true;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

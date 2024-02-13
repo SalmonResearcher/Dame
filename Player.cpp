@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Attack.h"
+#include "Enemy.h"
 
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -158,7 +159,7 @@ void Player::Update()
 	}
 	else
 	{
-		speed_ -= 0.005f;
+		speed_ -= 0.0001f;
 		if (speed_ <= 0.0f)
 		{
 			speed_ = 0.0f;
@@ -210,9 +211,9 @@ void Player::Update()
 	//ƒJƒƒ‰À•W•ÏX
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
-	Debug::Log(Camposition_.x, true);
-	Debug::Log(Camposition_.y, true);
-	Debug::Log(Camposition_.z,true);
+	//Debug::Log(Camposition_.x, true);
+	//Debug::Log(Camposition_.y, true);
+	//Debug::Log(Camposition_.z,true);
 
 
 	RayCastData cam;
@@ -230,13 +231,15 @@ void Player::Update()
 
 	transform_ = tPlayer_;
 
+	
+	
+
 	if (Input::IsMouseButtonDown(0))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
 	}
-
 
 }
 

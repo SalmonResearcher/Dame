@@ -21,15 +21,16 @@ Attack::~Attack()
 //‰Šú‰»
 void Attack::Initialize()
 {
-    transform_.position_.x = move_.x;
-    transform_.position_.y = move_.y;
-    transform_.position_.z = move_.z;
 
 }
 
 //XV
 void Attack::Update()
 {
+    transform_.position_.x = move_.x;
+    transform_.position_.y = move_.y;
+    transform_.position_.z = move_.z;
+
     if (time >= 9)
     {
         KillMe();

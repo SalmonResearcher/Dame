@@ -141,7 +141,10 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="FadeIn_FadeOut.cpp" />
-    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Attack.cpp">
+      <Filter>ToyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -250,7 +253,10 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="FadeIn_FadeOut.h" />
-    <ClInclude Include="Attack.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Attack.h">
+      <Filter>ToyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
