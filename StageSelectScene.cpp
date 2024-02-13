@@ -1,6 +1,7 @@
 #include "StageSelectScene.h"
 #include "Engine/Model.h"
 #include "Engine/Input.h"
+#include "Engine/SceneManager.h"
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
@@ -28,6 +29,9 @@ void StageSelectScene::Initialize()
 	hSkysphere = Model::Load("SkySphere_Test.fbx");
 	assert(hSkysphere >= 0);
 
+
+
+
 }
 
 //更新
@@ -40,6 +44,12 @@ void StageSelectScene::Update()
 	trStage3.rotate_.y = timer / 5;
 
 	timer++;
+
+	if (Input::IsKeyDown(DIK_SPACE))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEST);
+	}
 }
 
 //描画

@@ -140,6 +140,8 @@
     <ClCompile Include="StageSelectScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="FadeIn_FadeOut.cpp" />
+    <ClCompile Include="Attack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -247,6 +249,8 @@
     <ClInclude Include="StageSelectScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="FadeIn_FadeOut.h" />
+    <ClInclude Include="Attack.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Attack.h"
 
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -69,7 +69,7 @@ void Player::Update()
 		tPlayer_.position_.y += moveY;
 	}
 
-	
+
 
 	if (Input::IsKey(DIK_LSHIFT))
 		dash = 2;
@@ -150,7 +150,7 @@ void Player::Update()
 	//プレイヤーもここで移動させる
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
 
-	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D))&&!isJumping)
+	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D)))
 	{
 		speed_ += 0.01f;
 		if (speed_ >= MAXSPEED)
@@ -158,17 +158,19 @@ void Player::Update()
 	}
 	else
 	{
-		speed_ -= 0.01f;
+		speed_ -= 0.005f;
 		if (speed_ <= 0.0f)
+		{
 			speed_ = 0.0f;
+		}
 	}
+
 
 	Debug::Log("speed_ = ");
 	Debug::Log(speed_, true);
 
 	if (Input::IsKey(DIK_W))
 	{
-
 		vecPlayer_ += frontMove;
 	}
 
@@ -187,7 +189,8 @@ void Player::Update()
 		vecPlayer_ += leftRightMove;
 	}
 
-	
+
+
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
@@ -203,8 +206,14 @@ void Player::Update()
 	Camera::SetTarget(camTarget);
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
+
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
+
+	Debug::Log(Camposition_.x, true);
+	Debug::Log(Camposition_.y, true);
+	Debug::Log(Camposition_.z,true);
+
 
 	RayCastData cam;
 	cam.start = camTarget;  //レイの発射位置
@@ -219,8 +228,16 @@ void Player::Update()
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
 
-	
 	transform_ = tPlayer_;
+
+	if (Input::IsMouseButtonDown(0))
+	{
+		Attack* pAtk = Instantiate<Attack>(GetParent());
+		pAtk->SetMove(camTarget);
+		pAtk->SetPosition(camTarget);
+	}
+
+
 }
 
 void Player::Draw()

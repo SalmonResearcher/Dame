@@ -26,3 +26,27 @@ void FadeIn_FadeOut::Draw()
 void FadeIn_FadeOut::Release()
 {
 }
+
+void FadeIn_FadeOut::FadeIn_B(int _frame)
+{
+}
+
+void FadeIn_FadeOut::FadeIn_B()
+{
+}
+
+void FadeIn_FadeOut::FadeIn_W()
+{
+}
+
+void FadeIn_FadeOut::FadeIn_W(int _frame)
+{
+}
+
+void FadeIn_FadeOut::FadeOut_B()
+{
+}
+
+void FadeIn_FadeOut::FadeOut_W()
+{
+}
