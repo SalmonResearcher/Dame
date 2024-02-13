@@ -40,23 +40,23 @@ void Enemy::Update()
 
 	if (data.hit)
 	{
-		//ジャンプ
-		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
-		{
-			isJumping = true;
-			moveY += 0.2f;
-		}
+		////ジャンプ
+		//if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
+		//{
+		//	isJumping = true;
+		//	moveY += 0.2f;
+		//}
 
-		else if (isJumping)
-		{
-			//自由落下
-			moveY -= 0.01;
+		//else if (isJumping)
+		//{
+		//	//自由落下
+		//	moveY -= 0.01;
 
-			if (moveY <= -0.25f)
-			{
-				moveY = -0.25f;
-			}
-		}
+		//	if (moveY <= -0.25f)
+		//	{
+		//		moveY = -0.25f;
+		//	}
+		//}
 
 		if (play.dist <= 0.25 && isJumping)
 		{
@@ -71,7 +71,7 @@ void Enemy::Update()
 
 		transEnemy_.position_.y += moveY;
 	}
-
+	transEnemy_.position_.z -= 0.05f;
 
 }
 

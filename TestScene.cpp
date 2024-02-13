@@ -21,17 +21,14 @@ void TestScene::Initialize()
 //XV
 void TestScene::Update()
 {
-	for (int c = 0; c < 70; c++)
+	
+	if (((timer %1 == 0) && count < 80))
 	{
-		
-		if(spawn)
-		{
-			Enemy* pEnemy = Instantiate<Enemy>(this);
-			pEnemy->SetPosition(XMFLOAT3{ (float)c * 5,0,0 });
-		}
-		timer++;
+		Enemy* pEnemy = Instantiate<Enemy>(this);
+		count++;
 	}
-	spawn = false;
+
+		timer++;
 }
 
 //•`‰æ
