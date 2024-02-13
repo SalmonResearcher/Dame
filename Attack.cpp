@@ -4,6 +4,7 @@
 
 
 #include "Player.h"
+#include "Enemy.h"
 
 //コンストラクタ
 Attack::Attack(GameObject* parent)

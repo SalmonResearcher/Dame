@@ -29,7 +29,9 @@ void StageSelectScene::Initialize()
 	hSkysphere = Model::Load("SkySphere_Test.fbx");
 	assert(hSkysphere >= 0);
 
-
+	trStage1.scale_ = { 0.7f,0.7f,0.7f };
+	trStage2.scale_ = { 0.8f,0.8f,0.8f };
+	trStage3.scale_ = { 0.4f,0.4f,0.4f };
 
 
 }
@@ -37,11 +39,11 @@ void StageSelectScene::Initialize()
 //çXêV
 void StageSelectScene::Update()
 {
-	sinwave = sin(timer++)/5;
+	sinwave = sin(timer)/5;
 
-	trStage1.rotate_.y = timer / 5;
-	trStage2.rotate_.y = timer / 5;
-	trStage3.rotate_.y = timer / 5;
+	trStage1.rotate_.y = timer / 2;
+	trStage2.rotate_.y = timer / 2;
+	trStage3.rotate_.y = timer / 2;
 
 	timer++;
 

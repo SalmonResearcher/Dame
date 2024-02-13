@@ -5,6 +5,7 @@
 class TestScene : public GameObject
 {
 	bool spawn = true;
+	int timer;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
