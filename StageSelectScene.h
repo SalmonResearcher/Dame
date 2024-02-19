@@ -23,8 +23,11 @@ private:
 	//回転用の時間
 	float timer;
 
-	//サインウェーブ用
-	float move;
+	//キー長押しで高速ステージ選択用タイマー
+	float keyTimer;
+
+	//縦揺れ時間
+	float yMoveTime;
 
 	//ゆっくり上下させたい
 	float sinwave;

@@ -22,6 +22,7 @@ void StageSelectScene::Initialize()
 	{
 		num = std::to_string(l+1);
 
+		//Stage1、Stage2、Stage3を呼ぶ
 		hStage_[l] = Model::Load(name+num+ext);
 		assert(hStage_[l] >= 0);
 	}
@@ -29,9 +30,13 @@ void StageSelectScene::Initialize()
 	hSkysphere = Model::Load("SkySphere_Test.fbx");
 	assert(hSkysphere >= 0);
 
-	trStage1.scale_ = { 0.7f,0.7f,0.7f };
-	trStage2.scale_ = { 0.8f,0.8f,0.8f };
+	trStage1.scale_ = { 0.6f,0.6f,0.6f };
+	trStage2.scale_ = { 0.6f,0.6f,0.6f };
 	trStage3.scale_ = { 0.4f,0.4f,0.4f };
+
+	trStage1.position_ = { 0,0,0 };
+	trStage2.position_ = { 8,0,0 };
+	trStage3.position_ = { 16,0,0 };
 
 
 }
@@ -39,12 +44,23 @@ void StageSelectScene::Initialize()
 //更新
 void StageSelectScene::Update()
 {
-	sinwave = sin(timer)/5;
+	if (Input::IsKey(DIK_A))
+	{
+
+	}
+
+	sinwave = sin(yMoveTime)/15;
+
+	trStage1.position_.y = sinwave;
+	trStage2.position_.y = sinwave;
+	trStage3.position_.y = sinwave;
 
 	trStage1.rotate_.y = timer / 2;
 	trStage2.rotate_.y = timer / 2;
 	trStage3.rotate_.y = timer / 2;
 
+
+	yMoveTime += 0.05f;
 	timer++;
 
 	if (Input::IsKeyDown(DIK_SPACE))
@@ -58,9 +74,9 @@ void StageSelectScene::Update()
 void StageSelectScene::Draw()
 {
 	//ここもforでできそうじゃないかな
-	Model::SetTransform(hStage_[1], trStage1);
-	Model::SetTransform(hStage_[2], trStage2);
-	Model::SetTransform(hStage_[3], trStage3);
+	Model::SetTransform(hStage_[0], trStage1);
+	Model::SetTransform(hStage_[1], trStage2);
+	Model::SetTransform(hStage_[2], trStage3);
 
 	for (int l = 0; l < MAX_STAGE; l++)
 	{
