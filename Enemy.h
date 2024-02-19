@@ -33,5 +33,6 @@ public:
 
     void SetTargetPosition(XMFLOAT3 _target) { target_ = _target; };
 
-    
+    int GetModelHandle() { return hModel_; }
+
 };

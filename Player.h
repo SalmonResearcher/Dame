@@ -21,6 +21,8 @@ private:
     
     int hModel_;
     int hStage_;
+    int hEnemy_;
+
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
     short moveSpeed;
@@ -64,5 +66,7 @@ public:
     {
         return 0;
     }
+
+
 };
 

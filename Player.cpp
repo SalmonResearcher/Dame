@@ -239,6 +239,14 @@ void Player::Update()
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
+
+		hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();
+
+		RayCastData data;
+		data.start = { tPlayer_.position_ };   //レイの発射位置
+		data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+		Model::RayCast(hStage_, &data); //レイを発射
+
 	}
 
 }

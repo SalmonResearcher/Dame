@@ -32,4 +32,9 @@ public:
     //開放
     void Release() override;
 
+    //イージング関数
+    float easeInOutCubic(float x) {
+        return x < 0.5 ? 4 * pow(x, 3) : 1 - pow(-2 * x + 2, 3) / 2;
+    }
+
 };
