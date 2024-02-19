@@ -3,7 +3,12 @@
 #include "Engine/SphereCollider.h"
 
 #include "Stage.h"
+#include "Player.h"
+
+//Debug—p
 #include "Engine/Debug.h"
+#include "Engine/Input.h"
+
 
 #include <cmath>
 
@@ -48,7 +53,7 @@ void Jewel::Update()
         //}
         //else
         //{
-        //    grabity_ = 0.3f;
+        //    grabity_ = 0.2f;
         //}
 
         //trJewel_.position_.y -= grabity_;

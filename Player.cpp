@@ -115,18 +115,18 @@ void Player::Update()
 	camMove.x *= 0.1;
 	camMove.y *= 0.1;
 
-	//上を向きすぎないように
-	if (camMove.x >= 69)
+	//下を向きすぎないように
+	if (camMove.x >= 85)
 	{
-		camMove.x = 69;
-		move.y = 690;
+		camMove.x = 85;
+		move.y = 850;
 	}
 
-	//下を向きすぎない
-	if (camMove.x <= -20)
+	//上を向きすぎない
+	if (camMove.x <= -85)
 	{
-		camMove.x = -20;
-		move.y = -200;
+		camMove.x = -85;
+		move.y = -850;
 	}
 
 	tCamera.rotate_ = camMove;
@@ -245,7 +245,8 @@ void Player::Update()
 		RayCastData data;
 		data.start = { tPlayer_.position_ };   //レイの発射位置
 		data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-		Model::RayCast(hStage_, &data); //レイを発射
+		Model::RayCast(hEnemy_, &data); //レイを発射
+		
 
 	}
 
