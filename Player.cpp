@@ -212,16 +212,16 @@ void Player::Update()
 		vecPlayer_ += leftRightMove;
 	}
 
-
-
+	XMStoreFloat3(&movePlayer, vecPlayer_);
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
+
 
 	//カメラ移動
 	XMStoreFloat3(&tCamera.position_, nowVec);
 
 	//カメラ本体
-	XMVECTOR vCam = { 0,0,-10,0 };
+	XMVECTOR vCam = { 0,2,-10,0 };
 
 	//カメラ注視点
 	XMFLOAT3 camTarget = tPlayer_.position_;
@@ -253,7 +253,20 @@ void Player::Update()
 
 	transform_ = tPlayer_;
 
-	
+	// カメラの回転行列を作成
+	XMMATRIX cameraRotMat = rotMatX * rotMatY;
+
+	// カメラの回転行列を抽出
+	XMFLOAT4X4 cameraRot;
+	XMStoreFloat4x4(&cameraRot, cameraRotMat);
+
+	// カメラの向きにプレイヤーを向けるための回転角度を求める
+	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
+	float playerPitch = asinf(cameraRot._23);
+
+	// プレイヤーの回転を更新
+	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
+
 	
 
 	if (Input::IsMouseButtonDown(0))
