@@ -2,10 +2,18 @@
 #include "Engine/GameObject.h"
 
 class Sprite;
+class Player;
+class Stage;
+class Jewel;
 
 //ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Stage : public GameObject
 {
+    Player* pPlayer;
+    Stage* pStage;
+    Jewel* pJewel;
+
+
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     int hModel_2;
     Transform transStage_;

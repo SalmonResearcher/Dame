@@ -13,9 +13,9 @@ TestScene::TestScene(GameObject * parent)
 //‰Šú‰»
 void TestScene::Initialize()
 {
-	Player* pPlayer = Instantiate<Player>(this);
-	Stage* pStage = Instantiate<Stage>(this);
-	Jewel* pJewel = Instantiate<Jewel>(this);
+	pPlayer = Instantiate<Player>(this);
+	pStage = Instantiate<Stage>(this);
+	pJewel = Instantiate<Jewel>(this);
 
 }
 
@@ -28,6 +28,8 @@ void TestScene::Update()
 		Enemy* pEnemy = Instantiate<Enemy>(this);
 		count++;
 	}
+
+	
 
 		timer++;
 }

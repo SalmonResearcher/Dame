@@ -25,6 +25,9 @@ private:
 
     float mouseSens = 1;
 
+    float attackStart;
+    float attackEnd;
+
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
     short moveSpeed;

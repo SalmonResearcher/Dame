@@ -81,7 +81,7 @@ void Player::Update()
 
 	static bool debug = true;
 
-	
+
 	if (Input::IsKeyDown(DIK_RSHIFT))
 	{
 		if (debug)
@@ -112,11 +112,9 @@ void Player::Update()
 				mouseSens -= 0.1f;
 		}
 	}
-
 	//マウス位置固定
 	if (debug)
 		SetCursorPos(800, 400);
-
 
 	static XMFLOAT3 move = { 0,0,0 };
 	static XMFLOAT3 camMove = { 0,0,0 };
@@ -239,13 +237,15 @@ void Player::Update()
 	if (smoothCam.z < 0.01f)
 		smoothCam.z = camTarget.z;
 
-	Camera::SetTarget(smoothCam);
 	prevPos.y = smoothCam.y;
 
-	Debug::Log("prev.y = ");
-	Debug::Log(prevPos.y, true);
-	Debug::Log("now.y = ");
-	Debug::Log(camTarget.y, true);
+	//Debug::Log("prev.y = ");
+	//Debug::Log(prevPos.y, true);
+	//Debug::Log("now.y = ");
+	//Debug::Log(camTarget.y, true);
+
+	Camera::SetTarget(smoothCam);
+
 
 
 
@@ -298,8 +298,20 @@ void Player::Update()
 	// プレイヤーの回転を更新
 	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
 
-	
+	//playerYawの+-1.5がちょうど右横から左横って感じ
+	//Debug::Log(playerYaw);
 
+	attackStart = playerYaw + 1.5;
+	attackEnd = playerYaw - 1.5;
+
+	Debug::Log("x = ");
+	Debug::Log(tPlayer_.rotate_.x, true);
+
+	Debug::Log("y = ");
+	Debug::Log(tPlayer_.rotate_.y, true);
+
+	Debug::Log("z = ");
+	Debug::Log(tPlayer_.rotate_.z, true);
 	if (Input::IsMouseButtonDown(0))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
@@ -308,15 +320,20 @@ void Player::Update()
 
 		hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();
 
-		RayCastData data;
-		data.start = { tPlayer_.position_ };   //レイの発射位置
-		data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-		Model::RayCast(hEnemy_, &data); //レイを発射
-		
+		RayCastData attack;
+		attack.start = { tPlayer_.position_ };   //レイの発射位置
+		attack.dir = XMFLOAT3{0,0.5f,1};       //レイの方向
+		Model::RayCast(hEnemy_, &attack); //レイを発射
+
+			if (attack.dist <= 2.0f && attack.hit)
+			{
+				int a = 114514;
+			}
+		}
 
 	}
 
-}
+
 
 void Player::Draw()
 {

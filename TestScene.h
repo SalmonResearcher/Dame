@@ -1,12 +1,21 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+class Player;
+class Stage;
+class Jewel;
+
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
 	bool spawn = true;
 	int timer = 0;
 	int count = 0;
+
+	Player* pPlayer;
+	Stage* pStage;
+	Jewel* pJewel;
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
