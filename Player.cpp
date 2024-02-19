@@ -92,6 +92,26 @@ void Player::Update()
 			debug = true;
 		}
 	}
+
+	//マウス感度
+	{
+		if (Input::IsKeyDown(DIK_UP))
+		{
+			if (Input::IsKey(DIK_LSHIFT))
+				mouseSens += 0.5f;
+			else
+				mouseSens += 0.1f;
+		}
+
+		if (Input::IsKeyDown(DIK_DOWN))
+		{
+			if (Input::IsKey(DIK_LSHIFT))
+				mouseSens -= 0.5f;
+			else
+				mouseSens -= 0.1f;
+		}
+	}
+
 	//マウス位置固定
 	if (debug)
 		SetCursorPos(800, 400);
@@ -101,9 +121,11 @@ void Player::Update()
 	static XMFLOAT3 camMove = { 0,0,0 };
 
 	//マウスの移動量
-	move.x += Input::GetMouseMove().x;
-	move.y += Input::GetMouseMove().y;
-	move.z += Input::GetMouseMove().z;	//マウスホイール
+	move.x += Input::GetMouseMove().x * mouseSens;
+	move.y += Input::GetMouseMove().y * mouseSens;
+	move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
+
+
 
 	//マウスの移動量に応じてカメラを回転させる
 	camMove.y = move.x;

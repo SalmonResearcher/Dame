@@ -23,6 +23,8 @@ private:
     int hStage_;
     int hEnemy_;
 
+    float mouseSens = 1;
+
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
     short moveSpeed;
