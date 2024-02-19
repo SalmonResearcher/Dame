@@ -16,14 +16,13 @@ void TestScene::Initialize()
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
-
 }
 
 //XV
 void TestScene::Update()
 {
 	
-	if (((timer %1 == 0) && count < 80))
+	if (((timer %60 == 0) && count < 80))
 	{
 		Enemy* pEnemy = Instantiate<Enemy>(this);
 		count++;

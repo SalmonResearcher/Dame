@@ -318,17 +318,23 @@ void Player::Update()
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
 
-		hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();
+		if ((Enemy*)FindObject("Enemy") != nullptr)
+		{
+			hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();
 
-		RayCastData attack;
-		attack.start = { tPlayer_.position_ };   //レイの発射位置
-		attack.dir = XMFLOAT3{0,0.5f,1};       //レイの方向
-		Model::RayCast(hEnemy_, &attack); //レイを発射
+			RayCastData attack;
+			attack.start = { tPlayer_.position_ };   //レイの発射位置
+			attack.dir = XMFLOAT3{ 0,0.5f,1 };       //レイの方向
+			Model::RayCast(hEnemy_, &attack); //レイを発射
 
 			if (attack.dist <= 2.0f && attack.hit)
 			{
-				int a = 114514;
+				((Enemy*)FindObject("Enemy"))->KillMe();
 			}
+
+		}
+
+
 		}
 
 	}

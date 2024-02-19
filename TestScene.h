@@ -4,7 +4,7 @@
 class Player;
 class Stage;
 class Jewel;
-
+class Enemy;
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
@@ -15,6 +15,7 @@ class TestScene : public GameObject
 	Player* pPlayer;
 	Stage* pStage;
 	Jewel* pJewel;
+	Enemy* pEnemy;
 
 public:
 	//コンストラクタ
