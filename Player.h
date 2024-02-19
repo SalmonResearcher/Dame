@@ -17,7 +17,7 @@ private:
     XMFLOAT3 movePlayer;
 
     XMFLOAT3 Camposition_;
-
+    XMFLOAT3 smoothCam;
     
     int hModel_;
     int hStage_;

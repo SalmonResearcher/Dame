@@ -24,6 +24,7 @@ void Player::Initialize()
 
 void Player::Update()
 {
+
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	RayCastData data;
@@ -138,10 +139,10 @@ void Player::Update()
 	camMove.y *= 0.1;
 
 	//下を向きすぎないように
-	if (camMove.x >= 85)
+	if (camMove.x >= 75)
 	{
-		camMove.x = 85;
-		move.y = 850;
+		camMove.x = 75;
+		move.y = 750;
 	}
 
 	//上を向きすぎない
@@ -181,16 +182,13 @@ void Player::Update()
 	}
 	else
 	{
-		speed_ -= 0.0001f;
+		speed_ -= 0.01f;
 		if (speed_ <= 0.0f)
 		{
 			speed_ = 0.0f;
 		}
 	}
 
-
-	Debug::Log("speed_ = ");
-	Debug::Log(speed_, true);
 
 	if (Input::IsKey(DIK_W))
 	{
@@ -225,8 +223,42 @@ void Player::Update()
 
 	//カメラ注視点
 	XMFLOAT3 camTarget = tPlayer_.position_;
-	//camTarget.z += 2;
-	Camera::SetTarget(camTarget);
+	//1F前の高さ
+	static 	XMFLOAT3 prevPos = tPlayer_.position_;
+
+	smoothCam.x = camTarget.x;
+	smoothCam.y = camTarget.y - (camTarget.y - prevPos.y)/2;
+	smoothCam.z = camTarget.z;
+
+	if (smoothCam.x < 0.01f)
+		smoothCam.x = camTarget.x;
+
+	if ((camTarget.y - prevPos.y) / 2 < 0.01f)
+		smoothCam.y = camTarget.y;
+
+	if (smoothCam.z < 0.01f)
+		smoothCam.z = camTarget.z;
+
+	Camera::SetTarget(smoothCam);
+	prevPos.y = smoothCam.y;
+
+	Debug::Log("prev.y = ");
+	Debug::Log(prevPos.y, true);
+	Debug::Log("now.y = ");
+	Debug::Log(camTarget.y, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
 
@@ -262,7 +294,6 @@ void Player::Update()
 
 	// カメラの向きにプレイヤーを向けるための回転角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
-	float playerPitch = asinf(cameraRot._23);
 
 	// プレイヤーの回転を更新
 	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);

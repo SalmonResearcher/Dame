@@ -80,9 +80,6 @@ void Jewel::Update()
         }
     }
 
-    Debug::Log("rotate = ");
-    Debug::Log(rotY);
-
     time++;
     transform_ = trJewel_;
 }
