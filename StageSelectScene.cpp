@@ -44,10 +44,72 @@ void StageSelectScene::Initialize()
 //XV
 void StageSelectScene::Update()
 {
-	if (Input::IsKey(DIK_A))
+	if (Input::IsKeyDown(DIK_A))
+	{
+		
+		selectCount--;
+
+		if (Input::IsKey(DIK_A))
+		{
+			keyTimer++;
+			if (keyTimer >= 60)
+			{
+				if (keyTimer % 6 == 0)
+					selectCount--;
+			}
+		}
+	}
+
+	if (Input::IsKeyDown(DIK_D))
 	{
 
+		selectCount++;
+
+		if (Input::IsKey(DIK_D))
+		{
+			keyTimer++;
+			if (keyTimer >= 60)
+			{
+				if (keyTimer % 6 == 0)
+					selectCount++;
+			}
+		}
+
+
 	}
+
+	if (selectCount < 0)
+	{
+		selectCount == 0;
+	}
+
+	if (selectCount > MAX_STAGE-1)
+	{
+		selectCount == MAX_STAGE - 1;
+	}
+
+	switch (selectCount)
+	{
+		
+		case 0:
+			trStage1.position_ = { 0,0,0 };
+			trStage2.position_ = { 8,0,0 };
+			trStage3.position_ = { 16,0,0 };
+			break;
+		
+		case 1:
+			trStage1.position_ = { -8,0,0 };
+			trStage2.position_ = { 0,0,0 };
+			trStage3.position_ = { 8,0,0 };
+			break;
+
+		case 2:
+			trStage1.position_ = { -16,0,0 };
+			trStage2.position_ = { -8,0,0 };
+			trStage3.position_ = { 0,0,0 };
+			break;
+	}
+
 
 	sinwave = sin(yMoveTime)/15;
 

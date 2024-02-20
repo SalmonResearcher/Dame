@@ -24,7 +24,7 @@ private:
 	float timer;
 
 	//キー長押しで高速ステージ選択用タイマー
-	float keyTimer;
+	int keyTimer;
 
 	//縦揺れ時間
 	float yMoveTime;
@@ -32,7 +32,8 @@ private:
 	//ゆっくり上下させたい
 	float sinwave;
 
-
+	//ステージ選択するときのカウント
+	int selectCount = 0;
 
 public:
 	//コンストラクタ

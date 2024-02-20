@@ -327,7 +327,7 @@ void Player::Update()
 			attack.dir = XMFLOAT3{ 0,0.5f,1 };       //ƒŒƒC‚Ì•ûŒü
 			Model::RayCast(hEnemy_, &attack); //ƒŒƒC‚ğ”­Ë
 
-			if (attack.dist <= 2.0f && attack.hit)
+			if (/*attack.dist <= 2.0f &&*/ attack.hit)
 			{
 				((Enemy*)FindObject("Enemy"))->KillMe();
 			}
