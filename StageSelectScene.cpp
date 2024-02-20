@@ -46,6 +46,12 @@ void StageSelectScene::Update()
 {
 	if (Input::IsKey(DIK_A))
 	{
+		if (keyTimer <= 30)
+		{
+			if(keyTimer % 7 == 0)
+
+		}
+		keyTimer++;
 
 	}
 

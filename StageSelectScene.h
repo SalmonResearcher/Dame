@@ -26,13 +26,18 @@ private:
 	//キー長押しで高速ステージ選択用タイマー
 	float keyTimer;
 
-	//縦揺れ時間
-	float yMoveTime;
-
 	//ゆっくり上下させたい
 	float sinwave;
 
+	//縦揺れ時間
+	float yMoveTime;
 
+	//今何番目
+	int stageNum;
+
+	//enum STAGE {
+
+	//};
 
 public:
 	//コンストラクタ
