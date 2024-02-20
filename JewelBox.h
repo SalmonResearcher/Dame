@@ -1,17 +1,18 @@
 #pragma once
 #include "Engine/GameObject.h"
-class Attack : public GameObject
+
+//納品箱を管理するクラス
+class JewelBox : public GameObject
 {
     int hModel_;    //モデル番号
-    XMFLOAT3 move_ = { 0,0,0 };
-    int time;
+    Transform trBox_;
 
 public:
     //コンストラクタ
-    Attack(GameObject* parent);
+    JewelBox(GameObject* parent);
 
     //デストラクタ
-    ~Attack();
+    ~JewelBox();
 
     //初期化
     void Initialize() override;
@@ -25,10 +26,6 @@ public:
     //開放
     void Release() override;
 
-    void SetMove(XMFLOAT3 move) { move_ = move; }
-
-    //何かに当たった
-    //引数：pTarget 当たった相手
-    void OnCollision(GameObject* pTarget) override;
-
+    //モデル番号を返す
+    int GetModelHandle() { return hModel_; }
 };

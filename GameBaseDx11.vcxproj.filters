@@ -39,6 +39,9 @@
     <Filter Include="ToyBox\Enemies">
       <UniqueIdentifier>{37e2df20-c794-47b6-809a-4cb623182f1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBox\Jewel">
+      <UniqueIdentifier>{0da449b6-e554-42f7-80b0-aa85702bb021}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -156,7 +159,10 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Jewel.cpp">
-      <Filter>ToyBox</Filter>
+      <Filter>ToyBox\Jewel</Filter>
+    </ClCompile>
+    <ClCompile Include="JewelBox.cpp">
+      <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,7 +281,10 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Jewel.h">
-      <Filter>ToyBox</Filter>
+      <Filter>ToyBox\Jewel</Filter>
+    </ClInclude>
+    <ClInclude Include="JewelBox.h">
+      <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

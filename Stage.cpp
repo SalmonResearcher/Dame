@@ -4,6 +4,7 @@
 #include "Engine/Sprite.h"
 
 #include "Player.h"
+#include "JewelBox.h"
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
@@ -24,6 +25,8 @@ void Stage::Initialize()
 
     hModel_2 = Model::Load("SkySphere_Test.fbx");
     assert(hModel_2 >= 0);
+
+    Instantiate<JewelBox>(this);
 }
 
 //更新
