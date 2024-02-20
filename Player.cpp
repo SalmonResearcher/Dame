@@ -224,40 +224,7 @@ void Player::Update()
 	//1F前の高さ
 	static 	XMFLOAT3 prevPos = tPlayer_.position_;
 
-	smoothCam.x = camTarget.x;
-	smoothCam.y = camTarget.y - (camTarget.y - prevPos.y)/2;
-	smoothCam.z = camTarget.z;
-
-	if (smoothCam.x < 0.01f)
-		smoothCam.x = camTarget.x;
-
-	if ((camTarget.y - prevPos.y) / 2 < 0.01f)
-		smoothCam.y = camTarget.y;
-
-	if (smoothCam.z < 0.01f)
-		smoothCam.z = camTarget.z;
-
-	prevPos.y = smoothCam.y;
-
-	//Debug::Log("prev.y = ");
-	//Debug::Log(prevPos.y, true);
-	//Debug::Log("now.y = ");
-	//Debug::Log(camTarget.y, true);
-
 	Camera::SetTarget(smoothCam);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
@@ -274,11 +241,8 @@ void Player::Update()
 	cam.start = camTarget;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hStage_, &cam); //レイを発射
-	
-	//Debug::Log("cam");
-	//Debug::Log(cam.hit, true); 
-	//Debug::Log("camz");
-	//Debug::Log(cam.dist, true);
+
+
 
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
