@@ -22,7 +22,7 @@ void Stage::Initialize()
     hModel_ = Model::Load("Stage4.fbx");
     assert(hModel_ >= 0);
 
-    hModel_2 = Model::Load("skysphere.fbx");
+    hModel_2 = Model::Load("SkySphere_Test.fbx");
     assert(hModel_2 >= 0);
 }
 
