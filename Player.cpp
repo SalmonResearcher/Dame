@@ -296,12 +296,16 @@ void Player::Update()
 
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
-	if (Input::IsMouseButtonDown(0))
+
+	if (Input::IsKeyDown(DIK_E))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
+	}
 
+	if (Input::IsMouseButtonDown(0))
+	{
 		if ((Enemy*)FindObject("Enemy") != nullptr)
 		{
 			hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();

@@ -37,9 +37,19 @@ void JewelBox::Draw()
 {
     Model::SetTransform(hModel_, trBox_);
     Model::Draw(hModel_);
+
+    Model::SetAnimFrame(hModel_,)
 }
 
 //ŠJ•ú
 void JewelBox::Release()
 {
+}
+
+void JewelBox::OnCollision(GameObject* pTarget)
+{
+        if (pTarget->GetObjectName() == "Attack")
+        {
+            
+        }
 }

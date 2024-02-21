@@ -7,6 +7,10 @@ class JewelBox : public GameObject
     int hModel_;    //モデル番号
     Transform trBox_;
 
+    int anim_Start;
+    int anim_End;
+
+
 public:
     //コンストラクタ
     JewelBox(GameObject* parent);
@@ -28,4 +32,7 @@ public:
 
     //モデル番号を返す
     int GetModelHandle() { return hModel_; }
+
+    void OnCollision(GameObject* pTarget);
+
 };
