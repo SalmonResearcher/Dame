@@ -9,7 +9,7 @@ class JewelBox : public GameObject
 
     int anim_Start;
     int anim_End;
-
+    int anim_Speed;
 
 public:
     //コンストラクタ

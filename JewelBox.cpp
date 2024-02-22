@@ -6,7 +6,7 @@
 
 //コンストラクタ
 JewelBox::JewelBox(GameObject* parent)
-    :GameObject(parent, "JewelBox"), hModel_(-1)
+    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(13),anim_Speed(1)
 {
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 3.2f);
     AddCollider(collision);
@@ -38,7 +38,7 @@ void JewelBox::Draw()
     Model::SetTransform(hModel_, trBox_);
     Model::Draw(hModel_);
 
-    Model::SetAnimFrame(hModel_,)
+    Model::SetAnimFrame(hModel_, anim_Start, anim_End, anim_Speed);
 }
 
 //開放
@@ -50,6 +50,7 @@ void JewelBox::OnCollision(GameObject* pTarget)
 {
         if (pTarget->GetObjectName() == "Attack")
         {
-            
+            anim_Start = 0;
+            anim_End = 12;
         }
 }
