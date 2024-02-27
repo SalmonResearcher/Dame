@@ -30,14 +30,9 @@ Jewel::~Jewel()
 //初期化
 void Jewel::Initialize()
 {
-    hModel_ = Model::Load("Jewel.fbx");
+    hModel_ = Model::Load("Jewel2.fbx");
     assert(hModel_ >= 0);
 
-}
-
-//更新
-void Jewel::Update()
-{
     hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
     RayCastData data;
@@ -58,14 +53,18 @@ void Jewel::Update()
 
         //trJewel_.position_.y -= grabity_;
         trJewel_.position_.y = -data.dist;
-
     }
+    trJewel_.position_.x = 10;
+}
 
+//更新
+void Jewel::Update()
+{
 
     //trJewel_.position_.y = (float)sin(time)/50;
 
     // メインのプログラム
-    if (time % 75 == 0) {
+    if (time % 90 == 0) {
         jewelRotate_ = true;
     }
 
