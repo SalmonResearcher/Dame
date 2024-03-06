@@ -2,6 +2,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Debug.h"
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
@@ -46,9 +47,7 @@ void StageSelectScene::Update()
 {
 	if (Input::IsKeyDown(DIK_A))
 	{
-		
 		selectCount--;
-
 		if (Input::IsKey(DIK_A))
 		{
 			keyTimer++;
@@ -57,6 +56,10 @@ void StageSelectScene::Update()
 				if (keyTimer % 6 == 0)
 					selectCount--;
 			}
+		}
+		if (selectCount < 0)
+		{
+			selectCount == 0;
 		}
 	}
 
@@ -76,17 +79,14 @@ void StageSelectScene::Update()
 		}
 
 
+		if (selectCount > MAX_STAGE - 1)
+		{
+			selectCount == MAX_STAGE - 1;
+		}
 	}
 
-	if (selectCount < 0)
-	{
-		selectCount == 0;
-	}
-
-	if (selectCount > MAX_STAGE-1)
-	{
-		selectCount == MAX_STAGE - 1;
-	}
+	OutputDebugString("selectCount = ");
+	Debug::Log(selectCount,true);
 
 	switch (selectCount)
 	{

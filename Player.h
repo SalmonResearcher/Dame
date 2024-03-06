@@ -34,6 +34,7 @@ private:
     short dash;
     float moveY = 0;
     bool isJumping = false;
+    bool isHit;
 
 protected:
     PlayerStateManager* pState_;
@@ -72,6 +73,6 @@ public:
         return 0;
     }
 
-
+    void OnCollision(GameObject* pTarget)override;
 };
 

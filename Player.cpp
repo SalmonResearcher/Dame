@@ -187,7 +187,7 @@ void Player::Update()
 		}
 	}
 
-
+	//プレイヤー移動（いつかステートで分ける）
 	if (Input::IsKey(DIK_W))
 	{
 		vecPlayer_ += frontMove;
@@ -258,12 +258,13 @@ void Player::Update()
 
 
 	RayCastData cam;
-	cam.start = camTarget;  //レイの発射位置
+	cam.start = tPlayer_.position_;  //レイの発射位置
 	cam.dir = Camposition_;       //レイの方向
 	Model::RayCast(hStage_, &cam); //レイを発射
 
-
-
+	OutputDebugString("cam.dist = ");
+	Debug::Log(cam.hit, true);
+	
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
 
@@ -323,9 +324,10 @@ void Player::Update()
 		}
 
 
-		}
-
 	}
+	Debug::Log("ishit = ");
+	Debug::Log(isHit, true);
+}
 
 
 
@@ -344,8 +346,17 @@ void Player::StageRay()
 	if ((Stage*)FindObject("Stage") != nullptr)
 	{
 		hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
-		
 		RayCastData down;
 	}
+}
 
+void Player::OnCollision(GameObject* pTarget)
+{
+	isHit = false;
+
+	Debug::Log(pTarget->GetObjectName());
+	if (pTarget->GetObjectName() == "Jewel")
+	{
+		isHit = true;
+	}
 }

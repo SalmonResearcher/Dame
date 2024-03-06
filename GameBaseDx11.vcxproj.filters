@@ -113,9 +113,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
-    <ClCompile Include="BackRooms.cpp">
-      <Filter>ToyBox</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>PlayerState</Filter>
     </ClCompile>
@@ -233,9 +230,6 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>ToyBox</Filter>
-    </ClInclude>
-    <ClInclude Include="BackRooms.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
