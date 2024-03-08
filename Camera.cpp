@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Player.h"
+#include "Engine/Input.h"
 
 //コンストラクタ
 Cammera::Cammera(GameObject* parent)
