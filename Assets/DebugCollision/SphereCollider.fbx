@@ -28,20 +28,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "D:\Endo\GamebaseDx11\Assets\DebugCollision\SphereCollider.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "D:\Endo\GamebaseDx11\Assets\DebugCollision\SphereCollider.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "D:\Endo\TresureHunter11\Assets\DebugCollision\SphereCollider.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "D:\Endo\TresureHunter11\Assets\DebugCollision\SphereCollider.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "201902"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "03/12/2020 00:49:01.168"
-			P: "Original|FileName", "KString", "", "", "D:\Endo\GamebaseDx11\Assets\DebugCollision\SphereCollider.fbx"
+			P: "Original|FileName", "KString", "", "", "D:\Endo\TresureHunter11\Assets\DebugCollision\SphereCollider.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "201902"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "03/12/2020 00:49:01.168"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "D:\Endo\GamebaseDx11\Assets\DebugCollision"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "D:\Endo\TresureHunter11\Assets\DebugCollision"
 		}
 	}
 }
