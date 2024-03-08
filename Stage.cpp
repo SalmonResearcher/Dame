@@ -20,10 +20,10 @@ Stage::~Stage()
 //‰Šú‰»
 void Stage::Initialize()
 {
-    hModel_ = Model::Load("Stage4.fbx");
+    hModel_ = Model::Load("Stage3.fbx");
     assert(hModel_ >= 0);
 
-    hModel_2 = Model::Load("SkySphere_Test.fbx");
+    hModel_2 = Model::Load("SkySphere.fbx");
     assert(hModel_2 >= 0);
 
     Instantiate<JewelBox>(this);

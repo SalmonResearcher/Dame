@@ -28,7 +28,7 @@ void StageSelectScene::Initialize()
 		assert(hStage_[l] >= 0);
 	}
 
-	hSkysphere = Model::Load("SkySphere_Test.fbx");
+	hSkysphere = Model::Load("SkySphere.fbx");
 	assert(hSkysphere >= 0);
 
 	trStage1.scale_ = { 0.6f,0.6f,0.6f };
@@ -145,6 +145,7 @@ void StageSelectScene::Draw()
 		Model::Draw(hStage_[l]);
 	}
 
+	Model::Draw(hSkysphere);
 }
 
 //ŠJ•ú
