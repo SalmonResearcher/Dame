@@ -24,7 +24,7 @@ void SceneManager::Initialize()
 	//最初のシーンを準備
 	currentSceneID_ = SCENE_ID_TITLE;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<StageSelectScene>(this);
+	Instantiate<TitleScene>(this);
 }
 
 //更新
