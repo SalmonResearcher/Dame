@@ -161,6 +161,7 @@
     <ClCompile Include="JewelBox.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -280,6 +281,7 @@
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
