@@ -21,14 +21,11 @@ void TestScene::Initialize()
 //çXêV
 void TestScene::Update()
 {
-	
-	if (((timer %60 == 0) && count < 80))
+	if (((timer %1== 0) && count < 45))
 	{
 		Enemy* pEnemy = Instantiate<Enemy>(this);
 		count++;
 	}
-
-	ASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDFASDF
 
 		timer++;
 }

@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
+#include "Engine/SphereCollider.h"
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
     :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),isJumping(false)
@@ -21,6 +22,9 @@ void Enemy::Initialize()
 	transEnemy_.position_.x = target_.x;
 	transEnemy_.position_.y = target_.y;
 	transEnemy_.position_.z = target_.z;
+
+	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0,0), 3.0f);
+	AddCollider(pSpher);
 }
 
 //更新
@@ -73,6 +77,8 @@ void Enemy::Update()
 	}
 	transEnemy_.position_.z -= 0.05f;
 
+
+	transform_.position_ = transEnemy_.position_;
 }
 
 //描画
