@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Stage.h"
+#include "Player.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
 #include "Engine/SphereCollider.h"
@@ -23,8 +24,9 @@ void Enemy::Initialize()
 	transEnemy_.position_.y = target_.y;
 	transEnemy_.position_.z = target_.z;
 
-	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0,0), 3.0f);
+	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0.8f,0), 1.25f);
 	AddCollider(pSpher);
+
 }
 
 //更新
@@ -44,24 +46,6 @@ void Enemy::Update()
 
 	if (data.hit)
 	{
-		////ジャンプ
-		//if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
-		//{
-		//	isJumping = true;
-		//	moveY += 0.2f;
-		//}
-
-		//else if (isJumping)
-		//{
-		//	//自由落下
-		//	moveY -= 0.01;
-
-		//	if (moveY <= -0.25f)
-		//	{
-		//		moveY = -0.25f;
-		//	}
-		//}
-
 		if (play.dist <= 0.25 && isJumping)
 		{
 			moveY = 0.0f;
@@ -76,6 +60,10 @@ void Enemy::Update()
 		transEnemy_.position_.y += moveY;
 	}
 	transEnemy_.position_.z -= 0.05f;
+
+	//プレイヤーのもとに駆け付けられるように
+	//SetTargetPosition()
+
 
 
 	transform_.position_ = transEnemy_.position_;
@@ -92,4 +80,12 @@ void Enemy::Draw()
 //開放
 void Enemy::Release()
 {
+}
+
+void Enemy::OnCollision(GameObject* pTarget)
+{
+	if (pTarget->GetObjectName() == "Attack")
+	{
+		KillMe();
+	}
 }

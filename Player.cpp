@@ -298,32 +298,11 @@ void Player::Update()
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
 
-	if (Input::IsKeyDown(DIK_E))
+	if (Input::IsMouseButtonDown(0))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
-	}
-
-	if (Input::IsMouseButtonDown(0))
-	{
-		if ((Enemy*)FindObject("Enemy") != nullptr)
-		{
-			hEnemy_ = ((Enemy*)FindObject("Enemy"))->GetModelHandle();
-
-			RayCastData attack;
-			attack.start = { tPlayer_.position_ };   //レイの発射位置
-			attack.dir = XMFLOAT3{ 0,0.5f,1 };       //レイの方向
-			Model::RayCast(hEnemy_, &attack); //レイを発射
-
-			if (/*attack.dist <= 2.0f &&*/ attack.hit)
-			{
-				((Enemy*)FindObject("Enemy"))->KillMe();
-			}
-
-		}
-
-
 	}
 	Debug::Log("ishit = ");
 	Debug::Log(isHit, true);

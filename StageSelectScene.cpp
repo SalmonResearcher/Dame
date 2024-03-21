@@ -45,45 +45,16 @@ void StageSelectScene::Initialize()
 //XV
 void StageSelectScene::Update()
 {
-	if (Input::IsKeyDown(DIK_A))
+	if (Input::IsKeyDown(DIK_A) && selectCount > 0 )
 	{
 		selectCount--;
-		if (Input::IsKey(DIK_A))
-		{
-			keyTimer++;
-			if (keyTimer >= 60)
-			{
-				if (keyTimer % 6 == 0)
-					selectCount--;
-			}
-		}
-		if (selectCount < 0)
-		{
-			selectCount == 0;
-		}
 	}
 
-	if (Input::IsKeyDown(DIK_D))
+	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE-1)
 	{
-
 		selectCount++;
-
-		if (Input::IsKey(DIK_D))
-		{
-			keyTimer++;
-			if (keyTimer >= 60)
-			{
-				if (keyTimer % 6 == 0)
-					selectCount++;
-			}
-		}
-
-
-		if (selectCount > MAX_STAGE - 1)
-		{
-			selectCount == MAX_STAGE - 1;
-		}
 	}
+
 
 	OutputDebugString("selectCount = ");
 	Debug::Log(selectCount,true);

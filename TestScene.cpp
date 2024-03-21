@@ -21,7 +21,7 @@ void TestScene::Initialize()
 //XV
 void TestScene::Update()
 {
-	if (((timer %1== 0) && count < 45))
+	if (((timer %35== 0) && count < 45))
 	{
 		Enemy* pEnemy = Instantiate<Enemy>(this);
 		count++;

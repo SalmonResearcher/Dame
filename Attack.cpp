@@ -52,7 +52,7 @@ void Attack::Release()
 
 void Attack::OnCollision(GameObject* pTarget)
 {
-    if (pTarget->GetObjectName() == "JewelBox")
+    if (pTarget->GetObjectName() == "Enemy")
     {
 
     }
