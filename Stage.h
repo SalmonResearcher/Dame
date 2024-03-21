@@ -2,12 +2,22 @@
 #include "Engine/GameObject.h"
 
 class Sprite;
+class Player;
+class Stage;
+class Jewel;
 
 //◆◆◆を管理するクラス
 class Stage : public GameObject
 {
+    Player* pPlayer;
+    Stage* pStage;
+    Jewel* pJewel;
+
+
     int hModel_;    //モデル番号
+    int hModel_2;
     Transform transStage_;
+    Transform transSky_;
 
 public:
     //コンストラクタ

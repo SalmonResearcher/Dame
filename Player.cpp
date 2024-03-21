@@ -1,8 +1,8 @@
 #include "Player.h"
-#include "Stage.h"
+#include "Attack.h"
+#include "Enemy.h"
 
 #include "Engine/Input.h"
-#include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
@@ -24,18 +24,18 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	Stage* pStage = (Stage*)FindObject("Stage");    //ステージオブジェクトを探す
-	int hGroundModel = pStage->GetModelHandle();    //モデル番号を取得
+
+	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	RayCastData data;
 	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hGroundModel, &data); //レイを発射
+	Model::RayCast(hStage_, &data); //レイを発射
 
 	RayCastData play;
 	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hGroundModel, &play); //レイを発射
+	Model::RayCast(hStage_, &play); //レイを発射
 	
 	if (data.hit)
 	{
@@ -43,13 +43,13 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 0.5f;
+			moveY += 0.2f;
 		}
 		
 		else if (isJumping)
 		{
 			//自由落下
-			moveY -= 0.03;
+			moveY -= 0.01;
 
 			if (moveY <= -0.25f)
 			{
@@ -71,7 +71,7 @@ void Player::Update()
 		tPlayer_.position_.y += moveY;
 	}
 
-	
+
 
 	if (Input::IsKey(DIK_LSHIFT))
 		dash = 2;
@@ -81,7 +81,7 @@ void Player::Update()
 
 	static bool debug = true;
 
-	
+
 	if (Input::IsKeyDown(DIK_RSHIFT))
 	{
 		if (debug)
@@ -93,18 +93,38 @@ void Player::Update()
 			debug = true;
 		}
 	}
+
+	//マウス感度
+	{
+		if (Input::IsKeyDown(DIK_UP))
+		{
+			if (Input::IsKey(DIK_LSHIFT))
+				mouseSens += 0.5f;
+			else
+				mouseSens += 0.1f;
+		}
+
+		if (Input::IsKeyDown(DIK_DOWN))
+		{
+			if (Input::IsKey(DIK_LSHIFT))
+				mouseSens -= 0.5f;
+			else
+				mouseSens -= 0.1f;
+		}
+	}
 	//マウス位置固定
 	if (debug)
 		SetCursorPos(800, 400);
-
 
 	static XMFLOAT3 move = { 0,0,0 };
 	static XMFLOAT3 camMove = { 0,0,0 };
 
 	//マウスの移動量
-	move.x += Input::GetMouseMove().x;
-	move.y += Input::GetMouseMove().y;
-	move.z += Input::GetMouseMove().z;	//マウスホイール
+	move.x += Input::GetMouseMove().x * mouseSens;
+	move.y += Input::GetMouseMove().y * mouseSens;
+	move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
+
+
 
 	//マウスの移動量に応じてカメラを回転させる
 	camMove.y = move.x;
@@ -116,18 +136,18 @@ void Player::Update()
 	camMove.x *= 0.1;
 	camMove.y *= 0.1;
 
-	//上を向きすぎないように
-	if (camMove.x >= 69)
+	//下を向きすぎないように
+	if (camMove.x >= 75)
 	{
-		camMove.x = 69;
-		move.y = 690;
+		camMove.x = 75;
+		move.y = 750;
 	}
 
-	//下を向きすぎない
-	if (camMove.x <= -20)
+	//上を向きすぎない
+	if (camMove.x <= -85)
 	{
-		camMove.x = -20;
-		move.y = -200;
+		camMove.x = -85;
+		move.y = -850;
 	}
 
 	tCamera.rotate_ = camMove;
@@ -152,27 +172,24 @@ void Player::Update()
 	//プレイヤーもここで移動させる
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
 
-	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D))&&!isJumping)
+	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D)))
 	{
 		speed_ += 0.01f;
 		if (speed_ >= MAXSPEED)
 			speed_ = MAXSPEED;
 	}
-		
-
 	else
 	{
 		speed_ -= 0.01f;
-		if (speed_ < 0.0f)
+		if (speed_ <= 0.0f)
+		{
 			speed_ = 0.0f;
+		}
 	}
 
-	Debug::Log("speed_ = ");
-	Debug::Log(speed_, true);
-
+	//プレイヤー移動（いつかステートで分ける）
 	if (Input::IsKey(DIK_W))
 	{
-
 		vecPlayer_ += frontMove;
 	}
 
@@ -191,41 +208,107 @@ void Player::Update()
 		vecPlayer_ += leftRightMove;
 	}
 
-	
+	XMStoreFloat3(&movePlayer, vecPlayer_);
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
+
 
 	//カメラ移動
 	XMStoreFloat3(&tCamera.position_, nowVec);
 
 	//カメラ本体
-	XMVECTOR vCam = { 0,0,-10,0 };
+	XMVECTOR vCam = { 0,2,-10,0 };
 
 	//カメラ注視点
 	XMFLOAT3 camTarget = tPlayer_.position_;
-	//camTarget.z += 2;
-	Camera::SetTarget(camTarget);
+
+	//1F前の高さ
+	static 	XMFLOAT3 prevPos = tPlayer_.position_;
+
+	smoothCam.x = camTarget.x;
+	smoothCam.y = camTarget.y - (camTarget.y - prevPos.y) / 2;
+	smoothCam.z = camTarget.z;
+
+	if (smoothCam.x < 0.01f)
+		smoothCam.x = camTarget.x;
+
+	if ((camTarget.y - prevPos.y) / 2 < 0.01f)
+		smoothCam.y = camTarget.y;
+
+	if (smoothCam.z < 0.01f)
+		smoothCam.z = camTarget.z;
+
+	prevPos.y = smoothCam.y;
+
+	//Debug::Log("prev.y = ");
+	//Debug::Log(prevPos.y, true);
+	//Debug::Log("now.y = ");
+	//Debug::Log(camTarget.y, true);
+	Camera::SetTarget(smoothCam);
+
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
+
 
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
 
-	RayCastData cam;
-	cam.start = camTarget;  //レイの発射位置
-	cam.dir = Camposition_;       //レイの方向
-	Model::RayCast(hGroundModel, &cam); //レイを発射
-	
-	//Debug::Log("cam");
-	//Debug::Log(cam.hit, true); 
-	//Debug::Log("camz");
-	//Debug::Log(cam.dist, true);
+	//Debug::Log(Camposition_.x, true);
+	//Debug::Log(Camposition_.y, true);
+	//Debug::Log(Camposition_.z,true);
 
+
+	RayCastData cam;
+	cam.start = tPlayer_.position_;  //レイの発射位置
+	cam.dir = Camposition_;       //レイの方向
+	Model::RayCast(hStage_, &cam); //レイを発射
+
+	OutputDebugString("cam.dist = ");
+	Debug::Log(cam.hit, true);
+	
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
 
-	
 	transform_ = tPlayer_;
+
+	// カメラの回転行列を作成
+	XMMATRIX cameraRotMat = rotMatX * rotMatY;
+
+	// カメラの回転行列を抽出
+	XMFLOAT4X4 cameraRot;
+	XMStoreFloat4x4(&cameraRot, cameraRotMat);
+
+	// カメラの向きにプレイヤーを向けるための回転角度を求める
+	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
+
+	// プレイヤーの回転を更新
+	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
+
+	//playerYawの+-1.5がちょうど右横から左横って感じ
+	//Debug::Log(playerYaw);
+
+	attackStart = playerYaw + 1.5;
+	attackEnd = playerYaw - 1.5;
+
+	Debug::Log("x = ");
+	Debug::Log(tPlayer_.rotate_.x, true);
+
+	Debug::Log("y = ");
+	Debug::Log(tPlayer_.rotate_.y, true);
+
+	Debug::Log("z = ");
+	Debug::Log(tPlayer_.rotate_.z, true);
+
+	if (Input::IsMouseButtonDown(0))
+	{
+		Attack* pAtk = Instantiate<Attack>(GetParent());
+		pAtk->SetMove(camTarget);
+		pAtk->SetPosition(camTarget);
+	}
+	Debug::Log("ishit = ");
+	Debug::Log(isHit, true);
 }
+
+
 
 void Player::Draw()
 {
@@ -235,4 +318,24 @@ void Player::Draw()
 
 void Player::Release()
 {
+}
+
+void Player::StageRay()
+{
+	if ((Stage*)FindObject("Stage") != nullptr)
+	{
+		hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+		RayCastData down;
+	}
+}
+
+void Player::OnCollision(GameObject* pTarget)
+{
+	isHit = false;
+
+	Debug::Log(pTarget->GetObjectName());
+	if (pTarget->GetObjectName() == "Jewel")
+	{
+		isHit = true;
+	}
 }

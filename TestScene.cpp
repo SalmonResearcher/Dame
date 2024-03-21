@@ -1,6 +1,8 @@
 #include "TestScene.h"
 #include "Player.h"
 #include "Stage.h"
+#include "Enemy.h"
+#include "Jewel.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -11,13 +13,21 @@ TestScene::TestScene(GameObject * parent)
 //初期化
 void TestScene::Initialize()
 {
-	Instantiate<Player>(this);
-	Instantiate<Stage>(this);
+	pPlayer = Instantiate<Player>(this);
+	pStage = Instantiate<Stage>(this);
+	pJewel = Instantiate<Jewel>(this);
 }
 
 //更新
 void TestScene::Update()
 {
+	if (((timer %35== 0) && count < 45))
+	{
+		Enemy* pEnemy = Instantiate<Enemy>(this);
+		count++;
+	}
+
+		timer++;
 }
 
 //描画
