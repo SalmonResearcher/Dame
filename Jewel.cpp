@@ -30,7 +30,7 @@ Jewel::~Jewel()
 //‰Šú‰»
 void Jewel::Initialize()
 {
-    hModel_ = Model::Load("Jewel2.fbx");
+    hModel_ = Model::Load("Jewel.fbx");
     assert(hModel_ >= 0);
 
     hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
