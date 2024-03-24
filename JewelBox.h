@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Text.h"
 
 //納品箱を管理するクラス
 class JewelBox : public GameObject
@@ -10,6 +11,9 @@ class JewelBox : public GameObject
     int anim_Start;
     int anim_End;
     int anim_Speed;
+
+    int jewelCount;
+    Text* pText;
 
 public:
     //コンストラクタ
@@ -34,5 +38,7 @@ public:
     int GetModelHandle() { return hModel_; }
 
     void OnCollision(GameObject* pTarget);
+
+    void AddJewel(int num) { jewelCount += num; };
 
 };

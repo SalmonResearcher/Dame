@@ -6,6 +6,7 @@ class Enemy : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     int hStage_;
+    int hPlayer_;
     Transform transEnemy_;
     XMFLOAT3 target_;
     float moveY = 0.0f;

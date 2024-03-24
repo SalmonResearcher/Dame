@@ -240,22 +240,12 @@ void Player::Update()
 
 	prevPos.y = smoothCam.y;
 
-	//Debug::Log("prev.y = ");
-	//Debug::Log(prevPos.y, true);
-	//Debug::Log("now.y = ");
-	//Debug::Log(camTarget.y, true);
 	Camera::SetTarget(smoothCam);
 
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
-
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
-
-	//Debug::Log(Camposition_.x, true);
-	//Debug::Log(Camposition_.y, true);
-	//Debug::Log(Camposition_.z,true);
-
 
 	RayCastData cam;
 	cam.start = tPlayer_.position_;  //レイの発射位置
@@ -336,6 +326,8 @@ void Player::OnCollision(GameObject* pTarget)
 	Debug::Log(pTarget->GetObjectName());
 	if (pTarget->GetObjectName() == "Jewel")
 	{
+		pTarget->KillMe();
 		isHit = true;
+
 	}
 }

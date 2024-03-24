@@ -62,7 +62,9 @@ void Enemy::Update()
 	transEnemy_.position_.z -= 0.05f;
 
 	//プレイヤーのもとに駆け付けられるように
-	//SetTargetPosition()
+	
+
+	//SetTargetPosition();
 
 
 

@@ -22,6 +22,7 @@ private:
     int hModel_;
     int hStage_;
     int hEnemy_;
+    int jewelCount;
 
     float mouseSens = 1;
 

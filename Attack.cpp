@@ -54,6 +54,6 @@ void Attack::OnCollision(GameObject* pTarget)
 {
     if (pTarget->GetObjectName() == "Enemy")
     {
-
+        pTarget->KillMe();
     }
 }

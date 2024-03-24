@@ -42,16 +42,6 @@ void Jewel::Initialize()
 
     if (data.hit)
     {
-        //if (data.dist <= 0.1f)
-        //{
-        //    grabity_ = 0.0f;
-        //}
-        //else
-        //{
-        //    grabity_ = 0.2f;
-        //}
-
-        //trJewel_.position_.y -= grabity_;
         trJewel_.position_.y = -data.dist;
     }
     trJewel_.position_.x = 10;

@@ -6,7 +6,7 @@
 
 //コンストラクタ
 JewelBox::JewelBox(GameObject* parent)
-    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(13),anim_Speed(1)
+    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(13),anim_Speed(1),jewelCount(0)
 {
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 3.2f);
     AddCollider(collision);
@@ -29,6 +29,7 @@ void JewelBox::Initialize()
 //更新
 void JewelBox::Update()
 {
+
     transform_ = trBox_;
 }
 
