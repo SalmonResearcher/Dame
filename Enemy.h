@@ -11,6 +11,10 @@ class Enemy : public GameObject
     float moveY = 0.0f;
 
     bool isJumping;
+    int startFrame;
+    int endFrame;
+    float animeSpeed;
+ 
 
 public:
     //コンストラクタ

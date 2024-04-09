@@ -6,7 +6,7 @@
 #include "Engine/SphereCollider.h"
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-    :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),isJumping(false)
+    :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),isJumping(false),startFrame(0),endFrame(100),animeSpeed(1)
 {
 }
 
@@ -18,8 +18,12 @@ Enemy::~Enemy()
 //初期化
 void Enemy::Initialize()
 {
-    hModel_ = Model::Load("Enemy.fbx");
+    hModel_ = Model::Load("Slime.fbx");
     assert(hModel_ >= 0);
+	Model::SetAnimFrame(hModel_,0,100,2.0f);
+
+	transEnemy_.scale_ = { 0.7f ,0.7f,0.7f};
+
 	transEnemy_.position_.x = target_.x;
 	transEnemy_.position_.y = target_.y;
 	transEnemy_.position_.z = target_.z;
