@@ -11,10 +11,12 @@ class Fafro : public GameObject
     float moveY = 0.0f;
 
     bool isJumping;
+    bool dead = false;
     int startFrame;
     int endFrame;
     float animeSpeed;
 
+    int gloTime;
 
 public:
     //コンストラクタ

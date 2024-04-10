@@ -32,7 +32,7 @@ void Attack::Update()
     transform_.position_.y = move_.y;
     transform_.position_.z = move_.z;
 
-    if (time >= 3)
+    if (time >= 1)
     {
         KillMe();
     }

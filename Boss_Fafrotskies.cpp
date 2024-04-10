@@ -4,9 +4,11 @@
 #include "Engine/Input.h"
 #include "Engine/Model.h"
 #include "Engine/SphereCollider.h"
+
+#include "Engine/Debug.h"
 //コンストラクタ
 Fafro::Fafro(GameObject* parent)
-	:GameObject(parent, "Fafro"), hModel_(-1), hStage_(-1), isJumping(false), startFrame(0), endFrame(100), animeSpeed(1)
+	:GameObject(parent, "Fafro"), hModel_(-1), hStage_(-1), isJumping(false), startFrame(0), endFrame(100), animeSpeed(1),gloTime(0)
 {
 }
 
@@ -78,7 +80,25 @@ void Fafro::Update()
 	if (Input::IsKeyDown(DIK_Z))
 	{
 	}
+
+	if (dead)
+	{
+		if (gloTime > 180/5 && gloTime < 220/5 )
+		{
+			transFafro_.scale_.x -= 0.1f;
+			transFafro_.scale_.y -= 0.1f;
+			transFafro_.scale_.z -= 0.1f;
+		}
+		else if (gloTime > 220/5) {
+			KillMe();
+		}
+		OutputDebugString("gloTime = ");
+		Debug::Log(gloTime, true);
+
+	}
+
 	transform_.position_ = transFafro_.position_;
+	gloTime++;
 }
 
 //描画
@@ -98,22 +118,8 @@ void Fafro::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack")
 	{
-		Model::SetAnimFrame(hModel_, 180, 206, 0.5f);
-		float time = 180;
-		while(true) 
-		{
-			if (time >= 196 && time <= 206)
-			{
-				transFafro_.scale_.x -= 0.1f;
-				transFafro_.scale_.y -= 0.1f;
-				transFafro_.scale_.z -= 0.1f;
-			}
-			else if (time >= 207) {
-				KillMe();
-				break;
-			}
-			time += 0.01f;
-
-		}
+		Model::SetAnimFrame(hModel_, 150, 170, 1.0f);
+		dead = true;
+		gloTime = 0;
 	}
 }
