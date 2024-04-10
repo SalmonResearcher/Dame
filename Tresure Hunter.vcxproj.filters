@@ -161,6 +161,9 @@
     <ClCompile Include="JewelBox.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
+    <ClCompile Include="Boss_Fafrotskies.cpp">
+      <Filter>ToyBox\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -279,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Fafrotskies.h">
+      <Filter>ToyBox\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

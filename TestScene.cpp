@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "Enemy.h"
 #include "Jewel.h"
+#include "Boss_Fafrotskies.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -17,6 +18,7 @@ void TestScene::Initialize()
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
 	Enemy* pEnemy = Instantiate<Enemy>(this);
+	Fafro* pFaf = Instantiate<Fafro>(this);
 
 }
 
