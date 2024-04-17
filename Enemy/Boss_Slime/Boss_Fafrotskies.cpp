@@ -1,11 +1,11 @@
 #include "Boss_Fafrotskies.h"
-#include "Stage.h"
-#include "Player.h"
-#include "Engine/Input.h"
-#include "Engine/Model.h"
-#include "Engine/SphereCollider.h"
+#include "../../Stage.h"
+#include "../../Player.h"
+#include "../../Engine/Input.h"
+#include "../../Engine/Model.h"
+#include "../../Engine/SphereCollider.h"
 
-#include "Engine/Debug.h"
+#include "../../Engine/Debug.h"
 //コンストラクタ
 Fafro::Fafro(GameObject* parent)
 	:GameObject(parent, "Fafro"), hModel_(-1), hStage_(-1), isJumping(false), startFrame(0), endFrame(100), animeSpeed(1),gloTime(0)

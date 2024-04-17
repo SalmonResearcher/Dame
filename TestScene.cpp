@@ -1,9 +1,9 @@
 #include "TestScene.h"
 #include "Player.h"
 #include "Stage.h"
-#include "Enemy.h"
+#include "Enemy/Enemy.h"
 #include "Jewel.h"
-#include "Boss_Fafrotskies.h"
+#include "Enemy/Boss_Slime/Boss_Fafrotskies.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)

@@ -126,8 +126,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
-    <ClCompile Include="Boss_Fafrotskies.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy\Boss_Slime\Boss_Fafrotskies.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
@@ -170,8 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
-    <ClInclude Include="Boss_Fafrotskies.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy\Boss_Slime\Boss_Fafrotskies.h" />
+    <ClInclude Include="Enemy\Boss_Slime\State\Fafro_SpawnState.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\BoxCollider.h" />
@@ -196,7 +197,6 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="FadeIn_FadeOut.h" />
-    <ClInclude Include="Fafro_SpawnState.h" />
     <ClInclude Include="Fafro_State.h" />
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />

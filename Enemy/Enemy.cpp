@@ -1,9 +1,9 @@
 #include "Enemy.h"
-#include "Stage.h"
-#include "Player.h"
-#include "Engine/Input.h"
-#include "Engine/Model.h"
-#include "Engine/SphereCollider.h"
+#include "../Stage.h"
+#include "../Player.h"
+#include "../Engine/Input.h"
+#include "../Engine/Model.h"
+#include "../Engine/SphereCollider.h"
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
     :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),isJumping(false),startFrame(0),endFrame(100),animeSpeed(1)

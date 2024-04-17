@@ -1,15 +1,18 @@
 #pragma once
+
+class Fafro;
+
+//ファフロッキーのステート基底クラス
 class Fafro_State
 {
 public:
-	virtual void Spawn() = 0;
-	virtual void Wait() = 0;
-	virtual void Move() = 0;
-	virtual void Attack() = 0;
-	virtual void Damege() = 0;
-	virtual void Death() = 0;
-	virtual ~Fafro_State() {}
+	//更新
+	virtual void Update(Fafro* _pFafro) {};
+	
+	//ステートごとの処理
+	virtual void Process(Fafro* _pfafro) {};
 
-	void ChangeState(Fafro_State* now,Fafro_State* next)
+	//ステートの変更（now or prevで迷ってる）
+	void ChangeState(Fafro_State* now, Fafro_State* next);
 };
 
