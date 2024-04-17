@@ -79,17 +79,19 @@ void Fafro::Update()
 	}
 	if (Input::IsKeyDown(DIK_Z))
 	{
+		Model::SetAnimFrame(hModel_, 180, 220, 0.5f);
+
 	}
 
 	if (dead)
 	{
-		if (gloTime > 180/5 && gloTime < 220/5 )
+		if (gloTime > 180 && gloTime < 220 )
 		{
 			transFafro_.scale_.x -= 0.1f;
 			transFafro_.scale_.y -= 0.1f;
 			transFafro_.scale_.z -= 0.1f;
 		}
-		else if (gloTime > 220/5) {
+		else if (gloTime > 220) {
 			KillMe();
 		}
 		OutputDebugString("gloTime = ");
