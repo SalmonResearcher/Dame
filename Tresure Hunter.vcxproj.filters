@@ -149,9 +149,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ToyBox\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="FadeIn_FadeOut.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -161,9 +158,10 @@
     <ClCompile Include="JewelBox.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
-    <ClCompile Include="Boss_Fafrotskies.cpp">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClCompile>
+    <ClCompile Include="Enemy\Boss_Slime\Boss_Fafrotskies.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
+    <ClCompile Include="Fafro_SpawnState.cpp" />
+    <ClCompile Include="Fafro_State.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -271,9 +269,6 @@
     <ClInclude Include="Player.h">
       <Filter>ToyBox\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="FadeIn_FadeOut.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -283,9 +278,10 @@
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
-    <ClInclude Include="Boss_Fafrotskies.h">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClInclude>
+    <ClInclude Include="Enemy\Boss_Slime\Boss_Fafrotskies.h" />
+    <ClInclude Include="Enemy\Boss_Slime\State\Fafro_SpawnState.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
+    <ClInclude Include="Fafro_State.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

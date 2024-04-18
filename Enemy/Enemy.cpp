@@ -20,13 +20,13 @@ void Enemy::Initialize()
 {
     hModel_ = Model::Load("Slime.fbx");
     assert(hModel_ >= 0);
-	Model::SetAnimFrame(hModel_,0,100,2.0f);
+	Model::SetAnimFrame(hModel_,0,100,1.0f);
 
 	transEnemy_.scale_ = { 0.7f ,0.7f,0.7f};
 
 	transEnemy_.position_.x = target_.x;
 	transEnemy_.position_.y = target_.y;
-	transEnemy_.position_.z = target_.z;
+	transEnemy_.position_.z = 5;
 
 	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0.8f,0), 1.25f);
 	AddCollider(pSpher);
@@ -63,7 +63,7 @@ void Enemy::Update()
 
 		transEnemy_.position_.y += moveY;
 	}
-	transEnemy_.position_.z -= 0.05f;
+	//transEnemy_.position_.z += 0.03f;
 
 	//プレイヤーのもとに駆け付けられるように
 	//SetTargetPosition()
