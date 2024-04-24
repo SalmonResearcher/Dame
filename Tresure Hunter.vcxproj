@@ -153,7 +153,7 @@
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="FadeIn_FadeOut.cpp" />
     <ClCompile Include="Fafro_SpawnState.cpp" />
-    <ClCompile Include="Fafro_State.cpp" />
+    <ClCompile Include="BossState.cpp" />
     <ClCompile Include="Jewel.cpp" />
     <ClCompile Include="JewelBox.cpp" />
     <ClCompile Include="JumpingState.cpp" />
@@ -197,7 +197,7 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="FadeIn_FadeOut.h" />
-    <ClInclude Include="Fafro_State.h" />
+    <ClInclude Include="BossState.h" />
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />
     <ClInclude Include="JumpingState.h" />
