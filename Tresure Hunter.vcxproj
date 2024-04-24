@@ -127,7 +127,6 @@
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
-    <ClCompile Include="Enemy\BossSlime\FafroState.cpp" />
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\State\BossSpawn.cpp" />
@@ -173,7 +172,6 @@
   <ItemGroup>
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
-    <ClInclude Include="Enemy\BossSlime\FafroState.h" />
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\State\BossSpawn.h" />

@@ -3,7 +3,7 @@
 #include "Stage.h"
 #include "Enemy/Enemy.h"
 #include "Jewel.h"
-#include "Enemy/Boss_Slime/Boss_Fafrotskies.h"
+#include "Enemy/BossSlime/Boss_Fafrotskies.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)

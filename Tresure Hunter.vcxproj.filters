@@ -173,9 +173,6 @@
     <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp">
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\BossSlime\FafroState.cpp">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp">
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
@@ -303,9 +300,6 @@
       <Filter>ToyBox\Enemy\State</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\BossSlime\FafroState.h">
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h">

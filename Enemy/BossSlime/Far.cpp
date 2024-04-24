@@ -1,4 +1,4 @@
-#include "Enemy/BossSlime/FafroState.h"
+#include "BossStateManager.h"
 
 void FafroState::Update(Fafro* _pFafro)
 {

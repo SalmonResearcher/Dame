@@ -10,8 +10,11 @@ private:
 
 	//↓なんかMAX_STAGEが使えない↓
 	int hStage_[3];
+
 	//ステージプレビューのトランスフォーム
 	Transform trStage1, trStage2, trStage3;
+	XMFLOAT3 prevS1, prevS2,prevS3;
+	int anime;
 
 	int hSkysphere;
 	Transform trSky;
@@ -19,6 +22,11 @@ private:
 	std::string name = "MiniStage";
 	std::string num;
 	std::string ext = ".fbx";
+
+	const XMFLOAT3 Stage1Scale = { 0.4f,0.4f,0.4f };
+	const XMFLOAT3 Stage2Scale = { 0.4f,0.4f,0.4f };
+	const XMFLOAT3 Stage3Scale = { 0.4f,0.4f,0.4f };
+
 
 	//回転用の時間
 	float timer;
@@ -52,5 +60,6 @@ public:
 	//開放
 	void Release() override;
 
+	float MoveStages(Transform start, Transform end);
 };
 
