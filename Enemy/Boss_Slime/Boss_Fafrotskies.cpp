@@ -20,7 +20,7 @@ Fafro::~Fafro()
 //‰Šú‰»
 void Fafro::Initialize()
 {
-	hModel_ = Model::Load("Boss_Fafrotskies.fbx");
+	hModel_ = Model::Load("Boss_Slime.fbx");
 	assert(hModel_ >= 0);
 	Model::SetAnimFrame(hModel_, 0, 90, 1.0f);
 
@@ -79,17 +79,19 @@ void Fafro::Update()
 	}
 	if (Input::IsKeyDown(DIK_Z))
 	{
+		Model::SetAnimFrame(hModel_, 180, 220, 1.0f);
+
 	}
 
 	if (dead)
 	{
-		if (gloTime > 180/5 && gloTime < 220/5 )
+		if (gloTime > 180 && gloTime < 220 )
 		{
 			transFafro_.scale_.x -= 0.1f;
 			transFafro_.scale_.y -= 0.1f;
 			transFafro_.scale_.z -= 0.1f;
 		}
-		else if (gloTime > 220/5) {
+		else if (gloTime > 220) {
 			KillMe();
 		}
 		OutputDebugString("gloTime = ");
@@ -118,8 +120,9 @@ void Fafro::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack")
 	{
-		Model::SetAnimFrame(hModel_, 150, 170, 1.0f);
 		dead = true;
 		gloTime = 0;
+		Model::SetAnimFrame(hModel_, 150, 170, 1.0f);
+		
 	}
 }

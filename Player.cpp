@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Attack.h"
-#include "Enemy.h"
+#include "Enemy/Enemy.h"
 
 #include "Engine/Input.h"
 #include "Engine/Camera.h"

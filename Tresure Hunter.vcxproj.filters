@@ -42,6 +42,9 @@
     <Filter Include="ToyBox\Jewel">
       <UniqueIdentifier>{0da449b6-e554-42f7-80b0-aa85702bb021}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBox\Enemies\Boss_Slime">
+      <UniqueIdentifier>{0957ed7e-5683-4b48-bf69-64aa0a098d8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -149,9 +152,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ToyBox\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="FadeIn_FadeOut.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -161,8 +161,17 @@
     <ClCompile Include="JewelBox.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
-    <ClCompile Include="Boss_Fafrotskies.cpp">
+    <ClCompile Include="Enemy\Enemy.cpp">
       <Filter>ToyBox\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\Boss_Slime\Boss_Fafrotskies.cpp">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="Fafro_SpawnState.cpp">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="Fafro_State.cpp">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,9 +280,6 @@
     <ClInclude Include="Player.h">
       <Filter>ToyBox\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ToyBox\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="FadeIn_FadeOut.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -283,8 +289,17 @@
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
-    <ClInclude Include="Boss_Fafrotskies.h">
+    <ClInclude Include="Enemy\Enemy.h">
       <Filter>ToyBox\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\Boss_Slime\Boss_Fafrotskies.h">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\Boss_Slime\State\Fafro_SpawnState.h">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="Fafro_State.h">
+      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
