@@ -126,8 +126,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
-    <ClCompile Include="Enemy\Boss_Slime\Boss_Fafrotskies.cpp" />
+    <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
+    <ClCompile Include="Enemy\BossSlime\FafroState.cpp" />
+    <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
+    <ClCompile Include="Enemy\State\BossSpawn.cpp" />
+    <ClCompile Include="Enemy\State\BossState.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
@@ -152,9 +156,6 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="FadeIn_FadeOut.cpp" />
-    <ClCompile Include="FafroState.cpp" />
-    <ClCompile Include="BossState.cpp" />
-    <ClCompile Include="FafroStateManager.cpp" />
     <ClCompile Include="Jewel.cpp" />
     <ClCompile Include="JewelBox.cpp" />
     <ClCompile Include="JumpingState.cpp" />
@@ -171,9 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
-    <ClInclude Include="Enemy\Boss_Slime\Boss_Fafrotskies.h" />
-    <ClInclude Include="Enemy\Boss_Slime\State\FafroState.h" />
+    <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
+    <ClInclude Include="Enemy\BossSlime\FafroState.h" />
+    <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
     <ClInclude Include="Enemy\Enemy.h" />
+    <ClInclude Include="Enemy\State\BossSpawn.h" />
+    <ClInclude Include="Enemy\State\BossState.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\BoxCollider.h" />
@@ -198,8 +202,6 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="FadeIn_FadeOut.h" />
-    <ClInclude Include="BossState.h" />
-    <ClInclude Include="FafroStateManager.h" />
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />
     <ClInclude Include="JumpingState.h" />

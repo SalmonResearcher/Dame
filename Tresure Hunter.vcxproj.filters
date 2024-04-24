@@ -36,13 +36,16 @@
     <Filter Include="ToyBox\Player">
       <UniqueIdentifier>{d8193028-da3f-4628-9d1f-a2b7d175fa36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ToyBox\Enemies">
-      <UniqueIdentifier>{37e2df20-c794-47b6-809a-4cb623182f1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ToyBox\Jewel">
       <UniqueIdentifier>{0da449b6-e554-42f7-80b0-aa85702bb021}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ToyBox\Enemies\Boss_Slime">
+    <Filter Include="ToyBox\Enemy">
+      <UniqueIdentifier>{37e2df20-c794-47b6-809a-4cb623182f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\Enemy\State">
+      <UniqueIdentifier>{e6d238f1-46ca-4acd-80a5-3f7817c9b633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\Enemy\BossSlime">
       <UniqueIdentifier>{0957ed7e-5683-4b48-bf69-64aa0a098d8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -162,17 +165,21 @@
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>ToyBox\Enemies</Filter>
+      <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\Boss_Slime\Boss_Fafrotskies.cpp">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClCompile Include="Enemy\State\BossState.cpp">
+      <Filter>ToyBox\Enemy\State</Filter>
     </ClCompile>
-    <ClCompile Include="Fafro_SpawnState.cpp">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
-    <ClCompile Include="Fafro_State.cpp">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClCompile Include="Enemy\BossSlime\FafroState.cpp">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy\State\BossSpawn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -290,17 +297,21 @@
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
     <ClInclude Include="Enemy\Enemy.h">
-      <Filter>ToyBox\Enemies</Filter>
+      <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\Boss_Slime\Boss_Fafrotskies.h">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClInclude Include="Enemy\State\BossState.h">
+      <Filter>ToyBox\Enemy\State</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\Boss_Slime\State\Fafro_SpawnState.h">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClInclude>
-    <ClInclude Include="Fafro_State.h">
-      <Filter>ToyBox\Enemies\Boss_Slime</Filter>
+    <ClInclude Include="Enemy\BossSlime\FafroState.h">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy\BossSlime\FafroStateManager.h">
+      <Filter>ToyBox\Enemy\BossSlime</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\State\BossSpawn.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

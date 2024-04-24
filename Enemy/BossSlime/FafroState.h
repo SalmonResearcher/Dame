@@ -1,6 +1,6 @@
 #pragma once
-#include "Enemy/Boss_Slime/State/FafroState.h"
-#include "Enemy/Boss_Slime/Boss_Fafrotskies.h"
+#include "../State/BossState.h"
+#include "Boss_Fafrotskies.h"
 
 //ó‘Ô‘JˆÚ‚ğŠÇ—‚·‚é
 class BossStateManager : public BossState
