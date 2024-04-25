@@ -14,6 +14,7 @@ private:
 	//ステージプレビューのトランスフォーム
 	Transform trStage1, trStage2, trStage3;
 	XMFLOAT3 prevS1, prevS2,prevS3;
+	float move;
 	int anime;
 
 	int hSkysphere;

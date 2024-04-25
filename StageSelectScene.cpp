@@ -48,84 +48,37 @@ void StageSelectScene::Initialize()
 //XV
 void StageSelectScene::Update()
 {
-	if (Input::IsKeyDown(DIK_A) && selectCount > 0 )
+	if (Input::IsKeyDown(DIK_A) && selectCount > 0)
 	{
 		selectCount--;
+		move = 0.5f;
 	}
 
-	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE-1)
+	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE - 1)
 	{
 		selectCount++;
+		move = -0.5f;
 	}
+
 
 
 	OutputDebugString("selectCount = ");
-	Debug::Log(selectCount,true);
+	Debug::Log(selectCount, true);
 
 	switch (selectCount)
 	{
-		
-		case 0:
-			if (trStage1.position_.x <= 0)
-			{
-				trStage1.position_.x +=0.5f;
-			}
-			trStage1.scale_ = { 0.9f,0.9f,0.9f };
 
-			if (trStage2.position_.x <= 8)
-			{
-				trStage2.position_.x  += 0.5f;
-			}
-			trStage2.scale_ = Stage2Scale;
+	case 0:
 
-			if (trStage3.position_.x <= 16)
-			{
-				trStage3.position_.x += 0.5f;
-			}
+		break;
 
-			trStage3.scale_ = Stage3Scale;
-			break;
-		
-		case 1:
-			if (trStage1.position_.x >= -8)
-			{
-				trStage1.position_.x -= 0.5f;
-			}
-			trStage1.scale_ = Stage1Scale;
+	case 1:
 
+		break;
 
-			if (trStage2.position_.x >= 0) 
-			{
-				trStage2.position_.x -= 0.5f;
-			}
-			trStage2.scale_ = { 0.9f,0.9f,0.9f };
+	case 2:
 
-			if (trStage3.position_.x >= 8)
-			{
-				trStage3.position_.x -= 0.5f;
-			}
-			trStage3.scale_ = Stage3Scale;
-			break;
-
-		case 2:
-			if (trStage1.position_.x >= -16)
-			{
-				trStage1.position_.x -= 0.2f;
-			}
-			trStage1.scale_ = Stage1Scale;
-
-			if (trStage2.position_.x != -8)
-			{
-				trStage2.position_.x /= 2;
-			}
-			trStage2.scale_ = Stage2Scale;
-
-			if (trStage3.position_.x != 0)
-			{
-				trStage3.position_.x /= 2;
-			}
-			trStage3.scale_ = { 0.6f,0.6f,0.6f };
-			break;
+		break;
 	}
 
 
@@ -170,7 +123,7 @@ void StageSelectScene::Release()
 {
 }
 
-float StageSelectScene::MoveStages(Transform start, Transform end) {
+float StageSelectScene::MoveStages(Transform tr, float speed, float end) {
 	if (start.position_.x > end.position_.x)
 	{
 		 
@@ -179,4 +132,5 @@ float StageSelectScene::MoveStages(Transform start, Transform end) {
 	{
 
 	}
+	return 0;
 }
