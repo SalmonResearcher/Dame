@@ -123,14 +123,14 @@ void StageSelectScene::Release()
 {
 }
 
-float StageSelectScene::MoveStages(Transform tr, float speed, float end) {
-	if (start.position_.x > end.position_.x)
-	{
-		 
-	}
-	else
-	{
-
-	}
-	return 0;
-}
+//float StageSelectScene::MoveStages(Transform tr, float speed, float end) {
+//	if (start.position_.x > end.position_.x)
+//	{
+//		 
+//	}
+//	else
+//	{
+//
+//	}
+//	return 0;
+//}

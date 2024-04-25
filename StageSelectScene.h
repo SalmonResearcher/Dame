@@ -61,6 +61,6 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	float MoveStages(Transform start, Transform end);
+	//float MoveStages(Transform tr, float speed, float end);
 };
 
