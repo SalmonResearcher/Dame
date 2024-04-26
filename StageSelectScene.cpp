@@ -94,6 +94,12 @@ void StageSelectScene::Update()
 		StageScaling(&trStage[STAGE2], false);
 		StageScaling(&trStage[STAGE3], true);
 
+		if (Input::IsKeyDown(DIK_SPACE))
+		{
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_TEST);
+		}
+
 		break;
 	}
 
@@ -113,11 +119,7 @@ void StageSelectScene::Update()
 	yMoveTime += 0.06f;
 	timer++;
 
-	if (Input::IsKeyDown(DIK_SPACE))
-	{
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TEST);
-	}
+	
 }
 
 //•`‰æ

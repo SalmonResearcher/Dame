@@ -336,6 +336,6 @@ void Player::OnCollision(GameObject* pTarget)
 	Debug::Log(pTarget->GetObjectName());
 	if (pTarget->GetObjectName() == "Jewel")
 	{
-		isHit = true;
+		KillMe();
 	}
 }
