@@ -3,10 +3,11 @@
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Debug.h"
+#include "Engine/Camera.h"
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
-	: GameObject(parent, "StageSelectScene"),anime(0)
+	: GameObject(parent, "StageSelectScene")
 {
 	//ステージプレビューモデル変数の初期化
 	for (int i = 0; i < MAX_STAGE; i++)
@@ -32,17 +33,15 @@ void StageSelectScene::Initialize()
 	assert(hSkysphere >= 0);
 
 
-	trStage1.scale_ = Stage1Scale;
-	trStage2.scale_ = Stage2Scale;
-	trStage3.scale_ = Stage3Scale;
+	trStage[STAGE1].scale_ = STAGE_SCALE;
+	trStage[STAGE2].scale_ = STAGE_SCALE;
+	trStage[STAGE3].scale_ = STAGE_SCALE;
 
-	trStage1.position_ = { 0,0,0 };
-	trStage2.position_ = { 8,0,0 };
-	trStage3.position_ = { 16,0,0 };
+	trStage[STAGE1].position_ = { 0,0,0 };
+	trStage[STAGE2].position_ = { 8,0,0 };
+	trStage[STAGE3].position_ = { 16,0,0 };
 
-	prevS1 = trStage1.position_;
-	prevS2 = trStage2.position_;
-	prevS3 = trStage3.position_;
+	cameraPos = {2,2,-5 };
 }
 
 //更新
@@ -51,47 +50,67 @@ void StageSelectScene::Update()
 	if (Input::IsKeyDown(DIK_A) && selectCount > 0)
 	{
 		selectCount--;
-		move = 0.5f;
+		moveX = -0.25f;
 	}
 
 	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE - 1)
 	{
 		selectCount++;
-		move = -0.5f;
+		moveX = 0.25f;
 	}
 
-
-
-	OutputDebugString("selectCount = ");
-	Debug::Log(selectCount, true);
-
-	switch (selectCount)
-	{
-
+	switch (selectCount){
 	case 0:
-
+		cameraPos.x += moveX;
+		if (cameraPos.x <= trStage[STAGE1].position_.x + 2){
+			moveX = 0;
+		}
+		StageScaling(&trStage[STAGE1], true);
+		StageScaling(&trStage[STAGE2], false);
+		StageScaling(&trStage[STAGE3], false);
 		break;
 
 	case 1:
+		if (cameraPos.x < trStage[STAGE2].position_.x+2 ||
+			cameraPos.x > trStage[STAGE2].position_.x+2)
+		{
+			cameraPos.x += moveX;
+		}
+		else moveX = 0.0f;
+
+		StageScaling(&trStage[STAGE1], false);
+		StageScaling(&trStage[STAGE2], true);
+		StageScaling(&trStage[STAGE3], false);
+
 
 		break;
 
 	case 2:
+		if (cameraPos.x < trStage[STAGE3].position_.x+2 || cameraPos.x > trStage[STAGE3].position_.x+2)
+		{
+			cameraPos.x += moveX;
+		}
+		else moveX = 0.0f;
+
+		StageScaling(&trStage[STAGE1], false);
+		StageScaling(&trStage[STAGE2], false);
+		StageScaling(&trStage[STAGE3], true);
 
 		break;
 	}
 
+	Camera::SetPosition(cameraPos);
+	Camera::SetTarget({ cameraPos.x,0,0 });
 
 	sinwave = sin(yMoveTime)/5;
 
-	trStage1.position_.y = sinwave;
-	trStage2.position_.y = sinwave;
-	trStage3.position_.y = sinwave;
+	trStage[STAGE1].position_.y = sinwave;
+	trStage[STAGE2].position_.y = sinwave;
+	trStage[STAGE3].position_.y = sinwave;
 
-	trStage1.rotate_.y = timer / 3;
-	trStage2.rotate_.y = timer / 3;
-	trStage3.rotate_.y = timer / 3;
-
+	trStage[STAGE1].rotate_.y = timer / 3;
+	trStage[STAGE2].rotate_.y = timer / 3;
+	trStage[STAGE3].rotate_.y = timer / 3;
 
 	yMoveTime += 0.06f;
 	timer++;
@@ -107,15 +126,16 @@ void StageSelectScene::Update()
 void StageSelectScene::Draw()
 {
 	//ここもforでできそうじゃないかな
-	Model::SetTransform(hStage_[0], trStage1);
-	Model::SetTransform(hStage_[1], trStage2);
-	Model::SetTransform(hStage_[2], trStage3);
+	//高野産のおかげで回せるようになった！ありがとう
+	for (int i = 0; i < MAX_STAGE; i++)
+	{
+		Model::SetTransform(hStage_[i], trStage[i]);
+	}
 
 	for (int l = 0; l < MAX_STAGE; l++)
 	{
 		Model::Draw(hStage_[l]);
 	}
-
 }
 
 //開放
@@ -123,14 +143,29 @@ void StageSelectScene::Release()
 {
 }
 
-//float StageSelectScene::MoveStages(Transform tr, float speed, float end) {
-//	if (start.position_.x > end.position_.x)
-//	{
-//		 
-//	}
-//	else
-//	{
-//
-//	}
-//	return 0;
-//}
+void StageSelectScene::StageScaling(Transform* stage_, bool big)
+{
+	StageScaling(stage_, big, 1);
+}
+
+void StageSelectScene::StageScaling(Transform* stage_, bool big, float rate)
+{
+	if (big)
+	{
+		if (stage_->scale_.x <= STAGE_BIG.x * rate)
+		{
+			stage_->scale_.x += 0.03f;
+			stage_->scale_.y += 0.03f;
+			stage_->scale_.z += 0.03f;
+		}
+	}
+	else
+	{
+		if (stage_->scale_.x >= STAGE_SCALE.x *rate)
+		{
+			stage_->scale_.x -= 0.05f;
+			stage_->scale_.y -= 0.05f;
+			stage_->scale_.z -= 0.05f;
+		}
+	}
+}
