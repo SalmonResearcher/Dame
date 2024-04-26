@@ -19,23 +19,21 @@ StageSelectScene::StageSelectScene(GameObject* parent)
 //èâä˙âª
 void StageSelectScene::Initialize()
 {
-
+	const char* modelName[] = { "MiniStage1.fbx","MiniStage2.fbx", "MiniStage3.fbx" };
 	for (int l = 0; l < MAX_STAGE; l++)
 	{
 		num = std::to_string(l+1);
 
 		//Stage1ÅAStage2ÅAStage3ÇåƒÇ‘
-		hStage_[l] = Model::Load(name+num+ext);
+		hStage_[l] = Model::Load(modelName[l]);
 		assert(hStage_[l] >= 0);
+
+		trStage[l].scale_ = STAGE_SCALE;
 	}
 
 	hSkysphere = Model::Load("SkySphere.fbx");
 	assert(hSkysphere >= 0);
 
-
-	trStage[STAGE1].scale_ = STAGE_SCALE;
-	trStage[STAGE2].scale_ = STAGE_SCALE;
-	trStage[STAGE3].scale_ = STAGE_SCALE;
 
 	trStage[STAGE1].position_ = { 0,0,0 };
 	trStage[STAGE2].position_ = { 8,0,0 };
