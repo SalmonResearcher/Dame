@@ -1,4 +1,4 @@
-#include "BossStateManager.h"
+#include "StateManager.h"
 
 void FafroState::Update(Fafro* _pFafro)
 {
