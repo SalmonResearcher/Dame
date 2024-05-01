@@ -1,11 +1,16 @@
 #pragma once
 #include "Engine/GameObject.h"
+
+#include "Engine/Text.h"
+
 #include <string.h>
 
 class StageSelectScene :
     public GameObject
 {
 private:
+	Text* pText;
+
 	enum
 	{
 		STAGE1,
@@ -17,6 +22,9 @@ private:
 	int hStage_[MAX_STAGE];
 	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
 	
+	int hImage_[2];
+	Transform trImage_[2];
+
 	XMFLOAT3 cameraPos;
 	float moveX;
 
@@ -41,6 +49,8 @@ private:
 
 	//ステージ選択するときのカウント
 	int selectCount = 0;
+
+	bool flg = false;
 
 public:
 	//コンストラクタ

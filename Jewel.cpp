@@ -88,3 +88,8 @@ void Jewel::Draw()
 void Jewel::Release()
 {
 }
+
+void Jewel::Shoot() 
+{
+
+}
