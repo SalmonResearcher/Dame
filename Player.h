@@ -30,6 +30,8 @@ private:
 
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
+    float jewelCount_;
+    float weight_;
     short moveSpeed;
     short dash;
     float moveY = 0;

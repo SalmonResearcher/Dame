@@ -35,6 +35,8 @@ void Jewel::Initialize()
 
     hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
+    trJewel_.position_.x = 10;
+
     RayCastData data;
     data.start = { trJewel_.position_ };   //レイの発射位置
     data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
@@ -54,7 +56,7 @@ void Jewel::Initialize()
         //trJewel_.position_.y -= grabity_;
         trJewel_.position_.y = -data.dist;
     }
-    trJewel_.position_.x = 10;
+
 }
 
 //更新

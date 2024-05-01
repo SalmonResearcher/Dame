@@ -25,12 +25,15 @@ void TestScene::Initialize()
 //XV
 void TestScene::Update()
 {
-	//if (((timer %35== 0) && count < 1))
-	//{
-	//	count++;
-	//}
+	if (FindObject("Jewel") == nullptr)
+	{
+		if (count % 60 == 0)
+		{
+			Instantiate<Jewel>(this);
 
-	//	timer++;
+		}
+		count++;
+	}
 }
 
 //•`‰æ

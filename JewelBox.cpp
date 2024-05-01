@@ -23,13 +23,14 @@ void JewelBox::Initialize()
     hModel_ = Model::Load("Box.fbx");
     assert(hModel_ >= 0);
 
-    trBox_.position_.y = -97;
+    trBox_.position_.y = -75;
 }
 
 //çXêV
 void JewelBox::Update()
 {
     transform_ = trBox_;
+    
 }
 
 //ï`âÊ
@@ -53,4 +54,9 @@ void JewelBox::OnCollision(GameObject* pTarget)
             anim_Start = 0;
             anim_End = 12;
         }
+}
+
+void JewelBox::AddJewel()
+{
+    jewel++; 
 }

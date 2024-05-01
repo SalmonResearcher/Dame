@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Attack.h"
 #include "Enemy/Enemy.h"
+#include "math.h"
 
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -8,7 +9,7 @@
 #include "Engine/BoxCollider.h"
 
 Player::Player(GameObject* parent)
-	:GameObject(parent, "Player"), hModel_(-1), dash(1)
+	:GameObject(parent, "Player"), hModel_(-1), dash(1),jewelCount_(0), weight_(1)
 {
 }
 
@@ -160,13 +161,13 @@ void Player::Update()
 
 	//移動ベクトル
 	XMVECTOR nowVec = XMLoadFloat3(& tPlayer_.position_);			//今のカメラ位置座標
-	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash, 0);		//z座標に動く速度
+	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash * weight_, 0);		//z座標に動く速度
 	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
 
 	//上下左右回転
-	XMVECTOR upDownMove = XMVectorSet(0, speed_ * dash, 0, 0);
+	XMVECTOR upDownMove = XMVectorSet(0, speed_ * dash * weight_, 0, 0);
 	upDownMove = XMVector3TransformCoord(upDownMove, rotMatY);
-	XMVECTOR leftRightMove = XMVectorSet(speed_ * dash, 0, 0, 0);
+	XMVECTOR leftRightMove = XMVectorSet(speed_ * dash * weight_, 0, 0, 0);
 	leftRightMove = XMVector3TransformCoord(leftRightMove, rotMatY);
 
 	//プレイヤーもここで移動させる
@@ -240,30 +241,12 @@ void Player::Update()
 
 	prevPos.y = smoothCam.y;
 
-	//Debug::Log("prev.y = ");
-	//Debug::Log(prevPos.y, true);
-	//Debug::Log("now.y = ");
-	//Debug::Log(camTarget.y, true);
 	Camera::SetTarget(smoothCam);
 
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
-
 	//カメラ座標変更
 	XMStoreFloat3(&Camposition_, nowVec + vCam);
-
-	//Debug::Log(Camposition_.x, true);
-	//Debug::Log(Camposition_.y, true);
-	//Debug::Log(Camposition_.z,true);
-
-
-	RayCastData cam;
-	cam.start = tPlayer_.position_;  //レイの発射位置
-	cam.dir = Camposition_;       //レイの方向
-	Model::RayCast(hStage_, &cam); //レイを発射
-
-	OutputDebugString("cam.dist = ");
-	Debug::Log(cam.hit, true);
 	
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
@@ -275,9 +258,11 @@ void Player::Update()
 
 	// カメラの回転行列を抽出
 	XMFLOAT4X4 cameraRot;
+
+	//XMFloat4*4に格納
 	XMStoreFloat4x4(&cameraRot, cameraRotMat);
 
-	// カメラの向きにプレイヤーを向けるための回転角度を求める
+	//プレイヤーの水平方向の角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
 
 	// プレイヤーの回転を更新
@@ -306,6 +291,12 @@ void Player::Update()
 	}
 	Debug::Log("ishit = ");
 	Debug::Log(isHit, true);
+
+	Debug::Log("weight = ");
+	Debug::Log(weight_, true);
+	Debug::Log("wjewelCOunt = ");
+	Debug::Log(jewelCount_, true);
+
 }
 
 
@@ -332,10 +323,26 @@ void Player::StageRay()
 void Player::OnCollision(GameObject* pTarget)
 {
 	isHit = false;
+	int count = 0;
 
-	Debug::Log(pTarget->GetObjectName());
 	if (pTarget->GetObjectName() == "Jewel")
 	{
-		KillMe();
+		//ここでエフェクトも
+		pTarget->KillMe();
+		jewelCount_++;
+
+		//too heavy, more heavy
+		weight_ = 1 - min(1, jewelCount_ * 0.05);
+		
+
+	}
+
+	if (pTarget->GetObjectName() == "Box" && Input::IsKey(DIK_E))
+	{
+		if (count % 10 == 0)
+		{
+			jewelCount_--;
+		}
+		count++
 	}
 }

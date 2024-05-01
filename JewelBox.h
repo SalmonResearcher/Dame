@@ -7,6 +7,8 @@ class JewelBox : public GameObject
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     Transform trBox_;
 
+    int jewel = 0;
+
     int anim_Start;
     int anim_End;
     int anim_Speed;
@@ -34,5 +36,7 @@ public:
     int GetModelHandle() { return hModel_; }
 
     void OnCollision(GameObject* pTarget);
+
+    void GetJewel(Player* pplayer);
 
 };
