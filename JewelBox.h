@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+class Player;
+
 //”[•i” ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class JewelBox : public GameObject
 {

@@ -56,7 +56,8 @@ void JewelBox::OnCollision(GameObject* pTarget)
         }
 }
 
-void JewelBox::AddJewel()
+void JewelBox::GetJewel(Player* pplayer)
 {
-    jewel++; 
+    jewel = pplayer->SendJewel();
 }
+

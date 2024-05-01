@@ -27,6 +27,7 @@ private:
 
     float attackStart;
     float attackEnd;
+    const float JEWEL_WEIGHT = 0.05f;
 
     const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
@@ -76,5 +77,10 @@ public:
     }
 
     void OnCollision(GameObject* pTarget)override;
+
+    int SendJewel()
+    {
+        return jewelCount_;
+    }
 };
 

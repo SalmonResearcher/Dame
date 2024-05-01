@@ -15,7 +15,7 @@
 
 //コンストラクタ
 Jewel::Jewel(GameObject* parent)
-    :GameObject(parent, "Jewel"), hModel_(-1), time(0),jewelRotate_(false)
+    :GameObject(parent, "Jewel"), hModel_(-1), time_(0),jewelRotate_(false)
 {
 
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.5f, 0), 0.8f);
@@ -30,12 +30,16 @@ Jewel::~Jewel()
 //初期化
 void Jewel::Initialize()
 {
+
+    srand(time(NULL));
+
+    trJewel_.position_.x = rand() % 60 - 30;
+    trJewel_.position_.z = rand() % 60 - 30;
+
     hModel_ = Model::Load("Jewel.fbx");
     assert(hModel_ >= 0);
 
     hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
-
-    trJewel_.position_.x = 10;
 
     RayCastData data;
     data.start = { trJewel_.position_ };   //レイの発射位置
@@ -44,29 +48,18 @@ void Jewel::Initialize()
 
     if (data.hit)
     {
-        //if (data.dist <= 0.1f)
-        //{
-        //    grabity_ = 0.0f;
-        //}
-        //else
-        //{
-        //    grabity_ = 0.2f;
-        //}
-
-        //trJewel_.position_.y -= grabity_;
         trJewel_.position_.y = -data.dist;
     }
-
 }
 
 //更新
 void Jewel::Update()
 {
 
-    //trJewel_.position_.y = (float)sin(time)/50;
+
 
     // メインのプログラム
-    if (time % 90 == 0) {
+    if (time_ % 90 == 0) {
         jewelRotate_ = true;
     }
 
@@ -81,7 +74,7 @@ void Jewel::Update()
         }
     }
 
-    time++;
+    time_++;
     transform_ = trJewel_;
 }
 

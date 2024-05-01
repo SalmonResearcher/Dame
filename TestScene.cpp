@@ -25,15 +25,11 @@ void TestScene::Initialize()
 //çXêV
 void TestScene::Update()
 {
-	if (FindObject("Jewel") == nullptr)
-	{
 		if (count % 60 == 0)
 		{
-			Instantiate<Jewel>(this);
-
+			Jewel* pJewel = Instantiate<Jewel>(this);
 		}
 		count++;
-	}
 }
 
 //ï`âÊ

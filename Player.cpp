@@ -44,7 +44,7 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 0.2f;
+			moveY += 0.2f * weight_;
 		}
 		
 		else if (isJumping)
@@ -294,6 +294,11 @@ void Player::Update()
 
 	Debug::Log("weight = ");
 	Debug::Log(weight_, true);
+
+	//too heavy, more heavy
+	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
+
+
 	Debug::Log("wjewelCOunt = ");
 	Debug::Log(jewelCount_, true);
 
@@ -331,18 +336,21 @@ void Player::OnCollision(GameObject* pTarget)
 		pTarget->KillMe();
 		jewelCount_++;
 
-		//too heavy, more heavy
-		weight_ = 1 - min(1, jewelCount_ * 0.05);
-		
-
 	}
 
-	if (pTarget->GetObjectName() == "Box" && Input::IsKey(DIK_E))
+	if (pTarget->GetObjectName() == "JewelBox")
 	{
-		if (count % 10 == 0)
+		if (Input::IsKey(DIK_E))
 		{
-			jewelCount_--;
+			if (count % 10 == 0 && !(jewelCount_ < 1))
+			{
+				jewelCount_--;
+			}
+			count++;
+
 		}
-		count++
 	}
+	Debug::Log("¡G‚Á‚Ä‚é‚Ì = ");
+	Debug::Log(pTarget->GetObjectName(), true);
+
 }
