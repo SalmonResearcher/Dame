@@ -37,6 +37,7 @@ void Enemy::Initialize()
 void Enemy::Update()
 {
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
 
 	RayCastData data;
 	data.start = { transEnemy_.position_.x,0,transEnemy_.position_.z };   //ƒŒƒC‚Ì”­ËˆÊ’u

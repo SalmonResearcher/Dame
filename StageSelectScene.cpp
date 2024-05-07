@@ -8,7 +8,7 @@
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
-	: GameObject(parent, "StageSelectScene"),pText(nullptr),hImage_(-1)
+	: GameObject(parent, "StageSelectScene"), pText(nullptr), hImage_{-1,-1}
 {
 	//ステージプレビューモデル変数の初期化
 	for (int i = 0; i < MAX_STAGE; i++)
@@ -38,13 +38,13 @@ void StageSelectScene::Initialize()
 	for (int i = 0; i < 2; i++)
 	{
 		hImage_[i] = Image::Load(imageName[i]);
+		trImage_[i].position_ = XMFLOAT3(0.5, 0, 0);
+		trImage_[i].scale_ = XMFLOAT3(1, 1, 1);
 	}
 	trStage[STAGE1].position_ = { 0,0,0 };
 	trStage[STAGE2].position_ = { 8,0,0 };
 	trStage[STAGE3].position_ = { 16,0,0 };
 
-	trImage_[i].position_ = XMFLOAT3(0.5, 0, 0);
-	trImage_.scale_ = XMFLOAT3(1, 1, 1);
 
 
 	cameraPos = {2,2,-5 };
@@ -184,8 +184,11 @@ void StageSelectScene::Draw()
 	pText->Draw(30, 30, "flg = ");
 	pText->Draw(240, 30, flg);
 
-	Image::SetTransform(hImage_, trImage_);
-	Image::Draw(hImage_);
+	for (int i = 0; i < 2; i++)
+	{
+		Image::SetTransform(hImage_[i], trImage_[i]);
+		Image::Draw(hImage_[i]);
+	}
 
 }
 
