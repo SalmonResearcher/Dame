@@ -177,6 +177,9 @@
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\State\BossSpawn.cpp" />
+    <ClCompile Include="SecretScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="Enemy\State\BossSpawn.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
+    <ClInclude Include="SecretScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

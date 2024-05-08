@@ -8,6 +8,8 @@
 #include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
 
+#include "Engine/SceneManager.h"
+
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), dash(1),jewelCount_(0), weight_(1)
 {
@@ -302,6 +304,13 @@ void Player::Update()
 
 	Debug::Log("wjewelCOunt = ");
 	Debug::Log(jewelCount_, true);
+
+
+	if (tPlayer_.position_.y <= -60)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_SECRET);
+	}
 
 }
 

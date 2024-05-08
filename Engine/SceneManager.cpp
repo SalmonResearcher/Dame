@@ -3,6 +3,7 @@
 #include "../TestScene.h"
 #include "../TitleScene.h"
 #include "../StageSelectScene.h"
+#include "../SecretScene.h"
 //#include "../GameScene.h"
 //#include "../GameOverScene.h"
 
@@ -22,9 +23,9 @@ SceneManager::SceneManager(GameObject * parent)
 void SceneManager::Initialize()
 {
 	//最初のシーンを準備
-	currentSceneID_ = SCENE_ID_SELECT;
+	currentSceneID_ = SCENE_ID_SECRET;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<StageSelectScene>(this);
+	Instantiate<SecretScene>(this);
 }
 
 //更新
@@ -49,6 +50,7 @@ void SceneManager::Update()
 		case SCENE_ID_SELECT:Instantiate<StageSelectScene>(this); break;
 //		case SCENE_ID_GAME: Instantiate<GameScene>(this); break;
 //		case SCENE_ID_OVER: Instantiate<GameOverScene>(this); break;
+		case SCENE_ID_SECRET:Instantiate<SecretScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;

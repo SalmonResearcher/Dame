@@ -72,7 +72,7 @@ void Enemy::Update()
 
 
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
-	ChasePlayer(target_, 0.01f);
+	ChasePlayer(target_, 0.05f);
 
 	transform_.position_ = transEnemy_.position_;
 }
