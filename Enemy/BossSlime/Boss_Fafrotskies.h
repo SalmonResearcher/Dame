@@ -45,5 +45,6 @@ public:
     //ˆø”FpTarget “–‚½‚Á‚½‘Šè
     void OnCollision(GameObject* pTarget) override;
 
+    void ChasePlayer(XMFLOAT3& target_, float speed);
 
 };

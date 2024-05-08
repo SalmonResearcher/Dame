@@ -99,8 +99,13 @@ void Fafro::Update()
 
 	}
 
+	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+	ChasePlayer(target_, 0.0f);
+
+
 	transform_.position_ = transFafro_.position_;
 	gloTime++;
+
 }
 
 //ï`âÊ
@@ -125,4 +130,17 @@ void Fafro::OnCollision(GameObject* pTarget)
 		Model::SetAnimFrame(hModel_, 150, 170, 1.0f);
 		
 	}
+}
+
+void Fafro::ChasePlayer(XMFLOAT3& target_, float speed)
+{
+	XMVECTOR vTarget_ = XMLoadFloat3(&target_);
+	XMVECTOR vPosition_ = XMLoadFloat3(&transFafro_.position_);
+	XMVECTOR direction_ = XMVectorSubtract(vTarget_, vPosition_);
+
+	direction_ = XMVector3Normalize(direction_);//ê≥ãKâª
+
+	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
+	XMStoreFloat3(&transFafro_.position_, newVecPos_);
+
 }

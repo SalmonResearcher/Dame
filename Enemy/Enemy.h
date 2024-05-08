@@ -11,10 +11,13 @@ class Enemy : public GameObject
 
     Transform transEnemy_;
 
-    XMVECTOR position_; //é©êgÇÃÇ¢Çø
-    XMVECTOR target_;
-    float moveY = 0.0f;
+    XMVECTOR vPosition_; //é©êgÇÃÇ¢Çø
+    XMFLOAT3 target_;
+    XMVECTOR vTarget_;
+    XMVECTOR direction_;
 
+    float moveY = 0.0f;
+    float speed = 0.5f;
     bool isJumping;
     int startFrame;
     int endFrame;
@@ -48,5 +51,5 @@ public:
     //à¯êîÅFpTarget ìñÇΩÇ¡ÇΩëäéË
     void OnCollision(GameObject* pTarget) override;
 
-
+    void ChasePlayer(XMFLOAT3& target_, float speed);
 };

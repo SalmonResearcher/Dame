@@ -37,7 +37,8 @@ void Enemy::Initialize()
 void Enemy::Update()
 {
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
-	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+
+
 
 	RayCastData data;
 	data.start = { transEnemy_.position_.x,0,transEnemy_.position_.z };   //ÉåÉCÇÃî≠éÀà íu
@@ -70,6 +71,8 @@ void Enemy::Update()
 	//SetTargetPosition()
 
 
+	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+	ChasePlayer(target_, 0.01f);
 
 	transform_.position_ = transEnemy_.position_;
 }
@@ -93,4 +96,16 @@ void Enemy::OnCollision(GameObject* pTarget)
 	{
 		KillMe();
 	}
+}
+
+void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
+{
+	vTarget_ = XMLoadFloat3(&target_);
+	vPosition_ = XMLoadFloat3(&transEnemy_.position_);
+	direction_ = XMVectorSubtract(vTarget_, vPosition_);
+
+	direction_ = XMVector3Normalize(direction_);//ê≥ãKâª
+
+	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
+	XMStoreFloat3(&transEnemy_.position_, newVecPos_);
 }
