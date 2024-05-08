@@ -304,14 +304,6 @@ void Player::Update()
 
 	Debug::Log("wjewelCOunt = ");
 	Debug::Log(jewelCount_, true);
-
-
-	if (tPlayer_.position_.y <= -60)
-	{
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_SECRET);
-	}
-
 }
 
 

@@ -52,4 +52,6 @@ public:
     void OnCollision(GameObject* pTarget) override;
 
     void ChasePlayer(XMFLOAT3& target_, float speed);
+
+    float CalculateRotationFromDirection(const XMVECTOR& direction);
 };

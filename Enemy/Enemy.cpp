@@ -45,25 +45,10 @@ void Enemy::Update()
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
-	RayCastData play;
-	play.start = { transEnemy_.position_.x,transEnemy_.position_.y + 0.3f,transEnemy_.position_.z };   //レイの発射位置
-	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hStage_, &play); //レイを発射
 
 	if (data.hit)
 	{
-		if (play.dist <= 0.25 && isJumping)
-		{
-			moveY = 0.0f;
-			isJumping = false;
-		}
-
-		if (!isJumping)
-		{
-			transEnemy_.position_.y = -data.dist;
-		}
-
-		transEnemy_.position_.y += moveY;
+		transEnemy_.position_.y = -data.dist;
 	}
 	//transEnemy_.position_.z += 0.03f;
 
@@ -72,7 +57,7 @@ void Enemy::Update()
 
 
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
-	ChasePlayer(target_, 0.05f);
+	ChasePlayer(target_, 0.1f);
 
 	transform_.position_ = transEnemy_.position_;
 }
@@ -108,4 +93,8 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
 	XMStoreFloat3(&transEnemy_.position_, newVecPos_);
+
+	// 敵の方向をプレイヤーの方向に向ける
+	transEnemy_.rotate_.y = 
 }
+
