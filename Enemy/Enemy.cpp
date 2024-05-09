@@ -87,14 +87,19 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 {
 	vTarget_ = XMLoadFloat3(&target_);
 	vPosition_ = XMLoadFloat3(&transEnemy_.position_);
-	direction_ = XMVectorSubtract(vTarget_, vPosition_);
+	direction_ = XMVectorSubtract(vTarget_, vPosition_);	//プレイヤーに向かって伸びているベクトル
 
 	direction_ = XMVector3Normalize(direction_);//正規化
+
 
 	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
 	XMStoreFloat3(&transEnemy_.position_, newVecPos_);
 
-	// 敵の方向をプレイヤーの方向に向ける
-	transEnemy_.rotate_.y = 
+	XMVECTOR playerToEnemy = XMVectorSubtract(vTarget_,vPosition_ );	//プレイヤーに向かって伸びているベクトル
+	float angle = atan2(XMVectorGetZ(playerToEnemy), XMVectorGetX(playerToEnemy));
+
+	float angleDeg = XMConvertToDegrees(angle);
+
+	transEnemy_.rotate_.y = angleDeg;
 }
 

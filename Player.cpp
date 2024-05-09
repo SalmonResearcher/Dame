@@ -267,7 +267,8 @@ void Player::Update()
 	//プレイヤーの水平方向の角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
 
-	// プレイヤーの回転を更新
+
+	//// プレイヤーの回転を更新
 	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
 
 	//playerYawの+-1.5がちょうど右横から左横って感じ
