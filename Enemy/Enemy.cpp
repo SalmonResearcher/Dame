@@ -6,7 +6,7 @@
 #include "../Engine/SphereCollider.h"
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-    :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),isJumping(false),startFrame(0),endFrame(100),animeSpeed(1)
+    :GameObject(parent, "Enemy"), hModel_(-1),hStage_(-1),startFrame(0),endFrame(100),animeSpeed(1)
 {
 }
 
@@ -20,7 +20,6 @@ void Enemy::Initialize()
 {
     hModel_ = Model::Load("Slime.fbx");
     assert(hModel_ >= 0);
-	Model::SetAnimFrame(hModel_,0,100,1.0f);
 
 	transEnemy_.scale_ = { 0.7f ,0.7f,0.7f};
 
@@ -30,7 +29,7 @@ void Enemy::Initialize()
 
 	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0.8f,0), 1.25f);
 	AddCollider(pSpher);
-
+	states = MOVE;
 }
 
 //更新
@@ -50,16 +49,38 @@ void Enemy::Update()
 	{
 		transEnemy_.position_.y = -data.dist;
 	}
+
+	switch (states)
+	{
+	case MOVE:
+		target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+		ChasePlayer(target_, 0.1f);
+		break;
+
+	case ATTACK:
+		break;
+
+	case DEATH:
+		break;
+
+	default:
+		states = DEATH;
+		break;
+
+	}
 	//transEnemy_.position_.z += 0.03f;
 
 	//プレイヤーのもとに駆け付けられるように
 	//SetTargetPosition()
 
 
-	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
-	ChasePlayer(target_, 0.1f);
+
+
+
+
 
 	transform_.position_ = transEnemy_.position_;
+
 }
 
 //描画
@@ -79,27 +100,40 @@ void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack")
 	{
-		KillMe();
+		Death();
 	}
 }
 
 void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 {
+
 	vTarget_ = XMLoadFloat3(&target_);
 	vPosition_ = XMLoadFloat3(&transEnemy_.position_);
-	direction_ = XMVectorSubtract(vTarget_, vPosition_);	//プレイヤーに向かって伸びているベクトル
 
-	direction_ = XMVector3Normalize(direction_);//正規化
+	//ターゲットに向かって伸びているベクトル
+	direction_ = XMVectorSubtract(vTarget_, vPosition_);
+	//正規化
+	direction_ = XMVector3Normalize(direction_);
 
-
+	//direction_の方向にspeedぶん動く
 	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
 	XMStoreFloat3(&transEnemy_.position_, newVecPos_);
 
-	XMVECTOR playerToEnemy = XMVectorSubtract(vTarget_,vPosition_ );	//プレイヤーに向かって伸びているベクトル
-	float angle = atan2(XMVectorGetZ(playerToEnemy), XMVectorGetX(playerToEnemy));
+	// 方向ベクトルから角度を求める
+	float angle = atan2( XMVectorGetX(direction_), XMVectorGetZ(direction_)); // atan2(z, x)を使用して角度を計算
 
-	float angleDeg = XMConvertToDegrees(angle);
+	// 角度を度数法に変換する（ラジアンから度に変換）
+	angle = XMConvertToDegrees(angle);
 
-	transEnemy_.rotate_.y = angleDeg;
+	//そのまま入れてみたり（うまくいかん）
+	transEnemy_.rotate_.y = angle;
 }
 
+void Enemy::AttackPlayer()
+{
+}
+
+void Enemy::Death() 
+{
+	
+}

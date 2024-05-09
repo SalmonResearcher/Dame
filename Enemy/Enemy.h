@@ -2,12 +2,22 @@
 #include "../Engine/GameObject.h"
 #include "../Player.h"
 
+enum STATE{
+    MOVE,
+    ATTACK,
+    DEATH,
+    MAX
+};
+
+
 class Enemy : public GameObject
 {
     int hModel_;    //モデル番号
 
     int hStage_;
     int hPlayer_;
+
+    STATE states;
 
     Transform transEnemy_;
 
@@ -18,11 +28,12 @@ class Enemy : public GameObject
 
     float moveY = 0.0f;
     float speed = 0.5f;
-    bool isJumping;
+
     int startFrame;
     int endFrame;
     float animeSpeed;
  
+    bool isLive = true;
 
 public:
     //コンストラクタ
@@ -53,5 +64,9 @@ public:
 
     void ChasePlayer(XMFLOAT3& target_, float speed);
 
-    float CalculateRotationFromDirection(const XMVECTOR& direction);
+    void AttackPlayer();
+    
+    void Death();
+
+    void 
 };
