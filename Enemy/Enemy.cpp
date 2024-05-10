@@ -127,6 +127,10 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	angle = XMConvertToDegrees(angle);
 
 	transEnemy_.rotate_.y = angle;
+
+	sqrtf(pow((target_.x - transEnemy_.position_.x), 2) + pow((target_.z - transEnemy_.position_.z), 2))
+
+	if()
 }
 
 void Enemy::AttackPlayer()
