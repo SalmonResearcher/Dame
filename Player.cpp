@@ -211,8 +211,6 @@ void Player::Update()
 		vecPlayer_ += leftRightMove;
 	}
 
-	XMStoreFloat3(&movePlayer, vecPlayer_);
-
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
 

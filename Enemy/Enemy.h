@@ -18,6 +18,7 @@ class Enemy : public GameObject
     int hPlayer_;
 
     STATE states;
+    int prevState;
 
     Transform transEnemy_;
 
@@ -68,5 +69,5 @@ public:
     
     void Death();
 
-    void 
+    
 };

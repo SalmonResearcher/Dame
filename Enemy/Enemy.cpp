@@ -3,6 +3,7 @@
 #include "../Player.h"
 #include "../Engine/Input.h"
 #include "../Engine/Model.h"
+#include "../Engine/Debug.h"
 #include "../Engine/SphereCollider.h"
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
@@ -30,6 +31,7 @@ void Enemy::Initialize()
 	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0.8f,0), 1.25f);
 	AddCollider(pSpher);
 	states = MOVE;
+	prevState = states;
 }
 
 //更新
@@ -55,6 +57,10 @@ void Enemy::Update()
 	case MOVE:
 		target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
 		ChasePlayer(target_, 0.1f);
+		Debug::Log("距離？＝");
+		Debug::Log(sqrtf(pow((target_.x - transEnemy_.position_.x),2) +
+			pow((target_.z - transEnemy_.position_.z), 2)),true);
+		
 		break;
 
 	case ATTACK:
@@ -74,13 +80,8 @@ void Enemy::Update()
 	//SetTargetPosition()
 
 
-
-
-
-
-
 	transform_.position_ = transEnemy_.position_;
-
+	prevState = states;
 }
 
 //描画
@@ -119,13 +120,12 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	XMVECTOR newVecPos_ = XMVectorAdd(vPosition_, XMVectorScale(direction_, speed));
 	XMStoreFloat3(&transEnemy_.position_, newVecPos_);
 
-	// 方向ベクトルから角度を求める
+	// 敵からプレイヤーに向かう方向ベクトルから角度を求める
 	float angle = atan2( XMVectorGetX(direction_), XMVectorGetZ(direction_)); // atan2(z, x)を使用して角度を計算
 
 	// 角度を度数法に変換する（ラジアンから度に変換）
 	angle = XMConvertToDegrees(angle);
 
-	//そのまま入れてみたり（うまくいかん）
 	transEnemy_.rotate_.y = angle;
 }
 
