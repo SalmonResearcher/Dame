@@ -2,7 +2,7 @@
 #include "../Engine/GameObject.h"
 #include "../Player.h"
 
-enum STATE{
+enum STATE {
     MOVE,
     ATTACK,
     DEATH,
@@ -18,14 +18,17 @@ class Enemy : public GameObject
     int hPlayer_;
 
     STATE states;
-    int prevState;
+    int curState;//1f前の状態
+    bool isChange;//ステートを変更するかどうか（アニメーションの設定の際に使用）
 
-    Transform transEnemy_;
+    Transform tEnemy_;
 
     XMVECTOR vPosition_; //自身のいち
     XMFLOAT3 target_;
     XMVECTOR vTarget_;
     XMVECTOR direction_;
+    float toPlayerdir;  //プレイヤーまでの直線距離
+
 
     float moveY = 0.0f;
     float speed = 0.5f;
@@ -33,8 +36,7 @@ class Enemy : public GameObject
     int startFrame;
     int endFrame;
     float animeSpeed;
- 
-    bool isLive = true;
+    int waitTime = 0;
 
 public:
     //コンストラクタ
@@ -66,8 +68,10 @@ public:
     void ChasePlayer(XMFLOAT3& target_, float speed);
 
     void AttackPlayer();
-    
+
     void Death();
+
+    void ChangeAnime(STATE state);
 
     
 };

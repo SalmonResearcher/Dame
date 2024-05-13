@@ -32,11 +32,11 @@ void Attack::Update()
     transform_.position_.y = move_.y;
     transform_.position_.z = move_.z;
 
-    if (time >= 1)
+    if (time <= 0)
     {
         KillMe();
     }
-    time++;
+    time--;
 
 }
 
@@ -52,8 +52,4 @@ void Attack::Release()
 
 void Attack::OnCollision(GameObject* pTarget)
 {
-    if (pTarget->GetObjectName() == "Enemy")
-    {
-
-    }
 }

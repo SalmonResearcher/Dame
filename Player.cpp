@@ -290,6 +290,11 @@ void Player::Update()
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
+		pAtk->SetTime(2);
+		if (pAtk->GetObjectName() == "Enemy")
+		{
+			pAtk->Get;
+		}
 	}
 	Debug::Log("ishit = ");
 	Debug::Log(isHit, true);
