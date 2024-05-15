@@ -268,7 +268,7 @@ void Player::Update()
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
 
-	if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)))
+	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);

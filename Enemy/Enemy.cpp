@@ -4,7 +4,7 @@
 #include "../Engine/Input.h"
 #include "../Engine/Model.h"
 #include "../Engine/Debug.h"
-#include "../Engine/SphereCollider.h"
+#include "../EnemyAttack.h"
 
 
 //コンストラクタ
@@ -30,10 +30,13 @@ void Enemy::Initialize()
 	tEnemy_.position_.y = target_.y;
 	tEnemy_.position_.z = 5;
 
-	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0, 0.8f, 0), 1.25f);
 	AddCollider(pSpher);
 	Model::SetAnimFrame(hModel_, 0, 100, 1);
 	states = MOVE;
+
+	EnemyAttack* pEAtk = Instantiate<EnemyAttack>(GetParent());
+	pEAtk->SetTime();
+
 }
 
 //更新
@@ -73,6 +76,8 @@ void Enemy::Update()
 
 	case ATTACK:
 		AttackPlayer();
+		bonepos = Model::GetBonePosition(hModel_, "middle");
+		transform_.position_ = (bonepos);
 		break;
 
 	case DEATH:
@@ -95,7 +100,7 @@ void Enemy::Update()
 		curState = states;
 	}
 	transform_.position_ = tEnemy_.position_;
-
+	
 }
 
 //描画
@@ -145,7 +150,6 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 void Enemy::AttackPlayer()
 {
-
 }
 
 void Enemy::Death()
@@ -174,3 +178,4 @@ void Enemy::ChangeAnime(STATE state)
 		break;
 	}
 }
+

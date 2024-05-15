@@ -1,5 +1,7 @@
 #pragma once
 #include "../Engine/GameObject.h"
+#include "../Engine/SphereCollider.h"
+
 #include "../Player.h"
 
 enum STATE {
@@ -13,6 +15,8 @@ enum STATE {
 class Enemy : public GameObject
 {
     int hModel_;    //モデル番号
+    SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0, 0.8f, 0), 1.25f);
+
 
     int hStage_;
     int hPlayer_;
@@ -29,7 +33,7 @@ class Enemy : public GameObject
     XMVECTOR direction_;
     float toPlayerdir;  //プレイヤーまでの直線距離
 
-
+    XMFLOAT3 bonepos;
     float moveY = 0.0f;
     float speed = 0.5f;
 
@@ -73,5 +77,4 @@ public:
 
     void ChangeAnime(STATE state);
 
-    
 };
