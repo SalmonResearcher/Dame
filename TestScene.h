@@ -17,6 +17,9 @@ class TestScene : public GameObject
 	Jewel* pJewel;
 	Enemy* pEnemy;
 
+	Transform tjewel_;
+
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

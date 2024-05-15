@@ -31,11 +31,6 @@ Jewel::~Jewel()
 void Jewel::Initialize()
 {
 
-    srand(time(NULL));
-
-    trJewel_.position_.x = rand() % 60 - 30;
-    trJewel_.position_.z = rand() % 60 - 30;
-
     hModel_ = Model::Load("Jewel.fbx");
     assert(hModel_ >= 0);
 

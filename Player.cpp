@@ -213,6 +213,8 @@ void Player::Update()
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
+	
+
 
 	//カメラ移動
 	XMStoreFloat3(&tCamera.position_, nowVec);
@@ -223,25 +225,7 @@ void Player::Update()
 	//カメラ注視点
 	XMFLOAT3 camTarget = tPlayer_.position_;
 
-	//1F前の高さ
-	static 	XMFLOAT3 prevPos = tPlayer_.position_;
-
-	smoothCam.x = camTarget.x;
-	smoothCam.y = camTarget.y - (camTarget.y - prevPos.y) / 2;
-	smoothCam.z = camTarget.z;
-
-	if (smoothCam.x < 0.01f)
-		smoothCam.x = camTarget.x;
-
-	if ((camTarget.y - prevPos.y) / 2 < 0.01f)
-		smoothCam.y = camTarget.y;
-
-	if (smoothCam.z < 0.01f)
-		smoothCam.z = camTarget.z;
-
-	prevPos.y = smoothCam.y;
-
-	Camera::SetTarget(smoothCam);
+	Camera::SetTarget(camTarget);
 
 	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
 
@@ -284,17 +268,13 @@ void Player::Update()
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
 
-	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
+	if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)))
 	{
-
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		pAtk->SetMove(camTarget);
 		pAtk->SetPosition(camTarget);
 		pAtk->SetTime(2);
-		if (pAtk->GetObjectName() == "Enemy")
-		{
-			pAtk->Get;
-		}
+
 	}
 	Debug::Log("ishit = ");
 	Debug::Log(isHit, true);

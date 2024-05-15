@@ -20,14 +20,22 @@ void TestScene::Initialize()
 	Enemy* pEnemy = Instantiate<Enemy>(this);
 	Fafro* pFaf = Instantiate<Fafro>(this);
 
+
 }
 
 //çXêV
 void TestScene::Update()
 {
+	srand(time(NULL));
+
+	tjewel_.position_.x = rand() % 60 - 30;
+	tjewel_.position_.z = rand() % 60 - 30;
+
+
 		if (count % 60 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
+			pJewel->SetPosition(tjewel_.position_.x,tjewel_.position_.y ,tjewel_.position_.z);
 		}
 		count++;
 }
