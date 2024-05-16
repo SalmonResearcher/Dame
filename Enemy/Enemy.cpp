@@ -31,6 +31,7 @@ void Enemy::Initialize()
 	tEnemy_.position_.z = 5;
 
 	AddCollider(pSpher);
+
 	Model::SetAnimFrame(hModel_, 0, 100, 1);
 	states = MOVE;
 
@@ -42,9 +43,9 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
+
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
-	Model::GetBonePosition(hModel_, "AttackPos");
 
 	RayCastData data;
 	data.start = { tEnemy_.position_.x,0,tEnemy_.position_.z };   //レイの発射位置
@@ -76,8 +77,6 @@ void Enemy::Update()
 
 	case ATTACK:
 		AttackPlayer();
-		bonepos = Model::GetBonePosition(hModel_, "middle");
-		transform_.position_ = (bonepos);
 		break;
 
 	case DEATH:
@@ -99,8 +98,10 @@ void Enemy::Update()
 		ChangeAnime(states);
 		curState = states;
 	}
-	transform_.position_ = tEnemy_.position_;
 	
+	transform_.position_ = (bonepos);
+
+	transform_.position_ = tEnemy_.position_;
 }
 
 //描画
@@ -150,6 +151,8 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 void Enemy::AttackPlayer()
 {
+	bonepos = Model::GetBonePosition(hModel_, "middle");
+	transform_.position_ = bonepos;
 }
 
 void Enemy::Death()
