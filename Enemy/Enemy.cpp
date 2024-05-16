@@ -43,7 +43,13 @@ void Enemy::Initialize()
 //XV
 void Enemy::Update()
 {
-
+	bonepos = Model::GetBonePosition(hModel_, "root");
+	Debug::Log("Bone.x = ");
+	Debug::Log(bonepos.x,true);
+	Debug::Log("Bone.y = ");
+	Debug::Log(bonepos.y,true);
+	Debug::Log("Bone.z = ");
+	Debug::Log(bonepos.z,true);
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 
@@ -99,9 +105,10 @@ void Enemy::Update()
 		curState = states;
 	}
 	
-	transform_.position_ = (bonepos);
 
 	transform_.position_ = tEnemy_.position_;
+	transform_.position_ = (bonepos);
+
 }
 
 //•`‰æ
