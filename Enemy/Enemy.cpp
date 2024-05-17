@@ -29,7 +29,9 @@ void Enemy::Initialize()
 	tEnemy_.position_.x = target_.x;
 	tEnemy_.position_.y = target_.y;
 	tEnemy_.position_.z = 5;
+	bonepos = Model::GetBonePosition(hModel_, "root");
 
+	SphereCollider* pSpher = new SphereCollider(bonepos, 1.25f);
 	AddCollider(pSpher);
 
 	Model::SetAnimFrame(hModel_, 0, 100, 1);
@@ -71,8 +73,8 @@ void Enemy::Update()
 		toPlayerdir = sqrtf(pow((target_.x - tEnemy_.position_.x), 2) + pow((target_.z - tEnemy_.position_.z), 2));
 
 
-		ChasePlayer(target_, 0.1f);
-		if (toPlayerdir < 0.5f)
+		//ChasePlayer(target_, 0.1f);
+		if (toPlayerdir < 3.2f)
 		{
 			states = ATTACK;
 		}
@@ -105,9 +107,8 @@ void Enemy::Update()
 		curState = states;
 	}
 	
-
-	transform_.position_ = tEnemy_.position_;
 	transform_.position_ = (bonepos);
+	//transform_.position_ = tEnemy_.position_;
 
 }
 
@@ -158,8 +159,6 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 void Enemy::AttackPlayer()
 {
-	bonepos = Model::GetBonePosition(hModel_, "middle");
-	transform_.position_ = bonepos;
 }
 
 void Enemy::Death()

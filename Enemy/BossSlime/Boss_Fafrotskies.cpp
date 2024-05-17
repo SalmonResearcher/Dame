@@ -100,7 +100,7 @@ void Fafro::Update()
 	}
 
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
-	ChasePlayer(target_, 0.3f);
+	ChasePlayer(target_, 0.0f);
 
 
 	transform_.position_ = transFafro_.position_;

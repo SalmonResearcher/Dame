@@ -15,7 +15,6 @@ enum STATE {
 class Enemy : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
-    SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0, 0.8f, 0), 1.25f);
 
 
     int hStage_;
