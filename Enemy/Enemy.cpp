@@ -29,9 +29,8 @@ void Enemy::Initialize()
 	tEnemy_.position_.x = target_.x;
 	tEnemy_.position_.y = target_.y;
 	tEnemy_.position_.z = 5;
-	bonepos = Model::GetBonePosition(hModel_, "root");
 
-	SphereCollider* pSpher = new SphereCollider(bonepos, 1.25f);
+	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
 	AddCollider(pSpher);
 
 	Model::SetAnimFrame(hModel_, 0, 100, 1);
@@ -39,12 +38,13 @@ void Enemy::Initialize()
 
 	EnemyAttack* pEAtk = Instantiate<EnemyAttack>(GetParent());
 	pEAtk->SetTime();
-
 }
 
 //更新
 void Enemy::Update()
 {
+
+	XMFLOAT3 bonePosition_ = Model::GetBonePosition(hModel_, "middle");
 	//追いかける＆攻撃するための
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
 	//プレイヤーまでの距離
@@ -100,6 +100,7 @@ void Enemy::Update()
 		{
 			KillMe();
 		}
+		bonepos = Model::GetBonePosition(hModel_,"middle");
 		waitTime--;
 		break;
 
@@ -120,8 +121,7 @@ void Enemy::Update()
 		curState = states;
 	}
 	
-	transform_.position_ = (bonepos);
-	//transform_.position_ = tEnemy_.position_;
+	transform_.position_ = tEnemy_.position_;
 
 }
 
@@ -140,7 +140,7 @@ void Enemy::Release()
 
 void Enemy::OnCollision(GameObject* pTarget)
 {
-	if (pTarget->GetObjectName() == "Attack")
+	if (pTarget->GetObjectName() == "Attack" && !isDead)
 	{
 		waitTime = 20;
 		Death();
@@ -177,7 +177,8 @@ void Enemy::AttackPlayer()
 
 void Enemy::Death()
 {
-	states = DEATH;
+		states = DEATH;
+		isDead = true;
 }
 
 void Enemy::ChangeAnime(STATE state)

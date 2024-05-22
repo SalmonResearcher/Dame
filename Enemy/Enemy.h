@@ -23,7 +23,6 @@ class Enemy : public GameObject
 {
     int hModel_;    //モデル番号
 
-
     int hStage_;
     int hPlayer_;
 
@@ -48,7 +47,7 @@ class Enemy : public GameObject
     float animeSpeed;
     int waitTime = 0;
 
-
+    bool isDead = false;
 
 public:
     //コンストラクタ
