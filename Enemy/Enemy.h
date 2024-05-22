@@ -11,6 +11,13 @@ enum STATE {
     MAX
 };
 
+struct {
+    int startFrame;
+    int endFrame;
+    float animeSpeed;
+
+};
+
 
 class Enemy : public GameObject
 {
@@ -21,16 +28,16 @@ class Enemy : public GameObject
     int hPlayer_;
 
     STATE states;
-    int curState;//1f前の状態
-    bool isChange;//ステートを変更するかどうか（アニメーションの設定の際に使用）
+    int curState;   //1f前の状態
+    bool isChange;  //ステートを変更するかどうか（アニメーションの設定の際に使用）
 
     Transform tEnemy_;
 
-    XMVECTOR vPosition_; //自身のいち
-    XMFLOAT3 target_;
-    XMVECTOR vTarget_;
-    XMVECTOR direction_;
-    float toPlayerdir;  //プレイヤーまでの直線距離
+    XMVECTOR vPosition_;    //自身の位置ベクトル
+    XMFLOAT3 target_;       //プレイヤーの位置
+    XMVECTOR vTarget_;      //プレイヤーの位置ベクトル
+    XMVECTOR direction_;    //プレイヤーと敵の方向ベクトル
+    float toPlayerdir;      //プレイヤーまでの直線距離
 
     XMFLOAT3 bonepos;
     float moveY = 0.0f;
@@ -40,6 +47,8 @@ class Enemy : public GameObject
     int endFrame;
     float animeSpeed;
     int waitTime = 0;
+
+
 
 public:
     //コンストラクタ

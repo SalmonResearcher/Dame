@@ -45,7 +45,12 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
-	bonepos = Model::GetBonePosition(hModel_, "root");
+	//追いかける＆攻撃するための
+	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+	//プレイヤーまでの距離
+	toPlayerdir = sqrtf(pow((target_.x - tEnemy_.position_.x), 2) + pow((target_.z - tEnemy_.position_.z), 2));
+
+	bonepos = Model::GetBonePosition(hModel_, "middle");
 	Debug::Log("Bone.x = ");
 	Debug::Log(bonepos.x,true);
 	Debug::Log("Bone.y = ");
@@ -54,12 +59,10 @@ void Enemy::Update()
 	Debug::Log(bonepos.z,true);
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
-
 	RayCastData data;
 	data.start = { tEnemy_.position_.x,0,tEnemy_.position_.z };   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
-
 
 	if (data.hit)
 	{
@@ -69,13 +72,11 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
-		toPlayerdir = sqrtf(pow((target_.x - tEnemy_.position_.x), 2) + pow((target_.z - tEnemy_.position_.z), 2));
+		ChasePlayer(target_, 0.1f);
 
-
-		//ChasePlayer(target_, 0.1f);
-		if (toPlayerdir < 3.2f)
+		if (toPlayerdir < 5.0f)
 		{
+			waitTime = 36;
 			states = ATTACK;
 		}
 
@@ -84,10 +85,22 @@ void Enemy::Update()
 		break;
 
 	case ATTACK:
-		AttackPlayer();
+		ChasePlayer(target_, 0.0f);
+
+		if (waitTime <= 0 && toPlayerdir >= 4.0f)
+		{
+			states = MOVE;
+			waitTime = 0;
+		}
+		waitTime--;
 		break;
 
 	case DEATH:
+		if (waitTime <= 0)
+		{
+			KillMe();
+		}
+		waitTime--;
 		break;
 
 	default:
@@ -129,6 +142,7 @@ void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack")
 	{
+		waitTime = 20;
 		Death();
 	}
 }
@@ -163,7 +177,7 @@ void Enemy::AttackPlayer()
 
 void Enemy::Death()
 {
-
+	states = DEATH;
 }
 
 void Enemy::ChangeAnime(STATE state)
@@ -175,7 +189,7 @@ void Enemy::ChangeAnime(STATE state)
 		break;
 
 	case ATTACK:
-		Model::SetAnimFrame(hModel_, 110, 140, 1);
+		Model::SetAnimFrame(hModel_, 110, 140, 0.8);
 		break;
 
 	case DEATH:
