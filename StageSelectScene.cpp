@@ -6,6 +6,7 @@
 #include "Engine/Debug.h"
 #include "Engine/Camera.h"
 
+
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
 	: GameObject(parent, "StageSelectScene"), pText(nullptr), hImage_{-1,-1}
@@ -160,9 +161,6 @@ void StageSelectScene::Update()
 
 	yMoveTime += 0.06f;
 	timer++;
-
-	Debug::Log("flag = ");
-	Debug::Log(flg, true);
 }
 
 //描画

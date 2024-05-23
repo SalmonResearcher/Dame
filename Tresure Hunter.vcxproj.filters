@@ -180,9 +180,8 @@
     <ClCompile Include="SecretScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAttack.cpp">
-      <Filter>ToyBox\Enemy</Filter>
-    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp" />
+    <ClCompile Include="CharacterDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -316,9 +315,8 @@
     <ClInclude Include="SecretScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAttack.h">
-      <Filter>ToyBox\Enemy</Filter>
-    </ClInclude>
+    <ClInclude Include="EnemyAttack.h" />
+    <ClInclude Include="CharacterDisplay.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -9,7 +9,7 @@ class JewelBox : public GameObject
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     Transform trBox_;
 
-    int jewel = 0;
+    int jewel_ = 0;
 
     int anim_Start;
     int anim_End;
@@ -35,10 +35,10 @@ public:
     void Release() override;
 
     //ƒ‚ƒfƒ‹”Ô†‚ğ•Ô‚·
-    int GetModelHandle() { return hModel_; }
+    int GetModelHandle() { return hModel_; };
 
     void OnCollision(GameObject* pTarget);
 
-    void GetJewel(Player* pplayer);
+    int ReturnJewel() { return jewel_; };
 
 };

@@ -4,6 +4,9 @@
 #include "Enemy/Enemy.h"
 #include "Jewel.h"
 #include "Enemy/BossSlime/Boss_Fafrotskies.h"
+#include "JewelBox.h"
+#include "CharacterDisplay.h"
+
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -17,32 +20,37 @@ void TestScene::Initialize()
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
-	Enemy* pEnemy = Instantiate<Enemy>(this);
+	pEnemy = Instantiate<Enemy>(this);
 	Fafro* pFaf = Instantiate<Fafro>(this);
+	pBox = Instantiate<JewelBox>(this);
+	pDisplay = Instantiate<CharacterDisplay>(this);
 
+	pText = new Text;
+	pText->Initialize();
 
 }
 
 //更新
 void TestScene::Update()
 {
-	srand(time(NULL));
-
-	tjewel_.position_.x = rand() % 60 - 30;
-	tjewel_.position_.z = rand() % 60 - 30;
-
 
 		if (count % 60 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
-			pJewel->SetPosition(tjewel_.position_.x,tjewel_.position_.y ,tjewel_.position_.z);
 		}
 		count++;
+
+		jewel_ = pBox->ReturnJewel();
+		killCount_ = pPlayer->GetKillCount();
+		score_ = (jewel_ * 200) + (killCount_ * 25);
+
 }
 
 //描画
 void TestScene::Draw()
 {
+	pText->Draw(30, 30, score_);
+
 }
 
 //開放

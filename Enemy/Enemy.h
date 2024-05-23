@@ -4,6 +4,7 @@
 
 #include "../Player.h"
 
+
 enum STATE {
     MOVE,
     ATTACK,
@@ -42,10 +43,8 @@ class Enemy : public GameObject
     float moveY = 0.0f;
     float speed = 0.5f;
 
-    int startFrame;
-    int endFrame;
-    float animeSpeed;
     int waitTime = 0;
+    int killcount;
 
     bool isDead = false;
 

@@ -268,6 +268,8 @@ void Player::Update()
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
 
+
+	//‚­‚è‚Á‚­‚µ‚½‚ç
 	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
@@ -288,6 +290,8 @@ void Player::Update()
 
 	Debug::Log("wjewelCOunt = ");
 	Debug::Log(jewelCount_, true);
+
+	transform_ = tPlayer_;
 }
 
 
@@ -314,7 +318,6 @@ void Player::StageRay()
 void Player::OnCollision(GameObject* pTarget)
 {
 	isHit = false;
-	int count = 0;
 
 	if (pTarget->GetObjectName() == "Jewel")
 	{
@@ -328,11 +331,14 @@ void Player::OnCollision(GameObject* pTarget)
 	{
 		if (Input::IsKey(DIK_E))
 		{
-			if (count % 10 == 0 && !(jewelCount_ < 1))
+			if (onCollisionTime % 10 == 0 && !(jewelCount_ < 0))
 			{
 				jewelCount_--;
+				jewelDeliver_++;
+				onCollisionTime = 0;
+
 			}
-			count++;
+			onCollisionTime++;
 
 		}
 	}

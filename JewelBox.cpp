@@ -23,14 +23,14 @@ void JewelBox::Initialize()
     hModel_ = Model::Load("Box.fbx");
     assert(hModel_ >= 0);
 
-    trBox_.position_.y = -75;
+    trBox_.position_.y = -77;
 }
 
 //XV
 void JewelBox::Update()
 {
     transform_ = trBox_;
-    
+    jewel_=  ((Player*)FindObject("Player"))->SendJewel();
 }
 
 //•`‰æ
@@ -56,8 +56,5 @@ void JewelBox::OnCollision(GameObject* pTarget)
         }
 }
 
-void JewelBox::GetJewel(Player* pplayer)
-{
-    jewel = pplayer->SendJewel();
-}
+
 

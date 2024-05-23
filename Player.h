@@ -39,6 +39,12 @@ private:
     bool isJumping = false;
     bool isHit;
 
+    int onCollisionTime = 0;
+
+
+    int killCount_;
+    int jewelDeliver_;
+
 protected:
     PlayerStateManager* pState_;
 
@@ -78,9 +84,9 @@ public:
 
     void OnCollision(GameObject* pTarget)override;
 
-    int SendJewel()
-    {
-        return jewelCount_;
-    }
+    int SendJewel(){ return jewelDeliver_; }
+
+    void KillCountUp() { killCount_++; }
+    int GetKillCount() { return killCount_; }
 };
 

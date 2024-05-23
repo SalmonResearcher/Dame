@@ -1,10 +1,14 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Text.h"
 
 class Player;
 class Stage;
 class Jewel;
 class Enemy;
+class JewelBox;
+class CharacterDisplay;
+
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
@@ -12,13 +16,18 @@ class TestScene : public GameObject
 	int timer = 0;
 	int count = 0;
 
+	int jewel_;
+	int killCount_;
+	int score_ = 0;
+
 	Player* pPlayer;
 	Stage* pStage;
 	Jewel* pJewel;
 	Enemy* pEnemy;
+	JewelBox* pBox;
+	CharacterDisplay* pDisplay;
 
-	Transform tjewel_;
-
+	Text* pText;
 
 public:
 	//コンストラクタ

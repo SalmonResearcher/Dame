@@ -9,7 +9,7 @@
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), startFrame(0), endFrame(100), animeSpeed(1)
+	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1)
 {
 }
 
@@ -91,6 +91,7 @@ void Enemy::Update()
 	case DEATH:
 		if (waitTime <= 0)
 		{
+			((Player*)FindObject("Player"))->KillCountUp();
 			KillMe();
 		}
 		waitTime--;

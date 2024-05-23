@@ -26,7 +26,6 @@ void Stage::Initialize()
     hModel_2 = Model::Load("SkySphere.fbx");
     assert(hModel_2 >= 0);
 
-    Instantiate<JewelBox>(this);
 }
 
 //XV
