@@ -43,20 +43,12 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
-
 	XMFLOAT3 bonePosition_ = Model::GetBonePosition(hModel_, "middle");
 	//追いかける＆攻撃するための
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
 	//プレイヤーまでの距離
 	toPlayerdir = sqrtf(pow((target_.x - tEnemy_.position_.x), 2) + pow((target_.z - tEnemy_.position_.z), 2));
 
-	bonepos = Model::GetBonePosition(hModel_, "middle");
-	Debug::Log("Bone.x = ");
-	Debug::Log(bonepos.x,true);
-	Debug::Log("Bone.y = ");
-	Debug::Log(bonepos.y,true);
-	Debug::Log("Bone.z = ");
-	Debug::Log(bonepos.z,true);
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	RayCastData data;
@@ -72,7 +64,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		ChasePlayer(target_, 0.1f);
+		ChasePlayer(target_, 0.2f);
 
 		if (toPlayerdir < 5.0f)
 		{
@@ -85,6 +77,7 @@ void Enemy::Update()
 		break;
 
 	case ATTACK:
+		Attack();
 		ChasePlayer(target_, 0.0f);
 
 		if (waitTime <= 0 && toPlayerdir >= 4.0f)
@@ -100,7 +93,6 @@ void Enemy::Update()
 		{
 			KillMe();
 		}
-		bonepos = Model::GetBonePosition(hModel_,"middle");
 		waitTime--;
 		break;
 
@@ -111,16 +103,14 @@ void Enemy::Update()
 	}
 	//tEnemy_.position_.z += 0.03f;
 
-	//プレイヤーのもとに駆け付けられるように
-	//SetTargetPosition()
-
-
 	if (curState != states)
 	{
 		ChangeAnime(states);
 		curState = states;
 	}
 	
+	tEnemy_.position_ ;
+
 	transform_.position_ = tEnemy_.position_;
 
 }
@@ -171,8 +161,9 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	tEnemy_.rotate_.y = angle;
 }
 
-void Enemy::AttackPlayer()
+void Enemy::Attack()
 {
+
 }
 
 void Enemy::Death()
@@ -202,4 +193,3 @@ void Enemy::ChangeAnime(STATE state)
 		break;
 	}
 }
-

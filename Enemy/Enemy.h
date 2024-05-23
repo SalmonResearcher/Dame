@@ -78,7 +78,7 @@ public:
 
     void ChasePlayer(XMFLOAT3& target_, float speed);
 
-    void AttackPlayer();
+    void Attack();
 
     void Death();
 
