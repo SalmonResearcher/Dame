@@ -331,7 +331,7 @@ void Player::OnCollision(GameObject* pTarget)
 	{
 		if (Input::IsKey(DIK_E))
 		{
-			if (onCollisionTime % 10 == 0 && !(jewelCount_ < 0))
+			if (onCollisionTime % 5 == 0 && !(jewelCount_ < 0))
 			{
 				jewelCount_--;
 				jewelDeliver_++;

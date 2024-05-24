@@ -8,7 +8,7 @@
 
 //コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
-	: GameObject(parent, "Title"),pText(nullptr)
+	: GameObject(parent, "CharacterDisplay"),pText(nullptr)
 {
 }
 
