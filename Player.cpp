@@ -292,6 +292,7 @@ void Player::Update()
 	Debug::Log(jewelCount_, true);
 
 	transform_ = tPlayer_;
+	transform_.rotate_ = tPlayer_.rotate_;
 }
 
 

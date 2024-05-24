@@ -26,12 +26,16 @@ void CharacterDisplay::Update()
 	jewel_ = ((JewelBox*)FindObject("JewelBox"))->ReturnJewel();
 
 	score_ = (jewel_ * 200) + (kill_ * 25);
+	if (up_ != score_)
+	{
+		up_ += 25;
+	}
 }
 
 //•`‰æ
 void CharacterDisplay::Draw()
 {
-	pText->Draw(30, 30, score_);
+	pText->Draw(30, 30, up_);
 }
 
 //ŠJ•ú

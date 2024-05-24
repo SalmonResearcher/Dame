@@ -20,7 +20,6 @@ void TestScene::Initialize()
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
-	pEnemy = Instantiate<Enemy>(this);
 	Fafro* pFaf = Instantiate<Fafro>(this);
 	pBox = Instantiate<JewelBox>(this);
 	pDisplay = Instantiate<CharacterDisplay>(this);
@@ -38,6 +37,13 @@ void TestScene::Update()
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
 		}
+
+		if (count % 30 == 0)
+		{
+			pEnemy = Instantiate<Enemy>(this);
+
+		}
+
 		count++;
 
 		jewel_ = pBox->ReturnJewel();

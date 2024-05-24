@@ -4,21 +4,20 @@
 
 
 
-class CharacterDisplay :public GameObject
+class JewelBullet :public GameObject
 {
 private:
 	Text* pText;
 
 	int kill_;
-	int jewel_;
 	int score_ = 0;
-	int up_ = 0;
+
 
 public:
 
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	CharacterDisplay(GameObject* parent);
+	JewelBullet(GameObject* parent);
 
 	//初期化
 	void Initialize() override;

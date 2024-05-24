@@ -75,8 +75,8 @@
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +128,6 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="CharacterDisplay.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
-    <ClCompile Include="EnemySpawnPoint.cpp" />
     <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
@@ -160,11 +159,11 @@
     <ClCompile Include="FadeIn_FadeOut.cpp" />
     <ClCompile Include="Jewel.cpp" />
     <ClCompile Include="JewelBox.cpp" />
+    <ClCompile Include="JewelBullet.cpp" />
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayerStateManager.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SecretScene.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
@@ -178,7 +177,6 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="CharacterDisplay.h" />
     <ClInclude Include="EnemyAttack.h" />
-    <ClInclude Include="EnemySpawnPoint.h" />
     <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
     <ClInclude Include="Enemy\Enemy.h" />
@@ -211,11 +209,11 @@
     <ClInclude Include="FadeIn_FadeOut.h" />
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />
+    <ClInclude Include="JewelBullet.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerStateManager.h" />
-    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SecretScene.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageSelectScene.h" />

@@ -64,7 +64,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		ChasePlayer(target_, 0.2f);
+		ChasePlayer(target_, 0.07f);
 
 		if (toPlayerdir < 5.0f)
 		{
