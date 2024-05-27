@@ -1,34 +1,38 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Engine/Text.h"
-
-
-
-class JewelBullet :public GameObject
+class JewelBullet :
+    public GameObject
 {
-private:
-	Text* pText;
+    int hModel_;    //モデル番号
+    int hStage_;
 
-	int kill_;
-	int score_ = 0;
+    Transform trJBullet_;
+    XMVECTOR jewelDir_;
+    int time_;
+    bool isJumping_;
 
 
 public:
+    //コンストラクタ
+    JewelBullet(GameObject* parent);
 
-	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
-	JewelBullet(GameObject* parent);
+    //デストラクタ
+    ~JewelBullet();
 
-	//初期化
-	void Initialize() override;
+    //初期化
+    void Initialize() override;
 
-	//更新
-	void Update() override;
+    //更新
+    void Update() override;
 
-	//描画
-	void Draw() override;
+    //描画
+    void Draw() override;
 
-	//開放
-	void Release() override;
+    //開放
+    void Release() override;
 
+    void Shoot();
+
+    //Jewel Shoot Direction / XMVECTOR Start, XMVECTOR End
+    void SetDirection(XMVECTOR _dirStart) { jewelDir_ = _dirStart; };
 };

@@ -136,6 +136,8 @@ void Enemy::OnCollision(GameObject* pTarget)
 		waitTime = 20;
 		Death();
 	}
+
+
 }
 
 void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Attack.h"
+#include "JewelBullet.h"
 #include "Enemy/Enemy.h"
 #include "math.h"
 
@@ -190,7 +191,7 @@ void Player::Update()
 		}
 	}
 
-	//プレイヤー移動（いつかステートで分ける）
+	//プレイヤー移動
 	if (Input::IsKey(DIK_W))
 	{
 		vecPlayer_ += frontMove;
@@ -278,6 +279,13 @@ void Player::Update()
 		pAtk->SetTime(2);
 
 	}
+
+	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)))
+	{
+		JewelBullet* pJB = Instantiate<JewelBullet>(GetParent());
+		pJB->SetDirection(frontMove);
+	}
+
 	Debug::Log("ishit = ");
 	Debug::Log(isHit, true);
 
@@ -286,10 +294,6 @@ void Player::Update()
 
 	//too heavy, more heavy
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
-
-
-	Debug::Log("wjewelCOunt = ");
-	Debug::Log(jewelCount_, true);
 
 	transform_ = tPlayer_;
 	transform_.rotate_ = tPlayer_.rotate_;

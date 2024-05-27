@@ -45,6 +45,7 @@ void Jewel::Initialize()
     {
         trJewel_.position_.y = -data.dist;
     }
+
 }
 
 //çXêV
