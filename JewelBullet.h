@@ -8,6 +8,7 @@ class JewelBullet :
 
     Transform trJBullet_;
     XMVECTOR jewelDir_;
+    XMFLOAT3 startPos_;
     int time_;
     bool isJumping_;
 
@@ -34,5 +35,6 @@ public:
     void Shoot();
 
     //Jewel Shoot Direction / XMVECTOR Start, XMVECTOR End
-    void SetDirection(XMVECTOR _dirStart) { jewelDir_ = _dirStart; };
+    void SetDirection(XMVECTOR _dir) { jewelDir_ = _dir; };
+    void SerPosition(XMFLOAT3 _pos) { startPos_ = _pos; };
 };

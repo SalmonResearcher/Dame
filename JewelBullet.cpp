@@ -46,18 +46,18 @@ void JewelBullet::Update()
     Model::RayCast(hStage_, &data); //レイを発射
 
 
-    //BulletMovementVector(idk what happen,I cant write japanese)
-    XMVECTOR frontMove = XMVectorSet(0, 0, 1, 0);		//z座標に動く速度
+    // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
+    XMVECTOR bulletInitPos = XMLoadFloat3(&startPos_) + (jewelDir_ * 2.0f);
+    XMStoreFloat3(&trJBullet_.position_, bulletInitPos);
 
-    jewelDir_ += frontMove;
+    // 弾丸の移動ベクトル = プレイヤーの前方ベクトル
+    XMVECTOR bulletMoveVector = jewelDir_;
 
+    // 弾丸の位置を更新
+    jewelDir_ += bulletMoveVector * 0.01f;
     XMStoreFloat3(&trJBullet_.position_, jewelDir_);
 
-    if (data.hit)
-    {
-        trJBullet_.position_.y = -data.dist;
-    }
-
+    // 描画処理など
     transform_ = trJBullet_;
 }
 

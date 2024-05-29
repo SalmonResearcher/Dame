@@ -250,15 +250,8 @@ void Player::Update()
 	//プレイヤーの水平方向の角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
 
-
 	//// プレイヤーの回転を更新
 	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
-
-	//playerYawの+-1.5がちょうど右横から左横って感じ
-	//Debug::Log(playerYaw);
-
-	attackStart = playerYaw + 1.5;
-	attackEnd = playerYaw - 1.5;
 
 	Debug::Log("x = ");
 	Debug::Log(tPlayer_.rotate_.x, true);
@@ -268,6 +261,14 @@ void Player::Update()
 
 	Debug::Log("z = ");
 	Debug::Log(tPlayer_.rotate_.z, true);
+
+	// プレイヤーの回転行列を作成
+	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
+		XMConvertToRadians(tPlayer_.rotate_.y),
+		XMConvertToRadians(tPlayer_.rotate_.z));
+
+	// プレイヤーの前方ベクトルを取得
+	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 
 
 	//くりっくしたら
@@ -279,11 +280,18 @@ void Player::Update()
 		pAtk->SetTime(2);
 
 	}
-
 	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)))
 	{
 		JewelBullet* pJB = Instantiate<JewelBullet>(GetParent());
-		pJB->SetDirection(frontMove);
+		// プレイヤーの回転行列を作成
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
+			XMConvertToRadians(tPlayer_.rotate_.y),
+			XMConvertToRadians(tPlayer_.rotate_.z));
+
+		// プレイヤーの前方ベクトルを取得
+		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f),playerRotMat);
+		pJB->SetPosition(tPlayer_.position_);
+		pJB->SetDirection(playerForwardVector);
 	}
 
 	Debug::Log("ishit = ");
