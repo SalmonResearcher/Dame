@@ -12,7 +12,7 @@
 #include "Engine/SceneManager.h"
 
 Player::Player(GameObject* parent)
-	:GameObject(parent, "Player"), hModel_(-1), dash(1),jewelCount_(0), weight_(1)
+	:GameObject(parent, "Player"), hModel_(-1), dash_(1),jewelCount_(0), weight_(1)
 {
 }
 
@@ -78,10 +78,10 @@ void Player::Update()
 
 
 	if (Input::IsKey(DIK_LSHIFT))
-		dash = 2;
+		dash_ = 2;
 
 	else
-		dash = 1;
+		dash_ = 1;
 
 	static bool debug = true;
 
@@ -164,14 +164,12 @@ void Player::Update()
 
 	//移動ベクトル
 	XMVECTOR nowVec = XMLoadFloat3(& tPlayer_.position_);			//今のカメラ位置座標
-	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash * weight_, 0);		//z座標に動く速度
+	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
 	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
 
-	//上下左右回転
-	XMVECTOR upDownMove = XMVectorSet(0, speed_ * dash * weight_, 0, 0);
-	upDownMove = XMVector3TransformCoord(upDownMove, rotMatY);
-	XMVECTOR leftRightMove = XMVectorSet(speed_ * dash * weight_, 0, 0, 0);
-	leftRightMove = XMVector3TransformCoord(leftRightMove, rotMatY);
+	//左右
+	XMVECTOR sideVec_ = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
+	sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
 
 	//プレイヤーもここで移動させる
 	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
@@ -195,6 +193,7 @@ void Player::Update()
 	if (Input::IsKey(DIK_W))
 	{
 		vecPlayer_ += frontMove;
+
 	}
 
 	if (Input::IsKey(DIK_S))
@@ -204,13 +203,26 @@ void Player::Update()
 
 	if (Input::IsKey(DIK_A))
 	{
-		vecPlayer_ -= leftRightMove;
+		vecPlayer_ -= sideVec_;
 	}
 
 	if (Input::IsKey(DIK_D))
 	{
-		vecPlayer_ += leftRightMove;
+		vecPlayer_ += sideVec_;
 	}
+
+	XMVector3Normalize(vecPlayer_);
+
+	XMFLOAT3 fmove;
+	XMStoreFloat3(&fmove, vecPlayer_);
+	Debug::Log("x = ");
+	Debug::Log(transform_.position_.x - fmove.x, true);
+
+	Debug::Log("y = ");
+	Debug::Log(transform_.position_.y - fmove.y, true);
+
+	Debug::Log("z = ");
+	Debug::Log(transform_.position_.z - fmove.z, true);
 
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
@@ -253,15 +265,6 @@ void Player::Update()
 	//// プレイヤーの回転を更新
 	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
 
-	Debug::Log("x = ");
-	Debug::Log(tPlayer_.rotate_.x, true);
-
-	Debug::Log("y = ");
-	Debug::Log(tPlayer_.rotate_.y, true);
-
-	Debug::Log("z = ");
-	Debug::Log(tPlayer_.rotate_.z, true);
-
 	// プレイヤーの回転行列を作成
 	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
 		XMConvertToRadians(tPlayer_.rotate_.y),
@@ -294,12 +297,6 @@ void Player::Update()
 		pJB->BulletDirection(playerForwardVector);
 		pJB->BulletRotate(tPlayer_.rotate_);
 	}
-
-	Debug::Log("ishit = ");
-	Debug::Log(isHit, true);
-
-	Debug::Log("weight = ");
-	Debug::Log(weight_, true);
 
 	//too heavy, more heavy
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
@@ -356,7 +353,5 @@ void Player::OnCollision(GameObject* pTarget)
 
 		}
 	}
-	Debug::Log("今触ってるの = ");
-	Debug::Log(pTarget->GetObjectName(), true);
 
 }

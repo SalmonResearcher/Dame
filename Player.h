@@ -29,12 +29,12 @@ private:
     float attackEnd;
     const float JEWEL_WEIGHT = 0.05f;
 
-    const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
+    const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
     float jewelCount_;
     float weight_;
     short moveSpeed;
-    short dash;
+    short dash_;
     float moveY = 0;
     bool isJumping = false;
     bool isHit;

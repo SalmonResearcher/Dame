@@ -51,12 +51,14 @@ void JewelBullet::Update()
 
     // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
     XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 2.0f);
-
     XMStoreFloat3(&tJBullet_.position_, bulletInitPos);
 
-    //弾丸の位置を更新
-    //playerForwardVec_ += bulletMoveVector;
-    //XMStoreFloat3(&tJBullet_.position_, playerForwardVec_);
+    // 弾丸の移動ベクトル
+    XMVECTOR bulletMoveVec = playerForwardVec_;
+
+    // 弾丸の位置を更新
+    XMVECTOR nextBulletPos = XMLoadFloat3(&tJBullet_.position_) + bulletMoveVec;
+    XMStoreFloat3(&tJBullet_.position_, nextBulletPos);
 
     // 描画処理など
     tJBullet_.position_.y = -data.dist + 0.5f;
