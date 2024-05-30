@@ -6,9 +6,9 @@ class JewelBullet :
     int hModel_;    //ÉÇÉfÉãî‘çÜ
     int hStage_;
 
-    Transform trJBullet_;
-    XMVECTOR jewelDir_;
-    XMFLOAT3 startPos_;
+    Transform tJBullet_;
+    XMVECTOR playerForwardVec_;
+    XMFLOAT3 playerPos_;
     int time_;
     bool isJumping_;
 
@@ -35,6 +35,7 @@ public:
     void Shoot();
 
     //Jewel Shoot Direction / XMVECTOR Start, XMVECTOR End
-    void SetDirection(XMVECTOR _dir) { jewelDir_ = _dir; };
-    void SerPosition(XMFLOAT3 _pos) { startPos_ = _pos; };
+    void BulletDirection(XMVECTOR _dir) { playerForwardVec_ = _dir; };
+    void BulletPosition(XMFLOAT3 _pos) { playerPos_ = _pos; };
+    void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; ; };
 };

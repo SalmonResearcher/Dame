@@ -40,7 +40,7 @@ void TestScene::Update()
 
 		if (count % 30 == 0)
 		{
-			pEnemy = Instantiate<Enemy>(this);
+		//	pEnemy = Instantiate<Enemy>(this);
 
 		}
 
