@@ -293,8 +293,8 @@ void Player::Update()
 
 		// プレイヤーの前方ベクトルを取得
 		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f),playerRotMat);
-		pJB->BulletPosition(tPlayer_.position_);
 		pJB->BulletDirection(playerForwardVector);
+		pJB->BulletPosition(tPlayer_.position_);
 		pJB->BulletRotate(tPlayer_.rotate_);
 	}
 

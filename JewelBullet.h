@@ -9,6 +9,10 @@ class JewelBullet :
     Transform tJBullet_;
     XMVECTOR playerForwardVec_;
     XMFLOAT3 playerPos_;
+
+    XMVECTOR bulletInitPos;
+    XMFLOAT3 initPos;
+
     int time_;
     bool isJumping_;
 
@@ -32,10 +36,14 @@ public:
     //開放
     void Release() override;
 
-    void Shoot();
-
-    //Jewel Shoot Direction / XMVECTOR Start, XMVECTOR End
     void BulletDirection(XMVECTOR _dir) { playerForwardVec_ = _dir; };
-    void BulletPosition(XMFLOAT3 _pos) { playerPos_ = _pos; };
-    void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; ; };
+
+    void BulletPosition(XMFLOAT3 _pos) {
+        playerPos_ = _pos;
+        // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
+        XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
+        XMStoreFloat3(&initPos, bulletInitPos);
+    };
+
+    void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; };
 };
