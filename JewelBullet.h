@@ -35,8 +35,15 @@ public:
     //開放
     void Release() override;
 
+    /// <summary>
+    /// 弾の方向をプレイヤーの前方ベクトルからもらう
+    /// </summary>
+    /// <param name="_dir">XMVECTOR：方向ベクトル</param>
     void BulletDirection(XMVECTOR _dir) { playerForwardVec_ = _dir; };
 
+    /// <summary>
+    /// 弾の位置をプレイヤーの位置から算出する
+    /// </summary>
     void BulletPosition(XMFLOAT3 _pos) {
         playerPos_ = _pos;
         // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
@@ -44,10 +51,19 @@ public:
         XMStoreFloat3(&initPos, bulletInitPos);
     };
 
+    /// <summary>
+    /// 弾の回転を受け取る
+    /// </summary>
     void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; };
 
+    /// <summary>
+    /// 弾を打つ処理
+    /// </summary>
     void Shoot();
 
+    /// <summary>
+    /// 何かに当たったら
+    /// </summary>
     void OnCollision(GameObject* pTarget)override;
 
 };
