@@ -13,8 +13,7 @@ class JewelBullet :
     XMVECTOR bulletInitPos;
     XMFLOAT3 initPos;
 
-    int time_;
-    bool isJumping_;
+    int deleteTime_;
 
 
 public:
@@ -46,4 +45,9 @@ public:
     };
 
     void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; };
+
+    void Shoot();
+
+    void OnCollision(GameObject* pTarget)override;
+
 };

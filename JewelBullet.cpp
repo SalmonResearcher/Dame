@@ -15,7 +15,7 @@
 
 //コンストラクタ
 JewelBullet::JewelBullet(GameObject* parent)
-    :GameObject(parent, "JewelBullet"), hModel_(-1), time_(0)
+    :GameObject(parent, "JewelBullet"), hModel_(-1), deleteTime_(0)
 {
 
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 0.5f);
@@ -46,16 +46,20 @@ void JewelBullet::Update()
     data.start = { tJBullet_.position_.x,0,tJBullet_.position_.z };   //レイの発射位置
     data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
     Model::RayCast(hStage_, &data); //レイを発射
+
+    RayCastData front;
+    front.start = { tJBullet_.position_ };   //レイの発射位置
+    front.dir = XMFLOAT3(0, 0, 1);       //レイの方向
+    Model::RayCast(hStage_, &front); //レイを発射
+
+
    
-    XMFLOAT3 moveFloat;
-    XMStoreFloat3(&moveFloat ,playerForwardVec_);
-
-    initPos.x += moveFloat.x * 0.2;
-    initPos.z += moveFloat.z * 0.2;
-
-    tJBullet_.position_ = initPos;
+    Shoot();
 
     tJBullet_.position_.y = -data.dist + 0.5f;
+    if (front.dist <1.0f) {
+        KillMe();
+    }
     transform_ = tJBullet_;
 }
 
@@ -68,5 +72,25 @@ void JewelBullet::Draw()
 
 void JewelBullet::Release()
 {
+}
+
+void JewelBullet::Shoot()
+{
+    XMFLOAT3 moveFloat;
+    XMStoreFloat3(&moveFloat, playerForwardVec_);
+
+    initPos.x += moveFloat.x * 0.8;
+    initPos.z += moveFloat.z * 0.8;
+
+    tJBullet_.position_ = initPos;
+
+}
+
+void JewelBullet::OnCollision(GameObject* pTarget)
+{
+    if (pTarget->GetObjectName() == "JewelBox")
+    {
+        KillMe();
+    }
 }
 
