@@ -4,6 +4,7 @@
 
 #include "Stage.h"
 #include "Player.h"
+#include "JewelBox.h"
 
 //Debug—p
 #include "Engine/Debug.h"
@@ -60,7 +61,14 @@ void JewelBullet::Update()
     if (front.dist <1.0f) {
         KillMe();
     }
+
+    if (deleteTime_ >= 180)
+    {
+        KillMe();
+    }
+
     transform_ = tJBullet_;
+    deleteTime_++;
 }
 
 //•`‰æ
@@ -88,9 +96,37 @@ void JewelBullet::Shoot()
 
 void JewelBullet::OnCollision(GameObject* pTarget)
 {
+    if (pTarget->GetObjectName() == "Enemy")
+    {
+        pTarget->KillMe();
+        killCount_++;
+    }
+
     if (pTarget->GetObjectName() == "JewelBox")
     {
+        score_ = CalculateScore(killCount_);
+        ((JewelBox*)FindObject("JewelBox"))->AddScore(score_);
         KillMe();
     }
 }
 
+int JewelBullet::CalculateScore(int killCount)
+{
+    int baseScore = 200; // ŒÅ’è‚Ì200“_
+    std::vector<int> scores = { 25, 50, 75, 150, 300, 3000 };
+
+    //“|‚µ‚½”‚ª1`4‚Ì
+    if (killCount >= 1 && killCount < 5) {
+        return scores[killCount - 1] + baseScore;
+    }
+    //“G‚ğ“|‚µ‚½”‚ª5ˆÈã‚Ì
+    else if (killCount >= 5 && killCount < 10) {
+        return scores[4] * (killCount - 4) + baseScore; // 6‚Ì‚Í300*2A7‚Ì‚Í300*3‚Æ‚È‚é
+    }
+    else if (killCount >= 10) {
+        return scores[5] * (killCount - 9) + baseScore;
+    }
+    else {
+        return baseScore; // killCount‚ª0ˆÈ‰º‚Ì‚Í•óÎ‚Ì‚İ‚Ì“_
+    }
+}

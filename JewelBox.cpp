@@ -2,13 +2,15 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/SphereCollider.h"
+
 #include "Player.h"
+#include "JewelBullet.h"
 
 //コンストラクタ
 JewelBox::JewelBox(GameObject* parent)
-    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(13),anim_Speed(1)
+    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(10),anim_Speed(1)
 {
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 3.2f);
+    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 1.0f, 0), 1.5f);
     AddCollider(collision);
 }
 
@@ -30,7 +32,7 @@ void JewelBox::Initialize()
 void JewelBox::Update()
 {
     transform_ = trBox_;
-    jewel_=  ((Player*)FindObject("Player"))->SendJewel();
+    jewel_ =  ((Player*)FindObject("Player"))->SendJewel();
 }
 
 //描画
@@ -52,7 +54,7 @@ void JewelBox::OnCollision(GameObject* pTarget)
         if (pTarget->GetObjectName() == "Attack")
         {
             anim_Start = 0;
-            anim_End = 12;
+            anim_End = 10;
         }
 }
 

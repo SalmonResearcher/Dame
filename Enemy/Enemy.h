@@ -41,7 +41,7 @@ class Enemy : public GameObject
 
     XMFLOAT3 bonepos;
     float moveY = 0.0f;
-    float speed = 0.5f;
+    float speed_ = 0.5f;
 
     int waitTime = 0;
     int killcount;

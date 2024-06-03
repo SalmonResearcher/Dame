@@ -10,6 +10,7 @@ class JewelBox : public GameObject
     Transform trBox_;
 
     int jewel_ = 0;
+    int score_ = 0;
 
     int anim_Start;
     int anim_End;
@@ -39,6 +40,8 @@ public:
 
     void OnCollision(GameObject* pTarget);
 
-    int ReturnJewel() { return jewel_; };
+    void AddScore(int _score) { score_ += _score; };
 
+    int ReturnJewel() { return jewel_; };
+    int GetKillScore() { return score_; };
 };

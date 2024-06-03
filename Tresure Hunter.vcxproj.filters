@@ -182,7 +182,9 @@
     </ClCompile>
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="CharacterDisplay.cpp" />
-    <ClCompile Include="JewelBullet.cpp" />
+    <ClCompile Include="JewelBullet.cpp">
+      <Filter>ToyBox\Jewel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -318,7 +320,9 @@
     </ClInclude>
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="CharacterDisplay.h" />
-    <ClInclude Include="JewelBullet.h" />
+    <ClInclude Include="JewelBullet.h">
+      <Filter>ToyBox\Jewel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

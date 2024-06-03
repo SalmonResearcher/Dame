@@ -283,7 +283,7 @@ void Player::Update()
 		pAtk->SetTime(2);
 
 	}
-	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)))
+	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
 	{
 		JewelBullet* pJB = Instantiate<JewelBullet>(GetParent());
 		// プレイヤーの回転行列を作成
@@ -296,6 +296,7 @@ void Player::Update()
 		pJB->BulletDirection(playerForwardVector);
 		pJB->BulletPosition(tPlayer_.position_);
 		pJB->BulletRotate(tPlayer_.rotate_);
+		jewelCount_--;
 	}
 
 	//too heavy, more heavy

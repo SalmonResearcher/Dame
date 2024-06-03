@@ -7,6 +7,8 @@
 #include "JewelBox.h"
 #include "CharacterDisplay.h"
 
+#include "Engine/Input.h"
+
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -38,9 +40,9 @@ void TestScene::Update()
 			Jewel* pJewel = Instantiate<Jewel>(this);
 		}
 
-		if (count % 30 == 0)
+		if (Input::IsKeyDown(DIK_P))
 		{
-		//	pEnemy = Instantiate<Enemy>(this);
+			pEnemy = Instantiate<Enemy>(this);
 
 		}
 

@@ -6,6 +6,8 @@ class JewelBullet :
     int hModel_;    //モデル番号
     int hStage_;
 
+    int score_ = 0;
+
     Transform tJBullet_;
     XMVECTOR playerForwardVec_;
     XMFLOAT3 playerPos_;
@@ -14,6 +16,7 @@ class JewelBullet :
     XMFLOAT3 initPos;
 
     int deleteTime_;
+    int killCount_;
 
 
 public:
@@ -66,4 +69,8 @@ public:
     /// </summary>
     void OnCollision(GameObject* pTarget)override;
 
+    /// <summary>
+    /// 敵のキル数からスコアを計算します
+    /// </summary>
+    int CalculateScore(int killCount);
 };

@@ -9,10 +9,14 @@ class CharacterDisplay :public GameObject
 private:
 	Text* pText;
 
-	int kill_;
-	int jewel_;
-	int score_ = 0;
-	int up_ = 0;
+	int curScore_ = 0;    // 1フレーム前のスコア
+	int score_ = 0;       // 現在のスコア
+	int up_ = 0;          // 表示用スコア
+	int kill_ = 0;        // プレイヤーが倒した敵の数
+	int jewel_ = 0;       // プレイヤーが集めた宝石の数
+	int bulletScore_ = 0; // 特定のスコア
+	int incrementSteps_ = 10; // スコアを分割して加算する回数
+	int incrementValue_ = 0; // スコアの増加量
 
 public:
 
