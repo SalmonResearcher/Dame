@@ -98,7 +98,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 {
     if (pTarget->GetObjectName() == "Enemy")
     {
-        pTarget->KillMe();
+        pTarget->GetParent();
         killCount_++;
     }
 

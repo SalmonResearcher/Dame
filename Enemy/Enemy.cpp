@@ -64,7 +64,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		speed_ = 0.0f;
+		speed_ = 0.1f;
 		ChasePlayer(target_, speed_);
 
 		if (toPlayerdir < 5.0f)
