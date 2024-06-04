@@ -4,6 +4,7 @@
 
 #include "Stage.h"
 #include "Player.h"
+#include "Enemy/Enemy.h"
 #include "JewelBox.h"
 
 //Debug—p
@@ -98,7 +99,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 {
     if (pTarget->GetObjectName() == "Enemy")
     {
-        pTarget->GetParent();
+        pTarget->KillMe();
         killCount_++;
     }
 
@@ -113,7 +114,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 int JewelBullet::CalculateScore(int killCount)
 {
     int baseScore = 200; // ŒÅ’è‚Ì200“_
-    std::vector<int> scores = { 25, 50, 75, 150, 300, 3000 };
+    int scores[] = {25, 50, 75, 150, 300, 3000};
 
     //“|‚µ‚½”‚ª1`4‚ÌŽž
     if (killCount >= 1 && killCount < 5) {

@@ -138,6 +138,11 @@ void Enemy::OnCollision(GameObject* pTarget)
 		waitTime = 20;
 		Death();
 	}
+	if (pTarget->GetObjectName() == "JewelBullet" && !isDead)
+	{
+		waitTime = 20;
+		Death();
+	}
 
 
 }
