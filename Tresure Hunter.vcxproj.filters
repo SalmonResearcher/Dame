@@ -48,6 +48,9 @@
     <Filter Include="ToyBox\Enemy\BossSlime">
       <UniqueIdentifier>{0957ed7e-5683-4b48-bf69-64aa0a098d8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBox\UI">
+      <UniqueIdentifier>{44171772-60c9-4c70-a7dd-27bfd72c7ed8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -181,11 +184,18 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttack.cpp" />
-    <ClCompile Include="CharacterDisplay.cpp" />
     <ClCompile Include="JewelBullet.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp" />
+    <ClCompile Include="CharacterDisplay.cpp">
+      <Filter>ToyBox\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>ToyBox\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>ToyBox\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -320,11 +330,18 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttack.h" />
-    <ClInclude Include="CharacterDisplay.h" />
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h" />
+    <ClInclude Include="CharacterDisplay.h">
+      <Filter>ToyBox\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>ToyBox\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>ToyBox\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
