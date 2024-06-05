@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Global.h"
 
 #include "Player.h"
 #include "Stage.h"
@@ -36,7 +37,7 @@ void TestScene::Initialize()
 //çXêV
 void TestScene::Update()
 {
-
+	
 		if (count % 60 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
@@ -52,8 +53,11 @@ void TestScene::Update()
 
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();
+
 		if (Input::IsKeyDown(DIK_C)) {
-			pDisplay->GetScore();
+			Global::SetJewel(jewel_);
+			Global::SetKillCount(killCount_);
+			
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
 

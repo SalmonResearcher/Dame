@@ -4,6 +4,7 @@ namespace Global
 	extern int killcount;
 	extern int jewel;
 	extern int jewelKill;
+	extern int score;
 
 	void SetKillCount(int count);
 	void AddKillCount(int count);
@@ -12,7 +13,10 @@ namespace Global
 	void SetJewel(int count);
 	int GetJewel();
 
-	void SetJewelKill(int count);
+	void AddJewelKill(int count);
 	int GetJewelKill();
+
+	void SetScore(int count);
+	int GetScore();
 
 }

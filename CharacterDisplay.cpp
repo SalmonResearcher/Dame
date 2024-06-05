@@ -42,7 +42,6 @@ void CharacterDisplay::Draw()
 {
 	if (displayScore) {
 		pScore_->Draw(scoreX, scoreY);
-		score_ = pScore_->GetScore();
 	}
 	if (displayTimer) {
 		pTimer_->Draw(timerX, timerY);

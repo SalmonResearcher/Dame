@@ -1,5 +1,6 @@
 #include "Score.h"
 #include "Engine/Debug.h"
+#include "Global.h"
 
 #include "Enemy/Enemy.h"
 #include "Player.h"
@@ -55,6 +56,8 @@ void Score::Update()
         }
     }
     saveScore_ = up_;
+    Global::SetScore(saveScore_);
+
 }
 
 //•`‰æ
