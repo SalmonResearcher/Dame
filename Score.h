@@ -7,7 +7,7 @@
 class Score :public GameObject
 {
 private:
-	Text* pText;
+	Text* pText_;
 
 	int curScore_ = 0;    // 1フレーム前のスコア
 	int score_ = 0;       // 現在のスコア
@@ -15,7 +15,7 @@ private:
 	int kill_ = 0;        // プレイヤーが倒した敵の数
 	int jewel_ = 0;       // プレイヤーが集めた宝石の数
 	int bulletScore_ = 0; // 特定のスコア
-	int incrementSteps_ = 10; // スコアを分割して加算する回数
+	int incrementSteps_ = 25; // スコアを分割して加算する回数
 	int incrementValue_ = 0; // スコアの増加量
 
 public:

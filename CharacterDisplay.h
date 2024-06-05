@@ -7,8 +7,8 @@ class Score;
 class CharacterDisplay :public GameObject
 {
 private:
-	Text* pText;
-	Score* pScore;
+	Text* pText_;
+	Score* pScore_;
 	int curScore_ = 0;    // 1フレーム前のスコア
 	int score_ = 0;       // 現在のスコア
 	int up_ = 0;          // 表示用スコア

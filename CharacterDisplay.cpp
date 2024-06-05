@@ -12,16 +12,16 @@
 
 //コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
-	: GameObject(parent, "CharacterDisplay"),pText(nullptr)
+	: GameObject(parent, "CharacterDisplay"),pText_(nullptr)
 {
 }
 
 //初期化
 void CharacterDisplay::Initialize()
 {
-	pText = new Text;
-	pText->Initialize("score_number.png", 50, 256, 10);
-	pScore = Instantiate<Score>(this);
+	pText_ = new Text;
+	pText_->Initialize("score_number.png", 50, 256, 10);
+	pScore_ = Instantiate<Score>(this);
 }
 
 //更新
@@ -32,7 +32,7 @@ void CharacterDisplay::Update()
 //描画
 void CharacterDisplay::Draw()
 {
-	pScore->Draw(900,15);
+	pScore_->Draw(950,15);
 }
 
 //開放

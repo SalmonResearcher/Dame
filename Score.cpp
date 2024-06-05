@@ -7,19 +7,20 @@
 #include "JewelBullet.h"
 
 #include <math.h>
+#include <cstdio>
 
 
 //コンストラクタ
 Score::Score(GameObject* parent)
-    : GameObject(parent, "CharacterDisplay"), pText(nullptr)
+    : GameObject(parent, "CharacterDisplay"), pText_(nullptr)
 {
 }
 
 //初期化
 void Score::Initialize()
 {
-    pText = new Text;
-    pText->Initialize("score_number.png", 50, 256, 10);
+    pText_ = new Text;
+    pText_->Initialize("score_number.png", 50, 256, 10);
 }
 
 //更新
@@ -56,9 +57,14 @@ void Score::Draw()
 }
 
 //描画
-void Score::Draw(int _x,int _y)
+void Score::Draw(int _x, int _y)
 {
-    pText->Draw(_x, _y, up_);
+    // 6桁で0埋めのフォーマット指定子を使用して文字列を生成
+    char buffer[7]; // 文字列+1分の配列サイズ
+    snprintf(buffer, sizeof(buffer), "%06d", up_);
+    std::string result = buffer;
+
+    pText_->Draw(_x, _y, result.c_str(),true);
 }
 
 //開放
