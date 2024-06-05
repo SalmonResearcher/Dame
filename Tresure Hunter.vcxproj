@@ -156,7 +156,7 @@
     <ClCompile Include="Engine\Text.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
-    <ClCompile Include="FadeIn_FadeOut.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="Jewel.cpp" />
     <ClCompile Include="JewelBox.cpp" />
     <ClCompile Include="JewelBullet.cpp" />
@@ -164,6 +164,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayerStateManager.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SecretScene.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -208,7 +209,7 @@
     <ClInclude Include="Engine\Text.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
-    <ClInclude Include="FadeIn_FadeOut.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />
     <ClInclude Include="JewelBullet.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerStateManager.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SecretScene.h" />
     <ClInclude Include="Stage.h" />

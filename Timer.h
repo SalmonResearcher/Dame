@@ -33,6 +33,8 @@ public:
 	//•`‰æ
 	void Draw() override;
 
+	void Draw(int _x, int _y);
+
 	//ŠJ•ú
 	void Release() override;
 

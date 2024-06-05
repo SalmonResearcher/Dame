@@ -13,7 +13,7 @@
 
 
 #include <cmath>
-
+#include "Global.h"
 
 //コンストラクタ
 JewelBullet::JewelBullet(GameObject* parent)
@@ -107,6 +107,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     {
         score_ = CalculateScore(killCount_);
         ((JewelBox*)FindObject("JewelBox"))->AddScore(score_);
+        Global::SetJewelKill(score_);
         KillMe();
     }
 }
@@ -124,6 +125,7 @@ int JewelBullet::CalculateScore(int killCount)
     else if (killCount >= 5 && killCount < 10) {
         return scores[4] * (killCount - 4) + baseScore; // 6の時は300*2、7の時は300*3となる
     }
+    //10以上
     else if (killCount >= 10) {
         return scores[5] * (killCount - 9) + baseScore;
     }

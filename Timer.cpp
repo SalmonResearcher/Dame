@@ -3,11 +3,11 @@
 static const int FPS = 60;
 
 Timer::Timer(GameObject* parent)
-	:GameObject(parent, "CharacterDisplay"),GameObject(obj, "Timer"),
-	frame(0), active(false), drawX(0), drawY(0)
+	:GameObject(parent, "CharacterDisplay"),
+	frame(1200), active(false), drawX(0), drawY(0)
 {
 	num = new Text;
-	num->Initialize();
+	num->Initialize("time_number.png", 50, 256, 10);
 }
 
 Timer::~Timer()
@@ -32,15 +32,22 @@ void Timer::Update()
 
 void Timer::Draw()
 {
-	num->SetScale(1.0f);
-	num->Draw(drawX, drawY, "Time");
-	if (frame % FPS < 10)
-		num->SetScale((frame%FPS)*0.2f+1.0f);
-	else
-		num->SetScale(1.0f);
-	int sec = frame / FPS;
-	num->Draw(drawX+100, drawY, sec);
+
 }
+
+//描画
+void Timer::Draw(int _x, int _y)
+{
+	int sec = frame / FPS;
+
+	// 2桁で0埋めのフォーマット指定子を使用して文字列を生成
+	char buffer[3]; // 文字列+1分の配列サイズ
+	snprintf(buffer, sizeof(buffer), "%02d", sec);
+	std::string result = buffer;
+
+	num->Draw(_x, _y, result.c_str(), true);
+}
+
 
 void Timer::Release()
 {

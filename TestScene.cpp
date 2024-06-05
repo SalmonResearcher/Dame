@@ -1,4 +1,5 @@
 #include "TestScene.h"
+
 #include "Player.h"
 #include "Stage.h"
 #include "Enemy/Enemy.h"
@@ -6,6 +7,7 @@
 #include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
 #include "CharacterDisplay.h"
+#include "Engine/SceneManager.h"
 
 #include "Engine/Input.h"
 
@@ -50,15 +52,18 @@ void TestScene::Update()
 
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();
-		score_ = (jewel_ * 200) + (killCount_ * 25);
+		if (Input::IsKeyDown(DIK_C)) {
+			pDisplay->GetScore();
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_RESULT);
+
+		}
 
 }
 
 //•`‰æ
 void TestScene::Draw()
 {
-	pText->Draw(30, 30, score_);
-
 }
 
 //ŠJ•ú

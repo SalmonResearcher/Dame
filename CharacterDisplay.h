@@ -3,20 +3,20 @@
 #include "Engine/Text.h"
 
 class Score;
+class Timer;
 
 class CharacterDisplay :public GameObject
 {
 private:
 	Text* pText_;
 	Score* pScore_;
-	int curScore_ = 0;    // 1フレーム前のスコア
-	int score_ = 0;       // 現在のスコア
-	int up_ = 0;          // 表示用スコア
-	int kill_ = 0;        // プレイヤーが倒した敵の数
-	int jewel_ = 0;       // プレイヤーが集めた宝石の数
-	int bulletScore_ = 0; // 特定のスコア
-	int incrementSteps_ = 10; // スコアを分割して加算する回数
-	int incrementValue_ = 0; // スコアの増加量
+	Timer* pTimer_;
+
+	int scoreX, scoreY;
+	int timerX, timerY;
+	bool displayScore, displayTimer;
+
+	int score_;
 
 public:
 
@@ -32,8 +32,14 @@ public:
 
 	//描画
 	void Draw() override;
+	void Draw(int _score);
 
 	//開放
 	void Release() override;
+
+	void ScorePosition(int x, int y,bool display);
+	void TimerPosition(int x, int y,bool display);
+
+	int GetScore();
 
 };

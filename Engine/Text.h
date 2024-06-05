@@ -8,6 +8,7 @@ class Text
 	unsigned int width_, height_;	//1•¶š•ª‚Ì•‚Æ‚‚³
 	char fileName_[MAX_PATH];
 	unsigned int rowLength_;
+	float scale;
 
 public:
 	Text();
@@ -40,5 +41,7 @@ public:
 
 	//‰ğ•ú
 	void Release();
+
+	void SetScale(float sc) { scale = sc; }
 };
 

@@ -28,9 +28,14 @@ void Score::Update()
 {
     //1f前の足されたスコア
     int curScore_ = score_;
-    kill_ = ((Player*)FindObject("Player"))->GetKillCount();
-    jewel_ = ((JewelBox*)FindObject("JewelBox"))->ReturnJewel();
-    bulletScore_ = ((JewelBox*)FindObject("JewelBox"))->GetKillScore();
+    if (FindObject("Player") != nullptr) {
+        kill_ = ((Player*)FindObject("Player"))->GetKillCount();
+    }
+
+    if (FindObject("JewelBox") != nullptr) {
+        jewel_ = ((JewelBox*)FindObject("JewelBox"))->ReturnJewel();
+        bulletScore_ = ((JewelBox*)FindObject("JewelBox"))->GetKillScore();
+    }
 
     score_ = (jewel_ * 200) + (kill_ * 25) + bulletScore_;
     // 表示スコアup_を徐々にscore_に近づける
@@ -49,6 +54,7 @@ void Score::Update()
             up_ += incrementValue_;
         }
     }
+    saveScore_ = up_;
 }
 
 //描画
@@ -65,6 +71,17 @@ void Score::Draw(int _x, int _y)
     std::string result = buffer;
 
     pText_->Draw(_x, _y, result.c_str(),true);
+}
+
+//描画
+void Score::Draw(int _x, int _y ,int num)
+{
+    // 6桁で0埋めのフォーマット指定子を使用して文字列を生成
+    char buffer[7]; // 文字列+1分の配列サイズ
+    snprintf(buffer, sizeof(buffer), "%06d", num);
+    std::string result = buffer;
+
+    pText_->Draw(_x, _y, result.c_str(), true);
 }
 
 //開放

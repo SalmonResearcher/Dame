@@ -18,6 +18,8 @@ private:
 	int incrementSteps_ = 25; // スコアを分割して加算する回数
 	int incrementValue_ = 0; // スコアの増加量
 
+	int saveScore_ = 0;
+
 public:
 
 	//コンストラクタ
@@ -34,7 +36,10 @@ public:
 	void Draw() override;
 	void Draw(int _x, int _y);
 
+	void Draw(int _x, int _y, int num);
+
 	//開放
 	void Release() override;
-
+	
+	int GetScore() {return saveScore_;};
 };
