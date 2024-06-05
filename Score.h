@@ -2,13 +2,13 @@
 #include "Engine/GameObject.h"
 #include "Engine/Text.h"
 
-class Score;
 
-class CharacterDisplay :public GameObject
+
+class Score :public GameObject
 {
 private:
 	Text* pText;
-	Score* pScore;
+
 	int curScore_ = 0;    // 1フレーム前のスコア
 	int score_ = 0;       // 現在のスコア
 	int up_ = 0;          // 表示用スコア
@@ -22,7 +22,7 @@ public:
 
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	CharacterDisplay(GameObject* parent);
+	Score(GameObject* parent);
 
 	//初期化
 	void Initialize() override;
@@ -32,6 +32,7 @@ public:
 
 	//描画
 	void Draw() override;
+	void Draw(int _x, int _y);
 
 	//開放
 	void Release() override;
