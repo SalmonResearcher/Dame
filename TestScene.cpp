@@ -22,52 +22,52 @@ TestScene::TestScene(GameObject * parent)
 //‰Šú‰»
 void TestScene::Initialize()
 {
-	pPlayer = Instantiate<Player>(this);
-	pStage = Instantiate<Stage>(this);
-	pJewel = Instantiate<Jewel>(this);
+
+	pPlayer_ = Instantiate<Player>(this);
+	pStage_ = Instantiate<Stage>(this);
+	pJewel_ = Instantiate<Jewel>(this);
 	Fafro* pFaf = Instantiate<Fafro>(this);
-	pBox = Instantiate<JewelBox>(this);
-	pDisplay = Instantiate<CharacterDisplay>(this);
+	pBox_ = Instantiate<JewelBox>(this);
+	pDisplay_ = Instantiate<CharacterDisplay>(this);
 
-	pText = new Text;
-	pText->Initialize();
-
+	pText_ = new Text;
+	pText_->Initialize();
+	pDisplay_->SetScorePosition(900, 5);
+	pDisplay_->SetTimerPosition(850, 5);
 }
 
 //XV
 void TestScene::Update()
 {
 	
-		if (count % 60 == 0)
+		if (count_ % 60 == 0)
 		{
-			Jewel* pJewel = Instantiate<Jewel>(this);
+			Jewel* pJewel_ = Instantiate<Jewel>(this);
 		}
 
 		if (Input::IsKeyDown(DIK_P))
 		{
-			pEnemy = Instantiate<Enemy>(this);
+			pEnemy_ = Instantiate<Enemy>(this);
 
 		}
 
-		count++;
+		count_++;
 
-		jewel_ = pBox->ReturnJewel();
-		killCount_ = pPlayer->GetKillCount();
+		jewel_ = pBox_->ReturnJewel();
+		killCount_ = pPlayer_->GetKillCount();
 
 		if (Input::IsKeyDown(DIK_C)) {
-			Global::SetJewel(jewel_);
-			Global::SetKillCount(killCount_);
-			
+			Global::SetScore(pDisplay_->GetScore());
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
 
 		}
-
 }
 
 //•`‰æ
 void TestScene::Draw()
 {
+	pDisplay_->Draw();
 }
 
 //ŠJ•ú

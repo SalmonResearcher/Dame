@@ -11,9 +11,7 @@
 #include "Engine/Debug.h"
 #include "Engine/Input.h"
 
-
 #include <cmath>
-#include "Global.h"
 
 //コンストラクタ
 JewelBullet::JewelBullet(GameObject* parent)
@@ -107,8 +105,6 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     {
         score_ = CalculateScore(killCount_);
         ((JewelBox*)FindObject("JewelBox"))->AddScore(score_);
-        Global::AddJewelKill(score_);
-        Global::AddKillCount(killCount_);
         KillMe();
     }
 }

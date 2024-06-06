@@ -35,6 +35,10 @@ void Timer::Draw()
 
 }
 
+void Timer::Draw(int _x, int _y, int _timer)
+{
+}
+
 //•`‰æ
 void Timer::Draw(int _x, int _y)
 {

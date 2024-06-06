@@ -14,8 +14,7 @@
 //コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
 	: GameObject(parent, "CharacterDisplay"),
-	pText_(nullptr),scoreX(950),scoreY(5),timerX(800),timerY(5),displayScore(true),
-	displayTimer(true)
+	pText_(nullptr),scoreX_(950),scoreY_(5),timerX_(800),timerY_(5),showScore_(false),showTimer_(false)
 {
 }
 
@@ -40,20 +39,36 @@ void CharacterDisplay::Update()
 //描画
 void CharacterDisplay::Draw()
 {
-	if (displayScore) {
-		pScore_->Draw(scoreX, scoreY);
-	}
-	if (displayTimer) {
-		pTimer_->Draw(timerX, timerY);
-	}
+	if (showScore_) {
+		// 6桁で0埋めのフォーマット指定子を使用して文字列を生成
+		char buffer[7]; // 文字列+1分の配列サイズ
+		snprintf(buffer, sizeof(buffer), "%06d", score_);
+		std::string result = buffer;
 
+		pText_->Draw(scoreX_, scoreY_, result.c_str(), true);
+	}
+	if (showTimer_) {
+
+	}
 }
 
-void CharacterDisplay::Draw(int _score)
+void CharacterDisplay::DrawScore(int _score)
 {
-	pScore_->Draw(scoreX, scoreY, _score);
+	score_ = _score;
+	pScore_->Draw(scoreX_, scoreY_, score_);
 }
 
+void CharacterDisplay::DrawScore()
+{
+	score_ = pScore_->GetScore();
+	pScore_->Draw(scoreX_, scoreY_, score_);
+}
+
+
+void CharacterDisplay::DrawTimer()
+{
+	pTimer_->Draw(timerX_, timerY_);
+}
 
 
 
@@ -62,18 +77,17 @@ void CharacterDisplay::Release()
 {
 }
 
-void CharacterDisplay::ScorePosition(int x, int y,bool display)
+
+void CharacterDisplay::SetScorePosition(int _x, int _y)
 {
-	scoreX = x;
-	scoreY = y;
-	displayScore = display;
+	scoreX_ = _x;
+	scoreY_ = _y;
 }
 
-void CharacterDisplay::TimerPosition(int x, int y ,bool display)
+void CharacterDisplay::SetTimerPosition(int _x, int _y)
 {
-	timerX = x;
-	timerY = y;
-	displayTimer = display;
+	timerX_ = _x;
+	timerY_ = _y;
 }
 
 int CharacterDisplay::GetScore()
