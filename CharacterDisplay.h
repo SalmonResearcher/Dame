@@ -12,11 +12,12 @@ private:
 	Score* pScore_;
 	Timer* pTimer_;
 
-	int scoreX, scoreY;
-	int timerX, timerY;
-	bool displayScore, displayTimer;
+	int scoreX_, scoreY_;
+	int timerX_, timerY_;
+	bool showScore_, showTimer_;
 
 	int score_;
+	int timer_;
 
 public:
 
@@ -32,14 +33,21 @@ public:
 
 	//•`‰æ
 	void Draw() override;
-	void Draw(int _score);
+	void DrawScore();
+	void DrawScore(int _score);
+	void DrawTimer();
 
 	//ŠJ•ú
 	void Release() override;
 
-	void ScorePosition(int x, int y,bool display);
-	void TimerPosition(int x, int y,bool display);
+	void SetScorePosition(int _x, int _y);
+	void SetTimerPosition(int _x, int _y);
 
 	int GetScore();
 
+	void ShowScore() { showScore_ = true; };
+	void HideScore() { showScore_ = false; };
+
+	void ShowTimer() { showTimer_ = true; };
+	void HideTimer() { showTimer_ = false; };
 };

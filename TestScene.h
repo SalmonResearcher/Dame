@@ -12,22 +12,22 @@ class CharacterDisplay;
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
-	bool spawn = true;
-	int timer = 0;
-	int count = 0;
+	bool spawn_ = true;
+	int timer_ = 0;
+	int count_ = 0;
 
 	int jewel_;
 	int killCount_;
 	int score_ = 0;
 
-	Player* pPlayer;
-	Stage* pStage;
-	Jewel* pJewel;
-	Enemy* pEnemy;
-	JewelBox* pBox;
-	CharacterDisplay* pDisplay;
+	Player* pPlayer_;
+	Stage* pStage_;
+	Jewel* pJewel_;
+	Enemy* pEnemy_;
+	JewelBox* pBox_;
+	CharacterDisplay* pDisplay_;
 
-	Text* pText;
+	Text* pText_;
 
 public:
 	//コンストラクタ
