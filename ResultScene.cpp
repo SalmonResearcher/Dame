@@ -15,6 +15,9 @@ ResultScene::ResultScene(GameObject* parent)
 //初期化
 void ResultScene::Initialize()
 {
+	hImage_ = Image::Load("Result.png");
+	trPict_.position_ = XMFLOAT3(0, 0, 0);
+
 	pDisp1_ = Instantiate<CharacterDisplay>(this);
 	pDisp2_ = Instantiate<CharacterDisplay>(this);
 	pDisp3_ = Instantiate<CharacterDisplay>(this);
@@ -24,19 +27,27 @@ void ResultScene::Initialize()
 	jewel_ = Global::GetJewel();
 	jewelKill_ = Global::GetJewelKill();
 
-	lastScore_ = ((jewel_ * 200) * 1.05) + ((jewelKill_) * ((killCount_ * 25) * 1.03));
-
-	pDisp1_->ScorePosition(800, 40, true);
-	pDisp2_->ScorePosition(800, 60, true);
-	pDisp3_->ScorePosition(800, 80, true);
-	pDisp4_->ScorePosition(800, 100, true);
+	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*5％））
+	totalScore_ = (jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.05)) + (killCount_ * 25);
 
 
+	pDisp1_->ScorePosition(800, 80);
+	pDisp2_->ScorePosition(800, 200);
+	pDisp3_->ScorePosition(800, 320);
+	pDisp4_->ScorePosition(800, 460);
 
-	pDisp1_->TimerPosition(0, 0, false);
-	pDisp2_->TimerPosition(0, 0, false);
-	pDisp3_->TimerPosition(0, 0, false);
-	pDisp4_->TimerPosition(0, 0, false);
+	pDisp1_->HideTimer();
+	pDisp2_->HideTimer();
+	pDisp3_->HideTimer();
+	pDisp4_->HideTimer();	
+	
+	pDisp1_->HideScore();
+	pDisp2_->HideScore();
+	pDisp3_->HideScore();
+	pDisp4_->HideScore();
+
+
+
 }
 
 //更新
@@ -50,7 +61,10 @@ void ResultScene::Draw()
 	pDisp1_->Draw(killCount_);
 	pDisp2_->Draw(jewel_);
 	pDisp3_->Draw(jewelKill_);
-	pDisp4_->Draw(lastScore_);
+	pDisp4_->Draw(totalScore_);
+
+	Image::SetTransform(hImage_, trPict_);
+	Image::Draw(hImage_);
 }
 
 //開放

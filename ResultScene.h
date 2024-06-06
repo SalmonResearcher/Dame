@@ -8,7 +8,8 @@ class ResultScene :public GameObject
 {
 private:
 	Transform trPict_;
-	short hImage_;
+	int hImage_;
+
 	CharacterDisplay* pDisp1_;
 	CharacterDisplay* pDisp2_;
 	CharacterDisplay* pDisp3_;
@@ -18,7 +19,7 @@ private:
 	int jewel_;
 	int jewelKill_;
 
-	int lastScore_;
+	int totalScore_;
 
 public:
 

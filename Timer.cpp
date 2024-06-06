@@ -7,7 +7,7 @@ Timer::Timer(GameObject* parent)
 	frame(1200), active(false), drawX(0), drawY(0)
 {
 	num = new Text;
-	num->Initialize("time_number.png", 50, 256, 10);
+	num->Initialize("time_number.png", 50, 100, 10);
 }
 
 Timer::~Timer()

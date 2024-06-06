@@ -14,7 +14,7 @@
 //コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
 	: GameObject(parent, "CharacterDisplay"),
-	pText_(nullptr),scoreX(950),scoreY(5),timerX(800),timerY(5),displayScore(true),
+	pText_(nullptr),scoreX(950),scoreY(450),timerX(800),timerY(5),displayScore(true),
 	displayTimer(true)
 {
 }
@@ -22,8 +22,7 @@ CharacterDisplay::CharacterDisplay(GameObject* parent)
 //初期化
 void CharacterDisplay::Initialize()
 {
-	pText_ = new Text;
-	pText_->Initialize("score_number.png", 50, 256, 10);
+
 	pScore_ = Instantiate<Score>(this);
 	pTimer_ = Instantiate<Timer>(this);
 
@@ -62,18 +61,16 @@ void CharacterDisplay::Release()
 {
 }
 
-void CharacterDisplay::ScorePosition(int x, int y,bool display)
+void CharacterDisplay::ScorePosition(int x, int y)
 {
 	scoreX = x;
 	scoreY = y;
-	displayScore = display;
 }
 
-void CharacterDisplay::TimerPosition(int x, int y ,bool display)
+void CharacterDisplay::TimerPosition(int x, int y )
 {
 	timerX = x;
 	timerY = y;
-	displayTimer = display;
 }
 
 int CharacterDisplay::GetScore()

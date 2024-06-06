@@ -8,6 +8,8 @@
 #include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
 #include "CharacterDisplay.h"
+#include "Score.h"
+
 #include "Engine/SceneManager.h"
 
 #include "Engine/Input.h"
@@ -54,9 +56,12 @@ void TestScene::Update()
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();
 
+		int score = pDisplay->GetScore();
+
+
 		if (Input::IsKeyDown(DIK_C)) {
 			Global::SetJewel(jewel_);
-			Global::SetKillCount(killCount_);
+			Global::AddKillCount(killCount_);
 			
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
@@ -68,6 +73,7 @@ void TestScene::Update()
 //•`‰æ
 void TestScene::Draw()
 {
+	pDisplay->Draw();
 }
 
 //ŠJ•ú

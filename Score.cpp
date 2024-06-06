@@ -21,7 +21,7 @@ Score::Score(GameObject* parent)
 void Score::Initialize()
 {
     pText_ = new Text;
-    pText_->Initialize("score_number.png", 50, 256, 10);
+    pText_->Initialize("score_number.png", 50,100, 10);
 }
 
 //XV

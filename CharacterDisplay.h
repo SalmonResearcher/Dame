@@ -37,8 +37,11 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	void ScorePosition(int x, int y,bool display);
-	void TimerPosition(int x, int y,bool display);
+	void ScorePosition(int x, int y);
+	void TimerPosition(int x, int y);
+
+	void HideScore() { displayScore = false; };
+	void HideTimer() { displayTimer = false; };
 
 	int GetScore();
 
