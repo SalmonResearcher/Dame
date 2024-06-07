@@ -1,76 +1,109 @@
+// CharacterDisplay.cpp
 #include "CharacterDisplay.h"
-
 #include "Score.h"
 #include "Timer.h"
 #include "JewelNumber.h"
-
 #include "Engine/Debug.h"
 
-//コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
-	: GameObject(parent, "CharacterDisplay"),
-	pText_(nullptr),scoreX(950),scoreY(25),timerX(800),timerY(25),jewelX(45),jewelY(600), displayScore(true),
-	displayTimer(true),displayJewel(true)
+    : GameObject(parent, "CharacterDisplay"),
+    displayScore(true), displayTimer(true), displayJewel(true)
 {
 }
 
-//初期化
 void CharacterDisplay::Initialize()
 {
-
-	pScore_ = Instantiate<Score>(this);
-	pTimer_ = Instantiate<Timer>(this);
-	pJewel_ = Instantiate<JewelNumber>(this);
-
-	pTimer_->SetLimit(30);
 }
 
-//更新
 void CharacterDisplay::Update()
 {
 }
 
-//描画
 void CharacterDisplay::Draw()
 {
-	if (displayScore) {
-		pScore_->Draw(scoreX, scoreY);
-	}
-	if (displayTimer) {
-		pTimer_->Draw(timerX, timerY);
-	}
-	if (displayJewel) {
-		pJewel_->Draw(jewelX, jewelY);
-	}
-
+    if (displayScore) {
+        for (size_t i = 0; i < scores.size(); ++i) {
+            scores[i]->Draw(/* 適切な座標を設定 */);
+        }
+    }
+    if (displayTimer) {
+        for (size_t i = 0; i < timers.size(); ++i) {
+            timers[i]->Draw(/* 適切な座標を設定 */);
+        }
+    }
+    if (displayJewel) {
+        for (size_t i = 0; i < jewels.size(); ++i) {
+            jewels[i]->Draw(/* 適切な座標を設定 */);
+        }
+    }
 }
 
-void CharacterDisplay::Draw(int _score)
-{
-	pScore_->Draw(scoreX, scoreY, _score);
-}
-
-
-
-
-//開放
 void CharacterDisplay::Release()
 {
+    for (auto score : scores) {
+        delete(score);
+    }
+    scores.clear();
+
+    for (auto timer : timers) {
+        delete(timer);
+    }
+    timers.clear();
+
+    for (auto jewel : jewels) {
+        delete(jewel);
+    }
+    jewels.clear();
 }
 
-void CharacterDisplay::ScorePosition(int x, int y)
+void CharacterDisplay::SetScoreValue(int index, int value)
 {
-	scoreX = x;
-	scoreY = y;
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->SetScore(value);
+    }
 }
 
-void CharacterDisplay::TimerPosition(int x, int y )
+void CharacterDisplay::SetTimerPosition(int index, int x, int y)
 {
-	timerX = x;
-	timerY = y;
+    if (index >= 0 && index < static_cast<int>(timers.size())) {
+        timers[index]->SetTimePosition(x, y);
+    }
 }
 
-int CharacterDisplay::GetScore()
+void CharacterDisplay::SetJewelValue(int index, int value)
 {
-	return score_;
+    if (index >= 0 && index < static_cast<int>(jewels.size())) {
+        jewels[index]->SetNumber(value);
+    }
+}
+
+void CharacterDisplay::SetJewelPosition(int index, int x, int y)
+{
+    if (index >= 0 && index < static_cast<int>(jewels.size())) {
+        jewels[index]->SetPosition(x, y);
+    }
+}
+
+
+void CharacterDisplay::CreateScores(int count)
+{
+    for (int i = 0; i < count; ++i) {
+        scores.push_back(Instantiate<Score>(this));
+    }
+}
+
+void CharacterDisplay::CreateTimers(int count)
+{
+    for (int i = 0; i < count; ++i) {
+        auto timer = Instantiate<Timer>(this);
+        timer->SetLimit(30); // 適切な制限時間を設定
+        timers.push_back(timer);
+    }
+}
+
+void CharacterDisplay::CreateJewels(int count)
+{
+    for (int i = 0; i < count; ++i) {
+        jewels.push_back(Instantiate<JewelNumber>(this));
+    }
 }

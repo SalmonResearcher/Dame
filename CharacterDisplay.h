@@ -1,54 +1,42 @@
+// CharacterDisplay.h
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Text.h"
+#include <vector>
 
 class Score;
 class Timer;
 class JewelNumber;
 
-class CharacterDisplay :public GameObject
+class CharacterDisplay : public GameObject
 {
 private:
-	Text* pText_;
-	Score* pScore_;
-	Timer* pTimer_;
-	JewelNumber* pJewel_;
+    std::vector<Score*> scores;
+    std::vector<Timer*> timers;
+    std::vector<JewelNumber*> jewels;
 
-
-	int scoreX, scoreY;
-	int timerX, timerY;
-	int jewelX, jewelY;
-
-	bool displayScore, displayTimer,displayJewel;
-
-	int score_;
+    bool displayScore, displayTimer, displayJewel;
 
 public:
+    CharacterDisplay(GameObject* parent);
+    void Initialize() override;
+    void Update() override;
+    void Draw() override;
+    void Release() override;
 
-	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
-	CharacterDisplay(GameObject* parent);
+    void SetScoreValue(int index, int value);
+    void SetScorePosition(intindex, int x, int y);
 
-	//初期化
-	void Initialize() override;
+    void SetTimer(int index, int limit);
+    void SetTimerPosition(int index, int x, int y);
+    void SetJewelValue(int index, int value);
+    void SetJewelPosition(int index, int x, int y);
 
-	//更新
-	void Update() override;
+    void CreateScores(int count);
+    void CreateTimers(int count);
+    void CreateJewels(int count);
 
-	//描画
-	void Draw() override;
-	void Draw(int _score);
-
-	//開放
-	void Release() override;
-
-	void ScorePosition(int x, int y);
-	void TimerPosition(int x, int y);
-
-	void HideScore() { displayScore = false; };
-	void HideTimer() { displayTimer = false; };
-	void HideJewel() { displayJewel = false; };
-
-	int GetScore();
-
+    void HideScore() { displayScore = false; }
+    void HideTimer() { displayTimer = false; }
+    void HideJewel() { displayJewel = false; }
 };

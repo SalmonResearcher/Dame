@@ -41,5 +41,6 @@ public:
 	//ŠJ•ú
 	void Release() override;
 	
-	int GetScore() {return saveScore_;};
+	int GetScore() {return saveScore_;}
+	void SetScore(int _score) { score_ = _score; }
 };

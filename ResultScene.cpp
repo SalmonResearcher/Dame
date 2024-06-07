@@ -31,6 +31,14 @@ void ResultScene::Initialize()
 	totalScore_ = (killCount_ * 25)+(jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.01));
 
 
+	pDisp_->CreateScore(3);
+	
+	for (int iad; gajh; gjaig)
+	{
+		pDisp_->ScorePos(i, 125, x)
+		x + 120;
+	}
+
 	pDisp1_->ScorePosition(800, 80);
 	pDisp2_->ScorePosition(800, 200);
 	pDisp3_->ScorePosition(800, 320);

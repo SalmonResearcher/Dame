@@ -34,6 +34,12 @@ void TestScene::Initialize()
 	pText = new Text;
 	pText->Initialize();
 
+	pDisplay->CreateJewels(1);
+	pDisplay->CreateScores(1);
+	pDisplay->CreateTimers(1);
+
+	pDisplay->SetJewelPosition(0, 45, 800);
+
 }
 
 //XV
