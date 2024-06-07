@@ -4,6 +4,7 @@
 
 class Score;
 class Timer;
+class JewelNumber;
 
 class CharacterDisplay :public GameObject
 {
@@ -11,10 +12,14 @@ private:
 	Text* pText_;
 	Score* pScore_;
 	Timer* pTimer_;
+	JewelNumber* pJewel_;
+
 
 	int scoreX, scoreY;
 	int timerX, timerY;
-	bool displayScore, displayTimer;
+	int jewelX, jewelY;
+
+	bool displayScore, displayTimer,displayJewel;
 
 	int score_;
 
@@ -42,6 +47,7 @@ public:
 
 	void HideScore() { displayScore = false; };
 	void HideTimer() { displayTimer = false; };
+	void HideJewel() { displayJewel = false; };
 
 	int GetScore();
 

@@ -160,6 +160,7 @@
     <ClCompile Include="Jewel.cpp" />
     <ClCompile Include="JewelBox.cpp" />
     <ClCompile Include="JewelBullet.cpp" />
+    <ClCompile Include="JewelNumber.cpp" />
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Jewel.h" />
     <ClInclude Include="JewelBox.h" />
     <ClInclude Include="JewelBullet.h" />
+    <ClInclude Include="JewelNumber.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />

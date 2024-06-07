@@ -107,10 +107,12 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     {
         score_ = CalculateScore(killCount_);
         ((JewelBox*)FindObject("JewelBox"))->AddScore(score_);
-
-        Global::AddJewelKill(score_);
-        Global::AddKillCount(killCount_);
-
+        if (score_ != 200)
+        {
+            Global::AddJewelKill(score_);
+            Global::AddKillCount(killCount_);
+        }
+        Global::AddJewel(1);
         KillMe();
     }
 }
@@ -118,7 +120,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 int JewelBullet::CalculateScore(int killCount)
 {
     int baseScore = 200; // ŒÅ’è‚Ì200“_
-    int scores[] = {25, 50, 75, 150, 300, 3000};
+    int scores[] = {25, 50, 75, 150, 300, 1500};
 
     //“|‚µ‚½”‚ª1`4‚Ì
     if (killCount >= 1 && killCount < 5) {
@@ -128,9 +130,9 @@ int JewelBullet::CalculateScore(int killCount)
     else if (killCount >= 5 && killCount < 10) {
         return scores[4] * (killCount - 4) + baseScore; // 6‚Ì‚Í300*2A7‚Ì‚Í300*3‚Æ‚È‚é
     }
-    //10ˆÈã
+    //10ˆÈã1500*kill-8
     else if (killCount >= 10) {
-        return scores[5] * (killCount - 9) + baseScore;
+        return scores[5] * (killCount - 8) + baseScore;
     }
     else {
         return baseScore; // killCount‚ª0ˆÈ‰º‚Ì‚Í•óÎ‚Ì‚İ‚Ì“_

@@ -56,8 +56,6 @@ void Score::Update()
         }
     }
     saveScore_ = up_;
-    Global::SetScore(saveScore_);
-
 }
 
 //•`‰æ

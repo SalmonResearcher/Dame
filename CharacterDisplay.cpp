@@ -1,21 +1,16 @@
 #include "CharacterDisplay.h"
+
 #include "Score.h"
 #include "Timer.h"
+#include "JewelNumber.h"
+
 #include "Engine/Debug.h"
-
-#include "Enemy/Enemy.h"
-#include "Player.h"
-#include "JewelBox.h"
-#include "JewelBullet.h"
-
-#include <math.h>
-
 
 //コンストラクタ
 CharacterDisplay::CharacterDisplay(GameObject* parent)
 	: GameObject(parent, "CharacterDisplay"),
-	pText_(nullptr),scoreX(950),scoreY(450),timerX(800),timerY(5),displayScore(true),
-	displayTimer(true)
+	pText_(nullptr),scoreX(950),scoreY(25),timerX(800),timerY(25),jewelX(45),jewelY(600), displayScore(true),
+	displayTimer(true),displayJewel(true)
 {
 }
 
@@ -25,10 +20,9 @@ void CharacterDisplay::Initialize()
 
 	pScore_ = Instantiate<Score>(this);
 	pTimer_ = Instantiate<Timer>(this);
+	pJewel_ = Instantiate<JewelNumber>(this);
 
 	pTimer_->SetLimit(30);
-	pTimer_->Start();
-
 }
 
 //更新
@@ -44,6 +38,9 @@ void CharacterDisplay::Draw()
 	}
 	if (displayTimer) {
 		pTimer_->Draw(timerX, timerY);
+	}
+	if (displayJewel) {
+		pJewel_->Draw(jewelX, jewelY);
 	}
 
 }

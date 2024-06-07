@@ -158,9 +158,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ToyBox\Player</Filter>
     </ClCompile>
-    <ClCompile Include="FadeIn_FadeOut.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Jewel.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
@@ -195,6 +192,13 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>ToyBox\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="JewelNumber.cpp">
+      <Filter>ToyBox\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +307,6 @@
     <ClInclude Include="Player.h">
       <Filter>ToyBox\Player</Filter>
     </ClInclude>
-    <ClInclude Include="FadeIn_FadeOut.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Jewel.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
@@ -341,6 +342,13 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>ToyBox\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="JewelNumber.h">
+      <Filter>ToyBox\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

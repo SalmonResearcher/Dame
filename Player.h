@@ -85,6 +85,7 @@ public:
     void OnCollision(GameObject* pTarget)override;
 
     int SendJewel(){ return jewelDeliver_; }
+    int GetJewelCount() { return jewelCount_; }
 
     void KillCountUp() { killCount_++; }
     int GetKillCount() { return killCount_; }

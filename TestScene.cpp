@@ -40,7 +40,7 @@ void TestScene::Initialize()
 void TestScene::Update()
 {
 	
-		if (count % 60 == 0)
+		if (count % 30 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
 		}
@@ -60,7 +60,7 @@ void TestScene::Update()
 
 
 		if (Input::IsKeyDown(DIK_C)) {
-			Global::SetJewel(jewel_);
+			Global::AddJewel(jewel_);
 			Global::AddKillCount(killCount_);
 			
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");

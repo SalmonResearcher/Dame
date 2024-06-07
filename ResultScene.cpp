@@ -27,8 +27,8 @@ void ResultScene::Initialize()
 	jewel_ = Global::GetJewel();
 	jewelKill_ = Global::GetJewelKill();
 
-	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*5％））
-	totalScore_ = (jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.05)) + (killCount_ * 25);
+	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
+	totalScore_ = (killCount_ * 25)+(jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.01));
 
 
 	pDisp1_->ScorePosition(800, 80);
@@ -41,10 +41,15 @@ void ResultScene::Initialize()
 	pDisp3_->HideTimer();
 	pDisp4_->HideTimer();	
 	
-	pDisp1_->HideScore();
-	pDisp2_->HideScore();
-	pDisp3_->HideScore();
-	pDisp4_->HideScore();
+	//pDisp1_->HideScore();
+	//pDisp2_->HideScore();
+	//pDisp3_->HideScore();
+	//pDisp4_->HideScore();
+
+	pDisp1_->HideJewel();
+	pDisp2_->HideJewel();
+	pDisp3_->HideJewel();
+	pDisp4_->HideJewel();
 
 
 
@@ -58,13 +63,14 @@ void ResultScene::Update()
 //描画
 void ResultScene::Draw()
 {
+	Image::SetTransform(hImage_, trPict_);
+	Image::Draw(hImage_);
+
+
 	pDisp1_->Draw(killCount_);
 	pDisp2_->Draw(jewel_);
 	pDisp3_->Draw(jewelKill_);
 	pDisp4_->Draw(totalScore_);
-
-	Image::SetTransform(hImage_, trPict_);
-	Image::Draw(hImage_);
 }
 
 //開放
