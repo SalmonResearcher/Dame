@@ -61,17 +61,12 @@ void Score::Update()
 //描画
 void Score::Draw()
 {
-}
-
-//描画
-void Score::Draw(int _x, int _y)
-{
     // 6桁で0埋めのフォーマット指定子を使用して文字列を生成
     char buffer[7]; // 文字列+1分の配列サイズ
     snprintf(buffer, sizeof(buffer), "%06d", up_);
     std::string result = buffer;
 
-    pText_->Draw(_x, _y, result.c_str(),true);
+    pText_->Draw(posX_, posY_, result.c_str(),true);
 }
 
 //描画

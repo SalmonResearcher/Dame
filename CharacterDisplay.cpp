@@ -23,12 +23,12 @@ void CharacterDisplay::Draw()
 {
     if (displayScore) {
         for (size_t i = 0; i < scores.size(); ++i) {
-            scores[i]->Draw(/* 適切な座標を設定 */);
+            scores[i]->Draw();
         }
     }
     if (displayTimer) {
         for (size_t i = 0; i < timers.size(); ++i) {
-            timers[i]->Draw(/* 適切な座標を設定 */);
+            timers[i]->Draw();
         }
     }
     if (displayJewel) {
@@ -37,6 +37,7 @@ void CharacterDisplay::Draw()
         }
     }
 }
+
 
 void CharacterDisplay::Release()
 {
@@ -56,6 +57,13 @@ void CharacterDisplay::Release()
     jewels.clear();
 }
 
+void CharacterDisplay::SetScorePosition(int index, int x, int y)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->SetDisplayPosition(x,y);
+    }
+}
+
 void CharacterDisplay::SetScoreValue(int index, int value)
 {
     if (index >= 0 && index < static_cast<int>(scores.size())) {
@@ -66,7 +74,14 @@ void CharacterDisplay::SetScoreValue(int index, int value)
 void CharacterDisplay::SetTimerPosition(int index, int x, int y)
 {
     if (index >= 0 && index < static_cast<int>(timers.size())) {
-        timers[index]->SetTimePosition(x, y);
+        timers[index]->SetTimerPosition(x, y);
+    }
+}
+
+void CharacterDisplay::SetJewelPosition(int index, int x, int y)
+{
+    if (index >= 0 && index < static_cast<int>(jewels.size())) {
+        jewels[index]->SetPosition(x, y);
     }
 }
 
@@ -77,12 +92,7 @@ void CharacterDisplay::SetJewelValue(int index, int value)
     }
 }
 
-void CharacterDisplay::SetJewelPosition(int index, int x, int y)
-{
-    if (index >= 0 && index < static_cast<int>(jewels.size())) {
-        jewels[index]->SetPosition(x, y);
-    }
-}
+
 
 
 void CharacterDisplay::CreateScores(int count)
@@ -96,7 +106,7 @@ void CharacterDisplay::CreateTimers(int count)
 {
     for (int i = 0; i < count; ++i) {
         auto timer = Instantiate<Timer>(this);
-        timer->SetLimit(30); // 適切な制限時間を設定
+        timer->SetLimit(0); // タイマー一応初期化
         timers.push_back(timer);
     }
 }

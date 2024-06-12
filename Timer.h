@@ -11,9 +11,8 @@ private:
 
 	int frame;
 	bool active;
-	int drawX;
-	int drawY;
 
+	int posX_, posY_;
 
 public:
 
@@ -46,5 +45,5 @@ public:
 
 	bool IsFinished();
 
-
+	void SetTimerPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
 };

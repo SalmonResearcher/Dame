@@ -74,11 +74,6 @@ void ResultScene::Draw()
 	Image::SetTransform(hImage_, trPict_);
 	Image::Draw(hImage_);
 
-
-	pDisp1_->Draw(killCount_);
-	pDisp2_->Draw(jewel_);
-	pDisp3_->Draw(jewelKill_);
-	pDisp4_->Draw(totalScore_);
 }
 
 //ŠJ•ú

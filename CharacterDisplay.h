@@ -24,17 +24,23 @@ public:
     void Draw() override;
     void Release() override;
 
-    void SetScoreValue(int index, int value);
-    void SetScorePosition(intindex, int x, int y);
+    void CreateScores(int count);//スコア表示を設置する数
+    void CreateTimers(int count);//タイマー表示を設置する数
+    void CreateJewels(int count);//手持ちの宝石をを設置する数
 
-    void SetTimer(int index, int limit);
-    void SetTimerPosition(int index, int x, int y);
-    void SetJewelValue(int index, int value);
-    void SetJewelPosition(int index, int x, int y);
 
-    void CreateScores(int count);
-    void CreateTimers(int count);
-    void CreateJewels(int count);
+    void SetScorePosition(int index, int x, int y);//〇番目のスコアをどこに置くか
+    void SetScoreValue(int index, int value);//〇番目のスコアは何を表示するか
+
+    void SetTimerPosition(int index, int x, int y);//〇番目のタイマーはどこに置くのか
+    void SetTimerLimit(int index, int limit);//〇番目のタイマーは何秒に設定されるのか
+
+    void SetJewelPosition(int index, int x, int y);//〇番目の手持ちの宝石はどこに置くのか
+    void SetJewelValue(int index, int value);//〇番目の宝石は何を表示するのか
+
+    //我々はどこから来たのか 我々は何者か 我々はどこへ行くのか
+
+
 
     void HideScore() { displayScore = false; }
     void HideTimer() { displayTimer = false; }

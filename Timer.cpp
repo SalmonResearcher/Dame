@@ -4,7 +4,7 @@ static const int FPS = 60;
 
 Timer::Timer(GameObject* parent)
 	:GameObject(parent, "CharacterDisplay"),
-	frame(1200), active(false), drawX(0), drawY(0)
+	frame(1200), active(false)
 {
 	num = new Text;
 	num->Initialize("time_number.png", 50, 100, 10);
@@ -32,12 +32,6 @@ void Timer::Update()
 
 void Timer::Draw()
 {
-
-}
-
-//描画
-void Timer::Draw(int _x, int _y)
-{
 	int sec = frame / FPS;
 
 	// 2桁で0埋めのフォーマット指定子を使用して文字列を生成
@@ -45,9 +39,9 @@ void Timer::Draw(int _x, int _y)
 	snprintf(buffer, sizeof(buffer), "%02d", sec);
 	std::string result = buffer;
 
-	num->Draw(_x, _y, result.c_str(), true);
-}
+	num->Draw(posX_, posY_, result.c_str(), true);
 
+}
 
 void Timer::Release()
 {

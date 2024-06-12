@@ -20,6 +20,8 @@ private:
 
 	int saveScore_ = 0;
 
+	int posX_, posY_;
+
 public:
 
 	//コンストラクタ
@@ -43,4 +45,5 @@ public:
 	
 	int GetScore() {return saveScore_;}
 	void SetScore(int _score) { score_ = _score; }
+	void SetDisplayPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
 };
