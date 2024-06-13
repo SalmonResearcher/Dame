@@ -31,16 +31,33 @@ void ResultScene::Initialize()
 	pDisp_->CreateScores(4);
 
 	pDisp_->SetScoreValue(0, killCount_);
-	pDisp_->SetScorePosition(0, 400, 400);
+	pDisp_->SetScorePosition(0, 780, 200);
+	pDisp_->SetScoreIncrementStep(0, 30);
+	if (killCount_ < 30 && killCount_ != 0){
+		pDisp_->SetScoreIncrementStep(0, killCount_);
+	}
 
 	pDisp_->SetScoreValue(1, jewel_);
-	pDisp_->SetScorePosition(1, 400, 400);
+	pDisp_->SetScorePosition(1, 780, 335);
+	pDisp_->SetScoreIncrementStep(1, 30);
+		if (jewel_ < 30 && jewel_ != 0){
+		pDisp_->SetScoreIncrementStep(1, jewel_);
+	}
 
 	pDisp_->SetScoreValue(2, jewelKill_);
-	pDisp_->SetScorePosition(2, 400, 400);
+	pDisp_->SetScorePosition(2, 780, 470);
+	pDisp_->SetScoreIncrementStep(2, 30);
+	if (jewelKill_ < 30 && jewelKill_ != 0) {
+		pDisp_->SetScoreIncrementStep(2, jewelKill_);
+	}
 
 	pDisp_->SetScoreValue(3, totalScore_);
-	pDisp_->SetScorePosition(3, 400, 400);
+	pDisp_->SetScorePosition(3, 780, 605);
+	pDisp_->SetScoreIncrementStep(3, 120);
+	if (totalScore_ < 120 && totalScore_ != 0) {
+		pDisp_->SetScoreIncrementStep(3, totalScore_);
+	}
+
 
 
 }
@@ -48,6 +65,24 @@ void ResultScene::Initialize()
 //XV
 void ResultScene::Update()
 {
+	switch (showScoreTime)
+	{
+	case 0:
+		pDisp_->ScoreCountStart(0);
+		break;
+	case 60:
+		pDisp_->ScoreCountStart(1);
+		break;
+	case 120:
+		pDisp_->ScoreCountStart(2);
+		break;
+	case 210:
+		pDisp_->ScoreCountStart(3);
+		break;
+	default:
+		break;
+	}
+	showScoreTime++;
 }
 
 //•`‰æ

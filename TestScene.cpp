@@ -38,7 +38,11 @@ void TestScene::Initialize()
 	pDisplay->CreateScores(1);
 	pDisplay->CreateTimers(1);
 
-	pDisplay->SetJewelPosition(0, 45, 400);
+	pDisplay->SetJewelPosition(0, 45, 650);
+	pDisplay->SetScorePosition(0, 950, 45);
+	pDisplay->SetTimerPosition(0, 850, 45);
+
+	pDisplay->ScoreCountStart(0);
 
 }
 

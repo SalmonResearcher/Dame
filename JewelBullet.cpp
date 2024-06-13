@@ -99,9 +99,16 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 {
     if (pTarget->GetObjectName() == "Enemy")
     {
+        Enemy* curEnemy = (Enemy*)pTarget;
+
         Enemy* pEnemy = (Enemy*)pTarget;
+        if (pEnemy != curEnemy)
+        {
+
+        }
         pEnemy->Death();
-        killCount_++;
+
+
     }
 
     if (pTarget->GetObjectName() == "JewelBox")
@@ -111,7 +118,6 @@ void JewelBullet::OnCollision(GameObject* pTarget)
         if (score_ != 200)
         {
             Global::AddJewelKill(score_);
-            Global::AddKillCount(killCount_);
         }
         Global::AddJewel(1);
         KillMe();

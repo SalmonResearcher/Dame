@@ -17,6 +17,7 @@ private:
 	int jewelKill_;
 
 	int totalScore_;
+	int showScoreTime = 0;
 
 public:
 
