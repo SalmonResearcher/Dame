@@ -27,26 +27,16 @@ void Score::Initialize()
 //更新
 void Score::Update()
 {
-    //1f前の足されたスコア
-    int curScore_ = score_;
-    if (FindObject("Player") != nullptr) {
-        kill_ = ((Player*)FindObject("Player"))->GetKillCount();
-    }
-
-    if (FindObject("JewelBox") != nullptr) {
-        jewel_ = ((JewelBox*)FindObject("JewelBox"))->ReturnJewel();
-        bulletScore_ = ((JewelBox*)FindObject("JewelBox"))->GetKillScore();
-    }
-
-    score_ = (jewel_ * 200) + (kill_ * 25) + bulletScore_;
     // 表示スコアup_を徐々にscore_に近づける
     if (curScore_ != score_) {
         int difference = score_ - up_;
         incrementValue_ = difference / incrementSteps_;
+        //1f前の足されたスコア
+        curScore_ = score_;
     }
 
     // 表示スコアup_を目標スコアに近づける
-    if (up_ != score_) {
+    if (up_ != score_ && countUp) {
         // 差がincrementValue_未満なら直接目標スコアにする
         if (std::abs(score_ - up_) < std::abs(incrementValue_)) {
             up_ = score_;
@@ -55,7 +45,6 @@ void Score::Update()
             up_ += incrementValue_;
         }
     }
-    saveScore_ = up_;
 }
 
 //描画
@@ -69,18 +58,28 @@ void Score::Draw()
     pText_->Draw(posX_, posY_, result.c_str(),true);
 }
 
-//描画
-void Score::Draw(int _x, int _y ,int num)
-{
-    // 6桁で0埋めのフォーマット指定子を使用して文字列を生成
-    char buffer[7]; // 文字列+1分の配列サイズ
-    snprintf(buffer, sizeof(buffer), "%06d", num);
-    std::string result = buffer;
-
-    pText_->Draw(_x, _y, result.c_str(), true);
-}
 
 //開放
 void Score::Release()
 {
+}
+
+void Score::ScoreCaluc()
+{
+    if (FindObject("Player") != nullptr) {
+        kill_ = ((Player*)FindObject("Player"))->GetKillCount();
+    }
+    else {
+        kill_ = Global::GetKillCount();
+        jewel_ = Global::GetJewel();
+        bulletScore_ = Global::GetJewelKill();
+    }
+
+    if (FindObject("JewelBox") != nullptr) {
+        jewel_ = ((JewelBox*)FindObject("JewelBox"))->ReturnJewel();
+        bulletScore_ = ((JewelBox*)FindObject("JewelBox"))->GetKillScore();
+    }
+
+
+    score_ = (jewel_ * 200) + (kill_ * 25) + bulletScore_;
 }

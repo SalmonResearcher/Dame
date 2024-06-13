@@ -19,8 +19,9 @@ private:
 	int incrementValue_ = 0; // スコアの増加量
 
 	int saveScore_ = 0;
-
 	int posX_, posY_;
+
+	bool countUp = false;
 
 public:
 
@@ -36,9 +37,6 @@ public:
 
 	//描画
 	void Draw() override;
-	void Draw(int _x, int _y);
-
-	void Draw(int _x, int _y, int num);
 
 	//開放
 	void Release() override;
@@ -46,4 +44,9 @@ public:
 	int GetScore() {return saveScore_;}
 	void SetScore(int _score) { score_ = _score; }
 	void SetDisplayPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
+
+	void ScoreCaluc();
+	void Start() { countUp = true; }
+	void Stop() { countUp = false; }
+	void SetIncrementSteps(int _step) { incrementSteps_ = _step; }
 };

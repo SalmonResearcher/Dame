@@ -10,10 +10,7 @@ private:
 	Transform trPict_;
 	int hImage_;
 
-	CharacterDisplay* pDisp1_;
-	CharacterDisplay* pDisp2_;
-	CharacterDisplay* pDisp3_;
-	CharacterDisplay* pDisp4_;
+	CharacterDisplay* pDisp_;
 
 	int killCount_;
 	int jewel_;

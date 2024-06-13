@@ -33,27 +33,17 @@ void CharacterDisplay::Draw()
     }
     if (displayJewel) {
         for (size_t i = 0; i < jewels.size(); ++i) {
-            jewels[i]->Draw(/* “KØ‚ÈÀ•W‚ðÝ’è */);
+            jewels[i]->Draw();
         }
     }
 }
 
-
 void CharacterDisplay::Release()
 {
-    for (auto score : scores) {
-        delete(score);
-    }
     scores.clear();
 
-    for (auto timer : timers) {
-        delete(timer);
-    }
     timers.clear();
 
-    for (auto jewel : jewels) {
-        delete(jewel);
-    }
     jewels.clear();
 }
 
@@ -71,6 +61,13 @@ void CharacterDisplay::SetScoreValue(int index, int value)
     }
 }
 
+void CharacterDisplay::SetScoreValue(int index)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->ScoreCaluc();
+    }
+}
+
 void CharacterDisplay::SetTimerPosition(int index, int x, int y)
 {
     if (index >= 0 && index < static_cast<int>(timers.size())) {
@@ -81,19 +78,16 @@ void CharacterDisplay::SetTimerPosition(int index, int x, int y)
 void CharacterDisplay::SetJewelPosition(int index, int x, int y)
 {
     if (index >= 0 && index < static_cast<int>(jewels.size())) {
-        jewels[index]->SetPosition(x, y);
+        jewels[index]->SetJewelPosition(x, y);
     }
 }
 
 void CharacterDisplay::SetJewelValue(int index, int value)
 {
     if (index >= 0 && index < static_cast<int>(jewels.size())) {
-        jewels[index]->SetNumber(value);
+        jewels[index]->SetJewelNumber(value);
     }
 }
-
-
-
 
 void CharacterDisplay::CreateScores(int count)
 {
@@ -115,5 +109,26 @@ void CharacterDisplay::CreateJewels(int count)
 {
     for (int i = 0; i < count; ++i) {
         jewels.push_back(Instantiate<JewelNumber>(this));
+    }
+}
+
+void CharacterDisplay::ScoreCountStart(int index)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->Start();
+    }
+}
+
+void CharacterDisplay::ScoreCountStop(int index)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->Stop();
+    }
+}
+
+void CharacterDisplay::SetScoreIncrementStep(int index, int step)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->SetIncrementSteps(step);
     }
 }

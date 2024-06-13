@@ -16,5 +16,5 @@ namespace Global
 	void AddJewelKill(int count);
 	int GetJewelKill();
 
-
+	void SetScore(int count);
 }

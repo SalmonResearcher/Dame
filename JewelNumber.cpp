@@ -31,20 +31,16 @@ void JewelNumber::Update()
     }
 }
 
-//描画
-void JewelNumber::Draw()
-{
-}
 
 //描画
-void JewelNumber::Draw(int _x, int _y)
+void JewelNumber::Draw()
 {
     // 2桁で0埋めのフォーマット指定子を使用して文字列を生成
     char buffer[3]; // 文字列+1分の配列サイズ
     snprintf(buffer, sizeof(buffer), "%02d", jewel_);
     std::string result = buffer;
 
-    pText_->Draw(_x, _y, result.c_str(), true);
+    pText_->Draw(posX_, posY_, result.c_str(), true);
 }
 
 //開放

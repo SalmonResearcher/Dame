@@ -10,6 +10,9 @@ private:
 	int jewel_= 0;
 	Text* pText_;
 
+	int posX_,posY_;
+
+
 public:
 
 	//コンストラクタ
@@ -25,8 +28,9 @@ public:
 	//描画
 	void Draw() override;
 
-	void Draw(int _x, int _y);
-
 	//開放
 	void Release() override;
+
+	void SetJewelPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
+	void SetJewelNumber(int _value) { jewel_ = _value; }
 };

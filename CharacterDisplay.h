@@ -31,6 +31,7 @@ public:
 
     void SetScorePosition(int index, int x, int y);//〇番目のスコアをどこに置くか
     void SetScoreValue(int index, int value);//〇番目のスコアは何を表示するか
+    void SetScoreValue(int index);//〇番目のスコアはゲーム中のスコアを表示
 
     void SetTimerPosition(int index, int x, int y);//〇番目のタイマーはどこに置くのか
     void SetTimerLimit(int index, int limit);//〇番目のタイマーは何秒に設定されるのか
@@ -40,7 +41,9 @@ public:
 
     //我々はどこから来たのか 我々は何者か 我々はどこへ行くのか
 
-
+    void ScoreCountStart(int index);
+    void ScoreCountStop(int index);
+    void SetScoreIncrementStep(int index, int step);
 
     void HideScore() { displayScore = false; }
     void HideTimer() { displayTimer = false; }

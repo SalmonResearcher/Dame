@@ -38,14 +38,13 @@ void TestScene::Initialize()
 	pDisplay->CreateScores(1);
 	pDisplay->CreateTimers(1);
 
-	pDisplay->SetJewelPosition(0, 45, 800);
+	pDisplay->SetJewelPosition(0, 45, 400);
 
 }
 
 //çXêV
 void TestScene::Update()
 {
-	
 		if (count % 30 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
@@ -59,20 +58,22 @@ void TestScene::Update()
 
 		count++;
 
+
+
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();
 
-		int score = pDisplay->GetScore();
-
+		
 
 		if (Input::IsKeyDown(DIK_C)) {
 			Global::AddJewel(jewel_);
 			Global::AddKillCount(killCount_);
-			
+
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
 
 		}
+		pDisplay->SetScoreValue(0);
 
 }
 
