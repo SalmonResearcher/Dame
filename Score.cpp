@@ -7,6 +7,9 @@
 #include "JewelBox.h"
 #include "JewelBullet.h"
 
+#include <sstream>
+#include <iomanip>
+
 #include <math.h>
 #include <cstdio>
 
@@ -50,12 +53,11 @@ void Score::Update()
 //描画
 void Score::Draw()
 {
-    // 6桁で0埋めのフォーマット指定子を使用して文字列を生成
-    char buffer[7]; // 文字列+1分の配列サイズ
-    snprintf(buffer, sizeof(buffer), "%06d", up_);
-    std::string result = buffer;
+    std::stringstream ss;
+    ss << std::setw(6) << std::setfill('0') << up_;
+    std::string result = ss.str();
 
-    pText_->Draw(posX_, posY_, result.c_str(),true);
+    pText_->Draw(posX_, posY_, result.c_str(), true);
 }
 
 

@@ -24,6 +24,7 @@ struct {
 class Enemy : public GameObject
 {
     SphereCollider* pSpher;
+    Player* pPlayer;
 
     int hModel_;    //モデル番号
 
@@ -36,8 +37,6 @@ class Enemy : public GameObject
     int curState;   //1f前の状態
     bool isChange;  //ステートを変更するかどうか（アニメーションの設定の際に使用）
 
-    Transform tEnemy_;
-
     XMVECTOR vPosition_;    //自身の位置ベクトル
     XMFLOAT3 target_;       //プレイヤーの位置
     XMVECTOR vTarget_;      //プレイヤーの位置ベクトル
@@ -48,7 +47,7 @@ class Enemy : public GameObject
     float moveY = 0.0f;
     float speed_ = 0.5f;
 
-    int waitTime = 0;
+    int waitTime_ = 0;
     int killcount;
 
     bool isDead = false;

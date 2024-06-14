@@ -58,7 +58,7 @@ void TestScene::Update()
 
 		if (Input::IsKeyDown(DIK_P))
 		{
-			pEnemy = Instantiate<Enemy>(this);
+			pEnemy = InstantiateFront<Enemy>(this);
 
 		}
 

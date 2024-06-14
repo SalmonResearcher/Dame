@@ -2,6 +2,9 @@
 #include "Engine/Debug.h"
 #include "Global.h"
 
+#include <sstream>
+#include <iomanip>
+
 #include "Player.h"
 
 
@@ -36,9 +39,9 @@ void JewelNumber::Update()
 void JewelNumber::Draw()
 {
     // 2桁で0埋めのフォーマット指定子を使用して文字列を生成
-    char buffer[3]; // 文字列+1分の配列サイズ
-    snprintf(buffer, sizeof(buffer), "%02d", jewel_);
-    std::string result = buffer;
+    std::stringstream ss;
+    ss << std::setw(2) << std::setfill('0') << jewel_;
+    std::string result = ss.str();
 
     pText_->Draw(posX_, posY_, result.c_str(), true);
 }
