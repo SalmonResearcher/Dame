@@ -1,5 +1,9 @@
 #pragma once
 #include "Engine/GameObject.h"
+
+class Enemy;
+
+
 class JewelBullet :
     public GameObject
 {
@@ -14,6 +18,8 @@ class JewelBullet :
 
     XMVECTOR bulletInitPos;
     XMFLOAT3 initPos;
+
+    Enemy* curEnemy = nullptr;
 
     int deleteTime_;
     int killCount_;
@@ -73,4 +79,7 @@ public:
     /// 敵のキル数からスコアを計算します
     /// </summary>
     int CalculateScore(int killCount);
+
+
+    void SetKillCount(int count) { killCount_ += count; }
 };

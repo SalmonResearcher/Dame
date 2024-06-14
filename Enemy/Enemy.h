@@ -4,6 +4,7 @@
 
 #include "../Player.h"
 
+class SphereCollider;
 
 enum STATE {
     MOVE,
@@ -22,10 +23,14 @@ struct {
 
 class Enemy : public GameObject
 {
+    SphereCollider* pSpher;
+
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
 
     int hStage_;
     int hPlayer_;
+
+    int killed_by_Jewel;
 
     STATE states;
     int curState;   //1f‘O‚Ìó‘Ô

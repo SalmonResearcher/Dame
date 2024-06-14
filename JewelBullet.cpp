@@ -53,8 +53,6 @@ void JewelBullet::Update()
     front.start = { tJBullet_.position_ };   //ƒŒƒC‚Ì”­ŽËˆÊ’u
     front.dir = XMFLOAT3(0, 0, 1);       //ƒŒƒC‚Ì•ûŒü
     Model::RayCast(hStage_, &front); //ƒŒƒC‚ð”­ŽË
-
-
    
     Shoot();
 
@@ -66,10 +64,15 @@ void JewelBullet::Update()
     if (deleteTime_ >= 180)
     {
         KillMe();
+        killCount_ = 0;
     }
 
     transform_ = tJBullet_;
     deleteTime_++;
+
+    Debug::Log("•óÎ‚Å“G‚ð“|‚µ‚½” = ");
+    Debug::Log(killCount_, true);
+    
 }
 
 //•`‰æ
@@ -99,16 +102,8 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 {
     if (pTarget->GetObjectName() == "Enemy")
     {
-        Enemy* curEnemy = (Enemy*)pTarget;
-
         Enemy* pEnemy = (Enemy*)pTarget;
-        if (pEnemy != curEnemy)
-        {
-
-        }
         pEnemy->Death();
-
-
     }
 
     if (pTarget->GetObjectName() == "JewelBox")
@@ -120,6 +115,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
             Global::AddJewelKill(score_);
         }
         Global::AddJewel(1);
+        killCount_ = 0;
         KillMe();
     }
 }

@@ -5,6 +5,8 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Debug.h"
+#include "Engine/Input.h"
+
 #include "Global.h"
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
@@ -72,17 +74,47 @@ void ResultScene::Update()
 		break;
 	case 60:
 		pDisp_->ScoreCountStart(1);
+
 		break;
 	case 120:
 		pDisp_->ScoreCountStart(2);
+
 		break;
 	case 210:
 		pDisp_->ScoreCountStart(3);
+
 		break;
 	default:
 		break;
 	}
+
+
 	showScoreTime++;
+
+	if (showScoreTime >= 210) {
+		if (Input::IsKeyDown(DIK_SPACE)) { 
+			pDisp_->SetScoreIncrementStep(3, 1);
+		}
+	}
+
+	else if (showScoreTime >= 120) {
+		if (Input::IsKeyDown(DIK_SPACE)) { 
+			pDisp_->SetScoreIncrementStep(2, 1);
+			showScoreTime = 210;
+		}
+	}
+	else if (showScoreTime >= 60) {
+		if (Input::IsKeyDown(DIK_SPACE)) { 
+			pDisp_->SetScoreIncrementStep(1, 1);
+			showScoreTime = 120;
+		}
+	}
+	else if (showScoreTime >= 0) {
+		if (Input::IsKeyDown(DIK_SPACE)) { 
+			pDisp_->SetScoreIncrementStep(0, 1); 
+			showScoreTime = 60;
+		}
+	}
 }
 
 //描画

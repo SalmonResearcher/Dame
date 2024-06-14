@@ -212,18 +212,6 @@ void Player::Update()
 	}
 
 	XMVector3Normalize(vecPlayer_);
-
-	XMFLOAT3 fmove;
-	XMStoreFloat3(&fmove, vecPlayer_);
-	Debug::Log("x = ");
-	Debug::Log(transform_.position_.x - fmove.x, true);
-
-	Debug::Log("y = ");
-	Debug::Log(transform_.position_.y - fmove.y, true);
-
-	Debug::Log("z = ");
-	Debug::Log(transform_.position_.z - fmove.z, true);
-
 	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
 
 	

@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "../Stage.h"
 #include "../Player.h"
+#include "../JewelBullet.h"
 #include "../Engine/Input.h"
 #include "../Engine/Model.h"
 #include "../Engine/Debug.h"
@@ -30,7 +31,7 @@ void Enemy::Initialize()
 	tEnemy_.position_.y = target_.y;
 	tEnemy_.position_.z = 5;
 
-	SphereCollider* pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
+	pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
 	AddCollider(pSpher);
 
 	Model::SetAnimFrame(hModel_, 0, 100, 1);
@@ -43,6 +44,7 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
+
 	XMFLOAT3 bonePosition_ = Model::GetBonePosition(hModel_, "middle");
 	//追いかける＆攻撃するための
 	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
@@ -55,6 +57,8 @@ void Enemy::Update()
 	data.start = { tEnemy_.position_.x,0,tEnemy_.position_.z };   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
+
+
 
 	if (data.hit)
 	{
@@ -73,8 +77,6 @@ void Enemy::Update()
 			states = ATTACK;
 		}
 
-		Debug::Log("toPlayerDir = ");
-		Debug::Log(toPlayerdir, true);
 		break;
 
 	case ATTACK:
@@ -140,11 +142,11 @@ void Enemy::OnCollision(GameObject* pTarget)
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !isDead)
 	{
-		waitTime = 20;
 		Death();
+		waitTime = 20;
+		JewelBullet* pBullet = (JewelBullet*)pTarget;
+		pBullet->SetKillCount(1);
 	}
-
-
 }
 
 void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
@@ -178,8 +180,8 @@ void Enemy::Attack()
 
 void Enemy::Death()
 {
-		states = DEATH;
-		isDead = true;
+	states = DEATH;
+	isDead = true;
 }
 
 void Enemy::ChangeAnime(STATE state)
