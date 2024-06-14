@@ -24,15 +24,16 @@ TestScene::TestScene(GameObject * parent)
 //‰Šú‰»
 void TestScene::Initialize()
 {
+
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
 	Fafro* pFaf = Instantiate<Fafro>(this);
 	pBox = Instantiate<JewelBox>(this);
-	pDisplay = Instantiate<CharacterDisplay>(this);
-
 	pText = new Text;
 	pText->Initialize();
+
+	pDisplay = Instantiate<CharacterDisplay>(this);
 
 	pDisplay->CreateJewels(1);
 	pDisplay->CreateScores(1);
@@ -43,12 +44,13 @@ void TestScene::Initialize()
 	pDisplay->SetTimerPosition(0, 850, 45);
 
 	pDisplay->ScoreCountStart(0);
-
 }
 
 //XV
 void TestScene::Update()
 {
+
+
 		if (count % 30 == 0)
 		{
 			Jewel* pJewel = Instantiate<Jewel>(this);
@@ -85,6 +87,7 @@ void TestScene::Update()
 void TestScene::Draw()
 {
 	pDisplay->Draw();
+
 }
 
 //ŠJ•ú
