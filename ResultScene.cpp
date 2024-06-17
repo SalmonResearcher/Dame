@@ -8,6 +8,11 @@
 #include "Engine/Input.h"
 
 #include "Global.h"
+
+namespace {
+
+}
+
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
 	: GameObject(parent, "Title"), hImage_(0)
@@ -69,18 +74,18 @@ void ResultScene::Update()
 {
 	switch (showScoreTime)
 	{
-	case 0:
+	case 30:
 		pDisp_->ScoreCountStart(0);
 		break;
-	case 60:
+	case 90:
 		pDisp_->ScoreCountStart(1);
 
 		break;
-	case 120:
+	case 150:
 		pDisp_->ScoreCountStart(2);
 
 		break;
-	case 210:
+	case 240:
 		pDisp_->ScoreCountStart(3);
 
 		break;
@@ -91,28 +96,28 @@ void ResultScene::Update()
 
 	showScoreTime++;
 
-	if (showScoreTime >= 210) {
+	if (showScoreTime >= 240) {
 		if (Input::IsKeyDown(DIK_SPACE)) { 
 			pDisp_->SetScoreIncrementStep(3, 1);
 		}
 	}
 
-	else if (showScoreTime >= 120) {
+	else if (showScoreTime >= 150) {
 		if (Input::IsKeyDown(DIK_SPACE)) { 
 			pDisp_->SetScoreIncrementStep(2, 1);
-			showScoreTime = 210;
+			showScoreTime = 240;
 		}
 	}
-	else if (showScoreTime >= 60) {
+	else if (showScoreTime >= 90) {
 		if (Input::IsKeyDown(DIK_SPACE)) { 
 			pDisp_->SetScoreIncrementStep(1, 1);
-			showScoreTime = 120;
+			showScoreTime = 150;
 		}
 	}
-	else if (showScoreTime >= 0) {
+	else if (showScoreTime >= 90) {
 		if (Input::IsKeyDown(DIK_SPACE)) { 
 			pDisp_->SetScoreIncrementStep(0, 1); 
-			showScoreTime = 60;
+			showScoreTime = 90;
 		}
 	}
 }

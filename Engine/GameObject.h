@@ -188,7 +188,7 @@ T* Instantiate(GameObject* pParent)
 	return pNewObject;
 }
 
-//オブジェクトを作成するテンプレート
+//物を後ろに表示する
 template <class T>
 T* InstantiateFront(GameObject* pParent)
 {

@@ -54,7 +54,8 @@ void Enemy::Initialize()
 	pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
 	AddCollider(pSpher);
 
-	states = MOVE;
+
+
 
 	EnemyAttack* pEAtk = Instantiate<EnemyAttack>(GetParent());
 	pEAtk->SetTime();
@@ -75,6 +76,9 @@ void Enemy::Initialize()
 		anim3.endFrame = 175;
 		anim3.speed = 1;
 	}
+
+	states = MOVE;
+	ChangeAnime(states);
 }
 
 //çXêV
@@ -114,7 +118,6 @@ void Enemy::Update()
 
 	case ATTACK:
 		speed_ = 0.0f;
-		Attack();
 		ChasePlayer(target_, speed_);
 
 		if (waitTime_ <= 0 && toPlayerdir >= 4.0f)
@@ -201,10 +204,6 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	transform_.rotate_.y = angle;
 }
 
-void Enemy::Attack()
-{
-
-}
 
 void Enemy::Death()
 {

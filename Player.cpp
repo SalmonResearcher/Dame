@@ -273,7 +273,7 @@ void Player::Update()
 	}
 	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
 	{
-		JewelBullet* pJB = Instantiate<JewelBullet>(GetParent());
+		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
 		// プレイヤーの回転行列を作成
 		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
 			XMConvertToRadians(tPlayer_.rotate_.y),
