@@ -7,9 +7,11 @@
 #include "Engine/Debug.h"
 
 namespace {
-	float wave = 0;
-	float moveX = 0;
-	
+	float Frequency = 0;
+	float ScaleSpeed = 0.05f;
+	float ScaleAmplitude = 0.05f;
+	float SwaySpeed = 0.05f;
+	float SwayAmplitude = 0.05f;
 }
 
 //コンストラクタ
@@ -30,15 +32,17 @@ void TitleScene::Initialize()
 	}
 }
 
-//更新
 void TitleScene::Update()
 {
+		float scale = 1.0f + ScaleAmplitude * sin(Frequency);
+		trImage_[1].scale_.x = scale;
+		trImage_[1].scale_.y = scale;
 
-	moveX = (float)sin(wave)/1;
+		float sway = SwayAmplitude * sin(Frequency * SwaySpeed);
+		trImage_[1].position_.x = sway;
 
-	trImage_[1].scale_.x += moveX;
-	wave += 0.02;
-	
+	Frequency += ScaleSpeed;
+
 	if (Input::IsKeyDown(DIK_SPACE))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
