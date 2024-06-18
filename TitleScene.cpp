@@ -15,30 +15,13 @@ TitleScene::TitleScene(GameObject* parent)
 //èâä˙âª
 void TitleScene::Initialize()
 {
-	hImage_ = Image::Load("TestTitle.png");
+	hImage_ = Image::Load("kansei.png");
 	assert(hImage_ <= 0);
-
-	trPict_.scale_ = { 0.5,0.5,0.5 };
 }
 
 //çXêV
 void TitleScene::Update()
 {
-	if (wave >= 3)
-	{
-		wave = 0;
-	}
-	float moveY = (float)sin(wave) / 5;
-	if (Input::IsKeyDown(DIK_SPACE))
-	{
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_SELECT);
-	}
-
-	wave += 0.02;
-	trPict_.scale_ = {moveY,moveY,moveY};
-	Debug::Log("wave = ");
-	Debug::Log(wave, true);
 }
 
 //ï`âÊ

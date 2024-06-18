@@ -5,10 +5,18 @@
 class TitleScene :public GameObject
 {
 private:
-	Transform trPict_;
-	short hImage_;
-	float wave;
+	enum
+	{
+		BG,
+		SLIME,
+		GROUND,
+		HUMAN,
+		LOGO,
+		MAX_IMAGE
+	};
 
+	int hImage_[MAX_IMAGE];
+	Transform trImage_[MAX_IMAGE];
 
 public:
 
