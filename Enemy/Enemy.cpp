@@ -12,7 +12,7 @@ namespace
 	XMFLOAT3 CollisionPosition = { 0.0f,0.0f,0.0f };
 	float CollisionScale = 1.25f;
 
-	XMFLOAT3 enemyScale = { 0.7f,0.7f,0.7f };
+	XMFLOAT3 enemyScale = { 1.0f,1.0f,1.0f };
 
 	struct AnimFrame
 	{
@@ -24,8 +24,8 @@ namespace
 	AnimFrame anim2;
 	AnimFrame anim3;
 
-	int attackWaitTime = 20;
-	int deathWaitTime = 20;
+	int attackWaitTime = 90;
+	int deathWaitTime = 60;
 }
 
 //コンストラクタ
@@ -42,7 +42,7 @@ Enemy::~Enemy()
 //初期化
 void Enemy::Initialize()
 {
-	hModel_ = Model::Load("Slime.fbx");
+	hModel_ = Model::Load("Slime_V2.fbx");
 	assert(hModel_ >= 0);
 
 	transform_.scale_ = { enemyScale };
@@ -69,11 +69,11 @@ void Enemy::Initialize()
 		anim1.speed = 1;
 
 		anim2.startFrame = 110;
-		anim2.endFrame = 140;
-		anim2.speed = 0.8;
+		anim2.endFrame = 200;
+		anim2.speed = 1;
 
-		anim3.startFrame = 150;
-		anim3.endFrame = 175;
+		anim3.startFrame = 210;
+		anim3.endFrame = 270;
 		anim3.speed = 1;
 	}
 
@@ -108,9 +108,9 @@ void Enemy::Update()
 		speed_ = 0.1f;
 		ChasePlayer(target_, speed_);
 
-		if (toPlayerdir < 5.0f)
+		if (toPlayerdir < 1.5f)
 		{
-			waitTime_ = 36;
+			waitTime_ = attackWaitTime;
 			states = ATTACK;
 		}
 
@@ -120,7 +120,7 @@ void Enemy::Update()
 		speed_ = 0.0f;
 		ChasePlayer(target_, speed_);
 
-		if (waitTime_ <= 0 && toPlayerdir >= 4.0f)
+		if (waitTime_ <= 0 && toPlayerdir >= 2.0f)
 		{
 			states = MOVE;
 			waitTime_ = 0;
@@ -142,7 +142,6 @@ void Enemy::Update()
 		break;
 
 	}
-	transform_.position_.z += 0.03f;
 
 	if (curState != states)
 	{
@@ -168,13 +167,13 @@ void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack" && !isDead)
 	{
-		waitTime_ = 20;
+		waitTime_ = deathWaitTime;
 		Death();
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !isDead)
 	{
 		Death();
-		waitTime_ = 20;
+		waitTime_ = deathWaitTime;
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
 	}

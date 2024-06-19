@@ -10,7 +10,7 @@ namespace {
 	float Frequency = 0;
 	float ScaleSpeed = 0.05f;
 	float ScaleAmplitude = 0.05f;
-	float SwaySpeed = 0.05f;
+	float SwaySpeed = 0.5f;
 	float SwayAmplitude = 0.05f;
 }
 
@@ -35,11 +35,16 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 		float scale = 1.0f + ScaleAmplitude * sin(Frequency);
-		trImage_[1].scale_.x = scale;
-		trImage_[1].scale_.y = scale;
+		float scaleSlime = 1.0f+ScaleAmplitude * sin(Frequency*0.5);
+		trImage_[1].scale_.x = scaleSlime;
+		trImage_[1].scale_.y = scaleSlime;
 
 		float sway = SwayAmplitude * sin(Frequency * SwaySpeed);
 		trImage_[1].position_.x = sway;
+
+		trImage_[3].position_.y = sway;
+		trImage_[4].scale_.x = scale;
+		trImage_[4].scale_.y = scale;
 
 	Frequency += ScaleSpeed;
 

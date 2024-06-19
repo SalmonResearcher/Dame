@@ -12,7 +12,6 @@ class Jewel :
     float grabity_ = 0.02f;
     int time_;
     bool jewelRotate_;
-    bool isJumping_;
 
 
 public:
