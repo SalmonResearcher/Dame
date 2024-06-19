@@ -15,9 +15,15 @@
 #include <cmath>
 #include "Global.h"
 
+namespace {
+
+    XMVECTOR playerForwardVec_;
+    XMFLOAT3 playerPos_;
+}
+
 //コンストラクタ
 JewelBullet::JewelBullet(GameObject* parent)
-    :GameObject(parent, "JewelBullet"), hModel_(-1), deleteTime_(0)
+    :GameObject(parent, "JewelBullet"), hModel_(-1)
 {
 
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 0.5f);
@@ -43,20 +49,20 @@ void JewelBullet::Initialize()
 //更新
 void JewelBullet::Update()
 {
-    tJBullet_.rotate_.z += 8;
+    transform_.rotate_.z += 8;
     RayCastData data;
-    data.start = { tJBullet_.position_.x,0,tJBullet_.position_.z };   //レイの発射位置
+    data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
     data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
     Model::RayCast(hStage_, &data); //レイを発射
 
     RayCastData front;
-    front.start = { tJBullet_.position_ };   //レイの発射位置
+    front.start = { transform_.position_ };   //レイの発射位置
     front.dir = XMFLOAT3(0, 0, 1);       //レイの方向
     Model::RayCast(hStage_, &front); //レイを発射
    
     Shoot();
 
-    tJBullet_.position_.y = -data.dist + 0.5f;
+    transform_.position_.y = -data.dist + 0.5f;
     if (front.dist <1.0f) {
         KillMe();
     }
@@ -66,8 +72,6 @@ void JewelBullet::Update()
         KillMe();
         killCount_ = 0;
     }
-
-    transform_ = tJBullet_;
     deleteTime_++;
 
     Debug::Log("宝石で敵を倒した数 = ");
@@ -78,13 +82,26 @@ void JewelBullet::Update()
 //描画
 void JewelBullet::Draw()
 {
-    Model::SetTransform(hModel_, tJBullet_);
+    Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
 void JewelBullet::Release()
 {
 }
+
+void JewelBullet::BulletDirection(XMVECTOR _dir)
+{
+    playerForwardVec_ = _dir;
+}
+
+void JewelBullet::BulletPosition(XMFLOAT3 _pos)
+{
+    playerPos_ = _pos;
+    // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
+    XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
+    XMStoreFloat3(&initPos, bulletInitPos);
+};
 
 void JewelBullet::Shoot()
 {
@@ -94,7 +111,7 @@ void JewelBullet::Shoot()
     initPos.x += moveFloat.x * 0.8;
     initPos.z += moveFloat.z * 0.8;
 
-    tJBullet_.position_ = initPos;
+    transform_.position_ = initPos;
 
 }
 
@@ -140,4 +157,9 @@ int JewelBullet::CalculateScore(int killCount)
     else {
         return baseScore; // killCountが0以下の時は宝石のみの点
     }
+}
+
+void JewelBullet::SetKillCount(int count)
+{
+    killCount_ += count;
 }

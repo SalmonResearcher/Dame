@@ -11,8 +11,45 @@
 
 #include "Engine/SceneManager.h"
 
+namespace {
+	//プレイヤーの大きさ。
+// 基本的には中央が原点なので2で割る。
+	const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
+
+	float mouseSens = 1;
+
+    float attackStart;
+    float attackEnd;
+    const float JEWEL_WEIGHT = 0.05f;
+
+    const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
+    float speed_ = 0;
+    float jewelCount_;
+    float weight_;
+    short moveSpeed;
+    short dash_;
+    float moveY = 0;
+    bool isJumping = false;
+    bool isHit;
+
+    int onCollisionTime = 0;
+
+
+    int killCount_;
+    int jewelDeliver_;
+
+	Transform tCamera;  //カメラのトランスフォーム
+
+	XMVECTOR vecPlayer_;    //プレイヤーの進んでいる方向ベクトル
+	XMFLOAT3 movePlayer;
+
+	XMFLOAT3 Camposition_;
+	XMFLOAT3 smoothCam;
+
+}
+
 Player::Player(GameObject* parent)
-	:GameObject(parent, "Player"), hModel_(-1), dash_(1),jewelCount_(0), weight_(1)
+	:GameObject(parent, "Player"), hModel_(-1)
 {
 }
 
@@ -32,12 +69,12 @@ void Player::Update()
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	RayCastData data;
-	data.start = {tPlayer_.position_.x,0,tPlayer_.position_.z};   //レイの発射位置
+	data.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
 	RayCastData play;
-	play.start = { tPlayer_.position_.x,tPlayer_.position_.y+0.3f,tPlayer_.position_.z };   //レイの発射位置
+	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 	
@@ -69,10 +106,10 @@ void Player::Update()
 
 		if (!isJumping)
 		{
-			tPlayer_.position_.y = -data.dist;
+			transform_.position_.y = -data.dist;
 		}
 
-		tPlayer_.position_.y += moveY;
+		transform_.position_.y += moveY;
 	}
 
 
@@ -163,7 +200,7 @@ void Player::Update()
 	XMMATRIX rotMatX = XMMatrixRotationX(XMConvertToRadians(tCamera.rotate_.x));
 
 	//移動ベクトル
-	XMVECTOR nowVec = XMLoadFloat3(& tPlayer_.position_);			//今のカメラ位置座標
+	XMVECTOR nowVec = XMLoadFloat3(& transform_.position_);			//今のカメラ位置座標
 	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
 	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
 
@@ -172,7 +209,7 @@ void Player::Update()
 	sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
 
 	//プレイヤーもここで移動させる
-	vecPlayer_ = XMLoadFloat3(&tPlayer_.position_);
+	vecPlayer_ = XMLoadFloat3(&transform_.position_);
 
 	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D)))
 	{
@@ -212,7 +249,7 @@ void Player::Update()
 	}
 
 	XMVector3Normalize(vecPlayer_);
-	XMStoreFloat3(&tPlayer_.position_, vecPlayer_);
+	XMStoreFloat3(&transform_.position_, vecPlayer_);
 
 	
 
@@ -224,7 +261,7 @@ void Player::Update()
 	XMVECTOR vCam = { 0,2,-10,0 };
 
 	//カメラ注視点
-	XMFLOAT3 camTarget = tPlayer_.position_;
+	XMFLOAT3 camTarget = transform_.position_;
 
 	Camera::SetTarget(camTarget);
 
@@ -236,7 +273,7 @@ void Player::Update()
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
 
-	transform_ = tPlayer_;
+	transform_ = transform_;
 
 	// カメラの回転行列を作成
 	XMMATRIX cameraRotMat = rotMatX * rotMatY;
@@ -251,12 +288,12 @@ void Player::Update()
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
 
 	//// プレイヤーの回転を更新
-	tPlayer_.rotate_.y = XMConvertToDegrees(playerYaw);
+	transform_.rotate_.y = XMConvertToDegrees(playerYaw);
 
 	// プレイヤーの回転行列を作成
-	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
-		XMConvertToRadians(tPlayer_.rotate_.y),
-		XMConvertToRadians(tPlayer_.rotate_.z));
+	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+		XMConvertToRadians(transform_.rotate_.y),
+		XMConvertToRadians(transform_.rotate_.z));
 
 	// プレイヤーの前方ベクトルを取得
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
@@ -275,30 +312,30 @@ void Player::Update()
 	{
 		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
 		// プレイヤーの回転行列を作成
-		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(tPlayer_.rotate_.x),
-			XMConvertToRadians(tPlayer_.rotate_.y),
-			XMConvertToRadians(tPlayer_.rotate_.z));
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+			XMConvertToRadians(transform_.rotate_.y),
+			XMConvertToRadians(transform_.rotate_.z));
 
 		// プレイヤーの前方ベクトルを取得
 		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f),playerRotMat);
 		pJB->BulletDirection(playerForwardVector);
-		pJB->BulletPosition(tPlayer_.position_);
-		pJB->BulletRotate(tPlayer_.rotate_);
+		pJB->BulletPosition(transform_.position_);
+		pJB->BulletRotate(transform_.rotate_);
 		jewelCount_--;
 	}
 
 	//too heavy, more heavy
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
 
-	transform_ = tPlayer_;
-	transform_.rotate_ = tPlayer_.rotate_;
+	transform_ = transform_;
+	transform_.rotate_ = transform_.rotate_;
 }
 
 
 
 void Player::Draw()
 {
-	Model::SetTransform(hModel_, tPlayer_);
+	Model::SetTransform(hModel_, transform_);
 	Model::Draw(hModel_);
 }
 
@@ -339,8 +376,29 @@ void Player::OnCollision(GameObject* pTarget)
 
 			}
 			onCollisionTime++;
-
 		}
 	}
+}
 
+XMVECTOR Player::GetPlayerVec()
+{
+		return vecPlayer_;
+}
+
+int Player::SendJewel()
+{
+	return jewelDeliver_;
+}
+
+int Player::GetJewelCount()
+{
+	return jewelCount_;
+}
+void Player::KillCountUp()
+{
+	killCount_++;
+}
+int Player::GetKillCount()
+{
+	return killCount_;
 }

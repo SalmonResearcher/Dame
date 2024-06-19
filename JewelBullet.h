@@ -3,28 +3,18 @@
 
 class Enemy;
 
-
 class JewelBullet :
     public GameObject
 {
     int hModel_;    //モデル番号
     int hStage_;
 
-    int score_ = 0;
-
-    Transform tJBullet_;
-    XMVECTOR playerForwardVec_;
-    XMFLOAT3 playerPos_;
-
-    XMVECTOR bulletInitPos;
     XMFLOAT3 initPos;
-
     Enemy* curEnemy = nullptr;
 
     int deleteTime_;
     int killCount_;
-
-
+    int score_;
 public:
     //コンストラクタ
     JewelBullet(GameObject* parent);
@@ -48,23 +38,18 @@ public:
     /// 弾の方向をプレイヤーの前方ベクトルからもらう
     /// </summary>
     /// <param name="_dir">XMVECTOR：方向ベクトル</param>
-    void BulletDirection(XMVECTOR _dir) { playerForwardVec_ = _dir; };
+    void BulletDirection(XMVECTOR _dir);
 
     /// <summary>
     /// 弾の位置をプレイヤーの位置から算出する
     /// </summary>
-    void BulletPosition(XMFLOAT3 _pos) {
-        playerPos_ = _pos;
-        // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
-        XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
-        XMStoreFloat3(&initPos, bulletInitPos);
-    };
+    void BulletPosition(XMFLOAT3 _pos);
 
     /// <summary>
-    /// 弾の回転を受け取る
+    /// 弾丸のY軸回転角度を得る
     /// </summary>
-    void BulletRotate(XMFLOAT3 _rote) { tJBullet_.rotate_.y = _rote.y + 180; };
-
+    /// <param name="_rote"></param>
+    void BulletRotate(XMFLOAT3 _rote) {transform_.rotate_.y = _rote.y + 180;};
     /// <summary>
     /// 弾を打つ処理
     /// </summary>
@@ -81,5 +66,5 @@ public:
     int CalculateScore(int killCount);
 
 
-    void SetKillCount(int count) { killCount_ += count; }
+    void SetKillCount(int count);
 };

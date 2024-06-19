@@ -7,10 +7,16 @@
 #include "Engine/Debug.h"
 
 namespace {
+	//ü”g”
 	float Frequency = 0;
+	//‘å‚«‚³‚ªÅ‘å’l‚É‚È‚é‚Ü‚Å‚Ì‘¬“x
 	float ScaleSpeed = 0.05f;
+	//Å‘å‚Ì‘å‚«‚³
 	float ScaleAmplitude = 0.05f;
+	//U‚ê•‚ªÅ‘å‚É‚È‚é‚Ü‚Å‚Ì‘¬“x
 	float SwaySpeed = 0.5f;
+	float SwaySpeedHuman = 2.0f;
+	//U‚ê•‚Ì‘å‚«‚³
 	float SwayAmplitude = 0.05f;
 }
 
@@ -39,10 +45,11 @@ void TitleScene::Update()
 		trImage_[1].scale_.x = scaleSlime;
 		trImage_[1].scale_.y = scaleSlime;
 
-		float sway = SwayAmplitude * sin(Frequency * SwaySpeed);
-		trImage_[1].position_.x = sway;
+		float swaySlime = SwayAmplitude * sin(Frequency * SwaySpeed);
+		float swayHuman = SwayAmplitude * sin(Frequency * SwaySpeedHuman);
+		trImage_[1].position_.x = swaySlime;
 
-		trImage_[3].position_.y = sway;
+		trImage_[3].position_.y = swayHuman;
 		trImage_[4].scale_.x = scale;
 		trImage_[4].scale_.y = scale;
 

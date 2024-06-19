@@ -6,10 +6,47 @@
 #include "Engine/Debug.h"
 #include "Engine/Camera.h"
 
+namespace {
+	enum
+	{
+		STAGE1,
+		STAGE2,
+		STAGE3,
+		MAX_STAGE
+	};
+
+	int hStage_[MAX_STAGE];
+	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
+
+	int hImage_[2];
+	Transform trImage_[2];
+
+	XMFLOAT3 cameraPos;
+	float moveX;
+
+	int hSkysphere;
+	Transform trSky;
+
+	std::string name = "MiniStage";
+	std::string num;
+	std::string ext = ".fbx";
+
+	const XMFLOAT3 STAGE_SCALE = { 0.2f,0.2f,0.2f };
+	const XMFLOAT3 STAGE_BIG = { 0.4f,0.4f,0.4f };
+
+	//回転用の時間
+	float timer;
+
+	//縦揺れ時間
+	float yMoveTime;
+
+	//ゆっくり上下
+	float sinwave;
+}
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
-	: GameObject(parent, "StageSelectScene"), pText(nullptr), hImage_{-1,-1}
+	: GameObject(parent, "StageSelectScene")
 {
 	//ステージプレビューモデル変数の初期化
 	for (int i = 0; i < MAX_STAGE; i++)
@@ -49,8 +86,6 @@ void StageSelectScene::Initialize()
 
 
 	cameraPos = {2,2,-5 };
-	pText = new Text;
-	pText->Initialize();
 }
 
 //更新
@@ -178,9 +213,6 @@ void StageSelectScene::Draw()
 	{
 		Model::Draw(hStage_[l]);
 	}
-
-	pText->Draw(30, 30, "flg = ");
-	pText->Draw(240, 30, flg);
 
 	for (int i = 0; i < 2; i++)
 	{

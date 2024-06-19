@@ -63,6 +63,7 @@ void Enemy::Initialize()
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	pPlayer = static_cast<Player*>(FindObject("Player"));
+	
 	{
 		anim1.startFrame = 0;
 		anim1.endFrame = 100;

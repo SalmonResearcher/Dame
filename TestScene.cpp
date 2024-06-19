@@ -14,6 +14,22 @@
 
 #include "Engine/Input.h"
 
+namespace {
+	bool spawn = true;
+	int timer = 0;
+	int count = 0;
+
+	int jewel_;
+	int killCount_;
+	int score_ = 0;
+
+	Player* pPlayer;
+	Stage* pStage;
+	Jewel* pJewel;
+	Enemy* pEnemy;
+	JewelBox* pBox;
+	CharacterDisplay* pDisplay;
+}
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -28,7 +44,6 @@ void TestScene::Initialize()
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
-	Fafro* pFaf = Instantiate<Fafro>(this);
 	pBox = Instantiate<JewelBox>(this);
 	pText = new Text;
 	pText->Initialize();

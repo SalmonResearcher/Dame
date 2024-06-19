@@ -6,14 +6,6 @@ class Jewel :
     int hModel_;    //モデル番号
     int hStage_;
 
-    Transform trJewel_;
-
-    float rotY = 0.0f;
-    float grabity_ = 0.02f;
-    int time_;
-    bool jewelRotate_;
-
-
 public:
     //コンストラクタ
     Jewel(GameObject* parent);
