@@ -24,13 +24,17 @@ namespace
 	AnimFrame anim2;
 	AnimFrame anim3;
 
+	float moveY = 0.0f;
+	float speed_ = 0.5f;
+
+
 	int attackWaitTime = 90;
 	int deathWaitTime = 60;
 }
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1),pPlayer(nullptr)
+	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), pPlayer(nullptr), counted(false)
 {
 }
 
@@ -74,7 +78,7 @@ void Enemy::Initialize()
 		anim2.speed = 1;
 
 		anim3.startFrame = 210;
-		anim3.endFrame = 270;
+		anim3.endFrame = 400;
 		anim3.speed = 1;
 	}
 
@@ -130,7 +134,7 @@ void Enemy::Update()
 		break;
 
 	case DEATH:
-		if (waitTime_ <= 0)
+		if (waitTime_ < 0)
 		{
 			((Player*)FindObject("Player"))->KillCountUp();
 			KillMe();
@@ -168,15 +172,13 @@ void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack" && !isDead)
 	{
-		waitTime_ = deathWaitTime;
 		Death();
 	}
-	if (pTarget->GetObjectName() == "JewelBullet" && !isDead)
+	if (pTarget->GetObjectName() == "JewelBullet" && !counted)
 	{
-		Death();
-		waitTime_ = deathWaitTime;
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
+		counted = true;
 	}
 }
 
@@ -208,7 +210,16 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 void Enemy::Death()
 {
 	states = DEATH;
+	waitTime_ = deathWaitTime;
 	isDead = true;
+}
+
+void Enemy::JewelDeath()
+{
+	states = DEATH;
+	waitTime_ = deathWaitTime;
+	isDead = true;
+
 }
 
 void Enemy::ChangeAnime(STATE state)

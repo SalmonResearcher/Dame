@@ -43,14 +43,11 @@ class Enemy : public GameObject
     XMVECTOR direction_;    //プレイヤーと敵の方向ベクトル
     float toPlayerdir;      //プレイヤーまでの直線距離
 
-    XMFLOAT3 bonepos;
-    float moveY = 0.0f;
-    float speed_ = 0.5f;
-
     int waitTime_ = 0;
     int killcount;
 
     bool isDead = false;
+    bool counted;
 
 public:
     //コンストラクタ
@@ -84,6 +81,7 @@ public:
     void Attack();
 
     void Death();
+    void JewelDeath();
 
     void ChangeAnime(STATE state);
 
