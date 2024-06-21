@@ -166,6 +166,7 @@
     <ClCompile Include="MovingState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayerStateManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="MovingState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayerStateManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Stage.h" />
