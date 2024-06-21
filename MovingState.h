@@ -83,4 +83,5 @@ private:
         }
         // ‘¼‚Ìó‘Ô‘JˆÚğŒ‚ğ‚±‚±‚É’Ç‰Á
     }
+    float GetGroundHeight(const XMFLOAT3& position, Player* _player);
 };

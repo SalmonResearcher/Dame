@@ -372,6 +372,10 @@ void Player::StageRay()
 	{
 		hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 		RayCastData down;
+		down.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
+		down.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+		Model::RayCast(hStage_, &down); //レイを発射
+
 	}
 }
 
@@ -429,6 +433,11 @@ void Player::SetPosition(const XMFLOAT3& position)
 XMVECTOR Player::GetPlayerVec()
 {
 		return vecPlayer_;
+}
+
+int Player::GetStageHandle()
+{
+	return hStage_;
 }
 
 int Player::SendJewel()

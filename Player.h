@@ -35,12 +35,12 @@ public:
 
     void SetPosition(const XMFLOAT3& position);
 
-
-
-
     XMFLOAT3 GetPlayerPos() { return transform_.position_; };
 
     XMVECTOR GetPlayerVec();
+
+    int GetStageHandle();
+    float GetHeight() { return transform_.position_.y; };
 
     int SendJewel();
     int GetJewelCount();
