@@ -3,6 +3,8 @@
 #include "JewelBullet.h"
 #include "Enemy/Enemy.h"
 #include "math.h"
+#include "Stage.h"
+#include "PlayerState.h"
 
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
@@ -65,7 +67,11 @@ void Player::Initialize()
 
 void Player::Update()
 {
-
+	if (currentState_)
+	{
+		currentState_->Update(this);
+	}
+	/*
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	RayCastData data;
@@ -329,6 +335,7 @@ void Player::Update()
 
 	transform_ = transform_;
 	transform_.rotate_ = transform_.rotate_;
+	*/
 }
 
 
@@ -341,6 +348,22 @@ void Player::Draw()
 
 void Player::Release()
 {
+}
+
+void Player::ChangeState(PlayerState* _newState)
+{
+	if (currentState_)
+	{
+		currentState_->Exit(this);
+		delete currentState_;
+	}
+
+	currentState_ = _newState;
+
+	if (currentState_)
+	{
+		currentState_->Enter(this);
+	}
 }
 
 void Player::StageRay()
@@ -378,6 +401,29 @@ void Player::OnCollision(GameObject* pTarget)
 			onCollisionTime++;
 		}
 	}
+}
+
+XMVECTOR Player::GetForwardVector() const
+{
+	// プレイヤーの前方ベクトルを計算
+	// Y軸周りの回転を考慮
+	XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+	XMVECTOR forwardVector = XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), rotationMatrix);
+	return XMVector3Normalize(forwardVector);
+}
+
+XMVECTOR Player::GetRightVector() const
+{
+	// プレイヤーの右方向ベクトルを計算
+	// Y軸周りの回転を考慮
+	XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+	XMVECTOR rightVector = XMVector3TransformNormal(XMVectorSet(1, 0, 0, 0), rotationMatrix);
+	return XMVector3Normalize(rightVector);
+}
+
+void Player::SetPosition(const XMFLOAT3& position)
+{
+	transform_.position_ = position;
 }
 
 XMVECTOR Player::GetPlayerVec()

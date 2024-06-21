@@ -1,10 +1,9 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
-#include "Stage.h"
-#include "PlayerStateManager.h"
 
 class Stage;
+class PlayerState;
 
 class Player :public GameObject
 {
@@ -14,6 +13,7 @@ private:
     int hStage_;
     int hEnemy_;
     Stage* pStage_;    //ÉÇÉfÉãî‘çÜÇéÊìæ
+    PlayerState* currentState_;
 
 public:
     Player(GameObject* parent);
@@ -22,9 +22,20 @@ public:
     void Draw() override;
     void Release() override;
 
+    void ChangeState(PlayerState* _newState);
+
     void StageRay();
 
     void OnCollision(GameObject* pTarget)override;
+
+
+    XMVECTOR GetForwardVector() const;
+
+    XMVECTOR GetRightVector() const;
+
+    void SetPosition(const XMFLOAT3& position);
+
+
 
 
     XMFLOAT3 GetPlayerPos() { return transform_.position_; };

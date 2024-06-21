@@ -1,6 +1,6 @@
 #pragma once
 #include "PlayerState.h"
-class JumpingState : public PlayerState
+class IdleState : public PlayerState
 {
 public:
     void Enter(Player* player) override;

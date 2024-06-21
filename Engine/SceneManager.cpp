@@ -3,7 +3,6 @@
 #include "../TestScene.h"
 #include "../TitleScene.h"
 #include "../StageSelectScene.h"
-#include "../SecretScene.h"
 #include "../ResultScene.h"
 //#include "../GameScene.h"
 //#include "../GameOverScene.h"
@@ -51,7 +50,6 @@ void SceneManager::Update()
 		case SCENE_ID_SELECT:Instantiate<StageSelectScene>(this); break;
 //		case SCENE_ID_GAME: Instantiate<GameScene>(this); break;
 		case SCENE_ID_RESULT: Instantiate<ResultScene>(this); break;
-		case SCENE_ID_SECRET:Instantiate<SecretScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;

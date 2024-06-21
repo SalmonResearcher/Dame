@@ -27,9 +27,6 @@
     <Filter Include="ToyBox">
       <UniqueIdentifier>{7a1f5db6-16ec-4e04-97f1-e1703fac21f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayerState">
-      <UniqueIdentifier>{2f728bfb-888b-4631-a59b-e551e23b699a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{f086a384-8849-4183-b32d-17664ff426dc}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,9 @@
     </Filter>
     <Filter Include="ToyBox\UI">
       <UniqueIdentifier>{44171772-60c9-4c70-a7dd-27bfd72c7ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\Player\State">
+      <UniqueIdentifier>{b489a432-8ed8-48e0-b1b8-81581daa5b1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,24 +122,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="StandingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStateManager.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -176,10 +158,6 @@
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp">
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\State\BossSpawn.cpp" />
-    <ClCompile Include="SecretScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="JewelBullet.cpp">
       <Filter>ToyBox\Jewel</Filter>
@@ -199,6 +177,21 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingState.cpp">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingState.cpp">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackingState.cpp">
+      <Filter>ToyBox\Player\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,24 +264,6 @@
     <ClInclude Include="Stage.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="StandingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateManager.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -325,11 +300,6 @@
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h">
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\State\BossSpawn.h" />
-    <ClInclude Include="Enemy\State\StateBase.h" />
-    <ClInclude Include="SecretScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
@@ -349,6 +319,21 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingState.h">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpingState.h">
+      <Filter>ToyBox\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackingState.h">
+      <Filter>ToyBox\Player\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

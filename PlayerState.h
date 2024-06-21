@@ -1,21 +1,12 @@
 #pragma once
-#include "Engine/Global.h"
-
+#include "Engine/GameObject.h"
 class Player;
 
-class PlayerState
+class PlayerState:public GameObject
 {
 public:
-	//XV
-	virtual void Update(Player* _p) {};
-
-	//“ü—Í
-	virtual void HandleInput(Player* _p) {};
-
-	//ó‘Ô•Ï‰»‚µ‚½‚Æ‚«
-	virtual void Enter(Player* _p) {};
-
-	//ó‘Ô•Ï‰»
-	void StateChange(PlayerState* _current, PlayerState* _next);
+    virtual ~PlayerState() {}
+    virtual void Enter(Player* player) = 0;
+    virtual void Update(Player* player) = 0;
+    virtual void Exit(Player* player) = 0;
 };
-
