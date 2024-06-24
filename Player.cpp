@@ -34,7 +34,6 @@ namespace {
 
     int onCollisionTime = 0;
 
-
     int killCount_;
     int jewelDeliver_;
 
@@ -46,6 +45,7 @@ namespace {
 	XMFLOAT3 Camposition_;
 	XMFLOAT3 smoothCam;
 
+	bool isKockBack = false;
 }
 
 Player::Player(GameObject* parent)
@@ -377,6 +377,13 @@ void Player::OnCollision(GameObject* pTarget)
 			}
 			onCollisionTime++;
 		}
+	}
+
+	if (pTarget->GetObjectName() == "EnemyAttack")
+	{
+		isKockBack = true;
+		isJumping = true;
+		moveY += 0.4f;
 	}
 }
 

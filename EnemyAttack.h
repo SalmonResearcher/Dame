@@ -3,8 +3,8 @@
 class EnemyAttack : public GameObject
 {
     int hModel_;    //モデル番号
-    XMFLOAT3 move_ = { 0,0,0 };
-    int time;
+    XMFLOAT3 pos_;
+    int time_;
 
 public:
     //コンストラクタ
@@ -25,10 +25,9 @@ public:
     //開放
     void Release() override;
 
-    void SetMove(XMFLOAT3 move) { move_ = move; }
+    void SetAttackPosition(XMFLOAT3 _pos) { pos_ = _pos; }
 
-    void SetTime(int _time) { time = _time; };
-    void SetTime() { time = -1; };
+    void SetTime(int _time) { time_ = _time; };
 
     //何かに当たった
     //引数：pTarget 当たった相手

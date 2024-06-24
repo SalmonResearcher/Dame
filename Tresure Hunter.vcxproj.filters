@@ -180,7 +180,6 @@
     <ClCompile Include="SecretScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="JewelBullet.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
@@ -199,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttack.cpp">
+      <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -330,7 +332,6 @@
     <ClInclude Include="SecretScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
@@ -349,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttack.h">
+      <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

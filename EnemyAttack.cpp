@@ -6,11 +6,15 @@
 #include "Player.h"
 #include "Enemy/Enemy.h"
 
+namespace {
+    float colliderScale = 3.5f;
+}
+
 //コンストラクタ
 EnemyAttack::EnemyAttack(GameObject* parent)
-    :GameObject(parent, "EnemyAttack"), hModel_(-1), time(0)
+    :GameObject(parent, "EnemyAttack"), hModel_(-1), time_(0)
 {
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 1.5f);
+    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), colliderScale);
     AddCollider(collision);
 }
 
@@ -28,16 +32,13 @@ void EnemyAttack::Initialize()
 //更新
 void EnemyAttack::Update()
 {
-    
-    transform_.position_.x = move_.x;
-    transform_.position_.y = move_.y;
-    transform_.position_.z = move_.z;
 
-    if (time == 0)
+    transform_.position_ = pos_;
+    if (time_ == 0)
     {
         KillMe();
     }
-    time--;
+    time_--;
 
 }
 

@@ -13,6 +13,8 @@ namespace
 	float CollisionScale = 1.25f;
 
 	XMFLOAT3 enemyScale = { 1.0f,1.0f,1.0f };
+	float attackDistance = 1.5f;
+	float moveDistance = 2.0f;
 
 	struct AnimFrame
 	{
@@ -27,9 +29,12 @@ namespace
 	float moveY = 0.0f;
 	float speed_ = 0.5f;
 
+	int collisionCreateTime = 42;	//攻撃→判定までの時間
+	int collisionTime = 3;		//判定の持続フレーム
 
 	int attackWaitTime = 90;
 	int deathWaitTime = 60;
+
 }
 
 //コンストラクタ
@@ -58,11 +63,6 @@ void Enemy::Initialize()
 	pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
 	AddCollider(pSpher);
 
-
-
-
-	EnemyAttack* pEAtk = Instantiate<EnemyAttack>(GetParent());
-	pEAtk->SetTime();
 
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
@@ -113,7 +113,7 @@ void Enemy::Update()
 		speed_ = 0.1f;
 		ChasePlayer(target_, speed_);
 
-		if (toPlayerdir < 1.5f)
+		if (toPlayerdir < moveDistance)
 		{
 			waitTime_ = attackWaitTime;
 			states = ATTACK;
@@ -125,7 +125,12 @@ void Enemy::Update()
 		speed_ = 0.0f;
 		ChasePlayer(target_, speed_);
 
-		if (waitTime_ <= 0 && toPlayerdir >= 2.0f)
+		if ((attackWaitTime - collisionCreateTime) == waitTime_) {
+			Attack();
+		}
+
+
+		if (waitTime_ <= 0 && toPlayerdir >= attackDistance)
 		{
 			states = MOVE;
 			waitTime_ = 0;
@@ -206,6 +211,13 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	transform_.rotate_.y = angle;
 }
 
+
+void Enemy::Attack() 
+{
+	EnemyAttack* pEAttack = Instantiate<EnemyAttack>(GetParent());
+	pEAttack->SetAttackPosition(transform_.position_);
+	pEAttack->SetTime(collisionTime);
+}
 
 void Enemy::Death()
 {

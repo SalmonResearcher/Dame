@@ -4,7 +4,7 @@ class Attack : public GameObject
 {
     int hModel_;    //モデル番号
     XMFLOAT3 move_ = { 0,0,0 };
-    int time;
+    int time_;
 
 public:
     //コンストラクタ
@@ -27,7 +27,7 @@ public:
 
     void SetMove(XMFLOAT3 move) { move_ = move; }
 
-    void SetTime(int _time) { time = _time; };
+    void SetTime(int _time) { time_ = _time; };
 
     //何かに当たった
     //引数：pTarget 当たった相手
