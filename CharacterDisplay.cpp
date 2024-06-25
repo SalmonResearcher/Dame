@@ -38,6 +38,9 @@ void CharacterDisplay::Draw()
     }
 }
 
+
+
+
 void CharacterDisplay::Release()
 {
     scores.clear();
@@ -61,7 +64,7 @@ void CharacterDisplay::SetScoreValue(int index, int value)
     }
 }
 
-void CharacterDisplay::SetScoreValue(int index)
+void CharacterDisplay::CalcScoreValue(int index)
 {
     if (index >= 0 && index < static_cast<int>(scores.size())) {
         scores[index]->ScoreCaluc();
@@ -72,6 +75,13 @@ void CharacterDisplay::SetTimerPosition(int index, int x, int y)
 {
     if (index >= 0 && index < static_cast<int>(timers.size())) {
         timers[index]->SetTimerPosition(x, y);
+    }
+}
+
+void CharacterDisplay::SetTimerLimit(int index, int limit)
+{
+    if (index >= 0 && index < static_cast<int>(timers.size())) {
+        timers[index]->SetLimit(limit);
     }
 }
 
@@ -130,5 +140,19 @@ void CharacterDisplay::SetScoreIncrementStep(int index, int step)
 {
     if (index >= 0 && index < static_cast<int>(scores.size())) {
         scores[index]->SetIncrementSteps(step);
+    }
+}
+
+bool CharacterDisplay::IsFinished(int index) 
+{
+    if (index >= 0 && index < static_cast<int>(timers.size())) {
+        return timers[index]->IsFinished();
+    }
+}
+
+void CharacterDisplay::TimerStart(int index)
+{
+    if (index >= 0 && index < static_cast<int>(timers.size())) {
+        timers[index]->Start();
     }
 }

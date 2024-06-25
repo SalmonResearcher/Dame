@@ -24,8 +24,6 @@ namespace {
 
     const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
-    float jewelCount_;
-    float weight_;
     short moveSpeed;
     short dash_;
     float moveY = 0;
@@ -46,6 +44,7 @@ namespace {
 	XMFLOAT3 smoothCam;
 
 	bool isKockBack = false;
+	float knock;
 }
 
 Player::Player(GameObject* parent)
@@ -98,17 +97,26 @@ void Player::Update()
 			}
 		}
 
+		//ジャンプ後地面に触ったら
 		if (play.dist <= 0.25 && isJumping)
 		{
 			moveY = 0.0f;
 			isJumping = false;
 		}
 
-		if (!isJumping)
+		//ジャンプしていない,地に足がつくなら
+		if (!isJumping && play.hit)
 		{
 			transform_.position_.y = -data.dist;
 		}
 
+		//地に足がつかないのならば
+		else if (!play.hit)
+		{
+			isJumping = true;
+		}
+
+		//Y座標移動
 		transform_.position_.y += moveY;
 	}
 
@@ -251,7 +259,6 @@ void Player::Update()
 	XMVector3Normalize(vecPlayer_);
 	XMStoreFloat3(&transform_.position_, vecPlayer_);
 
-	
 
 
 	//カメラ移動
@@ -381,9 +388,14 @@ void Player::OnCollision(GameObject* pTarget)
 
 	if (pTarget->GetObjectName() == "EnemyAttack")
 	{
-		isKockBack = true;
+		knock = 0.8f;
 		isJumping = true;
-		moveY += 0.4f;
+		moveY += 0.1f;
+
+		XMVECTOR backMove = XMVectorSet(0, 0, knock, 0);		//z座標に動く速度
+		vecPlayer_ -= backMove;
+		XMStoreFloat3(&transform_.position_, vecPlayer_);
+
 	}
 }
 

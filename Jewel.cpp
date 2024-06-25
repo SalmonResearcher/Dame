@@ -13,10 +13,7 @@
 #include <cmath>
 
 namespace {
-    float rotY = 0.0f;
     float grabity_ = 0.02f;
-    int time_;
-    bool jewelRotate_;
 }
 
 

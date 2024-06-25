@@ -5,6 +5,12 @@ class Jewel :
 {
     int hModel_;    //モデル番号
     int hStage_;
+    int time_;
+    float rotY = 0.0f;
+    bool jewelRotate_;
+
+
+
 
 public:
     //コンストラクタ

@@ -70,15 +70,15 @@ void StageSelectScene::Initialize()
 		trStage[l].scale_ = STAGE_SCALE;
 	}
 
-	hSkysphere = Model::Load("SkySphere.fbx");
-	assert(hSkysphere >= 0);
-	const char* imageName[] = { "TextBox1","StageText1" };
-	for (int i = 0; i < 2; i++)
-	{
-		hImage_[i] = Image::Load(imageName[i]);
-		trImage_[i].position_ = XMFLOAT3(0.5, 0, 0);
-		trImage_[i].scale_ = XMFLOAT3(1, 1, 1);
-	}
+	//hSkysphere = Model::Load("SkySphere.fbx");
+	//assert(hSkysphere >= 0);
+	//const char* imageName[] = { "TextBox1","StageText1" };
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	hImage_[i] = Image::Load(imageName[i]);
+	//	trImage_[i].position_ = XMFLOAT3(0.5, 0, 0);
+	//	trImage_[i].scale_ = XMFLOAT3(1, 1, 1);
+	//}
 	trStage[STAGE1].position_ = { 0,0,0 };
 	trStage[STAGE2].position_ = { 8,0,0 };
 	trStage[STAGE3].position_ = { 16,0,0 };
@@ -214,11 +214,11 @@ void StageSelectScene::Draw()
 		Model::Draw(hStage_[l]);
 	}
 
-	for (int i = 0; i < 2; i++)
-	{
-		Image::SetTransform(hImage_[i], trImage_[i]);
-		Image::Draw(hImage_[i]);
-	}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	Image::SetTransform(hImage_[i], trImage_[i]);
+	//	Image::Draw(hImage_[i]);
+	//}
 
 }
 

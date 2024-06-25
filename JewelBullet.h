@@ -9,8 +9,7 @@ class JewelBullet :
     int hModel_;    //ÉÇÉfÉãî‘çÜ
     int hStage_;
 
-    XMFLOAT3 initPos;
-    Enemy* curEnemy = nullptr;
+    XMFLOAT3 bulletPos_;
 
     int deleteTime_;
     int killCount_;

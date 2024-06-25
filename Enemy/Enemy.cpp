@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "../Stage.h"
 #include "../Player.h"
+#include "../Jewel.h"
 #include "../JewelBullet.h"
 #include "../Engine/Input.h"
 #include "../Engine/Model.h"
@@ -142,6 +143,8 @@ void Enemy::Update()
 		if (waitTime_ < 0)
 		{
 			((Player*)FindObject("Player"))->KillCountUp();
+			Jewel* pJewel = Instantiate<Jewel>(GetParent());
+			pJewel->SetPosition(transform_.position_);
 			KillMe();
 		}
 		waitTime_--;

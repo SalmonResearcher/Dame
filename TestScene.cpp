@@ -59,6 +59,9 @@ void TestScene::Initialize()
 	pDisplay->SetTimerPosition(0, 850, 45);
 
 	pDisplay->ScoreCountStart(0);
+
+	pDisplay->SetTimerLimit(0, 30);
+	pDisplay->TimerStart(0);
 }
 
 //çXêV
@@ -68,7 +71,7 @@ void TestScene::Update()
 
 		if (count % 30 == 0)
 		{
-			Jewel* pJewel = Instantiate<Jewel>(this);
+			
 		}
 
 		if (Input::IsKeyDown(DIK_P))
@@ -86,15 +89,15 @@ void TestScene::Update()
 
 		
 
-		if (Input::IsKeyDown(DIK_C)) {
+		if (Input::IsKeyDown(DIK_C) || pDisplay->IsFinished(0)) {
 			Global::AddJewel(jewel_);
 			Global::AddKillCount(killCount_);
 
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
-
 		}
-		pDisplay->SetScoreValue(0);
+		pDisplay->CalcScoreValue(0);
+		
 
 }
 

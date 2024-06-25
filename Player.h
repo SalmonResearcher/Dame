@@ -14,6 +14,8 @@ private:
     int hStage_;
     int hEnemy_;
     Stage* pStage_;    //ƒ‚ƒfƒ‹”Ô†‚ğæ“¾
+    float jewelCount_;
+    float weight_;
 
 public:
     Player(GameObject* parent);

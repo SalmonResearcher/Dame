@@ -50,11 +50,8 @@ void JewelBullet::Initialize()
 void JewelBullet::Update()
 {
     transform_.rotate_.z += 8;
-    RayCastData data;
-    data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
-    data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-    Model::RayCast(hStage_, &data); //レイを発射
 
+    //壁にぶつかったら消える
     RayCastData front;
     front.start = { transform_.position_ };   //レイの発射位置
     front.dir = XMFLOAT3(0, 0, 1);       //レイの方向
@@ -62,8 +59,8 @@ void JewelBullet::Update()
    
     Shoot();
 
-    transform_.position_.y = -data.dist + 0.5f;
-    if (front.dist <1.0f) {
+
+    if (front.dist <1.5f) {
         KillMe();
     }
 
@@ -100,7 +97,7 @@ void JewelBullet::BulletPosition(XMFLOAT3 _pos)
     playerPos_ = _pos;
     // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
     XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
-    XMStoreFloat3(&initPos, bulletInitPos);
+    XMStoreFloat3(&bulletPos_, bulletInitPos);
 };
 
 void JewelBullet::Shoot()
@@ -108,10 +105,10 @@ void JewelBullet::Shoot()
     XMFLOAT3 moveFloat;
     XMStoreFloat3(&moveFloat, playerForwardVec_);
 
-    initPos.x += moveFloat.x * 0.8;
-    initPos.z += moveFloat.z * 0.8;
+    bulletPos_.x += moveFloat.x * 0.8;
+    bulletPos_.z += moveFloat.z * 0.8;
 
-    transform_.position_ = initPos;
+    transform_.position_ = bulletPos_;
 
 }
 

@@ -96,29 +96,10 @@ void ResultScene::Update()
 
 	showScoreTime++;
 
-	if (showScoreTime >= 240) {
-		if (Input::IsKeyDown(DIK_SPACE)) { 
-			pDisp_->SetScoreIncrementStep(3, 1);
-		}
-	}
-
-	else if (showScoreTime >= 150) {
-		if (Input::IsKeyDown(DIK_SPACE)) { 
-			pDisp_->SetScoreIncrementStep(2, 1);
-			showScoreTime = 240;
-		}
-	}
-	else if (showScoreTime >= 90) {
-		if (Input::IsKeyDown(DIK_SPACE)) { 
-			pDisp_->SetScoreIncrementStep(1, 1);
-			showScoreTime = 150;
-		}
-	}
-	else if (showScoreTime >= 90) {
-		if (Input::IsKeyDown(DIK_SPACE)) { 
-			pDisp_->SetScoreIncrementStep(0, 1); 
-			showScoreTime = 90;
-		}
+	if (showScoreTime > 360 && Input::IsKey(DIK_SPACE))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
 }
 
