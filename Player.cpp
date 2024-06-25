@@ -32,8 +32,6 @@ namespace {
 
     int onCollisionTime = 0;
 
-    int killCount_;
-    int jewelDeliver_;
 
 	Transform tCamera;  //カメラのトランスフォーム
 
