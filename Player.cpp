@@ -390,8 +390,13 @@ void Player::OnCollision(GameObject* pTarget)
 		isJumping = true;
 		moveY += 0.1f;
 
-		XMVECTOR backMove = XMVectorSet(0, 0, knock, 0);		//z座標に動く速度
-		vecPlayer_ -= backMove;
+		// プレイヤーの前方ベクトルを取得
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+			XMConvertToRadians(transform_.rotate_.y),
+			XMConvertToRadians(transform_.rotate_.z));
+
+		XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
+		vecPlayer_ += playerBackVector;
 		XMStoreFloat3(&transform_.position_, vecPlayer_);
 
 	}
