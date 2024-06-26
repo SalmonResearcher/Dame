@@ -1,0 +1,11 @@
+【スキンウェイト解決方法】
+人型モデルを作成した際によく生じる「曲げた箇所が細くなる」「関係ないところも動く」問題を解決する方法です。
+でも...私にそんな時間はない！！！！
+
+素早くスキンウェイトを付ける方法
+https://area.autodesk.jp/column/tutorial/maya_atoz/skin_weights_1/
+https://area.autodesk.jp/column/tutorial/maya_atoz/skin_weights_2/
+
+Maya基礎学習skining操作まとめ
+主にこっち↓
+https://pomeranist.hatenablog.com/entry/2022/10/08/190157#%E3%82%B9%E3%82%AD%E3%83%B3%E3%82%A6%E3%82%A7%E3%82%A4%E3%83%88%E3%81%AE%E8%AA%BF%E6%95%B4
