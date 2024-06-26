@@ -23,9 +23,9 @@ void EnemySpawn::Initialize()
 void EnemySpawn::Update()
 {
 
-    if (canSpawn)
+    if (canSpawn_)
     {
-        transform_.position_.x = getRandomFloat(-60.0f, 70.0f);
+        transform_.position_.x = getRandomFloat(minX_,maxX_);
         if ((time_ % interval_) == 0)
         {
             Enemy* pEnemy = Instantiate<Enemy>(GetParent());

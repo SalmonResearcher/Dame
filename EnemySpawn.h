@@ -4,8 +4,10 @@ class EnemySpawn : public GameObject
 {
     int interval_;  //〇F経過したらスポーン
     int time_;      //1Fごとにカウント
-    bool canSpawn;
-    int limit;
+    bool canSpawn_;
+
+    int minX_, maxX_;
+
 public:
     //コンストラクタ
     EnemySpawn(GameObject* parent);
@@ -32,8 +34,10 @@ public:
     //スポーンからスポーンまでの合間時間（1F単位）
     void SetInterval(int _interval) { interval_ = _interval; };
 
-    void StartSpawn() { canSpawn = true; };
-    void StopSpawn() { canSpawn = false; };
+    void StartSpawn() { canSpawn_ = true; };
+    void StopSpawn() { canSpawn_ = false; };
+
+    void SetRandomX(float _min, float _max) { minX_ = _min; maxX_ = _max; };
 
     float getRandomFloat(float min, float max);
 };

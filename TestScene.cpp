@@ -63,17 +63,19 @@ void TestScene::Initialize()
 
 	pDisplay->ScoreCountStart(0);
 
-	pDisplay->SetTimerLimit(0, 30);
+	pDisplay->SetTimerLimit(0, 50);
 	pDisplay->TimerStart(0);
 
 	pEnemySpawn->SetInterval(30);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
+	pEnemySpawn->SetRandomX(-60.0f, 70.0f);
+	pEnemySpawn->StartSpawn();
+
 }
 
 //XV
 void TestScene::Update()
 {
-	pEnemySpawn->StartSpawn();
 		if (Input::IsKeyDown(DIK_P))
 		{
 			pEnemy = InstantiateFront<Enemy>(this);
