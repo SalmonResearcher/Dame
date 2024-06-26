@@ -89,7 +89,7 @@ void TestScene::Update()
 		killCount_ = pPlayer->GetKillCount();
 		
 		
-
+		//タイマーが０なら
 		if (Input::IsKeyDown(DIK_C) || pDisplay->IsFinished(0)) {
 			pEnemySpawn->StopSpawn();
 
