@@ -7,6 +7,7 @@
 #include "../Engine/Model.h"
 #include "../Engine/Debug.h"
 #include "../EnemyAttack.h"
+#include "../EnemySpawn.h"
 
 namespace 
 {
@@ -35,6 +36,8 @@ namespace
 
 	int attackWaitTime = 90;
 	int deathWaitTime = 60;
+	EnemySpawn* pEnemySpawn;
+
 
 }
 
@@ -57,9 +60,8 @@ void Enemy::Initialize()
 
 	transform_.scale_ = { enemyScale };
 
-	transform_.position_.x = target_.x;
-	transform_.position_.y = target_.y;
-	transform_.position_.z = 15;
+	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
+	transform_.position_ = pEnemySpawn->GetSpawnPoint();
 
 	pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
 	AddCollider(pSpher);

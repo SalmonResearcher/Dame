@@ -202,6 +202,9 @@
     <ClCompile Include="EnemyAttack.cpp">
       <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemySpawn.cpp">
+      <Filter>ToyBox\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -352,6 +355,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttack.h">
+      <Filter>ToyBox\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawn.h">
       <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

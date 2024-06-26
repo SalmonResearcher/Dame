@@ -8,14 +8,14 @@
 #include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
 #include "CharacterDisplay.h"
-#include "Score.h"
+
+#include "EnemySpawn.h"
 
 #include "Engine/SceneManager.h"
 
 #include "Engine/Input.h"
 
 namespace {
-	bool spawn = true;
 	int timer = 0;
 	int count = 0;
 
@@ -23,12 +23,15 @@ namespace {
 	int killCount_;
 	int score_ = 0;
 
+	XMFLOAT3 spawnPoint(0.0f, 5.0f, -60.0f);
+
 	Player* pPlayer;
 	Stage* pStage;
 	Jewel* pJewel;
 	Enemy* pEnemy;
 	JewelBox* pBox;
 	CharacterDisplay* pDisplay;
+	EnemySpawn* pEnemySpawn;
 }
 
 //コンストラクタ
@@ -45,8 +48,8 @@ void TestScene::Initialize()
 	pStage = Instantiate<Stage>(this);
 	pJewel = Instantiate<Jewel>(this);
 	pBox = Instantiate<JewelBox>(this);
-	pText = new Text;
-	pText->Initialize();
+	pEnemySpawn = Instantiate<EnemySpawn>(this);
+
 
 	pDisplay = Instantiate<CharacterDisplay>(this);
 
@@ -62,22 +65,18 @@ void TestScene::Initialize()
 
 	pDisplay->SetTimerLimit(0, 30);
 	pDisplay->TimerStart(0);
+
+	pEnemySpawn->SetInterval(30);
+	pEnemySpawn->SetSpawnPoint(spawnPoint);
 }
 
 //更新
 void TestScene::Update()
 {
-
-
-		if (count % 30 == 0)
-		{
-			
-		}
-
+	pEnemySpawn->StartSpawn();
 		if (Input::IsKeyDown(DIK_P))
 		{
 			pEnemy = InstantiateFront<Enemy>(this);
-
 		}
 
 		count++;
@@ -86,10 +85,12 @@ void TestScene::Update()
 
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();
-
+		
 		
 
 		if (Input::IsKeyDown(DIK_C) || pDisplay->IsFinished(0)) {
+			pEnemySpawn->StopSpawn();
+
 			Global::AddJewel(jewel_);
 			Global::AddKillCount(killCount_);
 

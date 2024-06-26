@@ -329,7 +329,7 @@ void Player::Update()
 		jewelCount_--;
 	}
 
-	//too heavy, more heavy
+	//ПdВ≥ВћН≈Се
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
 
 	transform_ = transform_;

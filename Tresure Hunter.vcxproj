@@ -128,6 +128,7 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="CharacterDisplay.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
+    <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="CharacterDisplay.h" />
     <ClInclude Include="EnemyAttack.h" />
+    <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
     <ClInclude Include="Enemy\Enemy.h" />

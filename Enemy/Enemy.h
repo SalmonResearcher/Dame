@@ -17,9 +17,7 @@ struct {
     int startFrame;
     int endFrame;
     float animeSpeed;
-
 };
-
 
 class Enemy : public GameObject
 {
@@ -28,8 +26,8 @@ class Enemy : public GameObject
 
     int hModel_;    //モデル番号
 
-    int hStage_;
-    int hPlayer_;
+    int hStage_;    //ステージモデル
+    int hPlayer_;   //プレイヤーのモデル番号
 
     int killed_by_Jewel;
 
@@ -85,4 +83,5 @@ public:
 
     void ChangeAnime(STATE state);
 
+    
 };
