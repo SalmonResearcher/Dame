@@ -43,6 +43,17 @@ namespace {
 
 	bool isKockBack = false;
 	float knock;
+
+	struct AnimFrame {
+		int startFrame;
+		int endFrame;
+		int animSpeed;
+	};
+	AnimFrame wait, slowMove, move, fastMove, attack;
+
+	
+
+
 }
 
 Player::Player(GameObject* parent)
@@ -52,12 +63,35 @@ Player::Player(GameObject* parent)
 
 void Player::Initialize()
 {
-	hModel_ = Model::Load("Player.fbx");
+	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
 
 	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
 
+	{
+		wait.startFrame = 0;
+		wait.endFrame = 120;
+		wait.animSpeed = 1;
+
+		slowMove.startFrame = 140;
+		slowMove.endFrame = 230;
+		slowMove.animSpeed = 1;
+
+		move.startFrame = 280;
+		move.endFrame = 330;
+		move.animSpeed = 1;
+
+		fastMove.startFrame = 340;
+		fastMove.endFrame = 365;
+		fastMove.animSpeed = 1;
+
+		attack.startFrame = 370;
+		attack.endFrame = 390;
+		attack.animSpeed = 1;
+	}
+
+	Model::SetAnimFrame(hModel_, move.startFrame, move.endFrame, move.animSpeed);
 }
 
 void Player::Update()
