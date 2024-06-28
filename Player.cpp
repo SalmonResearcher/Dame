@@ -26,8 +26,6 @@ namespace {
     float speed_ = 0;
     short moveSpeed;
     short dash_;
-    float moveY = 0;
-    bool isJumping = false;
     bool isHit;
 
     int onCollisionTime = 0;
@@ -51,13 +49,10 @@ namespace {
 	};
 	AnimFrame wait, slowMove, move, fastMove, attack;
 
-	
-
-
 }
 
 Player::Player(GameObject* parent)
-	:GameObject(parent, "Player"), hModel_(-1)
+	:GameObject(parent, "Player"), hModel_(-1)//currentState_(nullptr)
 {
 }
 
@@ -91,11 +86,19 @@ void Player::Initialize()
 		attack.animSpeed = 1;
 	}
 
-	Model::SetAnimFrame(hModel_, move.startFrame, move.endFrame, move.animSpeed);
+	//初期状態
+	//ChangeState(new IdleState());
 }
 
 void Player::Update()
 {
+
+	//if (currentState_) {
+	//	currentState_->Update(this);
+	//}
+
+	// カメラの更新
+	//camera_.Update(transform_);
 
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
@@ -115,24 +118,24 @@ void Player::Update()
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
 		{
 			isJumping = true;
-			moveY += 0.2f * weight_;
+			moveY_ += 0.2f * weight_;
 		}
 		
 		else if (isJumping)
 		{
 			//自由落下
-			moveY -= 0.01;
+			moveY_ -= 0.01;
 
-			if (moveY <= -0.25f)
+			if (moveY_ <= -0.25f)
 			{
-				moveY = -0.25f;
+				moveY_ = -0.25f;
 			}
 		}
 
 		//ジャンプ後地面に触ったら
 		if (play.dist <= 0.25 && isJumping)
 		{
-			moveY = 0.0f;
+			moveY_ = 0.0f;
 			isJumping = false;
 		}
 
@@ -149,7 +152,7 @@ void Player::Update()
 		}
 
 		//Y座標移動
-		transform_.position_.y += moveY;
+		transform_.position_.y += moveY_;
 	}
 
 
@@ -380,16 +383,22 @@ void Player::Draw()
 
 void Player::Release()
 {
+	//if (currentState_) {
+	//	delete currentState_;
+	//}
 }
 
-void Player::StageRay()
-{
-	if ((Stage*)FindObject("Stage") != nullptr)
-	{
-		hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
-		RayCastData down;
-	}
-}
+//void Player::ChangeState(PlayerState* newState)
+//{
+//	if (currentState_) {
+//		currentState_->Exit(this);
+//		delete currentState_;
+//	}
+//	currentState_ = newState;
+//	if (currentState_) {
+//		currentState_->Enter(this);
+//	}
+//}
 
 void Player::OnCollision(GameObject* pTarget)
 {
@@ -422,7 +431,7 @@ void Player::OnCollision(GameObject* pTarget)
 	{
 		knock = 0.8f;
 		isJumping = true;
-		moveY += 0.1f;
+		moveY_ += 0.1f;
 
 		// プレイヤーの前方ベクトルを取得
 		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
@@ -441,15 +450,12 @@ XMVECTOR Player::GetPlayerVec()
 		return vecPlayer_;
 }
 
-int Player::SendJewel()
-{
-	return jewelDeliver_;
-}
 
 int Player::GetJewelCount()
 {
 	return jewelCount_;
 }
+
 void Player::KillCountUp()
 {
 	killCount_++;
@@ -457,4 +463,16 @@ void Player::KillCountUp()
 int Player::GetKillCount()
 {
 	return killCount_;
+}
+
+XMVECTOR  Player::GetKnockbackDirection()
+{
+	// プレイヤーの前方ベクトルを取得
+	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+	XMConvertToRadians(transform_.rotate_.y),XMConvertToRadians(transform_.rotate_.z));
+
+	XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
+	vecPlayer_ += playerBackVector;
+
+	return vecPlayer_;
 }

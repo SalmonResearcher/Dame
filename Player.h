@@ -2,7 +2,8 @@
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
 #include "Stage.h"
-#include "PlayerStateManager.h"
+//#include "PlayerState.h"
+
 
 class Stage;
 
@@ -13,7 +14,14 @@ private:
     int hModel_;
     int hStage_;
     int hEnemy_;
-    Stage* pStage_;    //モデル番号を取得
+
+    bool isJumping = false;
+
+   // PlayerState* currentState_;
+   // PlayerCamera camera_;
+
+    float moveY_ = 0;
+
     float jewelCount_;  //持っている宝石の数
     float weight_;
     int killCount_;
@@ -26,7 +34,7 @@ public:
     void Draw() override;
     void Release() override;
 
-    void StageRay();
+    //void ChangeState(PlayerState* newState);
 
     void OnCollision(GameObject* pTarget)override;
 
@@ -35,10 +43,26 @@ public:
 
     XMVECTOR GetPlayerVec();
 
-    int SendJewel();
-    int GetJewelCount();
+    // ゲッターとセッター
+   // PlayerCamera& GetCamera() { return camera_; }
+    int GetModelHandle() const { return hModel_; }
 
-    void KillCountUp();
-    int GetKillCount();
+    int SendJewel() { return jewelDeliver_; };        //宝石箱に納品した宝石の数を送ります
+    int GetJewelCount();    //今手に持っている宝石の数を返します
 
+    void KillCountUp();     //プレイヤーが直接敵を倒した数を1増やします
+    int GetKillCount();     //プレイヤーが直接倒した敵の数を返します。
+
+    void SetVelocityY(float _vY) { moveY_ = _vY; };
+    float GetVelocityY() { return moveY_; };
+    void SetVelocityX(float _vX) {}
+    float GetVelocityX() { return 0.0f; }
+
+    void SetJumping(bool _flag) { isJumping = _flag; }
+
+    void SetMoveY(float _moveY) { transform_.position_.y += _moveY; }
+
+    XMVECTOR GetKnockbackDirection();
+
+    int GetStageHandle() { return hStage_; }
 };

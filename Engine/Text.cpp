@@ -86,7 +86,7 @@ void Text::Draw(int x, int y, int value)
 	Draw(x, y, str,true);
 }
 
-//描画（文字列(kai)）
+//描画（0～9の数字のみ利用可能）
 void Text::Draw(int x, int y, const char* str ,bool isNum)
 {
 	//表示位置（左上）を計算

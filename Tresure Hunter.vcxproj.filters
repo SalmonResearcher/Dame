@@ -125,21 +125,6 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>PlayerState</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="StandingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="WalkingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpingState.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStateManager.cpp">
-      <Filter>PlayerState</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -277,21 +262,6 @@
       <Filter>ToyBox</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="StandingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkingState.h">
-      <Filter>PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateManager.h">
       <Filter>PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
