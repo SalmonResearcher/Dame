@@ -114,4 +114,23 @@ void TestScene::Draw()
 //開放
 void TestScene::Release()
 {
+	// 各動的に割り当てられたオブジェクトを解放する
+	if (pPlayer) {
+		pPlayer = nullptr;
+	}
+	if (pStage) {
+		pStage = nullptr;
+	}
+	if (pJewel) {
+		pJewel = nullptr;
+	}
+	if (pBox) {
+		pBox = nullptr;
+	}
+	if (pEnemySpawn) {
+		pEnemySpawn = nullptr;
+	}
+	if (pDisplay) {
+		pDisplay = nullptr;
+	}
 }

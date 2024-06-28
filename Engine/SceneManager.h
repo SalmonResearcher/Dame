@@ -10,7 +10,6 @@ enum SCENE_ID
 	SCENE_ID_SELECT,
 	SCENE_ID_GAME,
 	SCENE_ID_RESULT,
-	SCENE_ID_SECRET
 };
 
 //-----------------------------------------------------------

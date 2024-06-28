@@ -43,11 +43,6 @@ void CharacterDisplay::Draw()
 
 void CharacterDisplay::Release()
 {
-    scores.clear();
-
-    timers.clear();
-
-    jewels.clear();
 }
 
 void CharacterDisplay::SetScorePosition(int index, int x, int y)

@@ -88,6 +88,7 @@ void Player::Initialize()
 
 	//‰Šúó‘Ô
 	//ChangeState(new IdleState());
+	Model::SetAnimFrame(hModel_,fastMove.startFrame,fastMove.endFrame,fastMove.animSpeed);
 }
 
 void Player::Update()
