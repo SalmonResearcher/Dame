@@ -28,7 +28,7 @@ void EnemySpawn::Update()
         transform_.position_.x = getRandomFloat(minX_,maxX_);
         if ((time_ % interval_) == 0)
         {
-            Enemy* pEnemy = Instantiate<Enemy>(GetParent());
+            Enemy* pEnemy = InstantiateFront<Enemy>(GetParent());
             
         }
         time_++;

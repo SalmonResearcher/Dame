@@ -145,7 +145,7 @@ void Enemy::Update()
 		if (waitTime_ < 0)
 		{
 			((Player*)FindObject("Player"))->KillCountUp();
-			Jewel* pJewel = Instantiate<Jewel>(GetParent());
+			Jewel* pJewel = InstantiateFront<Jewel>(GetParent());
 			pJewel->SetPosition(transform_.position_);
 			KillMe();
 		}
