@@ -25,7 +25,7 @@ void IdleState::Enter(Player* player)
 {
     idle.
     int playerHandle_ = player->GetModelHandle();
-    Model::SetAnimFrame(playerHandle_,)
+    Model::SetAnimFrame(playerHandle_, )
 }
 
 void IdleState::Update(Player* player)
