@@ -2,37 +2,61 @@
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
 #include "Stage.h"
-//#include "PlayerState.h"
+#include "InputManager.h"
 
 
 class Stage;
+class StateManager;
 
 class Player :public GameObject
 {
 private:
 
-    int hModel_;
-    int hStage_;
-    int hEnemy_;
+    int hModel_;    //モデル番号
 
-    bool isJumping = false;
+    int hStage_;    //ステージモデル番号
 
-   // PlayerState* currentState_;
-   // PlayerCamera camera_;
+    int hEnemy_;    //敵のモデル番号
 
-    float moveY_ = 0;
+    bool isJumping_; //ジャンプ中かどうか
+
+    float moveY_;   //Y軸の加速度
 
     float jewelCount_;  //持っている宝石の数
-    float weight_;
-    int killCount_;
+    float weight_;      //宝石の重さ
+    int killCount_;     //敵を倒した数
     int jewelDeliver_;  //運んだ宝石の数
 
+    StateManager* pStateManager_;//状態を切り替える
+
 public:
-    Player(GameObject* parent);
+    Player(GameObject* parent);     //コンストラクタ
+    ~Player();                      //デストラクタ
+
     void Initialize() override;
     void Update() override;
     void Draw() override;
     void Release() override;
+
+    //動き
+
+    void Walk();    //歩く
+    void Jump();    //ジャンプ
+    void Run();     //走り
+    void Attack();
+    void Knockback();//はじかれ
+
+    bool IsJumping();//接地しているか
+
+
+
+
+
+
+
+
+
+
 
     //void ChangeState(PlayerState* newState);
 
@@ -53,14 +77,12 @@ public:
     void KillCountUp();     //プレイヤーが直接敵を倒した数を1増やします
     int GetKillCount();     //プレイヤーが直接倒した敵の数を返します。
 
-    void SetVelocityY(float _vY) { moveY_ = _vY; };
+    void SetVelocityY(float vY) { moveY_ = vY; };
     float GetVelocityY() { return moveY_; };
-    void SetVelocityX(float _vX) {}
-    float GetVelocityX() { return 0.0f; }
 
-    void SetJumping(bool _flag) { isJumping = _flag; }
+    void SetJumping(bool flag) { isJumping = flag; }
 
-    void SetMoveY(float _moveY) { transform_.position_.y += _moveY; }
+    void SetMoveY(float moveY) { transform_.position_.y += moveY; }
 
     XMVECTOR GetKnockbackDirection();
 

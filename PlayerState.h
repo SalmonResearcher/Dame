@@ -74,6 +74,7 @@ public:
 };
 
 class KnockbackState : public StateBase {
+    AnimFrame knock;
     Player* pPlayer_;
 private:
     float knockbackStrength = 0.8f; // ノックバックの強さ

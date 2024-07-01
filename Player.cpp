@@ -11,6 +11,9 @@
 
 #include "Engine/SceneManager.h"
 
+#include "StateManager.h"
+#include "PlayerState.h"
+
 namespace {
 	//プレイヤーの大きさ。
 // 基本的には中央が原点なので2で割る。
@@ -24,8 +27,7 @@ namespace {
 
     const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
-    short moveSpeed;
-    short dash_;
+    int dash_;
     bool isHit;
 
     int onCollisionTime = 0;
@@ -52,7 +54,8 @@ namespace {
 }
 
 Player::Player(GameObject* parent)
-	:GameObject(parent, "Player"), hModel_(-1)//currentState_(nullptr)
+	:GameObject(parent, "Player"), hModel_(-1), hStage_(-1), hEnemy_(-1), isJumping_(false),
+	moveY_(0), jewelCount_(0),weight_(0),killCount_(0),jewelDeliver_(0),pStateManager_(nullptr)
 {
 }
 
@@ -60,6 +63,9 @@ void Player::Initialize()
 {
 	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
+
+	// ステートマネージャー
+	pStateManager_ = new StateManager(this);
 
 	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
@@ -86,20 +92,32 @@ void Player::Initialize()
 		attack.animSpeed = 1;
 	}
 
+
+	// あらかじめ状態インスタンスを生成して登録
+	pStateManager_->AddState("IdleState", new IdleState(pStateManager_));
+	pStateManager_->AddState("WalkState", new WalkState(pStateManager_));
+	pStateManager_->AddState("RunState", new RunState(pStateManager_));
+	pStateManager_->AddState("JumpState", new JumpState(pStateManager_));
+	pStateManager_->AddState("AttackState", new AttackState(pStateManager_));
+	pStateManager_->AddState("KnockbackState", new KnockbackState(pStateManager_));
+
 	//初期状態
-	//ChangeState(new IdleState());
-	Model::SetAnimFrame(hModel_,fastMove.startFrame,fastMove.endFrame,fastMove.animSpeed);
+	pStateManager_->ChangeState("IdleState");
+}
+
+Player::~Player()
+{
+	SAFE_DELETE(pStateManager_);
 }
 
 void Player::Update()
 {
-
-	//if (currentState_) {
-	//	currentState_->Update(this);
-	//}
-
-	// カメラの更新
-	//camera_.Update(transform_);
+	// ステートマネージャーの更新
+	pStateManager_->Update();
+	if (isJumping_)
+	{
+		//juuryoku
+	}
 
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
@@ -388,6 +406,32 @@ void Player::Release()
 	//	delete currentState_;
 	//}
 }
+
+void Player::Walk()
+{
+}
+
+void Player::Jump()
+{
+}
+
+void Player::Run()
+{
+}
+
+void Player::Attack()
+{
+}
+
+void Player::Knockback()
+{
+}
+
+bool Player::IsJumping()
+{
+	return false;
+}
+
 
 //void Player::ChangeState(PlayerState* newState)
 //{
