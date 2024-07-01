@@ -134,13 +134,13 @@ void Player::Update()
 	if (data.hit)
 	{
 		//ジャンプ
-		if (Input::IsKeyDown(DIK_SPACE) && !isJumping)
+		if (Input::IsKeyDown(DIK_SPACE) && !isJumping_)
 		{
-			isJumping = true;
+			isJumping_ = true;
 			moveY_ += 0.2f * weight_;
 		}
 		
-		else if (isJumping)
+		else if (isJumping_)
 		{
 			//自由落下
 			moveY_ -= 0.01;
@@ -152,14 +152,14 @@ void Player::Update()
 		}
 
 		//ジャンプ後地面に触ったら
-		if (play.dist <= 0.25 && isJumping)
+		if (play.dist <= 0.25 && isJumping_)
 		{
 			moveY_ = 0.0f;
-			isJumping = false;
+			isJumping_ = false;
 		}
 
 		//ジャンプしていない,地に足がつくなら
-		if (!isJumping && play.hit)
+		if (!isJumping_ && play.hit)
 		{
 			transform_.position_.y = -data.dist;
 		}
@@ -167,7 +167,7 @@ void Player::Update()
 		//地に足がつかないのならば
 		else if (!play.hit)
 		{
-			isJumping = true;
+			isJumping_ = true;
 		}
 
 		//Y座標移動
@@ -185,17 +185,6 @@ void Player::Update()
 	static bool debug = true;
 
 
-	if (Input::IsKeyDown(DIK_RSHIFT))
-	{
-		if (debug)
-		{
-			debug = false;
-		}
-		else
-		{
-			debug = true;
-		}
-	}
 
 	//マウス感度
 	{
@@ -490,7 +479,7 @@ void Player::OnCollision(GameObject* pTarget)
 	}
 }
 
-XMVECTOR Player::GetPlayerVec()
+XMVECTOR Player::GetPlayerVector()
 {
 		return vecPlayer_;
 }

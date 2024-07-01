@@ -17,6 +17,7 @@ Attack::Attack(GameObject* parent)
 //デストラクタ
 Attack::~Attack()
 {
+
 }
 
 //初期化

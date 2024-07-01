@@ -63,9 +63,9 @@ public:
     void OnCollision(GameObject* pTarget)override;
 
 
-    XMFLOAT3 GetPlayerPos() { return transform_.position_; };
+    XMFLOAT3 GetPlayerPosition() { return transform_.position_; };
 
-    XMVECTOR GetPlayerVec();
+    XMVECTOR GetPlayerVector();
 
     // ゲッターとセッター
    // PlayerCamera& GetCamera() { return camera_; }
