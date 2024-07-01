@@ -1,103 +1,82 @@
 // PlayerState.cpp
 #include "PlayerState.h"
 #include "Player.h"
+#include "StateManager.h"
+#include "InputManager.h"
+
 #include "Engine/Input.h"
 #include "Engine/Model.h" // Model::RayCastData の定義を仮定
 
-namespace
+
+// 待機
+IdleState::IdleState(StateManager* manager): StateBase(manager),pPlayer_(nullptr),idle{0,120,1}
+{
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameObject());
+}
+
+//待機開始
+void IdleState::EnterState()
+{
+    Model::SetAnimFrame(pPlayer_->GetModelHandle(), idle.startframe, idle.endframe, idle.speed);// 待機animationのフレーム
+}
+
+// 待機状態の更新処理
+void IdleState::UpdateState()
+{
+
+    // ジャンプ
+    if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpState"); }
+
+    // 歩き
+    if (InputManager::IsWalk()) { pStateManager_->ChangeState("WalkState"); }
+
+    // 攻撃
+    if (InputManager::IsAttack()) { pStateManager_->ChangeState("AttackState"); }
+}
+
+void IdleState::ExitState()
 {
 }
 
-bool PlayerState::IsGrounded(Player* player)
+
+// 歩き
+WalkState::WalkState(StateManager* manager):StateBase(manager),pPlayer_(nullptr),walk{ 140,230,1 }
 {
-    RayCastData data;
-    data.start = { player->GetPosition().x, 0, player->GetPosition().z };
-    data.dir = XMFLOAT3(0, -1, 0);
-
-    Model::RayCast(player->GetStageHandle(), &data); // レイを発射して接地判定を取得
-
-    return data.hit && data.dist < 0.25f; // 地面にヒットしており、距離がしきい値未満ならば接地していると判定
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameObject());
 }
 
-
-// IdleState
-void IdleState::Enter(Player* player)
+void WalkState::EnterState()
 {
-    idle.
-    int playerHandle_ = player->GetModelHandle();
-    Model::SetAnimFrame(playerHandle_, )
+    Model::SetAnimFrame(pPlayer_->GetModelHandle(), walk.startframe, walk.endframe, walk.speed); // 歩行アニメーションのフレーム設定
 }
 
-void IdleState::Update(Player* player)
+void WalkState::UpdateState()
 {
-    // アイドル状態の更新処理
-    if (Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D))
-    {
-        player->ChangeState(new WalkState());
-    }
-    else if (Input::IsKeyDown(DIK_SPACE))
-    {
-        player->ChangeState(new JumpState());
-    }
-    else if (Input::IsMouseButtonDown(0))
-    {
-        player->ChangeState(new AttackState());
-    }
+    pPlayer_->Walk();
+
+    // ジャンプキーが押されたら
+    if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpState"); }
+
+    // ダッシュキーが押されたら
+    if (InputManager::IsRun()) { pStateManager_->ChangeState("RunState"); }
+
+    // 移動入力がなくなったとき待機へ
+    if (!InputManager::IsWalk()) { pStateManager_->ChangeState("IdleState"); }
+    
+    // 攻撃
+    if (InputManager::IsAttack()) { pStateManager_->ChangeState("AttackState"); }
 }
 
-void IdleState::Exit(Player* player)
-{
-    // アイドル状態から出る時の処理
-}
-
-// WalkState
-void WalkState::Enter(Player* player)
-{
-    int hModel = player->GetModelHandle();
-    Model::SetAnimFrame(hModel, 140, 230, 1); // 歩行アニメーションのフレーム設定
-}
-
-void WalkState::Update(Player* player)
-{
-    // 移動処理
-    XMVECTOR move = XMVectorZero();
-    if (Input::IsKey(DIK_W)) move += XMVectorSet(0, 0, 1, 0);
-    if (Input::IsKey(DIK_S)) move += XMVectorSet(0, 0, -1, 0);
-    if (Input::IsKey(DIK_A)) move += XMVectorSet(-1, 0, 0, 0);
-    if (Input::IsKey(DIK_D)) move += XMVectorSet(1, 0, 0, 0);
-
-    if (XMVectorGetX(XMVector3LengthSq(move)) > 0)
-    {
-        move = XMVector3Normalize(move);
-        XMFLOAT3 pos = player->GetPosition();
-        XMStoreFloat3(&pos, XMLoadFloat3(&pos) + move * 0.1f); // 移動速度を調整
-        player->SetPosition(pos);
-    }
-    else
-    {
-        player->ChangeState(new IdleState());
-    }
-
-    if (Input::IsKey(DIK_LSHIFT))
-    {
-        player->ChangeState(new RunState());
-    }
-    else if (Input::IsKeyDown(DIK_SPACE))
-    {
-        player->ChangeState(new JumpState());
-    }
-}
-
-void WalkState::Exit(Player* player)
+void WalkState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
 // RunState
 
-
+JumpState::JumpState(StateManager* manager):StateBase(manager),pPlayer_(nullptr)
 // JumpState
-void JumpState::Enter(Player* player)
+void JumpState::EnterState()
 {
     int hModel = player->GetModelHandle();
     Model::SetAnimFrame(hModel, 280, 330, 1); // ジャンプアニメーションのフレーム設定
@@ -106,7 +85,7 @@ void JumpState::Enter(Player* player)
     player->SetVelocityY(0.2f);
 }
 
-void JumpState::Update(Player* player)
+void JumpState::UpdateState()
 {
     // 重力を適用
     float velocityY = player->GetVelocityY();
@@ -130,13 +109,13 @@ void JumpState::Update(Player* player)
     // WalkStateの移動処理を簡略化して適用
 }
 
-void JumpState::Exit(Player* player)
+void JumpState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
 // AttackState
-void AttackState::Enter(Player* player)
+void AttackState::EnterState()
 {
     int hModel = player->GetModelHandle();
     Model::SetAnimFrame(hModel, 280, 330, 1); // ジャンプアニメーションのフレーム設定
@@ -145,7 +124,7 @@ void AttackState::Enter(Player* player)
     player->SetVelocityY(0.2f);
 }
 
-void AttackState::Update(Player* player)
+void AttackState::UpdateState()
 {
     // 重力を適用
     float velocityY = player->GetVelocityY();
@@ -169,19 +148,19 @@ void AttackState::Update(Player* player)
     // WalkStateの移動処理を簡略化して適用
 }
 
-void AttackState::Exit(Player* player)
+void AttackState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
 //RunState
-void RunState::Enter(Player* player)
+void RunState::EnterState()
 {
     int hModel = player->GetModelHandle();
     Model::SetAnimFrame(hModel, 340, 365, 1); // ダッシュアニメーションのフレーム設定
 }
 
-void RunState::Update(Player* player)
+void RunState::UpdateState()
 {
     // ダッシュ中の移動処理や速度の調整などを実装する
     XMVECTOR move = XMVectorZero();
@@ -209,19 +188,19 @@ void RunState::Update(Player* player)
     }
 }
 
-void RunState::Exit(Player* player)
+void RunState::ExitState()
 {
     // ダッシュステートから出る時の処理
 }
 
 // FallState
-void FallState::Enter(Player* player)
+void FallState::EnterState()
 {
     int hModel = player->GetModelHandle();
     Model::SetAnimFrame(hModel, 230, 280, 1); // 落下アニメーションのフレーム設定
 }
 
-void FallState::Update(Player* player)
+void FallState::UpdateState()
 {
     // 重力を適用
     float velocityY = player->GetVelocityY();
@@ -242,13 +221,13 @@ void FallState::Update(Player* player)
     }
 }
 
-void FallState::Exit(Player* player)
+void FallState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
 // KnockbackState
-void KnockbackState::Enter(Player* player)
+void KnockbackState::EnterState()
 {
     int hModel = player->GetModelHandle();
     Model::SetAnimFrame(hModel, 280, 330, 1); // ノックバックアニメーションのフレーム設定
@@ -257,7 +236,7 @@ void KnockbackState::Enter(Player* player)
     player->SetVelocityX(-0.3f); // X方向にノックバックする例
 }
 
-void KnockbackState::Update(Player* player)
+void KnockbackState::UpdateState()
 {
     // ノックバック処理の実施
     XMVECTOR knockbackDirection = player->GetKnockbackDirection(); // ノックバック方向を取得
@@ -279,9 +258,8 @@ void KnockbackState::Update(Player* player)
     }
 }
 
-void KnockbackState::Exit(Player* player)
+void KnockbackState::ExitState()
 {
     // ノックバックステートを終了する際の処理（必要に応じて）
 }
-
 

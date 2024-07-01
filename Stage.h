@@ -9,13 +9,13 @@ class Jewel;
 //ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Stage : public GameObject
 {
-    Player* pPlayer;
-    Stage* pStage;
-    Jewel* pJewel;
+    Player* pPlayer_;
+    Stage* pStage_;
+    Jewel* pJewel_;
 
 
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
-    int hModel_2;
+    int hModel2_;
     Transform transStage_;
     Transform transSky_;
 

@@ -32,8 +32,6 @@ public:
 	//•`‰æ
 	void Draw() override;
 
-	void Draw(int _x, int _y);
-
 	//ŠJ•ú
 	void Release() override;
 
@@ -45,5 +43,5 @@ public:
 
 	bool IsFinished();
 
-	void SetTimerPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
+	void SetTimerPosition(int x, int y) { posX_ = x; posY_ = y; }
 };

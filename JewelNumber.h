@@ -31,6 +31,6 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	void SetJewelPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
-	void SetJewelNumber(int _value) { jewel_ = _value; }
+	void SetJewelPosition(int x, int y) { posX_ = x; posY_ = y; }
+	void SetJewelNumber(int value) { jewel_ = value; }
 };

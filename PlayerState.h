@@ -1,6 +1,7 @@
-// PlayerState.h
+// StateBase.h
 #pragma once
 #include "Engine/GameObject.h"
+#include "StateBase.h"
 
 class Player;
 
@@ -11,70 +12,73 @@ struct AnimFrame
     int speed;
 };
 
+//bool IsGrounded()
+//{
+//    RayCastData data;
+//    data.start = { player->GetPosition().x, 0, player->GetPosition().z };
+//    data.dir = XMFLOAT3(0, -1, 0);
+//
+//    Model::RayCast(player->GetStageHandle(), &data); // レイを発射して接地判定を取得
+//
+//    return data.hit && data.dist < 0.25f; // 地面にヒットしており、距離がしきい値未満ならば接地していると判定
+//}
 
-class PlayerState {
-    Player* pPlayer_;
-    
-public:
-    virtual ~PlayerState() {}
-    virtual void Enter(Player* player) = 0;
-    virtual void Update(Player* player) = 0;
-    virtual void Exit(Player* player) = 0;
-
-protected:
-    bool IsGrounded(Player* player);//接地しているかどうか
-};
-
-class IdleState : public PlayerState {
-    AnimFrame idle = {0,120,1};
+class IdleState : public StateBase {
+    AnimFrame idle;
     Player* pPlayer_;
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    IdleState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };
 
-class WalkState : public PlayerState {
-    AnimFrame walk
+class WalkState : public StateBase {
+    AnimFrame walk;
     Player* pPlayer_;
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    WalkState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };
 
-class RunState : public PlayerState {
+class RunState : public StateBase {
     Player* pPlayer_;
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    RunState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };
 
-class JumpState : public PlayerState {
+class JumpState : public StateBase {
     Player* pPlayer_;
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    JumpState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };
 
-class AttackState : public PlayerState {
+class AttackState : public StateBase {
     Player* pPlayer_;
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    AttackState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };
 
-class KnockbackState : public PlayerState {
+class KnockbackState : public StateBase {
     Player* pPlayer_;
 private:
     float knockbackStrength = 0.8f; // ノックバックの強さ
     float jumpHeight = 0.1f;        // ノックバック時のジャンプ高さ
 
 public:
-    void Enter(Player* player) override;
-    void Update(Player* player) override;
-    void Exit(Player* player) override;
+    KnockbackState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
 };

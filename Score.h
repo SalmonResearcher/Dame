@@ -21,7 +21,7 @@ private:
 	int saveScore_ = 0;
 	int posX_, posY_;
 
-	bool countUp = false;
+	bool countUp_ = false;
 
 public:
 
@@ -42,11 +42,11 @@ public:
 	void Release() override;
 	
 	int GetScore() {return saveScore_;}
-	void SetScore(int _score) { score_ = _score; }
-	void SetDisplayPosition(int _x, int _y) { posX_ = _x; posY_ = _y; }
+	void SetScore(int score) { score_ = score; }
+	void SetDisplayPosition(int x, int y) { posX_ = x; posY_ = y; }
 
 	void ScoreCaluc();
 	void Start() { countUp = true; }
 	void Stop() { countUp = false; }
-	void SetIncrementSteps(int _step) { incrementSteps_ = _step; }
+	void SetIncrementSteps(int step) { incrementSteps_ = step; }
 };

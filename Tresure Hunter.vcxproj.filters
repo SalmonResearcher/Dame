@@ -162,9 +162,6 @@
       <Filter>ToyBox\Enemy\BossSlime</Filter>
     </ClCompile>
     <ClCompile Include="Enemy\State\BossSpawn.cpp" />
-    <ClCompile Include="SecretScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="JewelBullet.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
@@ -190,6 +187,8 @@
     <ClCompile Include="EnemySpawn.cpp">
       <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -302,9 +301,6 @@
     </ClInclude>
     <ClInclude Include="Enemy\State\BossSpawn.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
-    <ClInclude Include="SecretScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
@@ -330,6 +326,8 @@
     <ClInclude Include="EnemySpawn.h">
       <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="InputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
