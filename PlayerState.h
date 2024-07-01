@@ -44,6 +44,7 @@ public:
 };
 
 class RunState : public StateBase {
+    AnimFrame run;
     Player* pPlayer_;
 public:
     RunState(StateManager* manager);
@@ -53,6 +54,7 @@ public:
 };
 
 class JumpState : public StateBase {
+    AnimFrame jump;
     Player* pPlayer_;
 public:
     JumpState(StateManager* manager);
@@ -62,6 +64,7 @@ public:
 };
 
 class AttackState : public StateBase {
+    AnimFrame attack;
     Player* pPlayer_;
 public:
     AttackState(StateManager* manager);

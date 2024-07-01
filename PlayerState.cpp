@@ -72,41 +72,22 @@ void WalkState::ExitState()
     // 必要に応じて終了処理
 }
 
-// RunState
-
-JumpState::JumpState(StateManager* manager):StateBase(manager),pPlayer_(nullptr)
+// JumpState
+JumpState::JumpState(StateManager* manager) :StateBase(manager), pPlayer_(nullptr), jump{ 400,460,1 }
+{
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameObject());
+}
 // JumpState
 void JumpState::EnterState()
 {
-    int hModel = player->GetModelHandle();
-    Model::SetAnimFrame(hModel, 280, 330, 1); // ジャンプアニメーションのフレーム設定
-
-    // ジャンプの初期速度を設定
-    player->SetVelocityY(0.2f);
+    Model::SetAnimFrame(pPlayer_->GetModelHandle(),jump.startframe,jump.endframe,jump.speed); // ジャンプアニメーションのフレーム設定
 }
 
 void JumpState::UpdateState()
 {
-    // 重力を適用
-    float velocityY = player->GetVelocityY();
-    velocityY -= 0.01f; // 重力加速度
-    player->SetVelocityY(velocityY);
+    pPlayer_->Jump();
 
-    // Y座標を更新
-    XMFLOAT3 pos = player->GetPosition();
-    pos.y += velocityY;
-    player->SetPosition(pos);
-
-    // 地面に着地したかチェック
-    if (IsGrounded(player)) // IsGrounded を使用して接地判定を行う
-    {
-        pos.y = 0;
-        player->SetPosition(pos);
-        player->ChangeState(new IdleState());
-    }
-
-    // 空中での水平移動
-    // WalkStateの移動処理を簡略化して適用
+    if (InputManager::IsAttack()) { pStateManager_->ChangeState("AttackState"); }
 }
 
 void JumpState::ExitState()
@@ -115,6 +96,8 @@ void JumpState::ExitState()
 }
 
 // AttackState
+AttackState::AttackState(StateManager* manager):StateBase(manager),
+
 void AttackState::EnterState()
 {
     int hModel = player->GetModelHandle();
