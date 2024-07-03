@@ -8,10 +8,7 @@ protected:
     StateManager* pStateManager_;
 public:
     StateBase(StateManager* _manager)
-        :pStateManager_(_manager)
-    {
-
-    }
+        :pStateManager_(_manager){}
 
     //デストラクタ
     virtual ~StateBase() {};

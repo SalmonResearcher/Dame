@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "Global.h"
 
 #include "Engine/Camera.h"
 #include "Engine/SceneManager.h"
@@ -36,6 +37,10 @@ void TitleScene::Initialize()
 		hImage_[l] = Image::Load(ImageName[l]);
 		assert(hImage_[l] >= 0);
 	}
+	Global::jewel = 0;
+	Global::killcount = 0;
+	Global::jewelKill = 0;
+
 }
 
 void TitleScene::Update()

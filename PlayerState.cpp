@@ -52,6 +52,7 @@ void WalkState::EnterState()
 
 void WalkState::UpdateState()
 {
+
     pPlayer_->Walk();
 
     // ジャンプキーが押されたら
@@ -143,7 +144,6 @@ void RunState::ExitState()
 {
     // ダッシュステートから出る時の処理
 }
-
 
 // KnockbackState
 KnockbackState::KnockbackState(StateManager* manager) : StateBase(manager), knock{ 400,460,1 }

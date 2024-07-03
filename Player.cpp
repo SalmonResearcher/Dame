@@ -52,7 +52,6 @@ namespace {
 		int animSpeed;
 	};
 	AnimFrame wait, slowMove, move, fastMove, attack;
-
 }
 
 Player::Player(GameObject* parent)
@@ -180,7 +179,7 @@ void Player::Update()
 	}
 
 
-
+	/*
 	if (Input::IsKey(DIK_LSHIFT))
 		dash_ = 2;
 
@@ -248,6 +247,8 @@ void Player::Update()
 	}
 
 	tCamera.rotate_ = camMove;
+	*/
+
 	//プレイヤー移動↓
 	/*
 	//Y軸の回転行列
@@ -333,6 +334,7 @@ void Player::Update()
 
 	*/
 
+/*
 	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
 
 	//プレイヤーの水平方向の角度を求める
@@ -348,7 +350,7 @@ void Player::Update()
 
 	// プレイヤーの前方ベクトルを取得
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
-
+	*/
 
 	//くりっくしたら
 	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
@@ -400,6 +402,7 @@ void Player::Release()
 void Player::Walk()
 {
 	AddMovement(CalcMovementInput(),dash_);
+	RotatePlayer();
 }
 
 void Player::Jump()
@@ -435,8 +438,6 @@ XMVECTOR Player::CalcMovementInput()
 			speed_ = 0.0f;
 		}
 	}
-
-
 
 	// 計算結果
 	XMVECTOR vecPlayer_;
@@ -493,21 +494,9 @@ void Player::Knockback()
 
 bool Player::IsJumping()
 {
-	return false;
+	return isJumping_;
 }
 
-
-//void Player::ChangeState(PlayerState* newState)
-//{
-//	if (currentState_) {
-//		currentState_->Exit(this);
-//		delete currentState_;
-//	}
-//	currentState_ = newState;
-//	if (currentState_) {
-//		currentState_->Enter(this);
-//	}
-//}
 
 void Player::OnCollision(GameObject* pTarget)
 {
@@ -554,8 +543,6 @@ void Player::OnCollision(GameObject* pTarget)
 	}
 }
 
-
-
 int Player::GetJewelCount()
 {
 	return jewelCount_;
@@ -570,13 +557,29 @@ int Player::GetKillCount()
 	return killCount_;
 }
 
-XMVECTOR  Player::GetKnockbackDirection()
+XMVECTOR Player::GetKnockbackDirection()
 {
 	// プレイヤーの前方ベクトルを取得
 	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
 	XMConvertToRadians(transform_.rotate_.y),XMConvertToRadians(transform_.rotate_.z));
 
 	XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
-	//vecPlayer_ += playerBackVector;;
+	//vecPlayer_ += playerBackVector;
 	return playerBackVector;
+}
+
+void Player::RotatePlayer()
+{
+	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
+
+	//プレイヤーの水平方向の角度を求める
+	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
+
+	//// プレイヤーの回転を更新
+	transform_.rotate_.y = XMConvertToDegrees(playerYaw);
+
+	// プレイヤーの回転行列を作成
+	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+		XMConvertToRadians(transform_.rotate_.y),
+		XMConvertToRadians(transform_.rotate_.z));
 }

@@ -53,12 +53,6 @@ public:
 
     XMVECTOR CalcMovementInput();
 
-
-
-
-
-
-
     //void ChangeState(PlayerState* newState);
 
     void OnCollision(GameObject* pTarget)override;
@@ -87,4 +81,6 @@ public:
     XMVECTOR GetKnockbackDirection();
 
     int GetStageHandle() { return hStage_; }
+
+    void RotatePlayer();
 };
