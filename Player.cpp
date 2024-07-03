@@ -352,6 +352,12 @@ void Player::Update()
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 	*/
 
+
+	if (Input::IsMouseButton(1))
+	{
+		RotatePlayer();
+	}
+
 	//くりっくしたら
 	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
 	{
@@ -380,8 +386,8 @@ void Player::Update()
 	//重さの最大
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
 
-	transform_ = transform_;
-	transform_.rotate_ = transform_.rotate_;
+	Debug::Log("速度＝");
+	Debug::Log(speed_ * dash_ * weight_, true);
 }
 
 
@@ -401,8 +407,9 @@ void Player::Release()
 
 void Player::Walk()
 {
-	AddMovement(CalcMovementInput(),dash_);
-	RotatePlayer();
+	XMVECTOR moveVector = CalcMovementInput();
+	AddMovement(moveVector, dash_);
+	RotatePlayer(moveVector);
 }
 
 void Player::Jump()
@@ -416,15 +423,22 @@ void Player::AddGravity()
 {
 
 }
+
 void Player::AddMovement(XMVECTOR moveVector, float run)
 {
-	XMStoreFloat3(&transform_.position_, moveVector * run);
+	XMVECTOR newPosition = XMLoadFloat3(&transform_.position_) + (moveVector * run);
+	XMStoreFloat3(&transform_.position_, newPosition);
 }
 
 // 移動計算を行う関数
 XMVECTOR Player::CalcMovementInput()
 {
-	if ((Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D)))
+	// 移動ベクトル
+	XMVECTOR moveVector = XMVectorZero();
+	XMVECTOR forwardMove = XMVectorZero();
+	XMVECTOR sideMove = XMVectorZero();
+
+	if (Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D))
 	{
 		speed_ += 0.01f;
 		if (speed_ >= MAXSPEED)
@@ -434,56 +448,42 @@ XMVECTOR Player::CalcMovementInput()
 	{
 		speed_ -= 0.01f;
 		if (speed_ <= 0.0f)
-		{
 			speed_ = 0.0f;
-		}
 	}
 
-	// 計算結果
-	XMVECTOR vecPlayer_;
-
+	// カメラのY軸回転行列を取得
 	XMMATRIX rotMatY = pCamera_->GetRotateY();
 
-	//移動ベクトル
-	XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
-	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
-	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
-
-	//左右
-	XMVECTOR sideVec_ = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
-	sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
-
-	//プレイヤーもここで移動させる
-	vecPlayer_ = XMLoadFloat3(&transform_.position_);
-
-	// PlayerクラスのMove関数内の一部
+	// 前後の移動
 	if (InputManager::IsMoveForward())
 	{
-		vecPlayer_ += frontMove;
-	}
-	if (InputManager::IsMoveLeft())
-	{
-		vecPlayer_ -= sideVec_;
+		forwardMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);
+		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
+		moveVector += forwardMove;
 	}
 	if (InputManager::IsMoveBackward())
 	{
-		vecPlayer_ -= frontMove;
+		forwardMove = XMVectorSet(0, 0, -speed_ * dash_ * weight_, 0);
+		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
+		moveVector += forwardMove;
+	}
+
+	// 左右の移動
+	if (InputManager::IsMoveLeft())
+	{
+		sideMove = XMVectorSet(-speed_ * dash_ * weight_, 0, 0, 0);
+		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
+		moveVector += sideMove;
 	}
 	if (InputManager::IsMoveRight())
 	{
-		vecPlayer_ += sideVec_;
+		sideMove = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
+		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
+		moveVector += sideMove;
 	}
 
-
-	if (speed_ >= MAXSPEED)
-	{
-		speed_ = MAXSPEED;
-	}
-
-	XMVector3Normalize(vecPlayer_);
-	return vecPlayer_;
+	return moveVector;
 }
-
 void Player::Attacking()
 {
 }
@@ -568,14 +568,30 @@ XMVECTOR Player::GetKnockbackDirection()
 	return playerBackVector;
 }
 
+void Player::RotatePlayer(XMVECTOR moveVector)
+{
+	// 移動ベクトルから水平方向の角度を計算
+	XMFLOAT3 moveVecFloat3;
+	XMStoreFloat3(&moveVecFloat3, moveVector);
+
+	if (moveVecFloat3.x != 0 || moveVecFloat3.z != 0) {
+		float playerYaw = atan2f(moveVecFloat3.x, moveVecFloat3.z);
+		transform_.rotate_.y = XMConvertToDegrees(playerYaw);
+	}
+
+	// プレイヤーの回転行列を作成
+	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+		XMConvertToRadians(transform_.rotate_.y),
+		XMConvertToRadians(transform_.rotate_.z));
+}
+
 void Player::RotatePlayer()
 {
+	// カメラの回転行列からプレイヤーの水平方向の角度を求める
 	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
-
-	//プレイヤーの水平方向の角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
 
-	//// プレイヤーの回転を更新
+	// プレイヤーの回転を更新
 	transform_.rotate_.y = XMConvertToDegrees(playerYaw);
 
 	// プレイヤーの回転行列を作成

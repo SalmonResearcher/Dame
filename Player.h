@@ -82,5 +82,6 @@ public:
 
     int GetStageHandle() { return hStage_; }
 
+    void RotatePlayer(XMVECTOR moveVector);
     void RotatePlayer();
 };
