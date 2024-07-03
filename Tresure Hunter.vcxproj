@@ -217,6 +217,7 @@
     <ClInclude Include="JewelNumber.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCamera.h" />
+    <ClInclude Include="PlayerParameter.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />

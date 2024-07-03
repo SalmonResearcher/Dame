@@ -69,13 +69,9 @@ void PlayerCamera::Update()
 	move.y += Input::GetMouseMove().y * mouseSens;
 	move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
 
-
-
 	//マウスの移動量に応じてカメラを回転させる
 	camMove.y = move.x;
 	camMove.x = move.y;
-
-
 
 	//マウスセンシティビリティ
 	camMove.x *= 0.1;

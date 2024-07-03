@@ -89,7 +89,7 @@ void JumpState::UpdateState()
 
     if (InputManager::IsAttack()) { pStateManager_->ChangeState("AttackState"); }
 
-    if (pPlayer_->IsJumpung()) { pStateManager_->ChangeState("IdleState"); }
+    if (pPlayer_->IsJumping()) { pStateManager_->ChangeState("IdleState"); }
 }
 
 void JumpState::ExitState()

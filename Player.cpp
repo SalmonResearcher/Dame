@@ -2,17 +2,20 @@
 #include "Attack.h"
 #include "JewelBullet.h"
 #include "Enemy/Enemy.h"
-#include "math.h"
+#include "Stage.h"
+#include "StateManager.h"
+#include "PlayerState.h"
+#include "PlayerCamera.h"
 
+//エンジンの機能
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
 #include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
-
 #include "Engine/SceneManager.h"
 
-#include "StateManager.h"
-#include "PlayerState.h"
+//
+//#include "math.h"
 
 namespace {
 	//プレイヤーの大きさ。
@@ -35,7 +38,6 @@ namespace {
 
 	Transform tCamera;  //カメラのトランスフォーム
 
-	XMVECTOR vecPlayer_;    //プレイヤーの進んでいる方向ベクトル
 	XMFLOAT3 movePlayer;
 
 	XMFLOAT3 Camposition_;
@@ -66,6 +68,9 @@ void Player::Initialize()
 
 	// ステートマネージャー
 	pStateManager_ = new StateManager(this);
+
+	//カメラ
+	pCamera_ = Instantiate<PlayerCamera>(this);
 
 	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
@@ -243,7 +248,8 @@ void Player::Update()
 	}
 
 	tCamera.rotate_ = camMove;
-
+	//プレイヤー移動↓
+	/*
 	//Y軸の回転行列
 	XMMATRIX rotMatY = XMMatrixRotationY(XMConvertToRadians(tCamera.rotate_.y));
 
@@ -301,8 +307,7 @@ void Player::Update()
 
 	XMVector3Normalize(vecPlayer_);
 	XMStoreFloat3(&transform_.position_, vecPlayer_);
-
-
+	*/
 
 	//カメラ移動
 	XMStoreFloat3(&tCamera.position_, nowVec);
@@ -398,6 +403,7 @@ void Player::Release()
 
 void Player::Walk()
 {
+	AddMovement();
 }
 
 void Player::Jump()
@@ -406,6 +412,48 @@ void Player::Jump()
 
 void Player::Run()
 {
+}
+// 移動計算を行う関数
+XMVECTOR Player::CalcMovementInput()
+{
+	// 計算結果
+	XMVECTOR vecPlayer_;
+
+	XMMATRIX rotMatY = pCamera_->GetRotateX();
+	XMMATRIX rotMatX = pCamera_->GetRotateY();
+
+	//移動ベクトル
+	XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
+	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
+	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
+
+	//左右
+	XMVECTOR sideVec_ = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
+	sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
+
+	//プレイヤーもここで移動させる
+	vecPlayer_ = XMLoadFloat3(&transform_.position_);
+
+	// PlayerクラスのMove関数内の一部
+	if (InputManager::IsMoveForward())
+	{
+		vecPlayer_ += frontMove;
+	}
+	if (InputManager::IsMoveLeft())
+	{
+		vecPlayer_ -= sideVec_;
+	}
+	if (InputManager::IsMoveBackward())
+	{
+		vecPlayer_ -= frontMove;
+	}
+	if (InputManager::IsMoveRight())
+	{
+		vecPlayer_ += sideVec_;
+	}
+
+	XMVector3Normalize(vecPlayer_);
+	return vecPlayer_;
 }
 
 void Player::Attack()

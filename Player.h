@@ -1,10 +1,10 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
-#include "Stage.h"
 #include "InputManager.h"
 
 
+class PlayerCamera
 class Stage;
 class StateManager;
 
@@ -25,9 +25,10 @@ private:
     float jewelCount_;  //持っている宝石の数
     float weight_;      //宝石の重さ
     int killCount_;     //敵を倒した数
-    int jewelDeliver_;  //運んだ宝石の数
+    int jewelDeliver_;  //運んだ宝石の数重力最大量
 
     StateManager* pStateManager_;//状態を切り替える
+    PlayerCamera* pCamera_;
 
 public:
     Player(GameObject* parent);     //コンストラクタ
@@ -40,17 +41,18 @@ public:
 
     //動き
 
-    void Walk();    //歩く
-    void Jump();    //ジャンプ
-    void Run();     //走り
+    void Walk();        //歩く
+    void Jump();        //ジャンプ
+    void Run();         //走り
     void Attack();
-    void Knockback();//はじかれ
+    void Knockback();   //はじかれ
 
-    bool IsJumping();//接地しているか
+    bool IsJumping();   //接地しているか
 
+    void AddGravity();  //重力をプレイヤーに加算
+    void AddMovement(); //プレイヤーの移動ベクトルを計算
 
-
-
+    XMVECTOR CalcMovementInput();
 
 
 
