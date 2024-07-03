@@ -441,8 +441,7 @@ XMVECTOR Player::CalcMovementInput()
 	// 計算結果
 	XMVECTOR vecPlayer_;
 
-	XMMATRIX rotMatY = pCamera_->GetRotateX();
-	XMMATRIX rotMatX = pCamera_->GetRotateY();
+	XMMATRIX rotMatY = pCamera_->GetRotateY();
 
 	//移動ベクトル
 	XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
@@ -459,28 +458,21 @@ XMVECTOR Player::CalcMovementInput()
 	// PlayerクラスのMove関数内の一部
 	if (InputManager::IsMoveForward())
 	{
-		speed_ += 0.01f;
 		vecPlayer_ += frontMove;
 	}
-	else if (InputManager::IsMoveLeft())
+	if (InputManager::IsMoveLeft())
 	{
 		vecPlayer_ -= sideVec_;
 	}
-	else if (InputManager::IsMoveBackward())
+	if (InputManager::IsMoveBackward())
 	{
 		vecPlayer_ -= frontMove;
 	}
-	else if (InputManager::IsMoveRight())
+	if (InputManager::IsMoveRight())
 	{
 		vecPlayer_ += sideVec_;
 	}
-	else {
-		speed_ -= 0.01f;
-			if (speed_ <= 0.0f)
-			{
-				speed_ = 0.0f;
-			}
-	}
+
 
 	if (speed_ >= MAXSPEED)
 	{
