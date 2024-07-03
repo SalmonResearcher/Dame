@@ -189,6 +189,9 @@
     </ClCompile>
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="PlayerCamera.cpp">
+      <Filter>ToyBox\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -328,6 +331,10 @@
     </ClInclude>
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PlayerParameter.h" />
+    <ClInclude Include="PlayerCamera.h">
+      <Filter>ToyBox\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

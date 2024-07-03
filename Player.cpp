@@ -30,7 +30,7 @@ namespace {
 
     const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
     float speed_ = 0;
-    int dash_;
+    int dash_ = 1;
     bool isHit;
 
     int onCollisionTime = 0;
@@ -63,7 +63,7 @@ Player::Player(GameObject* parent)
 
 void Player::Initialize()
 {
-	hModel_ = Model::Load("NewPlayer.fbx");
+  	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
 
 	// ステートマネージャー
@@ -309,6 +309,9 @@ void Player::Update()
 	XMStoreFloat3(&transform_.position_, vecPlayer_);
 	*/
 
+	/*
+	XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
+
 	//カメラ移動
 	XMStoreFloat3(&tCamera.position_, nowVec);
 
@@ -328,16 +331,9 @@ void Player::Update()
 	//カメラ移動
 	Camera::SetPosition(Camposition_);
 
-	transform_ = transform_;
+	*/
 
-	// カメラの回転行列を作成
-	XMMATRIX cameraRotMat = rotMatX * rotMatY;
-
-	// カメラの回転行列を抽出
-	XMFLOAT4X4 cameraRot;
-
-	//XMFloat4*4に格納
-	XMStoreFloat4x4(&cameraRot, cameraRotMat);
+	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
 
 	//プレイヤーの水平方向の角度を求める
 	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
@@ -358,8 +354,8 @@ void Player::Update()
 	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
-		pAtk->SetMove(camTarget);
-		pAtk->SetPosition(camTarget);
+		//pAtk->SetMove(camTarget);
+		//pAtk->SetPosition(camTarget);
 		pAtk->SetTime(2);
 
 	}
@@ -403,7 +399,7 @@ void Player::Release()
 
 void Player::Walk()
 {
-	AddMovement();
+	AddMovement(CalcMovementInput(),dash_);
 }
 
 void Player::Jump()
@@ -413,9 +409,35 @@ void Player::Jump()
 void Player::Run()
 {
 }
+void Player::AddGravity()
+{
+
+}
+void Player::AddMovement(XMVECTOR moveVector, float run)
+{
+	XMStoreFloat3(&transform_.position_, moveVector * run);
+}
+
 // 移動計算を行う関数
 XMVECTOR Player::CalcMovementInput()
 {
+	if ((Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D)))
+	{
+		speed_ += 0.01f;
+		if (speed_ >= MAXSPEED)
+			speed_ = MAXSPEED;
+	}
+	else
+	{
+		speed_ -= 0.01f;
+		if (speed_ <= 0.0f)
+		{
+			speed_ = 0.0f;
+		}
+	}
+
+
+
 	// 計算結果
 	XMVECTOR vecPlayer_;
 
@@ -437,26 +459,39 @@ XMVECTOR Player::CalcMovementInput()
 	// PlayerクラスのMove関数内の一部
 	if (InputManager::IsMoveForward())
 	{
+		speed_ += 0.01f;
 		vecPlayer_ += frontMove;
 	}
-	if (InputManager::IsMoveLeft())
+	else if (InputManager::IsMoveLeft())
 	{
 		vecPlayer_ -= sideVec_;
 	}
-	if (InputManager::IsMoveBackward())
+	else if (InputManager::IsMoveBackward())
 	{
 		vecPlayer_ -= frontMove;
 	}
-	if (InputManager::IsMoveRight())
+	else if (InputManager::IsMoveRight())
 	{
 		vecPlayer_ += sideVec_;
+	}
+	else {
+		speed_ -= 0.01f;
+			if (speed_ <= 0.0f)
+			{
+				speed_ = 0.0f;
+			}
+	}
+
+	if (speed_ >= MAXSPEED)
+	{
+		speed_ = MAXSPEED;
 	}
 
 	XMVector3Normalize(vecPlayer_);
 	return vecPlayer_;
 }
 
-void Player::Attack()
+void Player::Attacking()
 {
 }
 
@@ -512,7 +547,7 @@ void Player::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "EnemyAttack")
 	{
 		knock = 0.8f;
-		isJumping = true;
+		//isJumping = true;
 		moveY_ += 0.1f;
 
 		// プレイヤーの前方ベクトルを取得
@@ -521,16 +556,12 @@ void Player::OnCollision(GameObject* pTarget)
 			XMConvertToRadians(transform_.rotate_.z));
 
 		XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
-		vecPlayer_ += playerBackVector;
-		XMStoreFloat3(&transform_.position_, vecPlayer_);
+		//vecPlayer_ += playerBackVector;
+		//XMStoreFloat3(&transform_.position_, vecPlayer_);
 
 	}
 }
 
-XMVECTOR Player::GetPlayerVector()
-{
-		return vecPlayer_;
-}
 
 
 int Player::GetJewelCount()
@@ -554,7 +585,6 @@ XMVECTOR  Player::GetKnockbackDirection()
 	XMConvertToRadians(transform_.rotate_.y),XMConvertToRadians(transform_.rotate_.z));
 
 	XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
-	vecPlayer_ += playerBackVector;
-
-	return vecPlayer_;
+	//vecPlayer_ += playerBackVector;;
+	return playerBackVector;
 }

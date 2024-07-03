@@ -99,7 +99,7 @@ void Fafro::Update()
 
 	}
 
-	target_ = ((Player*)FindObject("Player"))->GetPlayerPos();
+	target_ = ((Player*)FindObject("Player"))->GetPlayerPosition();
 	ChasePlayer(target_, 0.0f);
 
 

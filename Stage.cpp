@@ -8,7 +8,7 @@
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"), hModel_(-1), hModel_2(-1)
+    :GameObject(parent, "Stage"), hModel_(-1), hModel2_(-1)
 {
 }
 
@@ -23,8 +23,8 @@ void Stage::Initialize()
     hModel_ = Model::Load("Stage3.fbx");
     assert(hModel_ >= 0);
 
-    hModel_2 = Model::Load("SkySphere.fbx");
-    assert(hModel_2 >= 0);
+    hModel2_ = Model::Load("SkySphere.fbx");
+    assert(hModel2_ >= 0);
 
 }
 
@@ -40,8 +40,8 @@ void Stage::Draw()
 {
     Model::SetTransform(hModel_, transStage_);
     Model::Draw(hModel_);
-    Model::SetTransform(hModel_2, transSky_);
-    Model::Draw(hModel_2);
+    Model::SetTransform(hModel2_, transSky_);
+    Model::Draw(hModel2_);
 }
 
 //開放

@@ -1,5 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
+
+class Player;
+
 class PlayerCamera : public GameObject
 {
     XMVECTOR moveVec_;

@@ -2,7 +2,7 @@
 
 //コンストラクタ
 StateManager::StateManager(GameObject* parent)
-    :currentState_(nullptr),pParent_(nullptr)
+    :currentState_(nullptr),pParent_(parent)
 {
 }
 

@@ -93,7 +93,7 @@ void Enemy::Initialize()
 void Enemy::Update()
 {
 	//’Ç‚¢‚©‚¯‚é•UŒ‚‚·‚é‚½‚ß‚Ì
-	target_ = pPlayer->GetPlayerPos();
+	target_ = pPlayer->GetPlayerPosition();
 	//ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
 	toPlayerdir = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 

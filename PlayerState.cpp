@@ -109,7 +109,7 @@ void AttackState::EnterState()
 
 void AttackState::UpdateState()
 {
-    pPlayer_->Attack();
+    pPlayer_->Attacking();
 }
 
 void AttackState::ExitState()

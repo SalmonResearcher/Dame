@@ -4,8 +4,7 @@
 #include "InputManager.h"
 
 
-class PlayerCamera
-class Stage;
+class PlayerCamera;
 class StateManager;
 
 class Player :public GameObject
@@ -44,13 +43,13 @@ public:
     void Walk();        //歩く
     void Jump();        //ジャンプ
     void Run();         //走り
-    void Attack();
+    void Attacking();
     void Knockback();   //はじかれ
 
     bool IsJumping();   //接地しているか
 
     void AddGravity();  //重力をプレイヤーに加算
-    void AddMovement(); //プレイヤーの移動ベクトルを計算
+    void AddMovement(XMVECTOR moveVector, float run); //プレイヤーの移動ベクトルを計算
 
     XMVECTOR CalcMovementInput();
 
@@ -67,11 +66,10 @@ public:
 
     XMFLOAT3 GetPlayerPosition() { return transform_.position_; };
 
-    XMVECTOR GetPlayerVector();
 
     // ゲッターとセッター
    // PlayerCamera& GetCamera() { return camera_; }
-    int GetModelHandle() const { return hModel_; }
+    int GetModelHandle() { return hModel_; }
 
     int SendJewel() { return jewelDeliver_; };        //宝石箱に納品した宝石の数を送ります
     int GetJewelCount();    //今手に持っている宝石の数を返します
@@ -82,7 +80,7 @@ public:
     void SetVelocityY(float vY) { moveY_ = vY; };
     float GetVelocityY() { return moveY_; };
 
-    void SetJumping(bool flag) { isJumping = flag; }
+    void SetJumping(bool flag) { isJumping_ = flag; }
 
     void SetMoveY(float moveY) { transform_.position_.y += moveY; }
 

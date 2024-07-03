@@ -39,7 +39,7 @@ void Score::Update()
     }
 
     // 表示スコアup_を目標スコアに近づける
-    if (up_ != score_ && countUp) {
+    if (up_ != score_ && countUp_) {
         // 差がincrementValue_未満なら直接目標スコアにする
         if (std::abs(score_ - up_) < std::abs(incrementValue_)) {
             up_ = score_;

@@ -46,7 +46,7 @@ public:
 	void SetDisplayPosition(int x, int y) { posX_ = x; posY_ = y; }
 
 	void ScoreCaluc();
-	void Start() { countUp = true; }
-	void Stop() { countUp = false; }
+	void Start() { countUp_ = true; }
+	void Stop() { countUp_ = false; }
 	void SetIncrementSteps(int step) { incrementSteps_ = step; }
 };
