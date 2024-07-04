@@ -18,15 +18,15 @@ namespace InputManager
 	constexpr int  ATTACK_KEY = MOUSE_LEFT;                // ŽËŒ‚
 }
 
-bool InputManager::IsShootJewel() { return Input::IsMouseButton(MOUSE_LEFT) && Input::IsMouseButtonDown(MOUSE_RIGHT); }
-
+bool InputManager::IsShootJewel() { return Input::IsMouseButtonDown(MOUSE_LEFT) && IsAim(); }
+bool InputManager::IsAim(){ return Input::IsMouseButton(MOUSE_RIGHT); }
 
 bool InputManager::IsMoveForward() { return Input::IsKey(MOVE_FORWARD_KEY); }
 bool InputManager::IsMoveLeft() { return Input::IsKey(MOVE_LEFT_KEY); }
 bool InputManager::IsMoveRight() { return Input::IsKey(MOVE_RIGHT_KEY); }
 bool InputManager::IsMoveBackward() { return Input::IsKey(MOVE_BACKWARD_KEY); }
 bool InputManager::IsJump() { return Input::IsKeyDown(JUMP_KEY); }
-bool InputManager::IsAttack() { return Input::IsMouseButtonDown(MOUSE_LEFT) && !(Input::IsMouseButton(MOUSE_RIGHT)); }
+bool InputManager::IsAttack() { return Input::IsMouseButtonDown(MOUSE_LEFT) && !(IsAim()); }
 bool InputManager::IsWalk() { return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight(); }
 bool InputManager::IsRun() { return Input::IsKey(RUN_KEY); }
 bool InputManager::IsMenu() { return Input::IsKeyDown(MENU_KEY); }

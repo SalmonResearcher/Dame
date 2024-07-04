@@ -27,9 +27,6 @@
     <Filter Include="ToyBox">
       <UniqueIdentifier>{7a1f5db6-16ec-4e04-97f1-e1703fac21f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayerState">
-      <UniqueIdentifier>{2f728bfb-888b-4631-a59b-e551e23b699a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{f086a384-8849-4183-b32d-17664ff426dc}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,9 @@
     </Filter>
     <Filter Include="ToyBox\UI">
       <UniqueIdentifier>{44171772-60c9-4c70-a7dd-27bfd72c7ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\Player\PlayerState">
+      <UniqueIdentifier>{2f728bfb-888b-4631-a59b-e551e23b699a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +123,7 @@
       <Filter>ToyBox</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
-      <Filter>PlayerState</Filter>
+      <Filter>ToyBox\Player\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scenes</Filter>
@@ -264,7 +264,7 @@
       <Filter>ToyBox</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>PlayerState</Filter>
+      <Filter>ToyBox\Player\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>Scenes</Filter>

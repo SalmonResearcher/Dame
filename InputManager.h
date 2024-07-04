@@ -8,6 +8,8 @@ namespace InputManager
     // 宝石ショット
     bool IsShootJewel();
 
+    //カメラの方向を向く
+    bool IsAim();
 
     // 前進
     bool IsMoveForward();

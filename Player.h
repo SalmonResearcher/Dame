@@ -84,4 +84,10 @@ public:
 
     void RotatePlayer(XMVECTOR moveVector);
     void RotatePlayer();
+
+    //プレイヤーの重量を返します
+    float GetWeight();
+
+    //プレイヤーの速度を返します。
+    float GetSpeed();
 };

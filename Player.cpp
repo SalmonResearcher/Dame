@@ -6,6 +6,7 @@
 #include "StateManager.h"
 #include "PlayerState.h"
 #include "PlayerCamera.h"
+#include <string>
 
 //エンジンの機能
 #include "Engine/Input.h"
@@ -29,29 +30,16 @@ namespace {
     const float JEWEL_WEIGHT = 0.05f;
 
     const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
-    float speed_ = 0;
-    int dash_ = 1;
+    float speed = 0.0f;
+	int walking = 1;
+    int dash = 2;
     bool isHit;
 
     int onCollisionTime = 0;
-
-
-	Transform tCamera;  //カメラのトランスフォーム
-
-	XMFLOAT3 movePlayer;
-
-	XMFLOAT3 Camposition_;
-	XMFLOAT3 smoothCam;
-
 	bool isKockBack = false;
 	float knock;
 
-	struct AnimFrame {
-		int startFrame;
-		int endFrame;
-		int animSpeed;
-	};
-	AnimFrame wait, slowMove, move, fastMove, attack;
+	std::string debugstr = "null";
 }
 
 Player::Player(GameObject* parent)
@@ -74,27 +62,6 @@ void Player::Initialize()
 	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
 
-	{
-		wait.startFrame = 0;
-		wait.endFrame = 120;
-		wait.animSpeed = 1;
-
-		slowMove.startFrame = 140;
-		slowMove.endFrame = 230;
-		slowMove.animSpeed = 1;
-
-		move.startFrame = 280;
-		move.endFrame = 330;
-		move.animSpeed = 1;
-
-		fastMove.startFrame = 340;
-		fastMove.endFrame = 365;
-		fastMove.animSpeed = 1;
-
-		attack.startFrame = 370;
-		attack.endFrame = 390;
-		attack.animSpeed = 1;
-	}
 
 
 	// あらかじめ状態インスタンスを生成して登録
@@ -116,6 +83,7 @@ Player::~Player()
 
 void Player::Update()
 {
+
 	// ステートマネージャーの更新
 	pStateManager_->Update();
 	if (isJumping_)
@@ -125,11 +93,13 @@ void Player::Update()
 
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
+	//Y座標0から下に向かうレイ（坂を上るときに必要）
 	RayCastData data;
 	data.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
+	//プレイヤーの頭から飛ばすレイ
 	RayCastData play;
 	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
@@ -178,6 +148,10 @@ void Player::Update()
 		transform_.position_.y += moveY_;
 	}
 
+	if (transform_.position_.y <= -100)
+	{
+		transform_.position_ = { 0,-data.dist,0 };
+	}
 
 	/*
 	if (Input::IsKey(DIK_LSHIFT))
@@ -351,7 +325,22 @@ void Player::Update()
 	// プレイヤーの前方ベクトルを取得
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 	*/
-
+if (InputManager::IsWalk())
+{
+	speed += 0.006f;
+	if (speed >= MAXSPEED)
+	{
+		speed = MAXSPEED;
+	}
+}
+else
+{
+	speed -= 0.01f;
+	if (speed <= 0)
+	{
+		speed = 0;
+	}
+}
 
 	if (Input::IsMouseButton(1))
 	{
@@ -387,7 +376,7 @@ void Player::Update()
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
 
 	Debug::Log("速度＝");
-	Debug::Log(speed_ * dash_ * weight_, true);
+	Debug::Log(speed * dash * weight_, true);
 }
 
 
@@ -407,17 +396,25 @@ void Player::Release()
 
 void Player::Walk()
 {
+	debugstr = "WalkState";
 	XMVECTOR moveVector = CalcMovementInput();
-	AddMovement(moveVector, dash_);
+	AddMovement(moveVector, walking);
 	RotatePlayer(moveVector);
 }
 
 void Player::Jump()
 {
+	debugstr = "JumpState";
+
 }
 
 void Player::Run()
 {
+	debugstr = "RunState";
+
+	XMVECTOR moveVector = CalcMovementInput();
+	AddMovement(moveVector, dash);
+	RotatePlayer(moveVector);
 }
 void Player::AddGravity()
 {
@@ -438,32 +435,21 @@ XMVECTOR Player::CalcMovementInput()
 	XMVECTOR forwardMove = XMVectorZero();
 	XMVECTOR sideMove = XMVectorZero();
 
-	if (Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D))
-	{
-		speed_ += 0.01f;
-		if (speed_ >= MAXSPEED)
-			speed_ = MAXSPEED;
-	}
-	else
-	{
-		speed_ -= 0.01f;
-		if (speed_ <= 0.0f)
-			speed_ = 0.0f;
-	}
-
 	// カメラのY軸回転行列を取得
 	XMMATRIX rotMatY = pCamera_->GetRotateY();
+
+
 
 	// 前後の移動
 	if (InputManager::IsMoveForward())
 	{
-		forwardMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);
+		forwardMove = XMVectorSet(0, 0, speed* weight_, 0);
 		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
 		moveVector += forwardMove;
 	}
 	if (InputManager::IsMoveBackward())
 	{
-		forwardMove = XMVectorSet(0, 0, -speed_ * dash_ * weight_, 0);
+		forwardMove = XMVectorSet(0, 0, -speed * weight_, 0);
 		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
 		moveVector += forwardMove;
 	}
@@ -471,13 +457,13 @@ XMVECTOR Player::CalcMovementInput()
 	// 左右の移動
 	if (InputManager::IsMoveLeft())
 	{
-		sideMove = XMVectorSet(-speed_ * dash_ * weight_, 0, 0, 0);
+		sideMove = XMVectorSet(-speed * weight_, 0, 0, 0);
 		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
 		moveVector += sideMove;
 	}
 	if (InputManager::IsMoveRight())
 	{
-		sideMove = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
+		sideMove = XMVectorSet(speed * weight_, 0, 0, 0);
 		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
 		moveVector += sideMove;
 	}
@@ -486,6 +472,31 @@ XMVECTOR Player::CalcMovementInput()
 }
 void Player::Attacking()
 {
+	//くりっくしたら
+	if (InputManager::IsAttack() && !InputManager::IsShootJewel)
+	{
+		Attack* pAtk = Instantiate<Attack>(GetParent());
+		//pAtk->SetMove(camTarget);
+		//pAtk->SetPosition(camTarget);
+		pAtk->SetTime(2);
+
+	}
+	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
+	{
+		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
+		// プレイヤーの回転行列を作成
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+			XMConvertToRadians(transform_.rotate_.y),
+			XMConvertToRadians(transform_.rotate_.z));
+
+		// プレイヤーの前方ベクトルを取得
+		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
+		pJB->BulletDirection(playerForwardVector);
+		pJB->BulletPosition(transform_.position_);
+		pJB->BulletRotate(transform_.rotate_);
+		jewelCount_--;
+	}
+
 }
 
 void Player::Knockback()
@@ -566,6 +577,16 @@ XMVECTOR Player::GetKnockbackDirection()
 	XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
 	//vecPlayer_ += playerBackVector;
 	return playerBackVector;
+}
+
+float Player::GetSpeed()
+{
+	return speed;
+}
+
+float Player::GetWeight()
+{
+	return weight_;
 }
 
 void Player::RotatePlayer(XMVECTOR moveVector)

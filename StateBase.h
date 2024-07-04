@@ -18,4 +18,12 @@ public:
     virtual void UpdateState() = 0;
     //ó‘Ô‚©‚ço‚é‚ÌŒãˆ—
     virtual void ExitState() = 0;
+
+    struct AnimFrame
+    {
+        int startframe;
+        int endframe;
+        int speed;
+    };
+
 };
