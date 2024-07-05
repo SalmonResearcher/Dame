@@ -122,9 +122,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>ToyBox\Player\PlayerState</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -136,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="StageSelectScene.cpp">
       <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Attack.cpp">
-      <Filter>ToyBox\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ToyBox\Player</Filter>
@@ -191,6 +185,12 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="PlayerCamera.cpp">
       <Filter>ToyBox\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>ToyBox\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>ToyBox\Player\PlayerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +263,6 @@
     <ClInclude Include="Stage.h">
       <Filter>ToyBox</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>ToyBox\Player\PlayerState</Filter>
-    </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -277,9 +274,6 @@
     </ClInclude>
     <ClInclude Include="StageSelectScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Attack.h">
-      <Filter>ToyBox\Player</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ToyBox\Player</Filter>
@@ -334,6 +328,12 @@
     <ClInclude Include="PlayerParameter.h" />
     <ClInclude Include="PlayerCamera.h">
       <Filter>ToyBox\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>ToyBox\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>ToyBox\Player\PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

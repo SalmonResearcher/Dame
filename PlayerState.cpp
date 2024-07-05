@@ -111,6 +111,10 @@ void AttackState::EnterState()
 void AttackState::UpdateState()
 {
     pPlayer_->Attacking();
+    if (pPlayer_->IsAttackEnd())
+    {
+        pStateManager_->ChangeState("IdleState");
+    }
 }
 
 void AttackState::ExitState()

@@ -36,7 +36,7 @@ public:
     //Y軸の回転行列を返す
     XMMATRIX GetRotateY(){ return XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y)); }
 
-    //X軸のY軸回転行列を返す
+    //X軸の回転行列を返す
     XMMATRIX GetRotateX() { return XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x)); }
 
     //位置（XMFLOAT3）からカメラ位置を出します。

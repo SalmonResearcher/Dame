@@ -27,7 +27,6 @@ void PlayerCamera::Initialize()
 void PlayerCamera::Update()
 {
 	//マウス感度
-	{
 		if (Input::IsKeyDown(DIK_UP))
 		{
 			if (Input::IsKey(DIK_LSHIFT))
@@ -43,7 +42,6 @@ void PlayerCamera::Update()
 			else
 				mouseSens -= 0.1f;
 		}
-	}
 
 	if (Input::IsKeyDown(DIK_RSHIFT))
 	{
@@ -90,10 +88,13 @@ void PlayerCamera::Update()
 		camMove.x = -85;
 		move.y = -850;
 	}
-
+	//カメラをY軸で回転
 	transform_.rotate_ = camMove;
+	
+	//プレイヤーの位置ベクトル（カメラの注視点）を取る
 	SetMoveVector(pPlayer_->GetPlayerPosition());
 
+	//カメラの位置≒プレイヤーの位置ベクトル
 	XMStoreFloat3(&transform_.position_,moveVec_);
 
 	//カメラ本体

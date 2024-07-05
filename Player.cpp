@@ -25,8 +25,8 @@ namespace {
 
 	float mouseSens = 1;
 
-    float attackStart;
-    float attackEnd;
+    int attackWaitTime = 20;	//攻撃時の待ち時間
+	int attackCountDown = 0;	//攻撃時のカウントダウン
     const float JEWEL_WEIGHT = 0.05f;
 
     const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
@@ -40,11 +40,15 @@ namespace {
 	float knock;
 
 	std::string debugstr = "null";
+
+	RayCastData downRay;
+	RayCastData play;
 }
 
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), hStage_(-1), hEnemy_(-1), isJumping_(false),
-	moveY_(0), jewelCount_(0),weight_(0),killCount_(0),jewelDeliver_(0),pStateManager_(nullptr)
+	moveY_(0), jewelCount_(0), weight_(0), killCount_(0), jewelDeliver_(0), pStateManager_(nullptr)
+	, attackEnd(false)
 {
 }
 
@@ -61,8 +65,6 @@ void Player::Initialize()
 
 	BoxCollider* collider = new BoxCollider({0,0.5,0},{1.0,1.0,1.0});
 	AddCollider(collider);
-
-
 
 	// あらかじめ状態インスタンスを生成して登録
 	pStateManager_->AddState("IdleState", new IdleState(pStateManager_));
@@ -83,6 +85,7 @@ Player::~Player()
 
 void Player::Update()
 {
+	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	// ステートマネージャーの更新
 	pStateManager_->Update();
@@ -91,21 +94,18 @@ void Player::Update()
 		//juuryoku
 	}
 
-	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	//Y座標0から下に向かうレイ（坂を上るときに必要）
-	RayCastData data;
-	data.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
-	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hStage_, &data); //レイを発射
+	downRay.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
+	downRay.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+	Model::RayCast(hStage_, &downRay); //レイを発射
 
 	//プレイヤーの頭から飛ばすレイ
-	RayCastData play;
 	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 	
-	if (data.hit)
+	if (downRay.hit)
 	{
 		//ジャンプ
 		if (Input::IsKeyDown(DIK_SPACE) && !isJumping_)
@@ -135,7 +135,7 @@ void Player::Update()
 		//ジャンプしていない,地に足がつくなら
 		if (!isJumping_ && play.hit)
 		{
-			transform_.position_.y = -data.dist;
+			transform_.position_.y = -downRay.dist;
 		}
 
 		//地に足がつかないのならば
@@ -150,7 +150,7 @@ void Player::Update()
 
 	if (transform_.position_.y <= -100)
 	{
-		transform_.position_ = { 0,-data.dist,0 };
+		transform_.position_ = { 0,-downRay.dist,0 };
 	}
 
 	/*
@@ -396,7 +396,6 @@ void Player::Release()
 
 void Player::Walk()
 {
-	debugstr = "WalkState";
 	XMVECTOR moveVector = CalcMovementInput();
 	AddMovement(moveVector, walking);
 	RotatePlayer(moveVector);
@@ -404,13 +403,12 @@ void Player::Walk()
 
 void Player::Jump()
 {
-	debugstr = "JumpState";
+
 
 }
 
 void Player::Run()
 {
-	debugstr = "RunState";
 
 	XMVECTOR moveVector = CalcMovementInput();
 	AddMovement(moveVector, dash);
@@ -470,33 +468,57 @@ XMVECTOR Player::CalcMovementInput()
 
 	return moveVector;
 }
+
 void Player::Attacking()
 {
-	//くりっくしたら
-	if (InputManager::IsAttack() && !InputManager::IsShootJewel)
+	// 攻撃クールダウンを設定
+	if (attackCountDown <= 0)
+	{
+		attackCountDown = attackWaitTime;
+		attackEnd = false;
+	}
+	else
+	{
+		attackCountDown--;
+	}
+
+	// 攻撃カウントダウンが特定の値以下で、Aimしておらず、攻撃が終了していない場合に攻撃を生成
+	if (attackCountDown <= 8 && !InputManager::IsAim && !attackEnd)
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
-		//pAtk->SetMove(camTarget);
-		//pAtk->SetPosition(camTarget);
-		pAtk->SetTime(2);
-
+		// 攻撃の移動先と位置を設定（例: pAtk->SetMove(camTarget);）
+		// pAtk->SetPosition(camTarget);
+		pAtk->SetTime(4);
 	}
-	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
+
+	// 左クリックと右クリックが同時に押され、ジュエルが1つ以上ある場合にジュエルバレットを生成
+	if (InputManager::IsAttack() && InputManager::IsAim() && jewelCount_ > 0)
 	{
 		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
+
 		// プレイヤーの回転行列を作成
-		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(
+			XMConvertToRadians(transform_.rotate_.x),
 			XMConvertToRadians(transform_.rotate_.y),
 			XMConvertToRadians(transform_.rotate_.z));
 
 		// プレイヤーの前方ベクトルを取得
 		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
+
+		// ジュエルバレットの方向、位置、回転を設定
 		pJB->BulletDirection(playerForwardVector);
 		pJB->BulletPosition(transform_.position_);
 		pJB->BulletRotate(transform_.rotate_);
+
+		// ジュエルカウントを減少
 		jewelCount_--;
 	}
 
+	// 攻撃カウントダウンが0以下なら攻撃終了
+	if (attackCountDown <= 0)
+	{
+		attackEnd = true;
+	}
 }
 
 void Player::Knockback()
@@ -508,6 +530,11 @@ bool Player::IsJumping()
 	return isJumping_;
 }
 
+
+bool Player::IsAttackEnd()
+{
+	return attackEnd;
+}
 
 void Player::OnCollision(GameObject* pTarget)
 {
@@ -530,7 +557,6 @@ void Player::OnCollision(GameObject* pTarget)
 				jewelCount_--;
 				jewelDeliver_++;
 				onCollisionTime = 0;
-
 			}
 			onCollisionTime++;
 		}

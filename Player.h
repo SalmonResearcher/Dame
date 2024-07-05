@@ -29,6 +29,8 @@ private:
     StateManager* pStateManager_;//状態を切り替える
     PlayerCamera* pCamera_;
 
+    bool attackEnd;
+
 public:
     Player(GameObject* parent);     //コンストラクタ
     ~Player();                      //デストラクタ
@@ -43,26 +45,22 @@ public:
     void Walk();        //歩く
     void Jump();        //ジャンプ
     void Run();         //走り
-    void Attacking();
+    void Attacking();   //攻撃
     void Knockback();   //はじかれ
 
     bool IsJumping();   //接地しているか
 
     void AddGravity();  //重力をプレイヤーに加算
-    void AddMovement(XMVECTOR moveVector, float run); //プレイヤーの移動ベクトルを計算
+
+    void AddMovement(XMVECTOR moveVector, float run);   //プレイヤーの移動ベクトルを計算
 
     XMVECTOR CalcMovementInput();
 
-    //void ChangeState(PlayerState* newState);
-
-    void OnCollision(GameObject* pTarget)override;
-
-
     XMFLOAT3 GetPlayerPosition() { return transform_.position_; };
 
+    void OnCollision(GameObject* pTarget)override;  //何かとぶつかったら
 
     // ゲッターとセッター
-   // PlayerCamera& GetCamera() { return camera_; }
     int GetModelHandle() { return hModel_; }
 
     int SendJewel() { return jewelDeliver_; };        //宝石箱に納品した宝石の数を送ります
@@ -90,4 +88,7 @@ public:
 
     //プレイヤーの速度を返します。
     float GetSpeed();
+
+    //プレイヤーの攻撃が終わったらtrue
+    bool IsAttackEnd();
 };
