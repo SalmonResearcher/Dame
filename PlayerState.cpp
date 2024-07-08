@@ -74,23 +74,30 @@ void WalkState::ExitState()
 }
 
 // JumpState
-JumpState::JumpState(StateManager* manager) :StateBase(manager), pPlayer_(nullptr), jump{ 400,460,1 }
+JumpState::JumpState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr), jump{ 400, 460, 1 }
 {
     pPlayer_ = static_cast<Player*>(pStateManager_->GetGameObject());
 }
-// JumpState
+
 void JumpState::EnterState()
 {
-    Model::SetAnimFrame(pPlayer_->GetModelHandle(),jump.startframe,jump.endframe,jump.speed); // ジャンプアニメーションのフレーム設定
+    Model::SetAnimFrame(pPlayer_->GetModelHandle(), jump.startframe, jump.endframe, jump.speed); // ジャンプアニメーションのフレーム設定
 }
 
 void JumpState::UpdateState()
 {
     pPlayer_->Jump();
 
-    if (InputManager::IsAttack()) { pStateManager_->ChangeState("AttackState"); }
-
-    if (pPlayer_->IsJumping()) { pStateManager_->ChangeState("IdleState"); }
+    // 攻撃入力があった場合のステート遷移
+    if (InputManager::IsAttack())
+    {
+        pStateManager_->ChangeState("AttackState");
+    }
+    // ジャンプが終了したらアイドルステートに遷移
+    else if (!pPlayer_->IsJumping())
+    {
+        pStateManager_->ChangeState("IdleState");
+    }
 }
 
 void JumpState::ExitState()

@@ -35,6 +35,9 @@ namespace {
     int dash = 2;
     bool isHit;
 
+	float jumpVelocity = 5.0f;
+	float gravity = 0.01f;
+
     int onCollisionTime = 0;
 	bool isKockBack = false;
 	float knock;
@@ -89,10 +92,6 @@ void Player::Update()
 
 	// ステートマネージャーの更新
 	pStateManager_->Update();
-	if (isJumping_)
-	{
-		//juuryoku
-	}
 
 
 	//Y座標0から下に向かうレイ（坂を上るときに必要）
@@ -107,50 +106,51 @@ void Player::Update()
 	
 	if (downRay.hit)
 	{
-		//ジャンプ
-		if (Input::IsKeyDown(DIK_SPACE) && !isJumping_)
+		if (downRay.hit)
 		{
-			isJumping_ = true;
-			moveY_ += 0.2f * weight_;
-		}
-		
-		else if (isJumping_)
-		{
-			//自由落下
-			moveY_ -= 0.01;
-
-			if (moveY_ <= -0.25f)
+			if (!isJumping_)
 			{
-				moveY_ = -0.25f;
+				// ジャンプ
+				if (Input::IsKeyDown(DIK_SPACE))
+				{
+					isJumping_ = true;
+					moveY_ = 0.2f; // ジャンプ初速度を設定
+				}
 			}
+			else
+			{
+				// 自由落下
+				moveY_ -= 0.01f; // 重力を適用
+
+				// 最大落下速度を制限
+				if (moveY_ <= -0.25f)
+				{
+					moveY_ = -0.25f;
+				}
+			}
+
+			// 地面との衝突を検出
+			if (play.dist <= 0.25f && isJumping_)
+			{
+				moveY_ = 0.0f;
+				isJumping_ = false;
+			}
+
+			// 地面にいる時の位置調整
+			if (!isJumping_)
+			{
+				transform_.position_.y = -downRay.dist;
+			}
+
+			// Y座標の更新
+			transform_.position_.y += moveY_;
 		}
 
-		//ジャンプ後地面に触ったら
-		if (play.dist <= 0.25 && isJumping_)
+		// ステージ外に落ちてしまった場合のリセット
+		if (transform_.position_.y <= -100)
 		{
-			moveY_ = 0.0f;
-			isJumping_ = false;
+			transform_.position_ = { 0, -downRay.dist, 0 };
 		}
-
-		//ジャンプしていない,地に足がつくなら
-		if (!isJumping_ && play.hit)
-		{
-			transform_.position_.y = -downRay.dist;
-		}
-
-		//地に足がつかないのならば
-		else if (!play.hit)
-		{
-			isJumping_ = true;
-		}
-
-		//Y座標移動
-		transform_.position_.y += moveY_;
-	}
-
-	if (transform_.position_.y <= -100)
-	{
-		transform_.position_ = { 0,-downRay.dist,0 };
 	}
 
 	/*
@@ -325,6 +325,7 @@ void Player::Update()
 	// プレイヤーの前方ベクトルを取得
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 	*/
+
 if (InputManager::IsWalk())
 {
 	speed += 0.006f;
@@ -347,30 +348,30 @@ else
 		RotatePlayer();
 	}
 
-	//くりっくしたら
-	if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
-	{
-		Attack* pAtk = Instantiate<Attack>(GetParent());
-		//pAtk->SetMove(camTarget);
-		//pAtk->SetPosition(camTarget);
-		pAtk->SetTime(2);
+	////くりっくしたら
+	//if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
+	//{
+	//	Attack* pAtk = Instantiate<Attack>(GetParent());
+	//	//pAtk->SetMove(camTarget);
+	//	//pAtk->SetPosition(camTarget);
+	//	pAtk->SetTime(2);
 
-	}
-	else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
-	{
-		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
-		// プレイヤーの回転行列を作成
-		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
-			XMConvertToRadians(transform_.rotate_.y),
-			XMConvertToRadians(transform_.rotate_.z));
+	//}
+	//else if (Input::IsMouseButtonDown(0) && (Input::IsMouseButton(1)) && jewelCount_ > 0)
+	//{
+	//	JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
+	//	// プレイヤーの回転行列を作成
+	//	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+	//		XMConvertToRadians(transform_.rotate_.y),
+	//		XMConvertToRadians(transform_.rotate_.z));
 
-		// プレイヤーの前方ベクトルを取得
-		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f),playerRotMat);
-		pJB->BulletDirection(playerForwardVector);
-		pJB->BulletPosition(transform_.position_);
-		pJB->BulletRotate(transform_.rotate_);
-		jewelCount_--;
-	}
+	//	// プレイヤーの前方ベクトルを取得
+	//	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f),playerRotMat);
+	//	pJB->BulletDirection(playerForwardVector);
+	//	pJB->BulletPosition(transform_.position_);
+	//	pJB->BulletRotate(transform_.rotate_);
+	//	jewelCount_--;
+	//}
 
 	//重さの最大
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
@@ -403,8 +404,12 @@ void Player::Walk()
 
 void Player::Jump()
 {
-
-
+	//地面に足がついているとき
+	if (!isJumping_)
+	{
+		isJumping_ = true;
+		moveY_ += jumpVelocity * weight_;
+	}
 }
 
 void Player::Run()
