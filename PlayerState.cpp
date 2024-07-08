@@ -93,6 +93,12 @@ void JumpState::UpdateState()
     {
         pStateManager_->ChangeState("AttackState");
     }
+
+    else if (InputManager::IsWalk())
+    {
+        pStateManager_->ChangeState("WalkState");
+    }
+
     // ジャンプが終了したらアイドルステートに遷移
     else if (!pPlayer_->IsJumping())
     {

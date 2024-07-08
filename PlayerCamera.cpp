@@ -48,9 +48,7 @@ void PlayerCamera::Update()
 		if (debug)
 		{
 			debug = false;
-		}
-		else
-		{
+		} else {
 			debug = true;
 		}
 	}
@@ -100,17 +98,18 @@ void PlayerCamera::Update()
 	//カメラ本体
 	XMVECTOR vCam = { 0,2,-10,0 };
 
-	//カメラ注視点
+	//カメラ注視点はプレイヤー
 	XMFLOAT3 camTarget = pPlayer_->GetPlayerPosition();
 
 	Camera::SetTarget(camTarget);
 
+	//カメラに回転行列を適用
 	vCam = XMVector3TransformCoord(vCam, GetRotateX() * GetRotateY());
 
-	//カメラ座標変更
+	//カメラ座標更新
 	XMStoreFloat3(&transform_.position_, moveVec_ + vCam);
 
-	//カメラ移動
+	//カメラを移動
 	Camera::SetPosition(transform_.position_);
 
 }

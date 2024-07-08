@@ -15,21 +15,20 @@
 #include "Engine/BoxCollider.h"
 #include "Engine/SceneManager.h"
 
-//
 //#include "math.h"
 
 namespace {
 	//プレイヤーの大きさ。
-// 基本的には中央が原点なので2で割る。
+	// 基本的には中央が原点なので2で割る。
 	const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
 
 	float mouseSens = 1;
 
-    int attackWaitTime = 20;	//攻撃時の待ち時間
-	int attackCountDown = 0;	//攻撃時のカウントダウン
+    int attackWaitTime = 20;			//攻撃時の待ち時間
+	int attackCountDown = 0;			//攻撃時のカウントダウン
     const float JEWEL_WEIGHT = 0.05f;
 
-    const float MAXSPEED = 0.15f;  //カメラの回転速度,プレイヤーの移動速度
+    const float MAXSPEED = 0.15f;		//カメラの回転速度,プレイヤーの移動速度
     float speed = 0.0f;
 	int walking = 1;
     int dash = 2;
@@ -104,10 +103,10 @@ void Player::Update()
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 	
-	if (downRay.hit)
+
+
+	/*if (downRay.hit)
 	{
-		if (downRay.hit)
-		{
 			if (!isJumping_)
 			{
 				// ジャンプ
@@ -145,13 +144,12 @@ void Player::Update()
 			// Y座標の更新
 			transform_.position_.y += moveY_;
 		}
-
 		// ステージ外に落ちてしまった場合のリセット
 		if (transform_.position_.y <= -100)
 		{
 			transform_.position_ = { 0, -downRay.dist, 0 };
 		}
-	}
+	}*/
 
 	/*
 	if (Input::IsKey(DIK_LSHIFT))
@@ -308,7 +306,7 @@ void Player::Update()
 
 	*/
 
-/*
+	/*
 	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
 
 	//プレイヤーの水平方向の角度を求める
@@ -325,6 +323,7 @@ void Player::Update()
 	// プレイヤーの前方ベクトルを取得
 	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 	*/
+
 
 if (InputManager::IsWalk())
 {
@@ -380,8 +379,6 @@ else
 	Debug::Log(speed * dash * weight_, true);
 }
 
-
-
 void Player::Draw()
 {
 	Model::SetTransform(hModel_, transform_);
@@ -390,9 +387,6 @@ void Player::Draw()
 
 void Player::Release()
 {
-	//if (currentState_) {
-	//	delete currentState_;
-	//}
 }
 
 void Player::Walk()
@@ -535,7 +529,6 @@ bool Player::IsJumping()
 	return isJumping_;
 }
 
-
 bool Player::IsAttackEnd()
 {
 	return attackEnd;
@@ -550,7 +543,6 @@ void Player::OnCollision(GameObject* pTarget)
 		//ここでエフェクトも
 		pTarget->KillMe();
 		jewelCount_++;
-
 	}
 
 	if (pTarget->GetObjectName() == "JewelBox")
@@ -581,7 +573,6 @@ void Player::OnCollision(GameObject* pTarget)
 		XMVECTOR playerBackVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f), playerRotMat);
 		//vecPlayer_ += playerBackVector;
 		//XMStoreFloat3(&transform_.position_, vecPlayer_);
-
 	}
 }
 

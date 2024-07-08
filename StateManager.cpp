@@ -53,6 +53,8 @@ StateBase* StateManager::AddState(const std::string& stateName, StateBase* state
         return it->second;
     }
 
+
+
     // ‘¶İ‚µ‚È‚¢ê‡‚Íó‘Ô‚ğ“o˜^
     statesMap_[stateName] = state;
     return state;
