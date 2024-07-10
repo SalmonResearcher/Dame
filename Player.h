@@ -31,6 +31,9 @@ private:
 
     bool attackEnd;
 
+    RayCastData downRay;
+    RayCastData play;
+
 public:
     Player(GameObject* parent);     //コンストラクタ
     ~Player();                      //デストラクタ

@@ -12,17 +12,6 @@ struct AnimFrame
     int speed;
 };
 
-//bool IsGrounded()
-//{
-//    RayCastData data;
-//    data.start = { player->GetPosition().x, 0, player->GetPosition().z };
-//    data.dir = XMFLOAT3(0, -1, 0);
-//
-//    Model::RayCast(player->GetStageHandle(), &data); // レイを発射して接地判定を取得
-//
-//    return data.hit && data.dist < 0.25f; // 地面にヒットしており、距離がしきい値未満ならば接地していると判定
-//}
-
 class IdleState : public StateBase {
     AnimFrame idle;
     Player* pPlayer_;

@@ -34,7 +34,7 @@ namespace {
     int dash = 2;
     bool isHit;
 
-	float jumpVelocity = 5.0f;
+	float jumpVelocity = 0.5f;
 	float gravity = 0.01f;
 
     int onCollisionTime = 0;
@@ -43,8 +43,7 @@ namespace {
 
 	std::string debugstr = "null";
 
-	RayCastData downRay;
-	RayCastData play;
+
 }
 
 Player::Player(GameObject* parent)
@@ -92,17 +91,68 @@ void Player::Update()
 	// ステートマネージャーの更新
 	pStateManager_->Update();
 
+	//プレイヤーの頭から飛ばすレイ
+	play.start = { transform_.position_.x,transform_.position_.y + 0.3f,transform_.position_.z };   //レイの発射位置
+	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+	Model::RayCast(hStage_, &play); //レイを発射
+
 
 	//Y座標0から下に向かうレイ（坂を上るときに必要）
 	downRay.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
 	downRay.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &downRay); //レイを発射
 
-	//プレイヤーの頭から飛ばすレイ
-	play.start = { transform_.position_.x,transform_.position_.y+0.3f,transform_.position_.z };   //レイの発射位置
-	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hStage_, &play); //レイを発射
 	
+	//下に地面があるなら
+	if (downRay.hit)
+	{
+		//ジャンプ中なら
+		if (isJumping_)
+		{
+			// 自由落下
+			moveY_ -= 0.01f; // 重力を適用
+		}
+
+		// 地面にいる時の位置調整
+		if (!isJumping_)
+		{
+			transform_.position_.y = -downRay.dist;
+		}
+
+		// 地面との衝突を検出
+		if (play.dist <= 0.28f && isJumping_)
+		{
+			moveY_ = 0.0f;
+			isJumping_ = false;
+		}
+	}
+
+	//地面がないとき
+	else
+	{
+		moveY_ -= 0.01f;
+		// ステージ外に落ちてしまった場合のリセット
+		if (transform_.position_.y <= -100)
+		{
+			transform_.position_ = { 0, -downRay.dist, 0 };
+			moveY_ = 0;
+		}
+	}
+
+
+	// Y座標の更新
+	transform_.position_.y += moveY_;
+	
+	//debug
+	if (downRay.hit)
+	{
+		Debug::Log("isJumping_ = true", true);
+	}
+	else
+	{
+		Debug::Log("isJumping_ = false",true);
+	}
+
 
 
 	/*if (downRay.hit)
