@@ -4,7 +4,10 @@ class Attack : public GameObject
 {
     int hModel_;    //モデル番号
     XMFLOAT3 move_ = { 0,0,0 };
+
     int time_;
+
+    XMFLOAT3 attackPos_;
 
 public:
     //コンストラクタ
@@ -32,5 +35,11 @@ public:
     //何かに当たった
     //引数：pTarget 当たった相手
     void OnCollision(GameObject* pTarget) override;
+
+    //攻撃判定の方向をプレイヤーの方向からもらう
+    void AttackDirection(XMVECTOR _dir);
+
+    //攻撃判定の位置をプレイヤーの位置から出す
+    void AttackPosition(XMFLOAT3 _pos);
 
 };

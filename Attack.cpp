@@ -6,6 +6,11 @@
 #include "Player.h"
 #include "Enemy/Enemy.h"
 
+namespace {
+    XMVECTOR playerForwardVec_;
+    XMFLOAT3 playerPos_;
+}
+
 //コンストラクタ
 Attack::Attack(GameObject* parent)
     :GameObject(parent, "Attack"), hModel_(-1), time_(0)
@@ -53,4 +58,17 @@ void Attack::Release()
 
 void Attack::OnCollision(GameObject* pTarget)
 {
+}
+
+void Attack::AttackDirection(XMVECTOR _dir)
+{
+    playerForwardVec_ = _dir;
+}
+
+void Attack::AttackPosition(XMFLOAT3 _pos)
+{
+    playerPos_ = _pos;
+    // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
+    XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
+    XMStoreFloat3(&bulletPos_, bulletInitPos);
 }

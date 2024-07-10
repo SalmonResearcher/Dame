@@ -34,7 +34,7 @@ namespace {
     int dash = 2;
     bool isHit;
 
-	float jumpVelocity = 0.5f;
+	float jumpVelocity = 0.25f;
 	float gravity = 0.01f;
 
     int onCollisionTime = 0;
@@ -43,6 +43,7 @@ namespace {
 
 	std::string debugstr = "null";
 
+	Transform currentTrans;
 
 }
 
@@ -91,58 +92,66 @@ void Player::Update()
 	// ステートマネージャーの更新
 	pStateManager_->Update();
 
-	//プレイヤーの頭から飛ばすレイ
+
+	RayCastData data;
+	data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
+	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+	Model::RayCast(hStage_, &data); //レイを発射
+
+	RayCastData play;
 	play.start = { transform_.position_.x,transform_.position_.y + 0.3f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 
-
-	//Y座標0から下に向かうレイ（坂を上るときに必要）
-	downRay.start = {transform_.position_.x,0,transform_.position_.z};   //レイの発射位置
-	downRay.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-	Model::RayCast(hStage_, &downRay); //レイを発射
-
-	
-	//下に地面があるなら
-	if (downRay.hit)
+	if (data.hit)
 	{
-		//ジャンプ中なら
-		if (isJumping_)
+		if (InputManager::IsJump() && !isJumping_)
 		{
-			// 自由落下
-			moveY_ -= 0.01f; // 重力を適用
+			Jump();
 		}
 
-		// 地面にいる時の位置調整
-		if (!isJumping_)
+		else if (isJumping_)
 		{
-			transform_.position_.y = -downRay.dist;
+			AddGravity();
 		}
 
-		// 地面との衝突を検出
-		if (play.dist <= 0.28f && isJumping_)
+		//ジャンプ後地面に触ったら
+		if (play.dist <= 0.299 && isJumping_)
 		{
 			moveY_ = 0.0f;
 			isJumping_ = false;
+			transform_.position_ = currentTrans.position_;
 		}
-	}
 
-	//地面がないとき
-	else
-	{
-		moveY_ -= 0.01f;
-		// ステージ外に落ちてしまった場合のリセット
-		if (transform_.position_.y <= -100)
+		//ジャンプしていない,地に足がつくなら
+		if (!isJumping_ && play.hit)
 		{
-			transform_.position_ = { 0, -downRay.dist, 0 };
-			moveY_ = 0;
+			transform_.position_.y = -data.dist;
 		}
+
+		//地に足がつかないのならば
+		else if (!play.hit)
+		{
+			isJumping_ = true;
+		}
+
+		//Y座標移動
+		transform_.position_.y += moveY_;
+
 	}
 
+	
+
+	// ステージ外に落ちてしまった場合のリセット
+	if (transform_.position_.y <= -100)
+	{
+		transform_.position_ = { 0, -data.dist, 0 };
+		moveY_ = 0;
+	}
 
 	// Y座標の更新
 	transform_.position_.y += moveY_;
-	
+	currentTrans = transform_;
 	//debug
 	if (downRay.hit)
 	{
@@ -153,227 +162,230 @@ void Player::Update()
 		Debug::Log("isJumping_ = false",true);
 	}
 
-
-
-	/*if (downRay.hit)
+	//いらないコメント
+	//絶対に消せ↓
 	{
-			if (!isJumping_)
-			{
-				// ジャンプ
-				if (Input::IsKeyDown(DIK_SPACE))
+
+		/*if (downRay.hit)
+		{
+				if (!isJumping_)
 				{
-					isJumping_ = true;
-					moveY_ = 0.2f; // ジャンプ初速度を設定
+					// ジャンプ
+					if (Input::IsKeyDown(DIK_SPACE))
+					{
+						isJumping_ = true;
+						moveY_ = 0.2f; // ジャンプ初速度を設定
+					}
 				}
-			}
-			else
-			{
-				// 自由落下
-				moveY_ -= 0.01f; // 重力を適用
-
-				// 最大落下速度を制限
-				if (moveY_ <= -0.25f)
+				else
 				{
-					moveY_ = -0.25f;
+					// 自由落下
+					moveY_ -= 0.01f; // 重力を適用
+
+					// 最大落下速度を制限
+					if (moveY_ <= -0.25f)
+					{
+						moveY_ = -0.25f;
+					}
 				}
-			}
 
-			// 地面との衝突を検出
-			if (play.dist <= 0.25f && isJumping_)
+				// 地面との衝突を検出
+				if (play.dist <= 0.25f && isJumping_)
+				{
+					moveY_ = 0.0f;
+					isJumping_ = false;
+				}
+
+				// 地面にいる時の位置調整
+				if (!isJumping_)
+				{
+					transform_.position_.y = -downRay.dist;
+				}
+
+				// Y座標の更新
+				transform_.position_.y += moveY_;
+			}
+			// ステージ外に落ちてしまった場合のリセット
+			if (transform_.position_.y <= -100)
 			{
-				moveY_ = 0.0f;
-				isJumping_ = false;
+				transform_.position_ = { 0, -downRay.dist, 0 };
 			}
+		}*/
 
-			// 地面にいる時の位置調整
-			if (!isJumping_)
+		/*
+		if (Input::IsKey(DIK_LSHIFT))
+			dash_ = 2;
+
+		else
+			dash_ = 1;
+
+		static bool debug = true;
+
+
+
+		//マウス感度
+		{
+			if (Input::IsKeyDown(DIK_UP))
 			{
-				transform_.position_.y = -downRay.dist;
+				if (Input::IsKey(DIK_LSHIFT))
+					mouseSens += 0.5f;
+				else
+					mouseSens += 0.1f;
 			}
 
-			// Y座標の更新
-			transform_.position_.y += moveY_;
+			if (Input::IsKeyDown(DIK_DOWN))
+			{
+				if (Input::IsKey(DIK_LSHIFT))
+					mouseSens -= 0.5f;
+				else
+					mouseSens -= 0.1f;
+			}
 		}
-		// ステージ外に落ちてしまった場合のリセット
-		if (transform_.position_.y <= -100)
+		//マウス位置固定
+		if (debug)
+			SetCursorPos(800, 400);
+
+		static XMFLOAT3 move = { 0,0,0 };
+		static XMFLOAT3 camMove = { 0,0,0 };
+
+		//マウスの移動量
+		move.x += Input::GetMouseMove().x * mouseSens;
+		move.y += Input::GetMouseMove().y * mouseSens;
+		move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
+
+
+
+		//マウスの移動量に応じてカメラを回転させる
+		camMove.y = move.x;
+		camMove.x = move.y;
+
+
+
+		//マウスセンシティビリティ
+		camMove.x *= 0.1;
+		camMove.y *= 0.1;
+
+		//下を向きすぎないように
+		if (camMove.x >= 75)
 		{
-			transform_.position_ = { 0, -downRay.dist, 0 };
+			camMove.x = 75;
+			move.y = 750;
 		}
-	}*/
 
-	/*
-	if (Input::IsKey(DIK_LSHIFT))
-		dash_ = 2;
-
-	else
-		dash_ = 1;
-
-	static bool debug = true;
-
-
-
-	//マウス感度
-	{
-		if (Input::IsKeyDown(DIK_UP))
+		//上を向きすぎない
+		if (camMove.x <= -85)
 		{
-			if (Input::IsKey(DIK_LSHIFT))
-				mouseSens += 0.5f;
-			else
-				mouseSens += 0.1f;
+			camMove.x = -85;
+			move.y = -850;
 		}
 
-		if (Input::IsKeyDown(DIK_DOWN))
+		tCamera.rotate_ = camMove;
+		*/
+
+		//プレイヤー移動↓
+		/*
+		//Y軸の回転行列
+		XMMATRIX rotMatY = XMMatrixRotationY(XMConvertToRadians(tCamera.rotate_.y));
+
+		//X軸の回転軸
+		XMMATRIX rotMatX = XMMatrixRotationX(XMConvertToRadians(tCamera.rotate_.x));
+
+		//移動ベクトル
+		XMVECTOR nowVec = XMLoadFloat3(& transform_.position_);			//今のカメラ位置座標
+		XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
+		frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
+
+		//左右
+		XMVECTOR sideVec_ = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
+		sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
+
+		//プレイヤーもここで移動させる
+		vecPlayer_ = XMLoadFloat3(&transform_.position_);
+
+		if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D)))
 		{
-			if (Input::IsKey(DIK_LSHIFT))
-				mouseSens -= 0.5f;
-			else
-				mouseSens -= 0.1f;
+			speed_ += 0.01f;
+			if (speed_ >= MAXSPEED)
+				speed_ = MAXSPEED;
 		}
-	}
-	//マウス位置固定
-	if (debug)
-		SetCursorPos(800, 400);
-
-	static XMFLOAT3 move = { 0,0,0 };
-	static XMFLOAT3 camMove = { 0,0,0 };
-
-	//マウスの移動量
-	move.x += Input::GetMouseMove().x * mouseSens;
-	move.y += Input::GetMouseMove().y * mouseSens;
-	move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
-
-
-
-	//マウスの移動量に応じてカメラを回転させる
-	camMove.y = move.x;
-	camMove.x = move.y;
-
-	
-
-	//マウスセンシティビリティ
-	camMove.x *= 0.1;
-	camMove.y *= 0.1;
-
-	//下を向きすぎないように
-	if (camMove.x >= 75)
-	{
-		camMove.x = 75;
-		move.y = 750;
-	}
-
-	//上を向きすぎない
-	if (camMove.x <= -85)
-	{
-		camMove.x = -85;
-		move.y = -850;
-	}
-
-	tCamera.rotate_ = camMove;
-	*/
-
-	//プレイヤー移動↓
-	/*
-	//Y軸の回転行列
-	XMMATRIX rotMatY = XMMatrixRotationY(XMConvertToRadians(tCamera.rotate_.y));
-
-	//X軸の回転軸
-	XMMATRIX rotMatX = XMMatrixRotationX(XMConvertToRadians(tCamera.rotate_.x));
-
-	//移動ベクトル
-	XMVECTOR nowVec = XMLoadFloat3(& transform_.position_);			//今のカメラ位置座標
-	XMVECTOR frontMove = XMVectorSet(0, 0, speed_ * dash_ * weight_, 0);		//z座標に動く速度
-	frontMove = XMVector3TransformCoord(frontMove, rotMatY);	//Y軸回転行列をfrontmoveベクトルへ変換
-
-	//左右
-	XMVECTOR sideVec_ = XMVectorSet(speed_ * dash_ * weight_, 0, 0, 0);
-	sideVec_ = XMVector3TransformCoord(sideVec_, rotMatY);
-
-	//プレイヤーもここで移動させる
-	vecPlayer_ = XMLoadFloat3(&transform_.position_);
-
-	if ((Input::IsKey(DIK_W)|| Input::IsKey(DIK_A)|| Input::IsKey(DIK_S)|| Input::IsKey(DIK_D)))
-	{
-		speed_ += 0.01f;
-		if (speed_ >= MAXSPEED)
-			speed_ = MAXSPEED;
-	}
-	else
-	{
-		speed_ -= 0.01f;
-		if (speed_ <= 0.0f)
+		else
 		{
-			speed_ = 0.0f;
+			speed_ -= 0.01f;
+			if (speed_ <= 0.0f)
+			{
+				speed_ = 0.0f;
+			}
 		}
+
+		//プレイヤー移動
+		if (Input::IsKey(DIK_W))
+		{
+			vecPlayer_ += frontMove;
+
+		}
+
+		if (Input::IsKey(DIK_S))
+		{
+			vecPlayer_ -= frontMove;
+		}
+
+		if (Input::IsKey(DIK_A))
+		{
+			vecPlayer_ -= sideVec_;
+		}
+
+		if (Input::IsKey(DIK_D))
+		{
+			vecPlayer_ += sideVec_;
+		}
+
+		XMVector3Normalize(vecPlayer_);
+		XMStoreFloat3(&transform_.position_, vecPlayer_);
+		*/
+
+		/*
+		XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
+
+		//カメラ移動
+		XMStoreFloat3(&tCamera.position_, nowVec);
+
+		//カメラ本体
+		XMVECTOR vCam = { 0,2,-10,0 };
+
+		//カメラ注視点
+		XMFLOAT3 camTarget = transform_.position_;
+
+		Camera::SetTarget(camTarget);
+
+		vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
+
+		//カメラ座標変更
+		XMStoreFloat3(&Camposition_, nowVec + vCam);
+
+		//カメラ移動
+		Camera::SetPosition(Camposition_);
+
+		*/
+
+		/*
+		XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
+
+		//プレイヤーの水平方向の角度を求める
+		float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
+
+		//// プレイヤーの回転を更新
+		transform_.rotate_.y = XMConvertToDegrees(playerYaw);
+
+		// プレイヤーの回転行列を作成
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
+			XMConvertToRadians(transform_.rotate_.y),
+			XMConvertToRadians(transform_.rotate_.z));
+
+		// プレイヤーの前方ベクトルを取得
+		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
+		*/
+
 	}
-
-	//プレイヤー移動
-	if (Input::IsKey(DIK_W))
-	{
-		vecPlayer_ += frontMove;
-
-	}
-
-	if (Input::IsKey(DIK_S))
-	{
-		vecPlayer_ -= frontMove;
-	}
-
-	if (Input::IsKey(DIK_A))
-	{
-		vecPlayer_ -= sideVec_;
-	}
-
-	if (Input::IsKey(DIK_D))
-	{
-		vecPlayer_ += sideVec_;
-	}
-
-	XMVector3Normalize(vecPlayer_);
-	XMStoreFloat3(&transform_.position_, vecPlayer_);
-	*/
-
-	/*
-	XMVECTOR nowVec = XMLoadFloat3(&transform_.position_);			//今のカメラ位置座標
-
-	//カメラ移動
-	XMStoreFloat3(&tCamera.position_, nowVec);
-
-	//カメラ本体
-	XMVECTOR vCam = { 0,2,-10,0 };
-
-	//カメラ注視点
-	XMFLOAT3 camTarget = transform_.position_;
-
-	Camera::SetTarget(camTarget);
-
-	vCam = XMVector3TransformCoord(vCam, rotMatX * rotMatY);
-
-	//カメラ座標変更
-	XMStoreFloat3(&Camposition_, nowVec + vCam);
-	
-	//カメラ移動
-	Camera::SetPosition(Camposition_);
-
-	*/
-
-	/*
-	XMFLOAT4X4 cameraRot = pCamera_->GetCameraRotateMatrix();
-
-	//プレイヤーの水平方向の角度を求める
-	float playerYaw = atan2f(-cameraRot._13, cameraRot._11);
-
-	//// プレイヤーの回転を更新
-	transform_.rotate_.y = XMConvertToDegrees(playerYaw);
-
-	// プレイヤーの回転行列を作成
-	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
-		XMConvertToRadians(transform_.rotate_.y),
-		XMConvertToRadians(transform_.rotate_.z));
-
-	// プレイヤーの前方ベクトルを取得
-	XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
-	*/
-
 
 if (InputManager::IsWalk())
 {
@@ -396,6 +408,30 @@ else
 	{
 		RotatePlayer();
 	}
+
+	// 左クリックと右クリックが同時に押され、ジュエルが1つ以上ある場合にジュエルバレットを生成
+	if ((InputManager::IsShootJewel()) && jewelCount_ > 0)
+	{
+		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
+
+		// プレイヤーの回転行列を作成
+		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(
+			XMConvertToRadians(transform_.rotate_.x),
+			XMConvertToRadians(transform_.rotate_.y),
+			XMConvertToRadians(transform_.rotate_.z));
+
+		// プレイヤーの前方ベクトルを取得
+		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
+
+		// ジュエルバレットの方向、位置、回転を設定
+		pJB->BulletDirection(playerForwardVector);
+		pJB->BulletPosition(transform_.position_);
+		pJB->BulletRotate(transform_.rotate_);
+
+		// ジュエルカウントを減少
+		jewelCount_--;
+	}
+
 
 	////くりっくしたら
 	//if (Input::IsMouseButtonDown(0) && !(Input::IsMouseButton(1)))
@@ -465,7 +501,13 @@ void Player::Run()
 }
 void Player::AddGravity()
 {
+	//自由落下
+	moveY_ -= 0.01;
 
+	if (moveY_ <= -0.2f)
+	{
+		moveY_ = -0.2f;
+	}
 }
 
 void Player::AddMovement(XMVECTOR moveVector, float run)
@@ -531,20 +573,10 @@ void Player::Attacking()
 		attackCountDown--;
 	}
 
-	// 攻撃カウントダウンが特定の値以下で、Aimしておらず、攻撃が終了していない場合に攻撃を生成
+	// 攻撃カウントダウンが特定の値以下で、Aimしておらず、攻撃が終了していない場合に攻撃を生成(ややこい)
 	if (attackCountDown <= 8 && !InputManager::IsAim && !attackEnd)
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
-		// 攻撃の移動先と位置を設定（例: pAtk->SetMove(camTarget);）
-		// pAtk->SetPosition(camTarget);
-		pAtk->SetTime(4);
-	}
-
-	// 左クリックと右クリックが同時に押され、ジュエルが1つ以上ある場合にジュエルバレットを生成
-	if (InputManager::IsAttack() && InputManager::IsAim() && jewelCount_ > 0)
-	{
-		JewelBullet* pJB = InstantiateFront<JewelBullet>(GetParent());
-
 		// プレイヤーの回転行列を作成
 		XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(
 			XMConvertToRadians(transform_.rotate_.x),
@@ -554,13 +586,13 @@ void Player::Attacking()
 		// プレイヤーの前方ベクトルを取得
 		XMVECTOR playerForwardVector = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), playerRotMat);
 
-		// ジュエルバレットの方向、位置、回転を設定
-		pJB->BulletDirection(playerForwardVector);
-		pJB->BulletPosition(transform_.position_);
-		pJB->BulletRotate(transform_.rotate_);
+		pAtk->directon
 
-		// ジュエルカウントを減少
-		jewelCount_--;
+		pJB->BulletDirection(playerForwardVector);
+		//pJB->BulletPosition(transform_.position_);
+		//pJB->BulletRotate(transform_.rotate_);
+
+		pAtk->SetTime(4);
 	}
 
 	// 攻撃カウントダウンが0以下なら攻撃終了
@@ -612,7 +644,7 @@ void Player::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "EnemyAttack")
 	{
 		knock = 0.8f;
-		//isJumping = true;
+		isJumping_ = true;
 		moveY_ += 0.1f;
 
 		// プレイヤーの前方ベクトルを取得

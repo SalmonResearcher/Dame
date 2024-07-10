@@ -86,7 +86,11 @@ void JumpState::EnterState()
 
 void JumpState::UpdateState()
 {
-    pPlayer_->Jump();
+    if (InputManager::IsJump() && !pPlayer_->IsJumping())
+    {
+        pPlayer_->Jump();
+    }
+
 
     // 攻撃入力があった場合のステート遷移
     if (InputManager::IsAttack())
@@ -155,6 +159,11 @@ void RunState::UpdateState()
 
     // 移動入力がなくなったとき待機へ
     if (!InputManager::IsWalk()) { pStateManager_->ChangeState("IdleState"); }
+
+    if (InputManager::IsAttack())
+    {
+        pStateManager_->ChangeState("AttackState");
+    }
 }
 
 void RunState::ExitState()
