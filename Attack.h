@@ -5,9 +5,11 @@ class Attack : public GameObject
     int hModel_;    //モデル番号
     XMFLOAT3 move_ = { 0,0,0 };
 
-    int time_;
+    int deleteTime_;
 
     XMFLOAT3 attackPos_;
+
+
 
 public:
     //コンストラクタ
@@ -30,7 +32,7 @@ public:
 
     void SetMove(XMFLOAT3 move) { move_ = move; }
 
-    void SetTime(int _time) { time_ = _time; };
+    void SetDeleteTime(int _time) { deleteTime_ = _time; };
 
     //何かに当たった
     //引数：pTarget 当たった相手
@@ -42,4 +44,6 @@ public:
     //攻撃判定の位置をプレイヤーの位置から出す
     void AttackPosition(XMFLOAT3 _pos);
 
+    //攻撃
+    void Attacking();
 };

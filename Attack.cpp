@@ -7,15 +7,21 @@
 #include "Enemy/Enemy.h"
 
 namespace {
+    //これらをメンバ変数にせずに、Player側でDeleteTimeを大きな数にすると面白くなる
     XMVECTOR playerForwardVec_;
     XMFLOAT3 playerPos_;
+
+    //この数を変更すると攻撃判定がでかくなる
+    float attackSpace = 0.8f;
+
+
 }
 
 //コンストラクタ
 Attack::Attack(GameObject* parent)
-    :GameObject(parent, "Attack"), hModel_(-1), time_(0)
+    :GameObject(parent, "Attack"), hModel_(-1), deleteTime_(0)
 {
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 1.5f);
+    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), attackSpace);
     AddCollider(collision);
 }
 
@@ -34,15 +40,12 @@ void Attack::Initialize()
 //更新
 void Attack::Update()
 {
-    transform_.position_.x = move_.x;
-    transform_.position_.y = move_.y;
-    transform_.position_.z = move_.z;
-
-    if (time_ <= 0)
+    Attacking();
+    if (deleteTime_ <= 0)
     {
         KillMe();
     }
-    time_--;
+    deleteTime_--;
 
 }
 
@@ -69,6 +72,14 @@ void Attack::AttackPosition(XMFLOAT3 _pos)
 {
     playerPos_ = _pos;
     // 弾丸の初期位置 = プレイヤー位置 + (前方ベクトル * 距離オフセット)
-    XMVECTOR bulletInitPos = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.5f);
-    XMStoreFloat3(&bulletPos_, bulletInitPos);
+    XMVECTOR attackInit = XMLoadFloat3(&playerPos_) + (playerForwardVec_ * 0.25f);
+    XMStoreFloat3(&attackPos_, attackInit);
+}
+
+void Attack::Attacking() {
+    XMFLOAT3 moveAtk;
+    XMStoreFloat3(&moveAtk, playerForwardVec_);
+    attackPos_.x += moveAtk.x * attackSpace;
+    attackPos_.z += moveAtk.z *attackSpace;
+    transform_.position_ = attackPos_;
 }
