@@ -29,7 +29,7 @@ namespace
 	AnimFrame anim3;
 
 	float moveY = 0.0f;
-	float speed_ = 0.5f;
+	float speed_ = 0.8f;
 
 	int collisionCreateTime = 42;	//UŒ‚¨”»’è‚Ü‚Å‚ÌŠÔ
 	int collisionTime = 3;		//”»’è‚Ì‘±ƒtƒŒ[ƒ€

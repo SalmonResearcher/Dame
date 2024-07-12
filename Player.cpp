@@ -26,7 +26,7 @@ namespace {
 
     int attackWaitTime = 20;			//攻撃時の待ち時間
 	int attackCountDown = 0;			//攻撃時のカウントダウン
-    const float JEWEL_WEIGHT = 0.05f;
+    const float JEWEL_WEIGHT = 0.01f;
 
     const float MAXSPEED = 0.15f;		//カメラの回転速度,プレイヤーの移動速度
     float speed = 0.0f;
@@ -34,7 +34,7 @@ namespace {
     int dash = 2;
     bool isHit;
 
-	float jumpVelocity = 0.25f;
+	float jumpVelocity = 0.2f;
 	float gravity = 0.01f;
 
     int onCollisionTime = 0;
@@ -94,7 +94,7 @@ void Player::Update()
 	Model::RayCast(hStage_, &data); //レイを発射
 
 	RayCastData play;
-	play.start = { transform_.position_.x,transform_.position_.y + 0.3f,transform_.position_.z };   //レイの発射位置
+	play.start = { transform_.position_.x,transform_.position_.y + 0.5f,transform_.position_.z };   //レイの発射位置
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 
@@ -111,7 +111,7 @@ void Player::Update()
 		}
 
 		//ジャンプ後地面に触ったら
-		if (play.dist <= 0.299 && isJumping_)
+		if (play.dist < 0.4 && isJumping_)
 		{
 			moveY_ = 0.0f;
 			isJumping_ = false;

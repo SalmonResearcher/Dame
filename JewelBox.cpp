@@ -4,6 +4,7 @@
 #include "Engine/SphereCollider.h"
 
 #include "Player.h"
+#include "Stage.h"
 #include "JewelBullet.h"
 
 //コンストラクタ
@@ -22,10 +23,18 @@ JewelBox::~JewelBox()
 //初期化
 void JewelBox::Initialize()
 {
+    int hStage = ((Stage*)FindObject("Stage"))->GetModelHandle();
+
     hModel_ = Model::Load("Box.fbx");
     assert(hModel_ >= 0);
 
-    trBox_.position_.y = -77;
+    RayCastData down;
+    down.start = { 0,0,0 };   //レイの発射位置
+    down.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+    Model::RayCast(hStage, &down); //レイを発射
+
+
+    trBox_.position_.y = -down.dist;
 }
 
 //更新

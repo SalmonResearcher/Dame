@@ -32,7 +32,7 @@ void Stage::Initialize()
 void Stage::Update()
 {
     transSky_.rotate_.y += 0.2f;
-    transSky_.scale_ = { 1.5,1.5,1.5 };
+    transSky_.scale_ = { 0.8,0.8,0.8 };
 }
 
 //•`‰æ
