@@ -13,6 +13,7 @@ private:
     int hModel_;    //モデル番号
     int hSound_;    //サウンド番号
 
+
     int hStage_;    //ステージモデル番号
     int hEnemy_;    //敵のモデル番号
 

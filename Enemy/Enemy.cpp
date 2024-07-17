@@ -60,7 +60,7 @@ void Enemy::Initialize()
 	assert(hModel_ >= 0);
 
 	hSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 3);
-
+	hSoundHit_ = Audio::Load("SE/Hit.WAV", false, 3);
 	transform_.scale_ = { enemyScale };
 
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
@@ -145,11 +145,13 @@ void Enemy::Update()
 		break;
 
 	case DEATH:
-		if(waitTime_ <)
+		if (waitTime_ < 14)
+		{
+			Audio::Play(hSound_);
+		}
 
 		if (waitTime_ < 0)
 		{
-			Audio::Play(hSound_);
 			((Player*)FindObject("Player"))->KillCountUp();
 			Jewel* pJewel = InstantiateFront<Jewel>(GetParent());
 			pJewel->SetPosition(transform_.position_);
@@ -235,6 +237,7 @@ void Enemy::Death()
 	states = DEATH;
 	waitTime_ = deathWaitTime;
 	isDead = true;
+	Audio::Play(hSoundHit_);
 }
 
 void Enemy::JewelDeath()
