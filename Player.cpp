@@ -14,6 +14,7 @@
 #include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Audio.h"
 
 //#include "math.h"
 
@@ -53,6 +54,8 @@ void Player::Initialize()
 {
   	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
+
+	hSound_ = Audio::Load("SE/Sord.wav", false, 2);
 
 	// ステートマネージャー
 	pStateManager_ = new StateManager(this);
@@ -298,6 +301,7 @@ void Player::Attacking()
 	{
 		attackCountDown = attackWaitTime;
 		attackEnd = false;
+		Audio::Play(hSound_);
 	}
 	else
 	{

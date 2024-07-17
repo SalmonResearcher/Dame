@@ -8,6 +8,7 @@
 #include "../Engine/Debug.h"
 #include "../EnemyAttack.h"
 #include "../EnemySpawn.h"
+#include "../Engine/Audio.h"
 
 namespace 
 {
@@ -57,6 +58,8 @@ void Enemy::Initialize()
 {
 	hModel_ = Model::Load("Slime_V2.fbx");
 	assert(hModel_ >= 0);
+
+	hSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 3);
 
 	transform_.scale_ = { enemyScale };
 
@@ -142,8 +145,11 @@ void Enemy::Update()
 		break;
 
 	case DEATH:
+		if(waitTime_ <)
+
 		if (waitTime_ < 0)
 		{
+			Audio::Play(hSound_);
 			((Player*)FindObject("Player"))->KillCountUp();
 			Jewel* pJewel = InstantiateFront<Jewel>(GetParent());
 			pJewel->SetPosition(transform_.position_);
