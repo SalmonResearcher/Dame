@@ -41,6 +41,9 @@ namespace {
     int onCollisionTime = 0;
 	bool isKockBack = false;
 	float knock;
+
+	float min = 0.9f;
+	float max = 1.1f;
 }
 
 Player::Player(GameObject* parent)
@@ -55,7 +58,9 @@ void Player::Initialize()
   	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load("SE/Sord.wav", false, 2);
+	hSound_ = Audio::Load("SE/SordBig.wav", false, 2);
+
+	hGetSound_ = Audio::Load("SE/GetJewel.wav", false, 1);
 
 	// ステートマネージャー
 	pStateManager_ = new StateManager(this);
@@ -85,6 +90,9 @@ Player::~Player()
 
 void Player::Update()
 {
+	//ランダム
+	jewelPitch = GenerateRandomFloat(min, max);
+
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	// ステートマネージャーの更新
@@ -301,7 +309,7 @@ void Player::Attacking()
 	{
 		attackCountDown = attackWaitTime;
 		attackEnd = false;
-		Audio::Play(hSound_);
+		Audio::Play(hSound_,2.0f);
 	}
 	else
 	{
@@ -309,7 +317,7 @@ void Player::Attacking()
 	}
 
 	// 攻撃カウントダウンが特定の値以下で、攻撃が終了していない場合に攻撃を生成(ややこい)
-	if (attackCountDown <= 8 && !attackEnd)
+	if (attackCountDown <= 13 && !attackEnd)
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		// プレイヤーの回転行列を作成
@@ -356,6 +364,7 @@ void Player::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Jewel")
 	{
 		//ここでエフェクトも
+		Audio::Play(hGetSound_, true, jewelPitch, 1.0f);
 		pTarget->KillMe();
 		jewelCount_++;
 	}
@@ -456,4 +465,10 @@ void Player::RotatePlayer()
 	XMMATRIX playerRotMat = XMMatrixRotationRollPitchYaw(XMConvertToRadians(transform_.rotate_.x),
 		XMConvertToRadians(transform_.rotate_.y),
 		XMConvertToRadians(transform_.rotate_.z));
+}
+
+float Player::GenerateRandomFloat(float min, float max) 
+{
+	float random = static_cast<float>(rand()) / RAND_MAX; // 0.0から1.0の範囲の乱数を生成
+	return min + random * (max - min); // minからmaxの範囲にスケーリング
 }

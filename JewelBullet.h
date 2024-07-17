@@ -11,6 +11,9 @@ class JewelBullet :
 
     XMFLOAT3 bulletPos_;
 
+    XMVECTOR playerForwardVec_;
+    XMFLOAT3 playerPos_;
+
     int deleteTime_;
     int killCount_;
     int score_;

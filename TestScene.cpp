@@ -63,10 +63,10 @@ void TestScene::Initialize()
 
 	pDisplay->ScoreCountStart(0);
 
-	pDisplay->SetTimerLimit(0, 50);
+	pDisplay->SetTimerLimit(0, 500);
 	pDisplay->TimerStart(0);
 
-	pEnemySpawn->SetInterval(15);
+	pEnemySpawn->SetInterval(30);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
 	pEnemySpawn->SetRandomX(-60.0f, 70.0f);
 	pEnemySpawn->StartSpawn();

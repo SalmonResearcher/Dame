@@ -12,7 +12,10 @@ class Player :public GameObject
 private:
     int hModel_;    //モデル番号
     int hSound_;    //サウンド番号
+    int hGetSound_;
 
+    float jewelPitch;   //音の高さ
+    float sordPitch;
 
     int hStage_;    //ステージモデル番号
     int hEnemy_;    //敵のモデル番号
@@ -33,6 +36,7 @@ private:
 
     RayCastData downRay;
     RayCastData play;
+
 
 public:
     Player(GameObject* parent);     //コンストラクタ
@@ -94,4 +98,7 @@ public:
 
     //プレイヤーの攻撃が終わったらtrue
     bool IsAttackEnd();
+
+    //Floatのランダムな値を生成します
+    float GenerateRandomFloat(float min, float max);
 };

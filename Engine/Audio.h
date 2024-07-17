@@ -17,13 +17,22 @@ namespace Audio
 	//戻値：そのデータに割り当てられた番号
 	int Load(std::string fileName, bool isLoop = false, int svNum = 1);
 
-	//再生
-	//引数：handle	鳴らしたいサウンドの番号
-	void Play(int ID);
+	//わかりにくかったのでsummaryを使用
+	/// <summary>
+	/// 再生
+	/// </summary>
+	/// <param name="ID">サウンドの番号</param>
+	/// <param name="forceRestart">音の重なりを許可する？</param>
+	/// <param name="pitch">音の高さ</param>
+	/// <param name="volume">音量</param>
+	void Play(int ID, bool forceRestart = false, float pitch = 1.0f, float volume = 1.0f);
 
 	//停止
 	//引数：handle	止めたいサウンドの番号
 	void Stop(int ID);
+
+	//ピッチ調整
+	void SetPitch(int ID, float pitch);
 
 	//シーンごとの解放（ロードしたサウンドを解放）
 	void Release();
@@ -31,4 +40,3 @@ namespace Audio
 	//本体も解放
 	void AllRelease();
 };
-

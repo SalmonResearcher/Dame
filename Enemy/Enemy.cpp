@@ -10,6 +10,8 @@
 #include "../EnemySpawn.h"
 #include "../Engine/Audio.h"
 
+#include <algorithm> // std::maxを使うために必要
+
 namespace 
 {
 	XMFLOAT3 CollisionPosition = { 0.0f,0.0f,0.0f };
@@ -37,9 +39,16 @@ namespace
 
 	int attackWaitTime = 90;
 	int deathWaitTime = 60;
+
+	float falloff = 100.0f;
+
 	EnemySpawn* pEnemySpawn;
 
+	float min = 0.8f;
+	float max = 1.2f;
 
+	float deathPitch;
+	float hitPitch;
 }
 
 //コンストラクタ
@@ -59,8 +68,8 @@ void Enemy::Initialize()
 	hModel_ = Model::Load("Slime_V2.fbx");
 	assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 3);
-	hSoundHit_ = Audio::Load("SE/Hit.WAV", false, 3);
+	hSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 2);
+	hSoundHit_ = Audio::Load("SE/Attack2.wav", false, 3);
 	transform_.scale_ = { enemyScale };
 
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
@@ -95,11 +104,15 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
+	deathPitch = GenerateRandomFloat(min,max);
+	hitPitch = GenerateRandomFloat(min, max);
+
 	//追いかける＆攻撃するための
 	target_ = pPlayer->GetPlayerPosition();
 	//プレイヤーまでの距離
 	toPlayerdir = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 
+	volume = SoundDistance(toPlayerdir, falloff);
 
 	RayCastData data;
 	data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
@@ -145,9 +158,9 @@ void Enemy::Update()
 		break;
 
 	case DEATH:
-		if (waitTime_ < 14)
+		if (waitTime_ == 14)
 		{
-			Audio::Play(hSound_);
+			Audio::Play(hSound_,true,deathPitch,volume*0.8);
 		}
 
 		if (waitTime_ < 0)
@@ -237,7 +250,6 @@ void Enemy::Death()
 	states = DEATH;
 	waitTime_ = deathWaitTime;
 	isDead = true;
-	Audio::Play(hSoundHit_);
 }
 
 void Enemy::JewelDeath()
@@ -262,10 +274,24 @@ void Enemy::ChangeAnime(STATE state)
 
 	case DEATH:
 		Model::SetAnimFrame(hModel_,anim3.startFrame,anim3.endFrame,anim3.speed);
+		Audio::Play(hSoundHit_, true, hitPitch,volume);
+
 		break;
 
 	default:
 		states = DEATH;
 		break;
 	}
+}
+
+float Enemy::SoundDistance(float distance, float falloff)
+{
+	float volume = 1.0f - (distance - 5.0f) / falloff;
+	return max(0.0f, volume);
+}
+
+float Enemy::GenerateRandomFloat(float min, float max)
+{
+	float random = static_cast<float>(rand()) / RAND_MAX; // 0.0から1.0の範囲の乱数を生成
+	return min + random * (max - min); // minからmaxの範囲にスケーリング
 }

@@ -49,6 +49,8 @@ class Enemy : public GameObject
     bool isDead = false;
     bool counted;
 
+    float volume;
+
 public:
     //コンストラクタ
     Enemy(GameObject* parent);
@@ -85,5 +87,10 @@ public:
 
     void ChangeAnime(STATE state);
 
-    
+    //距離に応じて音量を変える
+    float SoundDistance(float distance,float falloff);
+
+    //Floatのランダムな値を生成します
+    float GenerateRandomFloat(float min, float max);
+
 };

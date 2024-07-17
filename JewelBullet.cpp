@@ -17,8 +17,7 @@
 
 namespace {
 
-    XMVECTOR playerForwardVec_;
-    XMFLOAT3 playerPos_;
+
 }
 
 //コンストラクタ
