@@ -25,8 +25,8 @@ class Enemy : public GameObject
     Player* pPlayer;
 
     int hModel_;    //モデル番号
-    int hSound_;    //サウンド番号
-    int hSoundHit_; //ヒット
+    int hDeathSound_;    //サウンド番号
+    int hHitSound_; //ヒット
 
     int hStage_;    //ステージモデル
     int hPlayer_;   //プレイヤーのモデル番号

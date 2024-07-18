@@ -6,6 +6,7 @@
 #include "Engine/Image.h"
 #include "Engine/Debug.h"
 #include "Engine/Input.h"
+#include "Engine/Audio.h"
 
 #include "Global.h"
 
@@ -23,6 +24,14 @@ ResultScene::ResultScene(GameObject* parent)
 void ResultScene::Initialize()
 {
 	hImage_ = Image::Load("Result.png");
+	assert(hImage_ >= 0);
+
+	hCountSound_ = Audio::Load("SE/CountUp.wav", false);
+	assert(hCountSound_ >= 0);
+
+	hMoneySound_ = Audio::Load("SE/money.wav", false);
+	assert(hMoneySound_ >= 0);
+
 	trPict_.position_ = XMFLOAT3(0, 0, 0);
 
 	pDisp_ = Instantiate<CharacterDisplay>(this);
@@ -76,22 +85,42 @@ void ResultScene::Update()
 	{
 	case 30:
 		pDisp_->ScoreCountStart(0);
+		countStart[0] = true;
 		break;
 	case 90:
+		Audio::Play(hCountSound_, false);
+
 		pDisp_->ScoreCountStart(1);
+		countStart[1] = true;
+
 
 		break;
 	case 150:
+		Audio::Play(hCountSound_, false);
+
 		pDisp_->ScoreCountStart(2);
+		countStart[2] = true;
+
 
 		break;
 	case 240:
+		Audio::Play(hMoneySound_, false);
+
 		pDisp_->ScoreCountStart(3);
+		countStart[3] = true;
+
 
 		break;
 	default:
 		break;
 	}
+
+	if (!pDisp_->IsCountEnd(0) && countStart[0])
+	{
+		pitch += 0.01;
+		SoundPlay(hCountSound_, 5);
+	}
+
 
 
 	showScoreTime++;
@@ -115,5 +144,19 @@ void ResultScene::Draw()
 
 //ŠJ•ú
 void ResultScene::Release()
+{
+}
+
+void ResultScene::SoundPlay(int  handle, int interval)
+{
+	if (soundtimer % interval == 0) {
+		Audio::Play(handle, true ,pitch);
+	}
+
+	soundtimer++;
+
+}
+
+void ResultScene::SoundStop(int handle)
 {
 }

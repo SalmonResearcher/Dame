@@ -32,6 +32,7 @@ public:
     void SetScorePosition(int index, int x, int y);//〇番目のスコアをどこに置くか
     void SetScoreValue(int index, int value);//〇番目のスコアは何を表示するか
     void CalcScoreValue(int index);//〇番目のスコアはゲーム中のスコアを表示
+    bool IsCountEnd(int index);     //〇番目のスコアは数え終わったか
 
     void SetTimerPosition(int index, int x, int y);//〇番目のタイマーはどこに置くのか
     void SetTimerLimit(int index, int limit);//〇番目のタイマーは何秒に設定されるのか

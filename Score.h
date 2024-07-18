@@ -49,4 +49,8 @@ public:
 	void Start() { countUp_ = true; }
 	void Stop() { countUp_ = false; }
 	void SetIncrementSteps(int step) { incrementSteps_ = step; }
+	bool IsCountEnd() {
+		if (score_ == up_) { return true; }
+		else { return false; }
+	}
 };

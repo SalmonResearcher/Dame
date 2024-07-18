@@ -9,6 +9,8 @@ class ResultScene :public GameObject
 private:
 	Transform trPict_;
 	int hImage_;
+	int hCountSound_;
+	int hMoneySound_;
 
 	CharacterDisplay* pDisp_;
 
@@ -19,6 +21,11 @@ private:
 	int totalScore_;
 	int showScoreTime = 0;
 
+	int soundtimer;
+
+	bool countStart[4];
+
+	int pitch = 1;  
 public:
 
 	//コンストラクタ
@@ -36,6 +43,10 @@ public:
 
 	//開放
 	void Release() override;
+
+	void SoundPlay(int handle,int interval);
+
+	void SoundStop(int handle);
 
 };
 

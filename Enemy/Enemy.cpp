@@ -40,12 +40,12 @@ namespace
 	int attackWaitTime = 90;
 	int deathWaitTime = 60;
 
-	float falloff = 100.0f;
+	float falloff = 45.0f;		//音が最小になるまでの距離
 
 	EnemySpawn* pEnemySpawn;
 
-	float min = 0.8f;
-	float max = 1.2f;
+	float min = 0.8f;			//音のピッチ
+	float max = 1.2f;			//音のピッチ
 
 	float deathPitch;
 	float hitPitch;
@@ -68,8 +68,12 @@ void Enemy::Initialize()
 	hModel_ = Model::Load("Slime_V2.fbx");
 	assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 2);
-	hSoundHit_ = Audio::Load("SE/Attack2.wav", false, 3);
+	hDeathSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 1);
+	assert(hDeathSound_ >= 0);
+
+	hHitSound_ = Audio::Load("SE/Attack2.wav", false, 1);
+	assert(hHitSound_ >= 0);
+
 	transform_.scale_ = { enemyScale };
 
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
@@ -160,7 +164,7 @@ void Enemy::Update()
 	case DEATH:
 		if (waitTime_ == 14)
 		{
-			Audio::Play(hSound_,true,deathPitch,volume*0.8);
+			Audio::Play(hDeathSound_,true,deathPitch,volume);
 		}
 
 		if (waitTime_ < 0)
@@ -274,7 +278,7 @@ void Enemy::ChangeAnime(STATE state)
 
 	case DEATH:
 		Model::SetAnimFrame(hModel_,anim3.startFrame,anim3.endFrame,anim3.speed);
-		Audio::Play(hSoundHit_, true, hitPitch,volume);
+		Audio::Play(hHitSound_, true, hitPitch,volume);
 
 		break;
 

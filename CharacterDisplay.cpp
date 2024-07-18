@@ -38,7 +38,12 @@ void CharacterDisplay::Draw()
     }
 }
 
-
+bool CharacterDisplay::IsCountEnd(int index)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        return scores[index]->IsCountEnd();
+    }
+}
 
 
 void CharacterDisplay::Release()

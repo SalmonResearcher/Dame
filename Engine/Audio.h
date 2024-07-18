@@ -22,7 +22,7 @@ namespace Audio
 	/// 再生
 	/// </summary>
 	/// <param name="ID">サウンドの番号</param>
-	/// <param name="forceRestart">音の重なりを許可する？</param>
+	/// <param name="forceRestart">音が重なるようにする？</param>
 	/// <param name="pitch">音の高さ</param>
 	/// <param name="volume">音量</param>
 	void Play(int ID, bool forceRestart = false, float pitch = 1.0f, float volume = 1.0f);
