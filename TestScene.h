@@ -7,8 +7,10 @@
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
+	int hBGM_;
 
-
+	int hScoreSound_;
+	int soundtimer;
 	Text* pText;
 
 public:
@@ -27,4 +29,8 @@ public:
 
 	//開放
 	void Release() override;
+
+	//サウンドを〇Fごとに再生する
+	void SoundPlay(int handle, int interval);
+
 };

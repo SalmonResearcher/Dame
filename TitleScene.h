@@ -5,6 +5,9 @@
 class TitleScene :public GameObject
 {
 private:
+
+	int hBGM_;
+
 	enum
 	{
 		BG,

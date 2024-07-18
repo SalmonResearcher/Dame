@@ -32,7 +32,11 @@ namespace
 	AnimFrame anim3;
 
 	float moveY = 0.0f;
-	float speed_ = 0.8f;
+	float speed_ = 0.0f;
+
+	float move = 0.15f;
+	float attack = 0.0f;
+
 
 	int collisionCreateTime = 42;	//UŒ‚¨”»’è‚Ü‚Å‚ÌŠÔ
 	int collisionTime = 3;		//”»’è‚Ì‘±ƒtƒŒ[ƒ€
@@ -133,7 +137,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		speed_ = 0.1f;
+		speed_ = move;
 		ChasePlayer(target_, speed_);
 
 		if (toPlayerdir < moveDistance)
@@ -145,7 +149,7 @@ void Enemy::Update()
 		break;
 
 	case ATTACK:
-		speed_ = 0.0f;
+		speed_ = attack;
 		ChasePlayer(target_, speed_);
 
 		if ((attackWaitTime - collisionCreateTime) == waitTime_) {

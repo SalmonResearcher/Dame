@@ -32,6 +32,10 @@ void ResultScene::Initialize()
 	hMoneySound_ = Audio::Load("SE/money.wav", false);
 	assert(hMoneySound_ >= 0);
 
+	hBGM_ = Audio::Load("SE/Result.wav", true);
+	assert(hBGM_ >= 0);
+	Audio::Play(hBGM_);
+
 	trPict_.position_ = XMFLOAT3(0, 0, 0);
 
 	pDisp_ = Instantiate<CharacterDisplay>(this);
@@ -103,24 +107,41 @@ void ResultScene::Update()
 
 
 		break;
+
 	case 240:
-		Audio::Play(hMoneySound_, false);
-
-		pDisp_->ScoreCountStart(3);
 		countStart[3] = true;
-
-
+		pDisp_->ScoreCountStart(3);
 		break;
+
 	default:
 		break;
 	}
 
 	if (!pDisp_->IsCountEnd(0) && countStart[0])
 	{
-		pitch += 0.01;
 		SoundPlay(hCountSound_, 5);
 	}
 
+	if (!pDisp_->IsCountEnd(1) && countStart[1])
+	{
+		SoundPlay(hCountSound_, 5);
+	}
+
+	if (!pDisp_->IsCountEnd(2) && countStart[2])
+	{
+		SoundPlay(hCountSound_, 5);
+	}
+
+	if (!pDisp_->IsCountEnd(3) && countStart[3])
+	{
+		SoundPlay(hCountSound_, 5);
+	}
+
+	if (pDisp_->IsCountEnd(3) && !countEnd)
+	{
+		Audio::Play(hMoneySound_);
+		countEnd = true;
+	}
 
 
 	showScoreTime++;
@@ -150,11 +171,9 @@ void ResultScene::Release()
 void ResultScene::SoundPlay(int  handle, int interval)
 {
 	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true ,pitch);
+		Audio::Play(handle, true);
 	}
-
 	soundtimer++;
-
 }
 
 void ResultScene::SoundStop(int handle)

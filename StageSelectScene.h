@@ -8,6 +8,8 @@ class StageSelectScene :
     public GameObject
 {
 private:
+	int hBGM_;
+
 	//ステージ選択するときのカウント
 	int selectCount = 0;
 

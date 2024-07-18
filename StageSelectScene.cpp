@@ -5,6 +5,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Debug.h"
 #include "Engine/Camera.h"
+#include "Engine/Audio.h"
 
 namespace {
 	enum
@@ -58,6 +59,12 @@ StageSelectScene::StageSelectScene(GameObject* parent)
 //初期化
 void StageSelectScene::Initialize()
 {
+	hBGM_ = Audio::Load("SE/SelectScene.wav", true);
+	assert(hBGM_ >= 0);
+	Audio::Play(hBGM_, false, 1.0f, 0.4f);
+
+
+
 	const char* modelName[] = { "MiniStage1.fbx","MiniStage2.fbx", "MiniStage3.fbx" };
 	for (int l = 0; l < MAX_STAGE; l++)
 	{
@@ -119,9 +126,10 @@ void StageSelectScene::Update()
 		if (Input::IsKeyDown(DIK_SPACE))
 		{
 			cameraPos.x = trStage[STAGE1].position_.x + 2; 
-			if (flg)
+			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
-				//シーン切り替え
+				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+				pSceneManager->ChangeScene(SCENE_ID_TEST);
 			}
 		}
 		break;
@@ -144,9 +152,10 @@ void StageSelectScene::Update()
 		if (Input::IsKeyDown(DIK_SPACE))
 		{
 			cameraPos.x = trStage[STAGE2].position_.x + 2;
-			if (flg)
+			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
-				//シーン切り替え
+				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+				pSceneManager->ChangeScene(SCENE_ID_TEST);
 			}
 		}
 		break;

@@ -12,6 +12,8 @@ private:
 	int hCountSound_;
 	int hMoneySound_;
 
+	int hBGM_;
+
 	CharacterDisplay* pDisp_;
 
 	int killCount_;
@@ -25,7 +27,7 @@ private:
 
 	bool countStart[4];
 
-	int pitch = 1;  
+	bool countEnd = false;
 public:
 
 	//コンストラクタ

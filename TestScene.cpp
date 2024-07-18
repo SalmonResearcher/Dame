@@ -12,8 +12,8 @@
 #include "EnemySpawn.h"
 
 #include "Engine/SceneManager.h"
-
 #include "Engine/Input.h"
+#include "Engine/Audio.h"
 
 namespace {
 	int timer = 0;
@@ -30,19 +30,25 @@ namespace {
 	Jewel* pJewel;
 	Enemy* pEnemy;
 	JewelBox* pBox;
-	CharacterDisplay* pDisplay;
+	CharacterDisplay* pDisplay_;
 	EnemySpawn* pEnemySpawn;
 }
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
-	: GameObject(parent, "TestScene")
+	: GameObject(parent, "TestScene"),hBGM_(-1),hScoreSound_(-1)
 {
 }
 
 //初期化
 void TestScene::Initialize()
 {
+	hBGM_ = Audio::Load("SE/PlayScene.wav", true);
+	assert(hBGM_ >= 0);
+	Audio::Play(hBGM_,false,1.0f,0.4f);
+
+	hScoreSound_ = Audio::Load("SE/CountUp.wav", false);
+	assert(hScoreSound_ >= 0);
 
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
@@ -51,20 +57,20 @@ void TestScene::Initialize()
 	pEnemySpawn = Instantiate<EnemySpawn>(this);
 
 
-	pDisplay = Instantiate<CharacterDisplay>(this);
+	pDisplay_ = Instantiate<CharacterDisplay>(this);
 
-	pDisplay->CreateJewels(1);
-	pDisplay->CreateScores(1);
-	pDisplay->CreateTimers(1);
+	pDisplay_->CreateJewels(1);
+	pDisplay_->CreateScores(1);
+	pDisplay_->CreateTimers(1);
 
-	pDisplay->SetJewelPosition(0, 45, 650);
-	pDisplay->SetScorePosition(0, 950, 45);
-	pDisplay->SetTimerPosition(0, 850, 45);
+	pDisplay_->SetJewelPosition(0, 45, 650);
+	pDisplay_->SetScorePosition(0, 950, 45);
+	pDisplay_->SetTimerPosition(0, 850, 45);
 
-	pDisplay->ScoreCountStart(0);
+	pDisplay_->ScoreCountStart(0);
 
-	pDisplay->SetTimerLimit(0, 500);
-	pDisplay->TimerStart(0);
+	pDisplay_->SetTimerLimit(0, 60);
+	pDisplay_->TimerStart(0);
 
 	pEnemySpawn->SetInterval(30);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
@@ -90,7 +96,7 @@ void TestScene::Update()
 		
 		
 		//タイマーが０なら
-		if (Input::IsKeyDown(DIK_C) || pDisplay->IsFinished(0)) {
+		if (Input::IsKeyDown(DIK_C) || pDisplay_->IsFinished(0)) {
 			pEnemySpawn->StopSpawn();
 
 			Global::AddJewel(jewel_);
@@ -99,15 +105,19 @@ void TestScene::Update()
 			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
 		}
-		pDisplay->CalcScoreValue(0);
+		pDisplay_->CalcScoreValue(0);
 		
 
+		if (!pDisplay_->IsCountEnd(0))
+		{
+			SoundPlay(hScoreSound_,5);
+		}
 }
 
 //描画
 void TestScene::Draw()
 {
-	pDisplay->Draw();
+	pDisplay_->Draw();
 
 }
 
@@ -130,7 +140,15 @@ void TestScene::Release()
 	if (pEnemySpawn) {
 		pEnemySpawn = nullptr;
 	}
-	if (pDisplay) {
-		pDisplay = nullptr;
+	if (pDisplay_) {
+		pDisplay_ = nullptr;
 	}
+}
+
+void TestScene::SoundPlay(int  handle, int interval)
+{
+	if (soundtimer % interval == 0) {
+		Audio::Play(handle, true);
+	}
+	soundtimer++;
 }

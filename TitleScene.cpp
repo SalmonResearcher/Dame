@@ -6,6 +6,7 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include "Engine/Debug.h"
+#include "Engine/Audio.h"
 
 namespace {
 	//Žü”g”
@@ -30,6 +31,11 @@ TitleScene::TitleScene(GameObject* parent)
 //‰Šú‰»
 void TitleScene::Initialize()
 {
+	hBGM_ = Audio::Load("SE/TitleScene.wav", true);
+	assert(hBGM_ >= 0);
+	Audio::Play(hBGM_, false, 1.0f, 0.4f);
+
+
 	const char* ImageName[] = { "Title_BG.png","Title_Slime.png", "Title_Ground.png","Title_human.png","Title_Logo.png"};
 	for (int l = 0; l < MAX_IMAGE; l++)
 	{
