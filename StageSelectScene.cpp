@@ -129,7 +129,7 @@ void StageSelectScene::Update()
 			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TEST);
+				pSceneManager->ChangeScene(SCENE_ID_TUTORIAL);
 			}
 		}
 		break;

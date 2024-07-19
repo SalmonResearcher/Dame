@@ -192,6 +192,12 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>ToyBox\Player\PlayerState</Filter>
     </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialStage.cpp">
+      <Filter>ToyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -334,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>ToyBox\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialStage.h">
+      <Filter>ToyBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

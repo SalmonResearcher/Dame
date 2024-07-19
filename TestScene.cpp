@@ -32,6 +32,9 @@ namespace {
 	JewelBox* pBox;
 	CharacterDisplay* pDisplay_;
 	EnemySpawn* pEnemySpawn;
+
+
+	float pitch = 1.0;
 }
 
 //コンストラクタ
@@ -111,7 +114,14 @@ void TestScene::Update()
 		if (!pDisplay_->IsCountEnd(0))
 		{
 			SoundPlay(hScoreSound_,5);
+			pitch += 0.01f;
 		}
+		if (pDisplay_->IsCountEnd(0))
+		{
+			pitch = 1.0f;
+		}
+
+
 }
 
 //描画
