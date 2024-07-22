@@ -3,6 +3,8 @@
 #include "Engine/SphereCollider.h"
 
 #include "Stage.h"
+#include "TutorialStage.h"
+
 #include "Player.h"
 #include "Enemy/Enemy.h"
 #include "JewelBox.h"
@@ -41,7 +43,7 @@ void JewelBullet::Initialize()
     hModel_ = Model::Load("JewelBullet.fbx");
     assert(hModel_ >= 0);
 
-    hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+    hStage_ = SetStageHandle();
 
 }
 
@@ -158,4 +160,17 @@ int JewelBullet::CalculateScore(int killCount)
 void JewelBullet::SetKillCount(int count)
 {
     killCount_ += count;
+}
+
+int JewelBullet::SetStageHandle()
+{
+    if ((FindObject("Stage")) != nullptr)
+    {
+        return ((Stage*)FindObject("Stage"))->GetModelHandle();
+    }
+    else if ((FindObject("TutorialStage")) != nullptr)
+    {
+        return ((TutorialStage*)FindObject("TutorialStage"))->GetModelHandle();
+    }
+    return -1;
 }

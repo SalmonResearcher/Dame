@@ -3,6 +3,7 @@
 #include "Engine/SphereCollider.h"
 
 #include "Stage.h"
+#include "TutorialStage.h"
 #include "Player.h"
 
 //Debug—p
@@ -38,7 +39,7 @@ void Jewel::Initialize()
     hModel_ = Model::Load("Jewel.fbx");
     assert(hModel_ >= 0);
 
-    hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+    hStage_ = SetStageHandle();
 
     RayCastData data;
     data.start = { transform_.position_ };   //ƒŒƒC‚Ì”­ŽËˆÊ’u
@@ -89,7 +90,15 @@ void Jewel::Release()
 {
 }
 
-void Jewel::Shoot() 
+int Jewel::SetStageHandle()
 {
-
+    if ((FindObject("Stage")) != nullptr)
+    {
+        return ((Stage*)FindObject("Stage"))->GetModelHandle();
+    }
+    else if ((FindObject("TutorialStage")) != nullptr)
+    {
+        return ((TutorialStage*)FindObject("TutorialStage"))->GetModelHandle();
+    }
+    return -1;
 }

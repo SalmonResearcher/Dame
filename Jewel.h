@@ -36,6 +36,5 @@ public:
         return x < 0.5 ? 4 * pow(x, 3) : 1 - pow(-2 * x + 2, 3) / 2;
     }
 
-    void Shoot();
-
+    int SetStageHandle();
 };

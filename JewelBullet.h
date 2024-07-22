@@ -69,4 +69,6 @@ public:
 
 
     void SetKillCount(int count);
+
+    int SetStageHandle();
 };

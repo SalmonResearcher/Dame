@@ -5,6 +5,7 @@
 
 #include "Player.h"
 #include "Stage.h"
+#include "TutorialStage.h"
 #include "JewelBullet.h"
 
 //コンストラクタ
@@ -23,7 +24,7 @@ JewelBox::~JewelBox()
 //初期化
 void JewelBox::Initialize()
 {
-    int hStage = ((Stage*)FindObject("Stage"))->GetModelHandle();
+    int hStage = SetStageHandle();
 
     hModel_ = Model::Load("Box.fbx");
     assert(hModel_ >= 0);
@@ -67,5 +68,16 @@ void JewelBox::OnCollision(GameObject* pTarget)
         }
 }
 
-
+int JewelBox::SetStageHandle()
+{
+    if ((FindObject("Stage")) != nullptr)
+    {
+        return ((Stage*)FindObject("Stage"))->GetModelHandle();
+    }
+    else if ((FindObject("TutorialStage")) != nullptr)
+    {
+        return ((TutorialStage*)FindObject("TutorialStage"))->GetModelHandle();
+    }
+    return -1;
+}
 

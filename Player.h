@@ -85,7 +85,7 @@ public:
 
     XMVECTOR GetKnockbackDirection();
 
-    int GetStageHandle() { return hStage_; }
+    int SetStageHandle();
 
     void RotatePlayer(XMVECTOR moveVector);
     void RotatePlayer();

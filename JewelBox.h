@@ -44,4 +44,5 @@ public:
 
     int ReturnJewel() { return jewel_; };
     int GetKillScore() { return score_; };
+    int SetStageHandle();
 };

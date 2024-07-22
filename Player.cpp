@@ -3,6 +3,7 @@
 #include "JewelBullet.h"
 #include "Enemy/Enemy.h"
 #include "Stage.h"
+#include "TutorialStage.h"
 #include "StateManager.h"
 #include "PlayerState.h"
 #include "PlayerCamera.h"
@@ -81,6 +82,8 @@ void Player::Initialize()
 
 	//初期状態
 	pStateManager_->ChangeState("IdleState");
+
+
 }
 
 Player::~Player()
@@ -93,11 +96,10 @@ void Player::Update()
 	//ランダム
 	jewelPitch = GenerateRandomFloat(min, max);
 
-	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
+	hStage_ = SetStageHandle();
 
 	// ステートマネージャーの更新
 	pStateManager_->Update();
-
 
 	RayCastData data;
 	data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
@@ -467,8 +469,22 @@ void Player::RotatePlayer()
 		XMConvertToRadians(transform_.rotate_.z));
 }
 
+//ランダムなFloatのmin～maxの値を算出
 float Player::GenerateRandomFloat(float min, float max) 
 {
 	float random = static_cast<float>(rand()) / RAND_MAX; // 0.0から1.0の範囲の乱数を生成
 	return min + random * (max - min); // minからmaxの範囲にスケーリング
+}
+
+int Player::SetStageHandle()
+{
+	if ((FindObject("Stage")) != nullptr)
+	{
+		return ((Stage*)FindObject("Stage"))->GetModelHandle();
+	}
+	else if ((FindObject("TutorialStage")) != nullptr)
+	{
+		return ((TutorialStage*)FindObject("TutorialStage"))->GetModelHandle();
+	}
+	return -1;
 }
