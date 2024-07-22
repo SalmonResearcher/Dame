@@ -23,7 +23,7 @@ TutorialStage::~TutorialStage()
 //‰Šú‰»
 void TutorialStage::Initialize()
 {
-    hModel_ = Model::Load("TutorialStage.fbx");
+    hModel_ = Model::Load("Tutorial.fbx");
     assert(hModel_ >= 0);
 
     hModel2_ = Model::Load("SkySphere.fbx");
