@@ -5,7 +5,6 @@
 #include "Stage.h"
 #include "Enemy/Enemy.h"
 #include "Jewel.h"
-#include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
 #include "JewelBullet.h"
 #include "CharacterDisplay.h"
@@ -47,7 +46,7 @@ TestScene::TestScene(GameObject * parent)
 //‰Šú‰»
 void TestScene::Initialize()
 {
-	hBGM_ = Audio::Load("SE/PlayScene.wav", true);
+	hBGM_ = Audio::Load("BGM/PlayScene.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_,false,1.0f,0.15f);
 

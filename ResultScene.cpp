@@ -32,9 +32,9 @@ void ResultScene::Initialize()
 	hMoneySound_ = Audio::Load("SE/money.wav", false);
 	assert(hMoneySound_ >= 0);
 
-	hBGM_ = Audio::Load("SE/Result.wav", true);
+	hBGM_ = Audio::Load("BGM/Result.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_);
+	Audio::Play(hBGM_,false,1.0f,0.4f);
 
 	trPict_.position_ = XMFLOAT3(0, 0, 0);
 
@@ -88,6 +88,8 @@ void ResultScene::Update()
 	switch (showScoreTime)
 	{
 	case 30:
+		Audio::Play(hCountSound_, false);
+
 		pDisp_->ScoreCountStart(0);
 		countStart[0] = true;
 		break;
@@ -109,6 +111,8 @@ void ResultScene::Update()
 		break;
 
 	case 240:
+		Audio::Play(hCountSound_, false);
+
 		countStart[3] = true;
 		pDisp_->ScoreCountStart(3);
 		break;
@@ -139,7 +143,7 @@ void ResultScene::Update()
 
 	if (pDisp_->IsCountEnd(3) && !countEnd)
 	{
-		Audio::Play(hMoneySound_);
+		Audio::Play(hMoneySound_,false,1.0f,0.2);
 		countEnd = true;
 	}
 
@@ -171,7 +175,7 @@ void ResultScene::Release()
 void ResultScene::SoundPlay(int  handle, int interval)
 {
 	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true);
+		Audio::Play(handle, true,1.0f,0.25);
 	}
 	soundtimer++;
 }

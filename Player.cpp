@@ -57,7 +57,7 @@ Player::Player(GameObject* parent)
 
 void Player::Initialize()
 {
-  	hModel_ = Model::Load("NewPlayer.fbx");
+  	hModel_ = Model::Load("Player.fbx");
 	assert(hModel_ >= 0);
 
 	hSound_ = Audio::Load("SE/SordBig.wav", false, 2);

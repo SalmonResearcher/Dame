@@ -59,7 +59,7 @@ StageSelectScene::StageSelectScene(GameObject* parent)
 //‰Šú‰»
 void StageSelectScene::Initialize()
 {
-	hBGM_ = Audio::Load("SE/SelectScene.wav", true);
+	hBGM_ = Audio::Load("BGM/SelectScene.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, 0.2f);
 
@@ -129,7 +129,7 @@ void StageSelectScene::Update()
 			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TEST);
+				pSceneManager->ChangeScene(SCENE_ID_PLAY);
 			}
 		}
 		break;
