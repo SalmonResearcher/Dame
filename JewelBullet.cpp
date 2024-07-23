@@ -70,11 +70,7 @@ void JewelBullet::Update()
         KillMe();
         killCount_ = 0;
     }
-    deleteTime_++;
-
-    Debug::Log("ïÛêŒÇ≈ìGÇì|ÇµÇΩêî = ");
-    Debug::Log(killCount_, true);
-    
+    deleteTime_++;    
 }
 
 //ï`âÊ
@@ -110,7 +106,7 @@ void JewelBullet::Shoot()
     bulletPos_.z += moveFloat.z * 0.8;
 
     transform_.position_ = bulletPos_;
-
+    transform_.position_.y = bulletPos_.y + 0.5f;
 }
 
 void JewelBullet::OnCollision(GameObject* pTarget)

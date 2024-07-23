@@ -36,7 +36,7 @@ void TitleScene::Initialize()
 	Audio::Play(hBGM_, false, 1.0f, 0.15f);
 
 
-	const char* ImageName[] = { "Title_BG.png","Title_Slime.png", "Title_Ground.png","Title_human.png","Title_Logo.png"};
+	const char* ImageName[] = { "Title_BG.png","Title_Slime.png", "Title_Ground.png","Title_human.png","Title_Logo.png","PressKey.png"};
 	for (int l = 0; l < MAX_IMAGE; l++)
 	{
 		//‰æ‘œ‚ð“Ç‚Ýo‚·

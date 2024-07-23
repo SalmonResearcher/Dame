@@ -15,6 +15,7 @@ private:
 		GROUND,
 		HUMAN,
 		LOGO,
+		PRESS,
 		MAX_IMAGE
 	};
 

@@ -7,6 +7,7 @@
 #include "Jewel.h"
 #include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
+#include "JewelBullet.h"
 #include "CharacterDisplay.h"
 
 #include "EnemySpawn.h"
@@ -23,7 +24,7 @@ namespace {
 	int killCount_;
 	int score_ = 0;
 
-	XMFLOAT3 spawnPoint(0.0f, 5.0f, -60.0f);
+	XMFLOAT3 spawnPoint(0.0f, 0.0f, -50.0f);
 
 	Player* pPlayer;
 	Stage* pStage;
@@ -32,7 +33,7 @@ namespace {
 	JewelBox* pBox;
 	CharacterDisplay* pDisplay_;
 	EnemySpawn* pEnemySpawn;
-
+	JewelBullet* pBullet;
 
 	float pitch = 1.0;
 }
@@ -58,7 +59,9 @@ void TestScene::Initialize()
 	pJewel = Instantiate<Jewel>(this);
 	pBox = Instantiate<JewelBox>(this);
 	pEnemySpawn = Instantiate<EnemySpawn>(this);
+	pBullet = Instantiate<JewelBullet>(this);
 
+	pBullet->BulletPosition(XMFLOAT3(500,0,0));
 
 	pDisplay_ = Instantiate<CharacterDisplay>(this);
 
@@ -77,9 +80,8 @@ void TestScene::Initialize()
 
 	pEnemySpawn->SetInterval(30);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
-	pEnemySpawn->SetRandomX(-60.0f, 70.0f);
+	pEnemySpawn->SetRandomX(-80.0f, 60.0f);
 	pEnemySpawn->StartSpawn();
-
 }
 
 //更新
@@ -134,25 +136,8 @@ void TestScene::Draw()
 //開放
 void TestScene::Release()
 {
-	// 各動的に割り当てられたオブジェクトを解放する
-	if (pPlayer) {
-		pPlayer = nullptr;
-	}
-	if (pStage) {
-		pStage = nullptr;
-	}
-	if (pJewel) {
-		pJewel = nullptr;
-	}
-	if (pBox) {
-		pBox = nullptr;
-	}
-	if (pEnemySpawn) {
-		pEnemySpawn = nullptr;
-	}
-	if (pDisplay_) {
-		pDisplay_ = nullptr;
-	}
+	// メモリリーク検出
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
 void TestScene::SoundPlay(int  handle, int interval)

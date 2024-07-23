@@ -129,7 +129,7 @@ void StageSelectScene::Update()
 			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TUTORIAL);
+				pSceneManager->ChangeScene(SCENE_ID_TEST);
 			}
 		}
 		break;
@@ -154,8 +154,7 @@ void StageSelectScene::Update()
 			cameraPos.x = trStage[STAGE2].position_.x + 2;
 			if (flg && Input::IsKeyDown(DIK_SPACE))
 			{
-				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TEST);
+
 			}
 		}
 		break;
@@ -182,8 +181,7 @@ void StageSelectScene::Update()
 
 		if (flg && Input::IsKeyDown(DIK_SPACE))
 		{
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_TEST);
+
 		}
 
 
@@ -234,6 +232,7 @@ void StageSelectScene::Draw()
 //ŠJ•ú
 void StageSelectScene::Release()
 {
+	
 }
 
 void StageSelectScene::StageScaling(Transform* stage_, bool big)

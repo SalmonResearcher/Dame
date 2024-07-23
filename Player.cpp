@@ -147,7 +147,10 @@ void Player::Update()
 		transform_.position_.y += moveY_;
 
 	}
-
+	else if (!data.hit)
+	{
+		AddGravity();
+	}
 	// ステージ外に落ちてしまった場合のリセット
 	if (transform_.position_.y <= -100)
 	{
@@ -206,8 +209,6 @@ else
 	//重さの最大
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
 
-	Debug::Log("速度＝");
-	Debug::Log(speed * dash * weight_, true);
 }
 
 void Player::Draw()
@@ -336,7 +337,7 @@ void Player::Attacking()
 		pAtk->AttackPosition(transform_.position_);
 
 		//なぜかここの数字を変更すると当たり判定の数が増える...謎。
-		pAtk->SetDeleteTime(3);
+		pAtk->SetDeleteTime(1);
 	}
 
 	// 攻撃カウントダウンが0以下なら攻撃終了

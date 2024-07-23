@@ -3,6 +3,7 @@
 #include "../Engine/SphereCollider.h"
 
 #include "../Player.h"
+#include "../Engine/VFX.h"
 
 class SphereCollider;
 
@@ -11,12 +12,6 @@ enum STATE {
     ATTACK,
     DEATH,
     MAX
-};
-
-struct {
-    int startFrame;
-    int endFrame;
-    float animeSpeed;
 };
 
 class Enemy : public GameObject
@@ -30,6 +25,9 @@ class Enemy : public GameObject
 
     int hStage_;    //ステージモデル
     int hPlayer_;   //プレイヤーのモデル番号
+
+    int hEmit_; //エフェクト番号
+    bool stopEmit_;
 
     int killed_by_Jewel;
 
@@ -50,6 +48,8 @@ class Enemy : public GameObject
     bool counted;
 
     float volume;
+
+    EmitterData vfx;
 
 public:
     //コンストラクタ
@@ -92,5 +92,11 @@ public:
 
     //Floatのランダムな値を生成します
     float GenerateRandomFloat(float min, float max);
+
+    //エフェクト
+    void CreateVFX(int num);
+
+    //エフェクトの消去
+    void DestroyVFX();
 
 };

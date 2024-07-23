@@ -135,6 +135,11 @@ void Enemy::Update()
 		transform_.position_.y = -data.dist;
 	}
 
+	else
+	{
+		KillMe();
+	}
+
 	switch (states)
 	{
 	case MOVE:
@@ -170,6 +175,7 @@ void Enemy::Update()
 		if (waitTime_ == 14)
 		{
 			Audio::Play(hDeathSound_,true,deathPitch,volume);
+			CreateVFX(3);
 		}
 
 		if (waitTime_ < 0)
@@ -212,10 +218,12 @@ void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack" && !isDead)
 	{
+		CreateVFX(0);
 		Death();
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted)
 	{
+		CreateVFX(1);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
 		counted = true;
@@ -302,4 +310,70 @@ float Enemy::GenerateRandomFloat(float min, float max)
 {
 	float random = static_cast<float>(rand()) / RAND_MAX; // 0.0から1.0の範囲の乱数を生成
 	return min + random * (max - min); // minからmaxの範囲にスケーリング
+}
+
+void Enemy::CreateVFX(int num)
+{
+	switch (num) {
+	case 0: 
+		vfx.textureFileName = "paticleAssets/flashA_W.png";
+		vfx.position = XMFLOAT3(transform_.position_.x, transform_.position_.y+0.7f, transform_.position_.z);
+		vfx.number = 1;
+		vfx.positionRnd = XMFLOAT3(0, 0, 0);
+		vfx.direction = XMFLOAT3(0, 0, 0);
+		vfx.directionRnd = XMFLOAT3(0, 0, 0);
+		vfx.size = XMFLOAT2(4, 4);
+		vfx.scale = XMFLOAT2(1.2, 1.2);
+		vfx.lifeTime = 5;
+		vfx.speed = 0;
+		vfx.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx.gravity = 0;
+		vfx.delay = 0;
+		hEmit_ = VFX::Start(vfx);
+		break;
+
+	case 1:
+		vfx.textureFileName = "paticleAssets/flashA_B.png";
+		vfx.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + 0.7f, transform_.position_.z);
+		vfx.number = 1;
+		vfx.positionRnd = XMFLOAT3(0, 0, 0);
+		vfx.direction = XMFLOAT3(0, 0, 0);
+		vfx.directionRnd = XMFLOAT3(0, 0, 0);
+		vfx.size = XMFLOAT2(4, 4);
+		vfx.scale = XMFLOAT2(1.2, 1.2);
+		vfx.lifeTime = 5;
+		vfx.speed = 0;
+		vfx.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx.gravity = 0;
+		vfx.delay = 0;
+		hEmit_ = VFX::Start(vfx);
+		break;
+
+	case 3:
+		vfx.textureFileName = "paticleAssets/star.png";
+		vfx.position = (transform_.position_);
+		vfx.number = 3;
+		vfx.positionRnd = XMFLOAT3(0.8, 0, 0.8);
+		vfx.direction = XMFLOAT3(0, 1, 0);
+		vfx.directionRnd = XMFLOAT3(15, 15, 15);
+		vfx.size = XMFLOAT2(1, 1);
+		vfx.scale = XMFLOAT2(0.99, 0.99);
+		vfx.lifeTime = 25;
+		vfx.speed = 0.4f;
+		vfx.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx.gravity = 0.02;
+		vfx.delay = 0;
+		hEmit_ = VFX::Start(vfx);
+		break;
+
+	default:
+			break;
+	}
+
+
+}
+
+void Enemy::DestroyVFX()
+{
+	stopEmit_ = true;
 }
