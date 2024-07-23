@@ -9,6 +9,7 @@
 #include "../EnemyAttack.h"
 #include "../EnemySpawn.h"
 #include "../Engine/Audio.h"
+#include "../Engine/VFX.h"
 
 #include <algorithm> // std::max‚ðŽg‚¤‚½‚ß‚É•K—v
 
@@ -282,8 +283,7 @@ void Enemy::ChangeAnime(STATE state)
 
 	case DEATH:
 		Model::SetAnimFrame(hModel_,anim3.startFrame,anim3.endFrame,anim3.speed);
-		Audio::Play(hHitSound_, true, hitPitch,volume);
-
+		Audio::Play(hHitSound_, true, hitPitch, volume);
 		break;
 
 	default:
@@ -294,7 +294,7 @@ void Enemy::ChangeAnime(STATE state)
 
 float Enemy::SoundDistance(float distance, float falloff)
 {
-	float volume = 1.0f - (distance - 5.0f) / falloff;
+	float volume = 0.18f - (distance - 5.0f) / falloff;
 	return max(0.0f, volume);
 }
 

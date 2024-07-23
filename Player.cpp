@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Attack.h"
+#include "Jewel.h"
 #include "JewelBullet.h"
 #include "Enemy/Enemy.h"
 #include "Stage.h"
@@ -335,7 +336,7 @@ void Player::Attacking()
 		pAtk->AttackPosition(transform_.position_);
 
 		//なぜかここの数字を変更すると当たり判定の数が増える...謎。
-		pAtk->SetDeleteTime(1);
+		pAtk->SetDeleteTime(3);
 	}
 
 	// 攻撃カウントダウンが0以下なら攻撃終了
@@ -365,8 +366,9 @@ void Player::OnCollision(GameObject* pTarget)
 
 	if (pTarget->GetObjectName() == "Jewel")
 	{
+		((Jewel*)FindObject("Jewel"))->DestroyVFX();
 		//ここでエフェクトも
-		Audio::Play(hGetSound_, true, jewelPitch, 1.0f);
+		Audio::Play(hGetSound_, true, jewelPitch, 0.5f);
 		pTarget->KillMe();
 		jewelCount_++;
 	}

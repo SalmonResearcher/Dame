@@ -1,5 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/VFX.h"
+
 class Jewel :
     public GameObject
 {
@@ -9,7 +11,9 @@ class Jewel :
     float rotY = 0.0f;
     bool jewelRotate_;
 
-
+    int hEmit_;//VFXの番号
+    bool stopEmit_;
+    EmitterData vfx;
 
 
 public:
@@ -36,5 +40,13 @@ public:
         return x < 0.5 ? 4 * pow(x, 3) : 1 - pow(-2 * x + 2, 3) / 2;
     }
 
+    //例キャスト用ステージ
     int SetStageHandle();
+
+    //何かに当たった
+    void OnCollision(GameObject* pTarget) override;
+
+    void CreateVFX();
+
+    void DestroyVFX();
 };

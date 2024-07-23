@@ -48,7 +48,7 @@ void TestScene::Initialize()
 {
 	hBGM_ = Audio::Load("SE/PlayScene.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_,false,1.0f,0.4f);
+	Audio::Play(hBGM_,false,1.0f,0.15f);
 
 	hScoreSound_ = Audio::Load("SE/CountUp.wav", false);
 	assert(hScoreSound_ >= 0);
@@ -158,7 +158,7 @@ void TestScene::Release()
 void TestScene::SoundPlay(int  handle, int interval)
 {
 	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true);
+		Audio::Play(handle, true,pitch,0.2);
 	}
 	soundtimer++;
 }

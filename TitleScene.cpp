@@ -33,7 +33,7 @@ void TitleScene::Initialize()
 {
 	hBGM_ = Audio::Load("SE/TitleScene.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_, false, 1.0f, 0.4f);
+	Audio::Play(hBGM_, false, 1.0f, 0.15f);
 
 
 	const char* ImageName[] = { "Title_BG.png","Title_Slime.png", "Title_Ground.png","Title_human.png","Title_Logo.png"};
