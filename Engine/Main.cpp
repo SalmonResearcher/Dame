@@ -4,7 +4,6 @@
 //
 
 
-
 #include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -28,6 +27,8 @@ const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 //プロトタイプ宣言
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+bool isFullscreen = true;
+WINDOWPLACEMENT wpPrev = { sizeof(wpPrev) };
 
 
 // エントリーポイント
@@ -69,7 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
 
-
+	
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -223,6 +224,34 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	return hWnd;
 }
 
+// フルスクリーンモードを切り替える関数
+void ToggleFullscreen(HWND hWnd)
+{
+	DWORD dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+	if (dwStyle & WS_OVERLAPPEDWINDOW)
+	{
+		MONITORINFO mi = { sizeof(mi) };
+		if (GetWindowPlacement(hWnd, &wpPrev) && GetMonitorInfo(MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY), &mi))
+		{
+			SetWindowLong(hWnd, GWL_STYLE, dwStyle & ~WS_OVERLAPPEDWINDOW);
+			SetWindowPos(hWnd, HWND_TOP,
+				mi.rcMonitor.left, mi.rcMonitor.top,
+				mi.rcMonitor.right - mi.rcMonitor.left,
+				mi.rcMonitor.bottom - mi.rcMonitor.top,
+				SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+			isFullscreen = true;
+		}
+	}
+	else
+	{
+		SetWindowLong(hWnd, GWL_STYLE, dwStyle | WS_OVERLAPPEDWINDOW);
+		SetWindowPlacement(hWnd, &wpPrev);
+		SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
+			SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+		isFullscreen = false;
+	}
+}
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -237,7 +266,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	//マウスが動いた
 	case WM_MOUSEMOVE:
 		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
-		return 0;
+		break;
+
+	case WM_KEYDOWN:
+		if (wParam == VK_F11) {
+			ToggleFullscreen(hWnd);
+		}
+		break;
+
+	case WM_MOVE:
+	case WM_SIZE:
+	case WM_ACTIVATE:
+		RECT rect;
+		GetClientRect(hWnd, &rect);
+		int centerX = (rect.right - rect.left) / 2;
+		int centerY = (rect.bottom - rect.top) / 2;
+		POINT center = { centerX, centerY };
+		ClientToScreen(hWnd, &center);
+		SetCursorPos(center.x, center.y);
+		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

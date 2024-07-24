@@ -11,7 +11,11 @@
 #include "Global.h"
 
 namespace {
+	int killScore = 25;
+	int baseJewelScore = 200;
 
+	int soundInterval = 5;
+	int soundVolume = 0.25;
 }
 
 //コンストラクタ
@@ -44,8 +48,8 @@ void ResultScene::Initialize()
 	jewel_ = Global::GetJewel();
 	jewelKill_ = Global::GetJewelKill();
 
-	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
-	totalScore_ = (killCount_ * 25)+(jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.01));
+	//合計スコア＝(倒した数*25) +（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
+	totalScore_ = (killCount_ * killScore)+(jewel_ * baseJewelScore) + jewelKill_ * (1 + (killCount_ * 0.01));
 
 
 	pDisp_->CreateScores(4);
@@ -123,27 +127,27 @@ void ResultScene::Update()
 
 	if (!pDisp_->IsCountEnd(0) && countStart[0])
 	{
-		SoundPlay(hCountSound_, 5);
+		SoundPlay(hCountSound_, soundInterval);
 	}
 
 	if (!pDisp_->IsCountEnd(1) && countStart[1])
 	{
-		SoundPlay(hCountSound_, 5);
+		SoundPlay(hCountSound_, soundInterval);
 	}
 
 	if (!pDisp_->IsCountEnd(2) && countStart[2])
 	{
-		SoundPlay(hCountSound_, 5);
+		SoundPlay(hCountSound_, soundInterval);
 	}
 
 	if (!pDisp_->IsCountEnd(3) && countStart[3])
 	{
-		SoundPlay(hCountSound_, 5);
+		SoundPlay(hCountSound_, soundInterval);
 	}
 
 	if (pDisp_->IsCountEnd(3) && !countEnd)
 	{
-		Audio::Play(hMoneySound_,false,1.0f,0.2);
+		Audio::Play(hMoneySound_,false,1.0f,soundVolume);
 		countEnd = true;
 	}
 
@@ -175,7 +179,7 @@ void ResultScene::Release()
 void ResultScene::SoundPlay(int  handle, int interval)
 {
 	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true,1.0f,0.25);
+		Audio::Play(handle, true,1.0f,soundVolume);
 	}
 	soundtimer++;
 }

@@ -12,8 +12,8 @@
 #include "EnemySpawn.h"
 
 #include "Engine/SceneManager.h"
-#include "Engine/Input.h"
 #include "Engine/Audio.h"
+
 
 namespace {
 	int timer = 0;
@@ -35,6 +35,9 @@ namespace {
 	JewelBullet* pBullet;
 
 	float pitch = 1.0;
+
+	int windowWidth = 1280;
+	int windowHeight = 720;
 }
 
 //コンストラクタ
@@ -81,6 +84,9 @@ void PlayScene::Initialize()
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
 	pEnemySpawn->SetRandomX(-80.0f, 60.0f);
 	pEnemySpawn->StartSpawn();
+
+	// マウスカーソルの非表示
+	ShowCursor(FALSE);
 }
 
 //更新
@@ -100,7 +106,7 @@ void PlayScene::Update()
 
 
 	//タイマーが０なら
-	if (Input::IsKeyDown(DIK_C) || pDisplay_->IsFinished(0)) {
+	if (pDisplay_->IsFinished(0)) {
 		pEnemySpawn->StopSpawn();
 
 		Global::AddJewel(jewel_);
@@ -123,6 +129,11 @@ void PlayScene::Update()
 	}
 
 
+	int centerX = windowWidth / 2;
+	int centerY = windowHeight / 2;
+
+
+
 }
 
 //描画
@@ -135,8 +146,6 @@ void PlayScene::Draw()
 //開放
 void PlayScene::Release()
 {
-	// メモリリーク検出
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
 void PlayScene::SoundPlay(int  handle, int interval)

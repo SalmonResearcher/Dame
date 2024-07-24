@@ -121,7 +121,7 @@ void Jewel::CreateVFX()
     vfx.directionRnd = XMFLOAT3(10, 10, 10);
     vfx.size = XMFLOAT2(1.5, 1.5);
     vfx.scale = XMFLOAT2(0.99, 0.99);
-    vfx.lifeTime = 140;
+    vfx.lifeTime = 35;
     vfx.speed = 0.05f;
     vfx.spin = XMFLOAT3(0, 0, 0.1f);
     vfx.gravity = 0;
