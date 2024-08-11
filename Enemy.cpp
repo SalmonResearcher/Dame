@@ -1,15 +1,14 @@
 #include "Enemy.h"
-#include "../Stage.h"
-#include "../Player.h"
-#include "../Jewel.h"
-#include "../JewelBullet.h"
-#include "../Engine/Input.h"
-#include "../Engine/Model.h"
-#include "../Engine/Debug.h"
-#include "../EnemyAttack.h"
-#include "../EnemySpawn.h"
-#include "../Engine/Audio.h"
-#include "../Engine/VFX.h"
+#include "Stage.h"
+#include "Player.h"
+#include "Jewel.h"
+#include "JewelBullet.h"
+#include "Engine/Model.h"
+#include "Engine/Debug.h"
+#include "EnemyAttack.h"
+#include "EnemySpawn.h"
+#include "Engine/Audio.h"
+#include "Engine/VFX.h"
 
 #include <algorithm> // std::maxを使うために必要
 
@@ -19,8 +18,8 @@ namespace
 	float ColliderScale = 1.25f;
 
 	XMFLOAT3 enemyScale = { 1.0f,1.0f,1.0f };
-	float attackDistance = 1.5f;
-	float moveDistance = 2.0f;
+	float attackDistance = 1.5f;	//この値未満まで近づくと攻撃に移行
+	float moveDistance = 2.0f;		//この値を超える距離まで遠ざかると移動
 
 	struct AnimFrame
 	{
@@ -35,8 +34,8 @@ namespace
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
 
-	float move = 0.15f;
-	float attack = 0.0f;
+	float moveSpeed = 0.15f;
+	float attackSpeed = 0.0f;
 
 
 	int collisionCreateTime = 42;	//攻撃→判定までの時間
@@ -49,11 +48,11 @@ namespace
 
 	EnemySpawn* pEnemySpawn;
 
-	float min = 0.8f;			//音のピッチ
-	float max = 1.2f;			//音のピッチ
+	float min = 0.8f;			//音の最低ピッチ
+	float max = 1.2f;			//音の最大ピッチ
 
-	float deathPitch;
-	float hitPitch;
+	float deathPitch;			//倒された音のピッチ
+	float hitPitch;				//攻撃を受けたときピッチ
 }
 
 //コンストラクタ
@@ -116,8 +115,9 @@ void Enemy::Update()
 	deathPitch = GenerateRandomFloat(min,max);
 	hitPitch = GenerateRandomFloat(min, max);
 
-	//追いかける＆攻撃するための
+	//追いかける＆攻撃するための関数
 	target_ = pPlayer->GetPlayerPosition();
+
 	//プレイヤーまでの距離
 	toPlayerdir = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 
@@ -128,7 +128,14 @@ void Enemy::Update()
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
-
+	if (toPlayerdir < moveDistance)
+	{
+		isNearPlayer_ = true;
+	}
+	else if(waitTime_ <= 0 && toPlayerdir >= attackDistance)
+	{
+		isNearPlayer_ = false;
+	}
 
 	if (data.hit)
 	{
@@ -143,7 +150,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		speed_ = move;
+		speed_ = moveSpeed;
 		ChasePlayer(target_, speed_);
 
 		if (toPlayerdir < moveDistance)
@@ -155,7 +162,7 @@ void Enemy::Update()
 		break;
 
 	case ATTACK:
-		speed_ = attack;
+		speed_ = attackSpeed;
 		ChasePlayer(target_, speed_);
 
 		if ((attackWaitTime - collisionCreateTime) == waitTime_) {

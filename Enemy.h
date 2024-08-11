@@ -1,9 +1,9 @@
 #pragma once
-#include "../Engine/GameObject.h"
-#include "../Engine/SphereCollider.h"
+#include "Engine/GameObject.h"
+#include "Engine/SphereCollider.h"
 
-#include "../Player.h"
-#include "../Engine/VFX.h"
+#include "Player.h"
+#include "Engine/VFX.h"
 
 class SphereCollider;
 
@@ -42,14 +42,15 @@ class Enemy : public GameObject
     float toPlayerdir;      //プレイヤーまでの直線距離
 
     int waitTime_ = 0;
-    int killcount;
 
-    bool isDead = false;
-    bool counted;
+    bool isDead = false;    //死んでいるかどうか
+    bool counted;           //倒されたカウントされたかどうか
 
     float volume;
 
     EmitterData vfx;
+
+    bool isNearPlayer_;//プレイヤーが近くにいるか
 
 public:
     //コンストラクタ
@@ -98,5 +99,8 @@ public:
 
     //エフェクトの消去
     void DestroyVFX();
+
+    bool GetEnemyDeath() { return isDead; };
+    bool IsNearPlayer() { return  isNearPlayer_; };
 
 };
