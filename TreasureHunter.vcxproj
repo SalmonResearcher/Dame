@@ -127,11 +127,11 @@
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="CharacterDisplay.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
     <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
-    <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\State\BossSpawn.cpp" />
     <ClCompile Include="Enemy\State\BossState.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
@@ -168,6 +168,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -180,11 +181,11 @@
   <ItemGroup>
     <ClInclude Include="Attack.h" />
     <ClInclude Include="CharacterDisplay.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
     <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
-    <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\State\BossSpawn.h" />
     <ClInclude Include="Enemy\State\BossState.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="StateManager.h" />

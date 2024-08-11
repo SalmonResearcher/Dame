@@ -4,7 +4,7 @@
 
 
 #include "Player.h"
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 
 namespace {
     float colliderScale = 3.5f;

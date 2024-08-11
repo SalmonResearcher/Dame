@@ -2,7 +2,7 @@
 #include "Attack.h"
 #include "Jewel.h"
 #include "JewelBullet.h"
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 #include "Stage.h"
 #include "TutorialStage.h"
 #include "StateManager.h"

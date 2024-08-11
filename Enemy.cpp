@@ -15,8 +15,8 @@
 
 namespace 
 {
-	XMFLOAT3 CollisionPosition = { 0.0f,0.0f,0.0f };
-	float CollisionScale = 1.25f;
+	XMFLOAT3 ColliderPosition = { 0.0f,0.0f,0.0f };
+	float ColliderScale = 1.25f;
 
 	XMFLOAT3 enemyScale = { 1.0f,1.0f,1.0f };
 	float attackDistance = 1.5f;
@@ -84,7 +84,7 @@ void Enemy::Initialize()
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
 	transform_.position_ = pEnemySpawn->GetSpawnPoint();
 
-	pSpher = new SphereCollider(XMFLOAT3(0,0,0), 1.25f);
+	pSpher = new SphereCollider(ColliderPosition, ColliderScale);
 	AddCollider(pSpher);
 
 

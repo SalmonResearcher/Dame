@@ -17,7 +17,7 @@ IdleState::IdleState(StateManager* manager): StateBase(manager),pPlayer_(nullptr
 //待機開始
 void IdleState::EnterState()
 {
-    Model::SetAnimFrame(pPlayer_->GetModelHandle(), idle.startframe, idle.endframe, idle.speed);// 待機animationのフレーム
+    Model::SetAnimFrame(pPlayer_->GetModelHandle(), idle.startframe, idle.endframe, idle.speed);// 待機アニメーションのフレーム
 }
 
 // 待機状態の更新処理

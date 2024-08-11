@@ -1,6 +1,6 @@
 #include "EnemySpawn.h"
 
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 
 //コンストラクタ
 EnemySpawn::EnemySpawn(GameObject* parent)

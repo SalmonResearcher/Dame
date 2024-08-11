@@ -4,7 +4,7 @@
 
 
 #include "Player.h"
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 
 namespace {
     //‚±‚ê‚ç‚ğƒƒ“ƒo•Ï”‚É‚¹‚¸‚ÉAPlayer‘¤‚ÅDeleteTime‚ğ‘å‚«‚È”‚É‚·‚é‚Æ–Ê”’‚­‚È‚é
