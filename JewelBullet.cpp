@@ -6,7 +6,7 @@
 #include "TutorialStage.h"
 
 #include "Player.h"
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 #include "JewelBox.h"
 
 //Debug—p
@@ -114,7 +114,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName() == "Enemy")
     {
         Enemy* pEnemy = (Enemy*)pTarget;
-        pEnemy->Death();
+        pEnemy->Dead();
     }
 
     if (pTarget->GetObjectName() == "JewelBox")

@@ -51,6 +51,7 @@ class Enemy : public GameObject
     EmitterData vfx;
 
     bool isNearPlayer_;//プレイヤーが近くにいるか
+    bool isAttackEnd_; //攻撃が終わったか
 
 public:
     //コンストラクタ
@@ -71,6 +72,14 @@ public:
     //開放
     void Release() override;
 
+    //State
+    void Walk();
+    void Attack();
+    void AttackCollision();
+    void Dead();
+
+
+
     void SetTargetPosition(XMFLOAT3 _target) { target_ = _target; };
 
     int GetModelHandle() { return hModel_; }
@@ -81,10 +90,7 @@ public:
 
     void ChasePlayer(XMFLOAT3& target_, float speed);
 
-    void Attack();
-
-    void Death();
-    void JewelDeath();
+    void JewelDeath();//宝石によってやられた
 
     void ChangeAnime(STATE state);
 
@@ -102,5 +108,6 @@ public:
 
     bool GetEnemyDeath() { return isDead; };
     bool IsNearPlayer() { return  isNearPlayer_; };
+    bool IsAttackEnd() { return isAttackEnd_; };
 
 };

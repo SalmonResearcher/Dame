@@ -54,3 +54,5 @@ void AttackState::ExitState()
 {
     // •K—v‚É‰‚¶‚ÄI—¹ˆ—
 }
+
+DeadState::DeadState(StateManager* manager) :StateBase(manager), dead{210,}

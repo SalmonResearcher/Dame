@@ -116,7 +116,7 @@ void Enemy::Update()
 	hitPitch = GenerateRandomFloat(min, max);
 
 	//í«Ç¢Ç©ÇØÇÈÅïçUåÇÇ∑ÇÈÇΩÇﬂÇÃä÷êî
-	target_ = pPlayer->GetPlayerPosition();
+	//target_ = pPlayer->GetPlayerPosition();
 
 	//ÉvÉåÉCÉÑÅ[Ç‹Ç≈ÇÃãóó£
 	toPlayerdir = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
@@ -150,7 +150,7 @@ void Enemy::Update()
 	switch (states)
 	{
 	case MOVE:
-		speed_ = moveSpeed;
+		/*speed_ = moveSpeed;
 		ChasePlayer(target_, speed_);
 
 		if (toPlayerdir < moveDistance)
@@ -158,10 +158,10 @@ void Enemy::Update()
 			waitTime_ = attackWaitTime;
 			states = ATTACK;
 		}
-
+		*/
 		break;
 
-	case ATTACK:
+	case ATTACK:/*
 		speed_ = attackSpeed;
 		ChasePlayer(target_, speed_);
 
@@ -175,7 +175,7 @@ void Enemy::Update()
 			states = MOVE;
 			waitTime_ = 0;
 		}
-		waitTime_--;
+		waitTime_--;*/
 		break;
 
 	case DEATH:
@@ -221,12 +221,67 @@ void Enemy::Release()
 {
 }
 
+void Enemy::Walk()
+{
+	//í«Ç¢Ç©ÇØÇÈÅïçUåÇÇ∑ÇÈÇΩÇﬂÇÃä÷êî
+	target_ = pPlayer->GetPlayerPosition();
+	speed_ = moveSpeed;
+	ChasePlayer(target_, speed_);
+}
+
+void Enemy::Attack() 
+{
+	speed_ = attackSpeed;
+	ChasePlayer(target_, speed_);
+
+	if ((attackWaitTime - collisionCreateTime) == waitTime_) {
+		AttackCollision();
+	}
+
+
+	if (waitTime_ <= 0)
+	{
+		waitTime_ = 0;
+		isAttackEnd_ = true;
+	}
+	waitTime_--;
+}
+
+void Enemy::Dead()
+{
+	waitTime_ = deathWaitTime;
+	isDead = true;
+
+	if (waitTime_ == 14)
+	{
+		Audio::Play(hDeathSound_, true, deathPitch, volume);
+		CreateVFX(3);
+	}
+
+	if (waitTime_ < 0)
+	{
+		((Player*)FindObject("Player"))->KillCountUp();
+		Jewel* pJewel = InstantiateFront<Jewel>(GetParent());
+		pJewel->SetPosition(transform_.position_);
+		KillMe();
+	}
+	waitTime_--;
+
+}
+
+void Enemy::AttackCollision() 
+{
+	EnemyAttack* pEAttack = Instantiate<EnemyAttack>(GetParent());
+	pEAttack->SetAttackPosition(transform_.position_);
+	pEAttack->SetTime(collisionTime);
+}
+
 void Enemy::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack" && !isDead)
 	{
 		CreateVFX(0);
-		Death();
+		Dead();
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted)
 	{
@@ -262,19 +317,9 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 }
 
 
-void Enemy::Attack() 
-{
-	EnemyAttack* pEAttack = Instantiate<EnemyAttack>(GetParent());
-	pEAttack->SetAttackPosition(transform_.position_);
-	pEAttack->SetTime(collisionTime);
-}
 
-void Enemy::Death()
-{
-	states = DEATH;
-	waitTime_ = deathWaitTime;
-	isDead = true;
-}
+
+
 
 void Enemy::JewelDeath()
 {

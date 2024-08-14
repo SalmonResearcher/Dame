@@ -28,3 +28,13 @@ public:
     void UpdateState() override;
     void ExitState() override;
 };
+
+class DeadState : public StateBase {
+    AnimFrame dead;
+    Enemy* pEnemy_;
+public:
+    DeadState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
+};
