@@ -9,6 +9,8 @@
 #include "EnemySpawn.h"
 #include "Engine/Audio.h"
 #include "Engine/VFX.h"
+#include "StateManager.h"
+#include "EnemyState.h"
 
 #include <algorithm> // std::maxを使うために必要
 
@@ -42,7 +44,9 @@ namespace
 	int collisionTime = 3;		//判定の持続フレーム
 
 	int attackWaitTime = 90;
-	int deathWaitTime = 60;
+	int deadWaitTime = 60;
+
+	int deathSoundTime = 14;
 
 	float falloff = 45.0f;		//音が最小になるまでの距離
 
@@ -57,7 +61,7 @@ namespace
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), pPlayer(nullptr), counted(false)
+	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), pPlayer_(nullptr), counted_(false)
 {
 }
 
@@ -83,13 +87,13 @@ void Enemy::Initialize()
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
 	transform_.position_ = pEnemySpawn->GetSpawnPoint();
 
-	pSpher = new SphereCollider(ColliderPosition, ColliderScale);
-	AddCollider(pSpher);
+	pSpher_ = new SphereCollider(ColliderPosition, ColliderScale);
+	AddCollider(pSpher_);
 
 
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
-	pPlayer = static_cast<Player*>(FindObject("Player"));
+	pPlayer_ = static_cast<Player*>(FindObject("Player"));
 	
 	{
 		anim1.startFrame = 0;
@@ -105,8 +109,17 @@ void Enemy::Initialize()
 		anim3.speed = 1;
 	}
 
-	states = MOVE;
-	ChangeAnime(states);
+	states_ = MOVE;
+	ChangeAnime(states_);
+
+	pStateManager_ = new StateManager(this);
+
+	pStateManager_->AddState("EnemyWalkState", new EnemyWalkState(pStateManager_));
+	pStateManager_->AddState("EnemyAttackState", new EnemyAttackState(pStateManager_));
+	pStateManager_->AddState("EnemyDeadState", new EnemyDeadState(pStateManager_));
+
+	//初期状態
+	pStateManager_->ChangeState("EnemyWalkState");
 }
 
 //更新
@@ -115,24 +128,29 @@ void Enemy::Update()
 	deathPitch = GenerateRandomFloat(min,max);
 	hitPitch = GenerateRandomFloat(min, max);
 
+
 	//追いかける＆攻撃するための関数
 	//target_ = pPlayer->GetPlayerPosition();
 
 	//プレイヤーまでの距離
-	toPlayerdir = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
+	toPlayerdir_ = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 
-	volume = SoundDistance(toPlayerdir, falloff);
+	volume_ = SoundDistance(toPlayerdir_, falloff);
+
+	// ステートマネージャーの更新
+	pStateManager_->Update();
+
 
 	RayCastData data;
 	data.start = { transform_.position_.x,0,transform_.position_.z };   //レイの発射位置
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
-	if (toPlayerdir < moveDistance)
+	if (toPlayerdir_ < moveDistance)
 	{
 		isNearPlayer_ = true;
 	}
-	else if(waitTime_ <= 0 && toPlayerdir >= attackDistance)
+	else if(waitTime_ <= 0 && toPlayerdir_ >= attackDistance)
 	{
 		isNearPlayer_ = false;
 	}
@@ -147,7 +165,7 @@ void Enemy::Update()
 		KillMe();
 	}
 
-	switch (states)
+	switch (states_)
 	{
 	case MOVE:
 		/*speed_ = moveSpeed;
@@ -178,7 +196,7 @@ void Enemy::Update()
 		waitTime_--;*/
 		break;
 
-	case DEATH:
+	case DEATH:/*
 		if (waitTime_ == 14)
 		{
 			Audio::Play(hDeathSound_,true,deathPitch,volume);
@@ -192,19 +210,19 @@ void Enemy::Update()
 			pJewel->SetPosition(transform_.position_);
 			KillMe();
 		}
-		waitTime_--;
+		waitTime_--;*/
 		break;
 
 	default:
-		states = DEATH;
+		states_ = DEATH;
 		break;
 
 	}
 
-	if (curState != states)
+	if (curState_ != states_)
 	{
-		ChangeAnime(states);
-		curState = states;
+		ChangeAnime(states_);
+		curState_ = states_;
 	}
 }
 
@@ -224,7 +242,7 @@ void Enemy::Release()
 void Enemy::Walk()
 {
 	//追いかける＆攻撃するための関数
-	target_ = pPlayer->GetPlayerPosition();
+	target_ = pPlayer_->GetPlayerPosition();
 	speed_ = moveSpeed;
 	ChasePlayer(target_, speed_);
 }
@@ -243,18 +261,17 @@ void Enemy::Attack()
 	{
 		waitTime_ = 0;
 		isAttackEnd_ = true;
+		pStateManager_->ChangeState("EnemyWalkState");
 	}
 	waitTime_--;
 }
 
 void Enemy::Dead()
 {
-	waitTime_ = deathWaitTime;
-	isDead = true;
 
-	if (waitTime_ == 14)
+	if (waitTime_ == deathSoundTime)
 	{
-		Audio::Play(hDeathSound_, true, deathPitch, volume);
+		Audio::Play(hDeathSound_, true, deathPitch, volume_);
 		CreateVFX(3);
 	}
 
@@ -278,17 +295,21 @@ void Enemy::AttackCollision()
 
 void Enemy::OnCollision(GameObject* pTarget)
 {
-	if (pTarget->GetObjectName() == "Attack" && !isDead)
+	if (pTarget->GetObjectName() == "Attack" && !isDead_)
 	{
+		Audio::Play(hHitSound_, true, hitPitch, volume_);
+
 		CreateVFX(0);
-		Dead();
+		isDead_ = true;
 	}
-	if (pTarget->GetObjectName() == "JewelBullet" && !counted)
+	if (pTarget->GetObjectName() == "JewelBullet" && !counted_)
 	{
+		Audio::Play(hHitSound_, true, hitPitch, volume_);
+
 		CreateVFX(1);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
-		counted = true;
+		counted_ = true;
 	}
 }
 
@@ -316,40 +337,36 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	transform_.rotate_.y = angle;
 }
 
-
-
-
-
-
 void Enemy::JewelDeath()
 {
-	states = DEATH;
-	waitTime_ = deathWaitTime;
-	isDead = true;
-
+	waitTime_ = deadWaitTime;
+	isDead_ = true;
+	Dead();
+	
 }
 
 void Enemy::ChangeAnime(STATE state)
 {
-	switch (state)
-	{
-	case MOVE:
-		Model::SetAnimFrame(hModel_,anim1.startFrame,anim1.endFrame,anim1.speed);
-		break;
+	/* {
+		switch (state)
+		{
+		case MOVE:
+			Model::SetAnimFrame(hModel_, anim1.startFrame, anim1.endFrame, anim1.speed);
+			break;
 
-	case ATTACK:
-		Model::SetAnimFrame(hModel_,anim2.startFrame,anim2.endFrame,anim2.speed);
-		break;
+		case ATTACK:
+			Model::SetAnimFrame(hModel_, anim2.startFrame, anim2.endFrame, anim2.speed);
+			break;
 
-	case DEATH:
-		Model::SetAnimFrame(hModel_,anim3.startFrame,anim3.endFrame,anim3.speed);
-		Audio::Play(hHitSound_, true, hitPitch, volume);
-		break;
+		case DEATH:
+			Model::SetAnimFrame(hModel_, anim3.startFrame, anim3.endFrame, anim3.speed);
+			break;
 
-	default:
-		states = DEATH;
-		break;
-	}
+		default:
+			states_ = DEATH;
+			break;
+		}
+	}*/
 }
 
 float Enemy::SoundDistance(float distance, float falloff)
@@ -368,54 +385,54 @@ void Enemy::CreateVFX(int num)
 {
 	switch (num) {
 	case 0: 
-		vfx.textureFileName = "paticleAssets/flashA_W.png";
-		vfx.position = XMFLOAT3(transform_.position_.x, transform_.position_.y+0.7f, transform_.position_.z);
-		vfx.number = 1;
-		vfx.positionRnd = XMFLOAT3(0, 0, 0);
-		vfx.direction = XMFLOAT3(0, 0, 0);
-		vfx.directionRnd = XMFLOAT3(0, 0, 0);
-		vfx.size = XMFLOAT2(4, 4);
-		vfx.scale = XMFLOAT2(1.2, 1.2);
-		vfx.lifeTime = 5;
-		vfx.speed = 0;
-		vfx.spin = XMFLOAT3(0, 0, 15.0f);
-		vfx.gravity = 0;
-		vfx.delay = 0;
-		hEmit_ = VFX::Start(vfx);
+		vfx_.textureFileName = "paticleAssets/flashA_W.png";
+		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y+0.7f, transform_.position_.z);
+		vfx_.number = 1;
+		vfx_.positionRnd = XMFLOAT3(0, 0, 0);
+		vfx_.direction = XMFLOAT3(0, 0, 0);
+		vfx_.directionRnd = XMFLOAT3(0, 0, 0);
+		vfx_.size = XMFLOAT2(4, 4);
+		vfx_.scale = XMFLOAT2(1.2, 1.2);
+		vfx_.lifeTime = 5;
+		vfx_.speed = 0;
+		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx_.gravity = 0;
+		vfx_.delay = 0;
+		hEmit_ = VFX::Start(vfx_);
 		break;
 
 	case 1:
-		vfx.textureFileName = "paticleAssets/flashA_B.png";
-		vfx.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + 0.7f, transform_.position_.z);
-		vfx.number = 1;
-		vfx.positionRnd = XMFLOAT3(0, 0, 0);
-		vfx.direction = XMFLOAT3(0, 0, 0);
-		vfx.directionRnd = XMFLOAT3(0, 0, 0);
-		vfx.size = XMFLOAT2(4, 4);
-		vfx.scale = XMFLOAT2(1.2, 1.2);
-		vfx.lifeTime = 5;
-		vfx.speed = 0;
-		vfx.spin = XMFLOAT3(0, 0, 15.0f);
-		vfx.gravity = 0;
-		vfx.delay = 0;
-		hEmit_ = VFX::Start(vfx);
+		vfx_.textureFileName = "paticleAssets/flashA_B.png";
+		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + 0.7f, transform_.position_.z);
+		vfx_.number = 1;
+		vfx_.positionRnd = XMFLOAT3(0, 0, 0);
+		vfx_.direction = XMFLOAT3(0, 0, 0);
+		vfx_.directionRnd = XMFLOAT3(0, 0, 0);
+		vfx_.size = XMFLOAT2(4, 4);
+		vfx_.scale = XMFLOAT2(1.2, 1.2);
+		vfx_.lifeTime = 5;
+		vfx_.speed = 0;
+		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx_.gravity = 0;
+		vfx_.delay = 0;
+		hEmit_ = VFX::Start(vfx_);
 		break;
 
 	case 3:
-		vfx.textureFileName = "paticleAssets/star.png";
-		vfx.position = (transform_.position_);
-		vfx.number = 3;
-		vfx.positionRnd = XMFLOAT3(0.8, 0, 0.8);
-		vfx.direction = XMFLOAT3(0, 1, 0);
-		vfx.directionRnd = XMFLOAT3(15, 15, 15);
-		vfx.size = XMFLOAT2(1, 1);
-		vfx.scale = XMFLOAT2(0.99, 0.99);
-		vfx.lifeTime = 25;
-		vfx.speed = 0.4f;
-		vfx.spin = XMFLOAT3(0, 0, 15.0f);
-		vfx.gravity = 0.02;
-		vfx.delay = 0;
-		hEmit_ = VFX::Start(vfx);
+		vfx_.textureFileName = "paticleAssets/star.png";
+		vfx_.position = (transform_.position_);
+		vfx_.number = 3;
+		vfx_.positionRnd = XMFLOAT3(0.8, 0, 0.8);
+		vfx_.direction = XMFLOAT3(0, 1, 0);
+		vfx_.directionRnd = XMFLOAT3(15, 15, 15);
+		vfx_.size = XMFLOAT2(1, 1);
+		vfx_.scale = XMFLOAT2(0.99, 0.99);
+		vfx_.lifeTime = 25;
+		vfx_.speed = 0.4f;
+		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx_.gravity = 0.02;
+		vfx_.delay = 0;
+		hEmit_ = VFX::Start(vfx_);
 		break;
 
 	default:
@@ -428,4 +445,14 @@ void Enemy::CreateVFX(int num)
 void Enemy::DestroyVFX()
 {
 	stopEmit_ = true;
+}
+
+void Enemy::SetAttackTime()
+{
+	waitTime_ = attackWaitTime;
+}
+
+void Enemy::SetDeadTime()
+{
+	waitTime_ = deadWaitTime;
 }

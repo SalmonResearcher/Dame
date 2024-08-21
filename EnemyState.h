@@ -2,6 +2,8 @@
 #include "Engine/GameObject.h"
 #include "StateBase.h"
 
+class Enemy;
+
 struct AnimFrame
 {
     int startframe;
@@ -9,31 +11,31 @@ struct AnimFrame
     int speed;
 };
     
-class WalkState : public StateBase {
+class EnemyWalkState : public StateBase {
     AnimFrame walk;
     Enemy* pEnemy_;
 public:
-    WalkState(StateManager* manager);
+    EnemyWalkState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;
 };
 
-class AttackState : public StateBase {
+class EnemyAttackState : public StateBase {
     AnimFrame attack;
     Enemy* pEnemy_;
 public:
-    AttackState(StateManager* manager);
+    EnemyAttackState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;
 };
 
-class DeadState : public StateBase {
+class EnemyDeadState : public StateBase {
     AnimFrame dead;
     Enemy* pEnemy_;
 public:
-    DeadState(StateManager* manager);
+    EnemyDeadState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;

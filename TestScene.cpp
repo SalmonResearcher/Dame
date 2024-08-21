@@ -3,9 +3,8 @@
 
 #include "Player.h"
 #include "Stage.h"
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 #include "Jewel.h"
-#include "Enemy/BossSlime/Boss_Fafrotskies.h"
 #include "JewelBox.h"
 #include "JewelBullet.h"
 #include "CharacterDisplay.h"
@@ -78,7 +77,7 @@ void TestScene::Initialize()
 	pDisplay_->SetTimerLimit(0, 60);
 	pDisplay_->TimerStart(0);
 
-	pEnemySpawn->SetInterval(30);
+	pEnemySpawn->SetInterval(999);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
 	pEnemySpawn->SetRandomX(-80.0f, 60.0f);
 	pEnemySpawn->StartSpawn();

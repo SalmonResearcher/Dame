@@ -2,57 +2,92 @@
 #include "Enemy.h"
 #include "StateManager.h"
 
+#include "Engine/Debug.h"
+
 
 // 歩き
-WalkState::WalkState(StateManager* manager) :StateBase(manager), pEnemy_(nullptr), walk{ 0,100,1 }
+EnemyWalkState::EnemyWalkState(StateManager* manager) :StateBase(manager), pEnemy_(nullptr), walk{ 0,100,1 }
 {
     pEnemy_ = static_cast<Enemy*>(pStateManager_->GetGameObject());
 }
 
-void WalkState::EnterState()
+void EnemyWalkState::EnterState()
 {
-    Model::SetAnimFrame(pEnemy_->GetModelHandle(), walk.startframe, walk.endframe, walk.speed); // 歩行アニメーションのフレーム設定
+    // 歩行アニメーションのフレーム設定
+    Model::SetAnimFrame(pEnemy_->GetModelHandle(), walk.startframe, walk.endframe, walk.speed); 
 }
 
-void WalkState::UpdateState()
+void EnemyWalkState::UpdateState()
 {
-
+    // 攻撃
+    if (pEnemy_->IsNearPlayer())
+    {
+        pStateManager_->ChangeState("EnemyAttackState");
+    }
     pEnemy_->Walk();
 
-    // 攻撃
-    if (pEnemy_->IsNearPlayer()) 
+    if (pEnemy_->GetEnemyDeath())
     {
-        pStateManager_->ChangeState("AttackState"); 
+        pStateManager_->ChangeState("EnemyDeadState");
     }
 }
 
-void WalkState::ExitState()
+void EnemyWalkState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
 // AttackState
-AttackState::AttackState(StateManager* manager) :StateBase(manager), attack{ 110,200,1 }
+EnemyAttackState::EnemyAttackState(StateManager* manager) :StateBase(manager), attack{ 110,200,1 }
 {
     pEnemy_ = static_cast<Enemy*>(pStateManager_->GetGameObject());
+    Debug::Log("AttackState", true);
+
 }
-void AttackState::EnterState()
+void EnemyAttackState::EnterState()
 {
     Model::SetAnimFrame(pEnemy_->GetModelHandle(), attack.startframe, attack.endframe, attack.speed); // 攻撃アニメーションのフレーム設定
+    pEnemy_->SetAttackTime();
 }
 
-void AttackState::UpdateState()
+void EnemyAttackState::UpdateState()
 {
     pEnemy_->Attack();
-    if (pEnemy_->IsNearPlayer() == false)
+
+    if (pEnemy_->IsAttackEnd())
     {
-        pStateManager_->ChangeState("WalkState");
+        pStateManager_->ChangeState("EnemyWalkState");
+    }
+    if (pEnemy_->GetEnemyDeath())
+    {
+        pStateManager_->ChangeState("EnemyDeadState");
     }
 }
 
-void AttackState::ExitState()
+void EnemyAttackState::ExitState()
 {
     // 必要に応じて終了処理
 }
 
-DeadState::DeadState(StateManager* manager) :StateBase(manager), dead{210,}
+//EnemyDeadState
+EnemyDeadState::EnemyDeadState(StateManager* manager) :StateBase(manager), dead{ 210,400,1 }
+{
+    pEnemy_ = static_cast<Enemy*>(pStateManager_->GetGameObject());
+    Debug::Log("DeadState", true);
+
+}
+
+void EnemyDeadState::EnterState()
+{
+    Model::SetAnimFrame(pEnemy_->GetModelHandle(), dead.startframe, dead.endframe, dead.speed);
+}
+
+void EnemyDeadState::UpdateState()
+{
+    pEnemy_->Dead();
+}
+
+void EnemyDeadState::ExitState()
+{
+
+}

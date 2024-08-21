@@ -5,7 +5,9 @@
 #include "Player.h"
 #include "Engine/VFX.h"
 
+
 class SphereCollider;
+class StateManager;
 
 enum STATE {
     MOVE,
@@ -16,8 +18,9 @@ enum STATE {
 
 class Enemy : public GameObject
 {
-    SphereCollider* pSpher;
-    Player* pPlayer;
+    SphereCollider* pSpher_;
+    Player* pPlayer_;
+    StateManager* pStateManager_;
 
     int hModel_;    //モデル番号
     int hDeathSound_;    //サウンド番号
@@ -29,26 +32,26 @@ class Enemy : public GameObject
     int hEmit_; //エフェクト番号
     bool stopEmit_;
 
-    int killed_by_Jewel;
+    int killedByJewel_;
 
-    STATE states;
-    int curState;   //1f前の状態
-    bool isChange;  //ステートを変更するかどうか（アニメーションの設定の際に使用）
+    STATE states_;
+    int curState_;   //1f前の状態
+    bool isChange_;  //ステートを変更するかどうか（アニメーションの設定の際に使用）
 
     XMVECTOR vPosition_;    //自身の位置ベクトル
     XMFLOAT3 target_;       //プレイヤーの位置
     XMVECTOR vTarget_;      //プレイヤーの位置ベクトル
     XMVECTOR direction_;    //プレイヤーと敵の方向ベクトル
-    float toPlayerdir;      //プレイヤーまでの直線距離
+    float toPlayerdir_;      //プレイヤーまでの直線距離
 
     int waitTime_ = 0;
 
-    bool isDead = false;    //死んでいるかどうか
-    bool counted;           //倒されたカウントされたかどうか
+    bool isDead_ = false;    //死んでいるかどうか
+    bool counted_;           //倒されたカウントされたかどうか
 
-    float volume;
+    float volume_;
 
-    EmitterData vfx;
+    EmitterData vfx_;
 
     bool isNearPlayer_;//プレイヤーが近くにいるか
     bool isAttackEnd_; //攻撃が終わったか
@@ -106,8 +109,9 @@ public:
     //エフェクトの消去
     void DestroyVFX();
 
-    bool GetEnemyDeath() { return isDead; };
+    bool GetEnemyDeath() { return isDead_; };
     bool IsNearPlayer() { return  isNearPlayer_; };
     bool IsAttackEnd() { return isAttackEnd_; };
-
+    void SetAttackTime();
+    void SetDeadTime();
 };

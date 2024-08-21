@@ -2,7 +2,7 @@
 #include "Engine/Debug.h"
 #include "Global.h"
 
-#include "Enemy/Enemy.h"
+#include "Enemy.h"
 #include "Player.h"
 #include "JewelBox.h"
 #include "JewelBullet.h"
