@@ -114,7 +114,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName() == "Enemy")
     {
         Enemy* pEnemy = (Enemy*)pTarget;
-        pEnemy->Dead();
+        pEnemy->JewelDeath();
     }
 
     if (pTarget->GetObjectName() == "JewelBox")

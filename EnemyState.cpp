@@ -19,13 +19,13 @@ void EnemyWalkState::EnterState()
 
 void EnemyWalkState::UpdateState()
 {
+
+    pEnemy_->Walk();
     // UŒ‚
     if (pEnemy_->IsNearPlayer())
     {
         pStateManager_->ChangeState("EnemyAttackState");
     }
-    pEnemy_->Walk();
-
     if (pEnemy_->GetEnemyDeath())
     {
         pStateManager_->ChangeState("EnemyDeadState");
@@ -52,12 +52,13 @@ void EnemyAttackState::EnterState()
 
 void EnemyAttackState::UpdateState()
 {
-    pEnemy_->Attack();
-
-    if (pEnemy_->IsAttackEnd())
+    if (pEnemy_->IsNearPlayer() == false)
     {
         pStateManager_->ChangeState("EnemyWalkState");
     }
+
+    pEnemy_->Attack();
+
     if (pEnemy_->GetEnemyDeath())
     {
         pStateManager_->ChangeState("EnemyDeadState");

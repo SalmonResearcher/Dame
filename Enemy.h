@@ -82,7 +82,6 @@ public:
     void Dead();
 
 
-
     void SetTargetPosition(XMFLOAT3 _target) { target_ = _target; };
 
     int GetModelHandle() { return hModel_; }
@@ -94,8 +93,6 @@ public:
     void ChasePlayer(XMFLOAT3& target_, float speed);
 
     void JewelDeath();//•óÎ‚É‚æ‚Á‚Ä‚â‚ç‚ê‚½
-
-    void ChangeAnime(STATE state);
 
     //‹——£‚É‰‚¶‚Ä‰¹—Ê‚ğ•Ï‚¦‚é
     float SoundDistance(float distance,float falloff);

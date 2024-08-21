@@ -23,15 +23,6 @@ namespace
 	float attackDistance = 1.5f;	//‚±‚Ì’l–¢–ž‚Ü‚Å‹ß‚Ã‚­‚ÆUŒ‚‚ÉˆÚs
 	float moveDistance = 2.0f;		//‚±‚Ì’l‚ð’´‚¦‚é‹——£‚Ü‚Å‰“‚´‚©‚é‚ÆˆÚ“®
 
-	struct AnimFrame
-	{
-		int startFrame;
-		int endFrame;
-		float speed;
-	};
-	AnimFrame anim1;
-	AnimFrame anim2;
-	AnimFrame anim3;
 
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
@@ -94,23 +85,6 @@ void Enemy::Initialize()
 	hStage_ = ((Stage*)FindObject("Stage"))->GetModelHandle();
 
 	pPlayer_ = static_cast<Player*>(FindObject("Player"));
-	
-	{
-		anim1.startFrame = 0;
-		anim1.endFrame = 100;
-		anim1.speed = 1;
-
-		anim2.startFrame = 110;
-		anim2.endFrame = 200;
-		anim2.speed = 1;
-
-		anim3.startFrame = 210;
-		anim3.endFrame = 400;
-		anim3.speed = 1;
-	}
-
-	states_ = MOVE;
-	ChangeAnime(states_);
 
 	pStateManager_ = new StateManager(this);
 
@@ -165,65 +139,6 @@ void Enemy::Update()
 		KillMe();
 	}
 
-	switch (states_)
-	{
-	case MOVE:
-		/*speed_ = moveSpeed;
-		ChasePlayer(target_, speed_);
-
-		if (toPlayerdir < moveDistance)
-		{
-			waitTime_ = attackWaitTime;
-			states = ATTACK;
-		}
-		*/
-		break;
-
-	case ATTACK:/*
-		speed_ = attackSpeed;
-		ChasePlayer(target_, speed_);
-
-		if ((attackWaitTime - collisionCreateTime) == waitTime_) {
-			Attack();
-		}
-
-
-		if (waitTime_ <= 0 && toPlayerdir >= attackDistance)
-		{
-			states = MOVE;
-			waitTime_ = 0;
-		}
-		waitTime_--;*/
-		break;
-
-	case DEATH:/*
-		if (waitTime_ == 14)
-		{
-			Audio::Play(hDeathSound_,true,deathPitch,volume);
-			CreateVFX(3);
-		}
-
-		if (waitTime_ < 0)
-		{
-			((Player*)FindObject("Player"))->KillCountUp();
-			Jewel* pJewel = InstantiateFront<Jewel>(GetParent());
-			pJewel->SetPosition(transform_.position_);
-			KillMe();
-		}
-		waitTime_--;*/
-		break;
-
-	default:
-		states_ = DEATH;
-		break;
-
-	}
-
-	if (curState_ != states_)
-	{
-		ChangeAnime(states_);
-		curState_ = states_;
-	}
 }
 
 //•`‰æ
@@ -341,33 +256,8 @@ void Enemy::JewelDeath()
 {
 	waitTime_ = deadWaitTime;
 	isDead_ = true;
-	Dead();
-	
 }
 
-void Enemy::ChangeAnime(STATE state)
-{
-	/* {
-		switch (state)
-		{
-		case MOVE:
-			Model::SetAnimFrame(hModel_, anim1.startFrame, anim1.endFrame, anim1.speed);
-			break;
-
-		case ATTACK:
-			Model::SetAnimFrame(hModel_, anim2.startFrame, anim2.endFrame, anim2.speed);
-			break;
-
-		case DEATH:
-			Model::SetAnimFrame(hModel_, anim3.startFrame, anim3.endFrame, anim3.speed);
-			break;
-
-		default:
-			states_ = DEATH;
-			break;
-		}
-	}*/
-}
 
 float Enemy::SoundDistance(float distance, float falloff)
 {
