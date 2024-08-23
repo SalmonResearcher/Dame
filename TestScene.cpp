@@ -77,7 +77,7 @@ void TestScene::Initialize()
 	pDisplay_->SetTimerLimit(0, 60);
 	pDisplay_->TimerStart(0);
 
-	pEnemySpawn->SetInterval(999);
+	pEnemySpawn->SetInterval(30);
 	pEnemySpawn->SetSpawnPoint(spawnPoint);
 	pEnemySpawn->SetRandomX(-80.0f, 60.0f);
 	pEnemySpawn->StartSpawn();

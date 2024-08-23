@@ -12,7 +12,7 @@
 #include "StateManager.h"
 #include "EnemyState.h"
 
-#include <algorithm> // std::maxを使うために必要
+#include <algorithm> // std::maxを使う
 
 namespace 
 {
@@ -27,7 +27,7 @@ namespace
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
 
-	float moveSpeed = 0.15f;
+	float moveSpeed = 0.12f;
 	float attackSpeed = 0.0f;
 
 
@@ -43,6 +43,8 @@ namespace
 
 	EnemySpawn* pEnemySpawn;
 
+	float soundVolume = 0.18f;	//最大音量
+	float maxSoundDistance = 5.0f;	//最大音量距離
 	float min = 0.8f;			//音の最低ピッチ
 	float max = 1.2f;			//音の最大ピッチ
 
@@ -177,6 +179,7 @@ void Enemy::Attack()
 		waitTime_ = 0;
 		isAttackEnd_ = true;
 		pStateManager_->ChangeState("EnemyWalkState");
+		return;
 	}
 	waitTime_--;
 }
@@ -187,7 +190,7 @@ void Enemy::Dead()
 	if (waitTime_ == deathSoundTime)
 	{
 		Audio::Play(hDeathSound_, true, deathPitch, volume_);
-		CreateVFX(3);
+		CreateVFX(DEATH);
 	}
 
 	if (waitTime_ < 0)
@@ -214,14 +217,14 @@ void Enemy::OnCollision(GameObject* pTarget)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
 
-		CreateVFX(0);
+		CreateVFX(HIT);
 		isDead_ = true;
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted_)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
 
-		CreateVFX(1);
+		CreateVFX(JEWEL);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
 		counted_ = true;
@@ -236,7 +239,6 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 	//ターゲットに向かって伸びているベクトル
 	direction_ = XMVectorSubtract(vTarget_, vPosition_);
-	//正規化
 	direction_ = XMVector3Normalize(direction_);
 
 	//direction_の方向にspeedぶん動く
@@ -244,7 +246,7 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 	XMStoreFloat3(&transform_.position_, newVecPos_);
 
 	// 敵からプレイヤーに向かう方向ベクトルから角度を求める
-	float angle = atan2(XMVectorGetX(direction_), XMVectorGetZ(direction_)); // atan2(z, x)を使用して角度を計算
+	float angle = atan2(XMVectorGetX(direction_), XMVectorGetZ(direction_)); 
 
 	// 角度を度数法に変換する（ラジアンから度に変換）
 	angle = XMConvertToDegrees(angle);
@@ -261,77 +263,78 @@ void Enemy::JewelDeath()
 
 float Enemy::SoundDistance(float distance, float falloff)
 {
-	float volume = 0.18f - (distance - 5.0f) / falloff;
+	float volume = soundVolume - (distance - maxSoundDistance) / falloff;
 	return max(0.0f, volume);
 }
 
 float Enemy::GenerateRandomFloat(float min, float max)
 {
-	float random = static_cast<float>(rand()) / RAND_MAX; // 0.0から1.0の範囲の乱数を生成
-	return min + random * (max - min); // minからmaxの範囲にスケーリング
+	// 0.0から1.0の範囲の乱数を生成
+	float random = static_cast<float>(rand()) / RAND_MAX; 
+
+	// minからmaxの範囲にスケーリング
+	return min + random * (max - min); 
 }
 
-void Enemy::CreateVFX(int num)
+void Enemy::CreateVFX(STATEVFX svfx) 
 {
-	switch (num) {
-	case 0: 
+	switch (svfx) 
+	{
+	case HIT:
 		vfx_.textureFileName = "paticleAssets/flashA_W.png";
-		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y+0.7f, transform_.position_.z);
+		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + HIT_EFFECT_OFFSET_Y, transform_.position_.z);
 		vfx_.number = 1;
 		vfx_.positionRnd = XMFLOAT3(0, 0, 0);
 		vfx_.direction = XMFLOAT3(0, 0, 0);
 		vfx_.directionRnd = XMFLOAT3(0, 0, 0);
-		vfx_.size = XMFLOAT2(4, 4);
-		vfx_.scale = XMFLOAT2(1.2, 1.2);
-		vfx_.lifeTime = 5;
+		vfx_.size = EFFECT_SIZE_LARGE;
+		vfx_.scale = EFFECT_SCALE_DEFAULT;
+		vfx_.lifeTime = LIFETIME_SHORT;
 		vfx_.speed = 0;
-		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx_.spin = EFFECT_SPIN;
 		vfx_.gravity = 0;
 		vfx_.delay = 0;
 		hEmit_ = VFX::Start(vfx_);
 		break;
 
-	case 1:
+	case JEWEL:
 		vfx_.textureFileName = "paticleAssets/flashA_B.png";
-		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + 0.7f, transform_.position_.z);
+		vfx_.position = XMFLOAT3(transform_.position_.x, transform_.position_.y + HIT_EFFECT_OFFSET_Y, transform_.position_.z);
 		vfx_.number = 1;
 		vfx_.positionRnd = XMFLOAT3(0, 0, 0);
 		vfx_.direction = XMFLOAT3(0, 0, 0);
 		vfx_.directionRnd = XMFLOAT3(0, 0, 0);
-		vfx_.size = XMFLOAT2(4, 4);
-		vfx_.scale = XMFLOAT2(1.2, 1.2);
-		vfx_.lifeTime = 5;
+		vfx_.size = EFFECT_SIZE_LARGE;
+		vfx_.scale = EFFECT_SCALE_DEFAULT;
+		vfx_.lifeTime = LIFETIME_SHORT;
 		vfx_.speed = 0;
-		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
+		vfx_.spin = EFFECT_SPIN;
 		vfx_.gravity = 0;
 		vfx_.delay = 0;
 		hEmit_ = VFX::Start(vfx_);
 		break;
 
-	case 3:
+	case DEATH:
 		vfx_.textureFileName = "paticleAssets/star.png";
-		vfx_.position = (transform_.position_);
+		vfx_.position = transform_.position_;
 		vfx_.number = 3;
-		vfx_.positionRnd = XMFLOAT3(0.8, 0, 0.8);
+		vfx_.positionRnd = POSITION_RND_DEATH;
 		vfx_.direction = XMFLOAT3(0, 1, 0);
-		vfx_.directionRnd = XMFLOAT3(15, 15, 15);
-		vfx_.size = XMFLOAT2(1, 1);
-		vfx_.scale = XMFLOAT2(0.99, 0.99);
-		vfx_.lifeTime = 25;
-		vfx_.speed = 0.4f;
-		vfx_.spin = XMFLOAT3(0, 0, 15.0f);
-		vfx_.gravity = 0.02;
+		vfx_.directionRnd = DIRECTION_RND_DEATH;
+		vfx_.size = EFFECT_SIZE_SMALL;
+		vfx_.scale = EFFECT_SCALE_SMALL;
+		vfx_.lifeTime = LIFETIME_LONG;
+		vfx_.speed = EFFECT_SPEED_DEATH;
+		vfx_.spin = EFFECT_SPIN;
+		vfx_.gravity = EFFECT_GRAVITY;
 		vfx_.delay = 0;
 		hEmit_ = VFX::Start(vfx_);
 		break;
 
 	default:
-			break;
+		break;
 	}
-
-
 }
-
 void Enemy::DestroyVFX()
 {
 	stopEmit_ = true;

@@ -44,6 +44,7 @@ namespace {
 	bool isKockBack = false;
 	float knock;
 
+	//音のピッチ
 	float min = 0.9f;
 	float max = 1.1f;
 }
@@ -273,8 +274,6 @@ XMVECTOR Player::CalcMovementInput()
 	// カメラのY軸回転行列を取得
 	XMMATRIX rotMatY = pCamera_->GetRotateY();
 
-
-
 	// 前後の移動
 	if (InputManager::IsMoveForward())
 	{
@@ -368,7 +367,6 @@ void Player::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Jewel")
 	{
 		((Jewel*)FindObject("Jewel"))->DestroyVFX();
-		//ここでエフェクトも
 		Audio::Play(hGetSound_, true, jewelPitch, 0.5f);
 		pTarget->KillMe();
 		jewelCount_++;

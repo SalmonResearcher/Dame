@@ -9,11 +9,10 @@
 class SphereCollider;
 class StateManager;
 
-enum STATE {
-    MOVE,
-    ATTACK,
-    DEATH,
-    MAX
+enum STATEVFX {
+    HIT,
+    JEWEL,
+    DEATH
 };
 
 class Enemy : public GameObject
@@ -24,19 +23,15 @@ class Enemy : public GameObject
 
     int hModel_;    //モデル番号
     int hDeathSound_;    //サウンド番号
-    int hHitSound_; //ヒット
+    int hHitSound_; //ヒットした時の音
 
     int hStage_;    //ステージモデル
     int hPlayer_;   //プレイヤーのモデル番号
 
-    int hEmit_; //エフェクト番号
-    bool stopEmit_;
+    int hEmit_;     //エフェクト番号
+    bool stopEmit_; //エフェクトを止める
 
     int killedByJewel_;
-
-    STATE states_;
-    int curState_;   //1f前の状態
-    bool isChange_;  //ステートを変更するかどうか（アニメーションの設定の際に使用）
 
     XMVECTOR vPosition_;    //自身の位置ベクトル
     XMFLOAT3 target_;       //プレイヤーの位置
@@ -46,16 +41,40 @@ class Enemy : public GameObject
 
     int waitTime_ = 0;
 
-    bool isDead_ = false;    //死んでいるかどうか
-    bool counted_;           //倒されたカウントされたかどうか
+    //死んでいるかどうか
+    bool isDead_ = false;
+
+    //倒されたカウントされたかどうか
+    bool counted_;           
 
     float volume_;
 
     EmitterData vfx_;
 
-    bool isNearPlayer_;//プレイヤーが近くにいるか
-    bool isAttackEnd_; //攻撃が終わったか
+    //プレイヤーが近くにいるか
+    bool isNearPlayer_;
 
+    //攻撃が終わったか
+    bool isAttackEnd_; 
+    
+    /*VFXの定数達*/
+    // 位置オフセットの定数
+    static constexpr float HIT_EFFECT_OFFSET_Y = 0.7f;
+    // エフェクトのサイズ
+    static constexpr XMFLOAT2 EFFECT_SIZE_LARGE = XMFLOAT2(4, 4);
+    static constexpr XMFLOAT2 EFFECT_SIZE_SMALL = XMFLOAT2(1, 1);
+    // エフェクトのスケール
+    static constexpr XMFLOAT2 EFFECT_SCALE_DEFAULT = XMFLOAT2(1.2, 1.2);
+    static constexpr XMFLOAT2 EFFECT_SCALE_SMALL = XMFLOAT2(0.99, 0.99);
+    // ライフタイム
+    static constexpr int LIFETIME_SHORT = 5;
+    static constexpr int LIFETIME_LONG = 25;
+    // その他の定数
+    static constexpr float EFFECT_SPEED_DEATH = 0.4f;
+    static constexpr float EFFECT_GRAVITY = 0.02f;
+    static constexpr XMFLOAT3 EFFECT_SPIN = XMFLOAT3(0, 0, 15.0f);
+    static constexpr XMFLOAT3 POSITION_RND_DEATH = XMFLOAT3(0.8f, 0, 0.8f);
+    static constexpr XMFLOAT3 DIRECTION_RND_DEATH = XMFLOAT3(15, 15, 15);
 public:
     //コンストラクタ
     Enemy(GameObject* parent);
@@ -101,7 +120,7 @@ public:
     float GenerateRandomFloat(float min, float max);
 
     //エフェクト
-    void CreateVFX(int num);
+    void CreateVFX(STATEVFX svfx);
 
     //エフェクトの消去
     void DestroyVFX();
