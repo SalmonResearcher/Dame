@@ -10,8 +10,10 @@ namespace {
 	int endAnimation = 60;
 	float animSpeed = 1.0f;
 
-	XMFLOAT3 colliderPosition = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 colliderPosition = { 0.0f,1.0f,0.0f };
 	float colliderScale = 1.25f;
+
+	XMFLOAT3 downLay(0, -1, 0);
 
 }
 
@@ -37,7 +39,8 @@ void SignBoard::Initialize()
     hModel_ = Model::Load("Sign.fbx");
     assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load();
+	hSound_ = Audio::Load("SE/SignAttack.wav");
+	assert(hModel_ >= 0);
 
     hStage_ = SetStageHandle();
 
@@ -49,7 +52,7 @@ void SignBoard::Update()
 {
 	RayCastData data;
 	data.start = { transform_.position_ };   //レイの発射位置
-	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
+	data.dir = downLay;       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
 	if (data.hit)
@@ -95,6 +98,7 @@ void SignBoard::OnCollision(GameObject* pTarget)
 	{
 		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
 		CreateVFX(HIT);
+		Audio::Play(hSound_);
 		animTime_ = endAnimation;
 	}    
 	
@@ -102,6 +106,7 @@ void SignBoard::OnCollision(GameObject* pTarget)
 	{
 		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
 		CreateVFX(JEWEL);
+		Audio::Play(hSound_);
 		animTime_ = endAnimation;
 	}
 

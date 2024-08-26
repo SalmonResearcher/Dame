@@ -44,4 +44,6 @@ public:
 
     //ƒJƒƒ‰‚Ì‰ñ“]s—ñ‚ğ•Ô‚µ‚Ü‚·
     XMFLOAT4X4 GetCameraRotateMatrix();
+
+    XMFLOAT3 GetCameraPosition() { return transform_.position_; };
 };

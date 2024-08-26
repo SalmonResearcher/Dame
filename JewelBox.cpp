@@ -35,23 +35,20 @@ void JewelBox::Initialize()
     Model::RayCast(hStage, &down); //レイを発射
 
 
-    trBox_.position_.y = -down.dist;
+    transform_.position_.y = -down.dist;
 }
 
 //更新
 void JewelBox::Update()
 {
-    transform_ = trBox_;
     jewel_ =  ((Player*)FindObject("Player"))->SendJewel();
 }
 
 //描画
 void JewelBox::Draw()
 {
-    Model::SetTransform(hModel_, trBox_);
+    Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
-
-    Model::SetAnimFrame(hModel_, anim_Start, anim_End, anim_Speed);
 }
 
 //開放
@@ -61,11 +58,6 @@ void JewelBox::Release()
 
 void JewelBox::OnCollision(GameObject* pTarget)
 {
-        if (pTarget->GetObjectName() == "Attack")
-        {
-            anim_Start = 0;
-            anim_End = 10;
-        }
 }
 
 int JewelBox::SetStageHandle()

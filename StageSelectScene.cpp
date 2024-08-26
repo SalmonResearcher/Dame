@@ -70,7 +70,6 @@ void StageSelectScene::Initialize()
 	{
 		num = std::to_string(l+1);
 
-		//Stage1AStage2AStage3‚ðŒÄ‚Ô
 		hStage_[l] = Model::Load(modelName[l]);
 		assert(hStage_[l] >= 0);
 

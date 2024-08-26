@@ -75,7 +75,6 @@ void Jewel::Update()
     }
 
     time_++;
-    transform_ = transform_;
 }
 
 //•`‰æ

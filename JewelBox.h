@@ -7,7 +7,6 @@ class Player;
 class JewelBox : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
-    Transform trBox_;
 
     int jewel_ = 0;
     int score_ = 0;
