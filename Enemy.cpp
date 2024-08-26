@@ -216,8 +216,8 @@ void Enemy::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Attack" && !isDead_)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
-
 		CreateVFX(HIT);
+		waitTime_ = deadWaitTime;
 		isDead_ = true;
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted_)
@@ -227,6 +227,7 @@ void Enemy::OnCollision(GameObject* pTarget)
 		CreateVFX(JEWEL);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
+		isDead_ = true;
 		counted_ = true;
 	}
 }
