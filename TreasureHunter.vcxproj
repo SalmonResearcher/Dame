@@ -169,6 +169,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="EnemyState.cpp" />
+    <ClCompile Include="Signboard.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="Signboard.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="StateManager.h" />

@@ -201,6 +201,7 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Signboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -353,6 +354,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Signboard.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

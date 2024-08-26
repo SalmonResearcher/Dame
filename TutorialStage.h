@@ -6,6 +6,7 @@ class TutorialStage : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     int hModel2_;
+
     Transform transSky_;
 
 

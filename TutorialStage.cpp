@@ -2,11 +2,14 @@
 #include "Engine/Model.h"
 
 #include "JewelBox.h"
+#include "Signboard.h"
 
 namespace
 {
     JewelBox* pJewelBox1_;
     JewelBox* pJewelBox2_;
+    SignBoard* pSign1_;
+    float signY_;
 }
 
 //コンストラクタ
@@ -31,15 +34,20 @@ void TutorialStage::Initialize()
 
     pJewelBox1_ = Instantiate<JewelBox>(this);
     pJewelBox2_ = Instantiate<JewelBox>(this);
+    pSign1_ = Instantiate<SignBoard>(this);
 
     pJewelBox1_->SetPosition(0, 0, 12);
     pJewelBox2_->SetPosition(-12, 0, 18);
 
+    signY_ = pSign1_->GetPosition().y;
 }
 
 //更新
 void TutorialStage::Update()
 {
+    pSign1_->SetPosition(0, signY_, 5);
+    pJewelBox1_->SetPosition(0, 0, 12);
+
     transSky_.rotate_.y += 0.02f;
     transSky_.scale_ = { 0.8,0.8,0.8 };
 }
