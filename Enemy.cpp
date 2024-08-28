@@ -11,6 +11,7 @@
 #include "Engine/VFX.h"
 #include "StateManager.h"
 #include "EnemyState.h"
+#include "Global.h"
 
 #include <algorithm> // std::maxを使う
 
@@ -43,7 +44,7 @@ namespace
 
 	EnemySpawn* pEnemySpawn;
 
-	float soundVolume = 0.18f;	//最大音量
+	float soundVolume = Global::SE_VOLUME;	//最大音量
 	float maxSoundDistance = 5.0f;	//最大音量距離
 	float min = 0.8f;			//音の最低ピッチ
 	float max = 1.2f;			//音の最大ピッチ

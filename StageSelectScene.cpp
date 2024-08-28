@@ -6,21 +6,18 @@
 #include "Engine/Debug.h"
 #include "Engine/Camera.h"
 #include "Engine/Audio.h"
+#include "Global.h"
 
 namespace {
 	enum
 	{
 		STAGE1,
 		STAGE2,
-		STAGE3,
 		MAX_STAGE
 	};
 
 	int hStage_[MAX_STAGE];
 	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
-
-	int hImage_[2];
-	Transform trImage_[2];
 
 	XMFLOAT3 cameraPos;
 	float moveX;
@@ -32,22 +29,20 @@ namespace {
 	std::string num;
 	std::string ext = ".fbx";
 
-	const XMFLOAT3 STAGE_SCALE = { 0.2f,0.2f,0.2f };
-	const XMFLOAT3 STAGE_BIG = { 0.4f,0.4f,0.4f };
+	//ステージの移動量
+	float moveStage = 0.25f;
 
 	//回転用の時間
 	float timer;
 
-	//縦揺れ時間
-	float yMoveTime;
+	//縦揺れ量
+	float yTime = 0.06f;
 
-	//ゆっくり上下
-	float sinwave;
 }
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
-	: GameObject(parent, "StageSelectScene")
+	: GameObject(parent, "StageSelectScene"),hBGM_(-1)
 {
 	//ステージプレビューモデル変数の初期化
 	for (int i = 0; i < MAX_STAGE; i++)
@@ -61,11 +56,11 @@ void StageSelectScene::Initialize()
 {
 	hBGM_ = Audio::Load("SE/SelectScene.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_, false, 1.0f, 0.2f);
+	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 
 
-
-	const char* modelName[] = { "MiniStage1.fbx","MiniStage2.fbx", "MiniStage3.fbx" };
+	/*
+	const char* modelName[] = { "MiniStage1.fbx" };
 	for (int l = 0; l < MAX_STAGE; l++)
 	{
 		num = std::to_string(l+1);
@@ -74,24 +69,17 @@ void StageSelectScene::Initialize()
 		assert(hStage_[l] >= 0);
 
 		trStage[l].scale_ = STAGE_SCALE;
-	}
+	}*/
+	hStage_[STAGE1] = Model::Load("TutorialChar.fbx");
+	hStage_[STAGE2] = Model::Load("MiniStage1.fbx");
 
-	//hSkysphere = Model::Load("SkySphere.fbx");
-	//assert(hSkysphere >= 0);
-	//const char* imageName[] = { "TextBox1","StageText1" };
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	hImage_[i] = Image::Load(imageName[i]);
-	//	trImage_[i].position_ = XMFLOAT3(0.5, 0, 0);
-	//	trImage_[i].scale_ = XMFLOAT3(1, 1, 1);
-	//}
 	trStage[STAGE1].position_ = { 0,0,0 };
 	trStage[STAGE2].position_ = { 8,0,0 };
-	trStage[STAGE3].position_ = { 16,0,0 };
 
+	trStage[STAGE1].scale_ = STAGE_SCALE;
+	trStage[STAGE2].scale_ = STAGE_SCALE;
 
-
-	cameraPos = {2,2,-5 };
+	cameraPos = {0,2,-5 };
 }
 
 //更新
@@ -100,108 +88,80 @@ void StageSelectScene::Update()
 	if (Input::IsKeyDown(DIK_A) && selectCount > 0)
 	{
 		selectCount--;
-		flg = false;
-		moveX = -0.25f;
+		isStageStop = false;
+		moveX = -moveStage;
 	}
 
 	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE - 1)
 	{
 		selectCount++;
-		flg = false;
-		moveX = 0.25f;
+		isStageStop = false;
+		moveX = moveStage;
 	}
 
-	switch (selectCount){
-	case 0:
+	switch (selectCount)
+	{
+	case STAGE1:
 		cameraPos.x += moveX;
-		if (cameraPos.x <= trStage[STAGE1].position_.x + 2){
+		if (cameraPos.x <= trStage[STAGE1].position_.x){
 			moveX = 0;
-			flg = true;
+			isStageStop = true;
 		}
 		StageScaling(&trStage[STAGE1], true);
 		StageScaling(&trStage[STAGE2], false);
-		StageScaling(&trStage[STAGE3], false);
 
 		if (Input::IsKeyDown(DIK_SPACE))
 		{
-			cameraPos.x = trStage[STAGE1].position_.x + 2; 
-			if (flg && Input::IsKeyDown(DIK_SPACE))
+			cameraPos.x = trStage[STAGE1].position_.x; 
+			if (isStageStop && Input::IsKeyDown(DIK_SPACE))
 			{
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TEST);
+				pSceneManager->ChangeScene(SCENE_ID_TUTORIAL);
 			}
 		}
 		break;
 
-	case 1:
-		if (cameraPos.x < trStage[STAGE2].position_.x+2 ||
-			cameraPos.x > trStage[STAGE2].position_.x+2)
+	case STAGE2:
+		if (cameraPos.x < trStage[STAGE2].position_.x ||
+			cameraPos.x > trStage[STAGE2].position_.x)
 		{
 			cameraPos.x += moveX;
 		}
 		else
 		{
-			moveX = 0.0f; flg = true;
+			moveX = 0.0f; 
+			isStageStop = true;
 		}
 
 		StageScaling(&trStage[STAGE1], false);
 		StageScaling(&trStage[STAGE2], true);
-		StageScaling(&trStage[STAGE3], false);
 
 		if (Input::IsKeyDown(DIK_SPACE))
 		{
-			cameraPos.x = trStage[STAGE2].position_.x + 2;
-			if (flg && Input::IsKeyDown(DIK_SPACE))
+			cameraPos.x = trStage[STAGE2].position_.x;
+			if (isStageStop && Input::IsKeyDown(DIK_SPACE))
 			{
+				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+				pSceneManager->ChangeScene(SCENE_ID_TEST);
 
 			}
 		}
-		break;
-
-	case 2:
-		if (cameraPos.x < trStage[STAGE3].position_.x+2 || cameraPos.x > trStage[STAGE3].position_.x+2)
-		{
-			cameraPos.x += moveX;
-			
-		}
-		else 
-		{
-			moveX = 0.0f; flg = true;
-		}
-
-		StageScaling(&trStage[STAGE1], false);
-		StageScaling(&trStage[STAGE2], false);
-		StageScaling(&trStage[STAGE3], true);
-
-		if (Input::IsKeyDown(DIK_SPACE))
-		{
-			cameraPos.x = trStage[STAGE3].position_.x + 2;
-		}
-
-		if (flg && Input::IsKeyDown(DIK_SPACE))
-		{
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_TUTORIAL);
-		}
-
-
 		break;
 	}
 
 	Camera::SetPosition(cameraPos);
 	Camera::SetTarget({ cameraPos.x,0,0 });
 
-	sinwave = sin(yMoveTime)/5;
+	sinwave = sin(yMoveTime)/WAVE_VELOCITY;
+	for (int l = STAGE1; l < MAX_STAGE; l++)
+	{
+		trStage[l].position_.y = sinwave;
 
-	trStage[STAGE1].position_.y = sinwave;
-	trStage[STAGE2].position_.y = sinwave;
-	trStage[STAGE3].position_.y = sinwave;
+		trStage[l].rotate_.y = timer / STAGE_ROTATE_SPEED;
+	}
 
-	trStage[STAGE1].rotate_.y = timer / 3;
-	trStage[STAGE2].rotate_.y = timer / 3;
-	trStage[STAGE3].rotate_.y = timer / 3;
 
-	yMoveTime += 0.06f;
+	yMoveTime += yTime;
 	timer++;
 }
 
@@ -246,18 +206,18 @@ void StageSelectScene::StageScaling(Transform* stage_, bool big, float rate)
 	{
 		if (stage_->scale_.x <= STAGE_BIG.x * rate)
 		{
-			stage_->scale_.x += 0.03f;
-			stage_->scale_.y += 0.03f;
-			stage_->scale_.z += 0.03f;
+			stage_->scale_.x += SCALE_UP_SPEED;
+			stage_->scale_.y += SCALE_UP_SPEED;
+			stage_->scale_.z += SCALE_UP_SPEED;
 		}
 	}
 	else
 	{
 		if (stage_->scale_.x >= STAGE_SCALE.x *rate)
 		{
-			stage_->scale_.x -= 0.05f;
-			stage_->scale_.y -= 0.05f;
-			stage_->scale_.z -= 0.05f;
+			stage_->scale_.x -= SCALE_UP_SPEED;
+			stage_->scale_.y -= SCALE_UP_SPEED;
+			stage_->scale_.z -= SCALE_UP_SPEED;
 		}
 	}
 }

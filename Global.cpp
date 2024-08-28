@@ -7,6 +7,9 @@ namespace Global
 
 	int score;
 
+	const float MUSIC_VOLUME = 0.08f;
+	const float SE_VOLUME = 0.1f;
+
 	void SetKillCount(int count) { killcount = count; }
 	void AddKillCount(int count) {killcount += count;}
 	int GetKillCount() { return killcount; }

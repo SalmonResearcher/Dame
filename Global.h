@@ -4,6 +4,8 @@ namespace Global
 	extern int killcount;
 	extern int jewel;
 	extern int jewelKill;
+	extern const float MUSIC_VOLUME;
+	extern const float SE_VOLUME;
 
 
 	void SetKillCount(int count);

@@ -48,7 +48,7 @@ void TestScene::Initialize()
 {
 	hBGM_ = Audio::Load("SE/PlayScene.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_,false,1.0f,0.15f);
+	Audio::Play(hBGM_,false,1.0f,Global::MUSIC_VOLUME);
 
 	hScoreSound_ = Audio::Load("SE/CountUp.wav", false);
 	assert(hScoreSound_ >= 0);

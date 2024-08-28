@@ -4,6 +4,7 @@
 #include "Engine/Audio.h"
 #include "TutorialStage.h"
 #include "Player.h"
+#include "Global.h"
 
 namespace {
 	int startAnimation = 0;
@@ -98,7 +99,7 @@ void SignBoard::OnCollision(GameObject* pTarget)
 	{
 		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
 		CreateVFX(HIT);
-		Audio::Play(hSound_);
+		Audio::Play(hSound_,true,1.0f,Global::SE_VOLUME);
 		animTime_ = endAnimation;
 	}    
 	

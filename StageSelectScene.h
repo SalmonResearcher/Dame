@@ -13,8 +13,23 @@ private:
 	//ステージ選択するときのカウント
 	int selectCount = 0;
 
-	bool flg = false;
+	//そのステージで止まったかどうか
+	bool isStageStop = false;
 
+	XMFLOAT3 cameraPos;
+
+	//縦揺れ時間
+	float yMoveTime;
+
+	//ゆっくり上下
+	float sinwave;
+
+	const float STAGE_ROTATE_SPEED = 3.0f;
+	const float WAVE_VELOCITY = 5.0f;
+	const float SCALE_UP_SPEED = 0.03f;
+	const float SCALE_DOWN_SPEED = 0.05f;
+	const XMFLOAT3 STAGE_SCALE = { 0.2f,0.2f,0.2f };
+	const XMFLOAT3 STAGE_BIG = { 0.4f,0.4f,0.4f };
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -35,6 +50,7 @@ public:
 	//プレビューのサイズを変更。trueで大きく、faseで小さくなる
 	void StageScaling(Transform* stage_, bool big);
 
+	//trueで拡大、それ以外で縮小する関数
 	void StageScaling(Transform* stage_, bool big , float rate);
 
 };

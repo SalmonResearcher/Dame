@@ -25,7 +25,7 @@ void Tutorial::Initialize()
 {
 	hBGM_ = Audio::Load("SE/Tutorial.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_, false, 1.0f, 0.4f);
+	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 
 	pPlayer_ = Instantiate<Player>(this);
 	pStage_ = Instantiate<TutorialStage>(this);

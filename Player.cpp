@@ -8,6 +8,7 @@
 #include "StateManager.h"
 #include "PlayerState.h"
 #include "PlayerCamera.h"
+#include "Global.h"
 #include <string>
 
 //エンジンの機能
@@ -312,7 +313,7 @@ void Player::Attacking()
 	{
 		attackCountDown = attackWaitTime;
 		attackEnd = false;
-		Audio::Play(hSound_,2.0f);
+		Audio::Play(hSound_,2.0f,Global::SE_VOLUME);
 	}
 	else
 	{
@@ -367,7 +368,7 @@ void Player::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Jewel")
 	{
 		((Jewel*)FindObject("Jewel"))->DestroyVFX();
-		Audio::Play(hGetSound_, true, jewelPitch, 0.5f);
+		Audio::Play(hGetSound_, true, jewelPitch, Global::SE_VOLUME);
 		pTarget->KillMe();
 		jewelCount_++;
 	}
