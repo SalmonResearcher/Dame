@@ -313,7 +313,7 @@ void Player::Attacking()
 	{
 		attackCountDown = attackWaitTime;
 		attackEnd = false;
-		Audio::Play(hSound_,2.0f,Global::SE_VOLUME);
+		Audio::Play(hSound_,true,2.0f,Global::SE_VOLUME);
 	}
 	else
 	{

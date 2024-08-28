@@ -107,7 +107,7 @@ void SignBoard::OnCollision(GameObject* pTarget)
 	{
 		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
 		CreateVFX(JEWEL);
-		Audio::Play(hSound_);
+		Audio::Play(hSound_, true, 1.0f, Global::SE_VOLUME);
 		animTime_ = endAnimation;
 	}
 

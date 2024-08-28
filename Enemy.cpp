@@ -40,12 +40,12 @@ namespace
 
 	int deathSoundTime = 14;
 
-	float falloff = 45.0f;		//音が最小になるまでの距離
+	float falloff = 100.0f;		//音が最小になるまでの距離
 
 	EnemySpawn* pEnemySpawn;
 
 	float soundVolume = Global::SE_VOLUME;	//最大音量
-	float maxSoundDistance = 5.0f;	//最大音量距離
+	float maxSoundDistance = 10.0f;	//最大音量距離
 	float min = 0.8f;			//音の最低ピッチ
 	float max = 1.2f;			//音の最大ピッチ
 
@@ -265,7 +265,7 @@ void Enemy::JewelDeath()
 
 float Enemy::SoundDistance(float distance, float falloff)
 {
-	float volume = soundVolume - (distance - maxSoundDistance) / falloff;
+	float volume = soundVolume - ((distance - maxSoundDistance) / falloff);
 	return max(0.0f, volume);
 }
 

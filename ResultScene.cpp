@@ -119,7 +119,7 @@ void ResultScene::Update()
 
 	if (!pDisp_->IsCountEnd(0) && countStart[0])
 	{
-		SoundPlay(hCountS6ound_, 5);
+		SoundPlay(hCountSound_, 5);
 	}
 
 	if (!pDisp_->IsCountEnd(1) && countStart[1])
