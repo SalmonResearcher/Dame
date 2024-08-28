@@ -86,14 +86,7 @@ void TestScene::Initialize()
 //XV
 void TestScene::Update()
 {
-		if (Input::IsKeyDown(DIK_P))
-		{
-			pEnemy = InstantiateFront<Enemy>(this);
-		}
-
 		count++;
-
-
 
 		jewel_ = pBox->ReturnJewel();
 		killCount_ = pPlayer->GetKillCount();

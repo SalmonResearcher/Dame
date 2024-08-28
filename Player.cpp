@@ -66,6 +66,7 @@ void Player::Initialize()
 
 	hGetSound_ = Audio::Load("SE/GetJewel.wav", false, 1);
 
+
 	// ステートマネージャー
 	pStateManager_ = new StateManager(this);
 
@@ -154,7 +155,7 @@ void Player::Update()
 		AddGravity();
 	}
 	// ステージ外に落ちてしまった場合のリセット
-	if (transform_.position_.y <= -100)
+	if (transform_.position_.y <= -90)
 	{
 		transform_.position_ = { 0, -data.dist, 0 };
 		moveY_ = 0;
@@ -210,6 +211,12 @@ else
 
 	//重さの最大
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
+
+	//宝石が-1になった時には０に戻す
+	if (jewelCount_ < 0)
+	{
+		jewelCount_ = 0;
+	}
 
 }
 
