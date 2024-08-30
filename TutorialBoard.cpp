@@ -77,4 +77,5 @@ void TutorialBoard::Draw()
 //ŠJ•ú
 void TutorialBoard::Release()
 {
+	bMove = 0;
 }

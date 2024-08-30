@@ -1,6 +1,7 @@
 #include "TutorialStage.h"
 #include "TutorialBoard.h"
 #include "Engine/Model.h"
+#include "Engine/SceneManager.h"
 
 #include "Player.h"
 #include "CharacterDisplay.h"
@@ -19,10 +20,6 @@ namespace
     TutorialBoard* pBoard_;
     Player* pPlayer_;
     CharacterDisplay* pDisplay_;
-
-    float signY_;
-    float jewelY_;
-    bool spawned_ = false;
 }
 
 //コンストラクタ
@@ -78,6 +75,7 @@ void TutorialStage::Initialize()
     pSign3_->SetRotate(0, 180, 0);
     pSign4_->SetRotate(0, 180, 0);
 
+
     pPlayer_ = static_cast<Player*>(FindObject("Player"));
 
 }
@@ -101,8 +99,16 @@ void TutorialStage::Update()
     pSign3_->SetPosition(0, signY_, 35);
     pSign4_->SetPosition(0, signY_, 45);
 
+
     transSky_.rotate_.y += 0.02f;
     transSky_.scale_ = { 0.8,0.8,0.8 };
+
+
+    if (pPlayer_->GetPlayerPosition().z >= 65)
+    {
+        SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+        pSceneManager->ChangeScene(SCENE_ID_SELECT);
+    }
 }
 
 //描画

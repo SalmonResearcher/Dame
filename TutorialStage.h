@@ -10,6 +10,11 @@ class TutorialStage : public GameObject
     Transform transSky_;
 
 
+    float signY_;
+    float jewelY_;
+    bool spawned_ = false;
+
+
 public:
     //コンストラクタ
     TutorialStage(GameObject* parent);

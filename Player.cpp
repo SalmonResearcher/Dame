@@ -97,7 +97,18 @@ Player::~Player()
 
 void Player::Update()
 {
-	//ƒ‰ƒ“ƒ_ƒ€
+	Debug::Log("PlayerPosition = (");
+
+	Debug::Log(transform_.position_.x);
+	Debug::Log(", ");
+
+	Debug::Log(transform_.position_.y);
+	Debug::Log(", ");
+
+	Debug::Log(transform_.position_.z);
+	Debug::Log(")", true);
+
+		//ƒ‰ƒ“ƒ_ƒ€
 	jewelPitch = GenerateRandomFloat(min, max);
 
 	hStage_ = SetStageHandle();
@@ -211,12 +222,6 @@ else
 
 	//d‚³‚ÌÅ‘å
 	weight_ = 1 - min(0.99, jewelCount_ * JEWEL_WEIGHT);
-
-	//•óÎ‚ª-1‚É‚È‚Á‚½‚É‚Í‚O‚É–ß‚·
-	if (jewelCount_ < 0)
-	{
-		jewelCount_ = 0;
-	}
 
 }
 
