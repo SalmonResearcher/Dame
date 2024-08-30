@@ -8,6 +8,7 @@
 #include "JewelBox.h"
 #include "Jewel.h"
 #include "Signboard.h"
+#include "JewelBullet.h"
 
 namespace
 {
@@ -20,6 +21,7 @@ namespace
     TutorialBoard* pBoard_;
     Player* pPlayer_;
     CharacterDisplay* pDisplay_;
+    JewelBullet* pBullet_;
 }
 
 //コンストラクタ
@@ -43,6 +45,9 @@ void TutorialStage::Initialize()
     assert(hModel2_ >= 0);
 
     pJewelBox_ = Instantiate<JewelBox>(this);
+
+    pBullet_ = Instantiate<JewelBullet>(this);
+    pBullet_->BulletPosition(XMFLOAT3(500, 0, 0));
 
     pJewel_ = Instantiate<Jewel>(this);
 
@@ -105,6 +110,12 @@ void TutorialStage::Update()
 
 
     if (pPlayer_->GetPlayerPosition().z >= 65)
+    {
+        SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+        pSceneManager->ChangeScene(SCENE_ID_SELECT);
+    }
+
+    if (pPlayer_->GetPlayerPosition().y <= -15)
     {
         SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
         pSceneManager->ChangeScene(SCENE_ID_SELECT);

@@ -14,6 +14,8 @@ private:
 
 	int hBGM_;
 
+	float pitch_;
+
 	CharacterDisplay* pDisp_;
 
 	int killCount_;

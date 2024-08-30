@@ -17,6 +17,8 @@
 
 namespace 
 {
+	const int BASE_KILL_SCORE = 25;
+
 	XMFLOAT3 ColliderPosition = { 0.0f,0.0f,0.0f };
 	float ColliderScale = 1.25f;
 
@@ -97,6 +99,8 @@ void Enemy::Initialize()
 
 	//‰Šúó‘Ô
 	pStateManager_->ChangeState("EnemyWalkState");
+
+	Global::SetKillScore(BASE_KILL_SCORE);
 }
 
 //XV

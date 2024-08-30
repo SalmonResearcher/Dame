@@ -13,11 +13,13 @@
 namespace {
 	int baseJewelScore;
 	int baseKillScore;
+
+	const int MAX_SCORE = 999999;
 }
 
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
-	: GameObject(parent, "Title"), hImage_(0)
+	: GameObject(parent, "Title"), hImage_(0),pitch_(1.0)
 {
 }
 
@@ -44,6 +46,11 @@ void ResultScene::Initialize()
 	killCount_ = Global::GetKillCount();
 	jewel_ = Global::GetJewel();
 	jewelKill_ = Global::GetJewelKill();
+
+	if (killCount_ >= MAX_SCORE)
+	{
+		killCount_ = MAX_SCORE;
+	}
 
 	baseJewelScore = Global::GetJewelScore();
 	baseKillScore = Global::GetKillScore();
@@ -124,21 +131,41 @@ void ResultScene::Update()
 	if (!pDisp_->IsCountEnd(0) && countStart[0])
 	{
 		SoundPlay(hCountSound_, 5);
+		pitch_ += 0.01f;
+		if (pDisp_->IsCountEnd(0))
+		{
+			pitch_ = 1.0f;
+		}
 	}
 
 	if (!pDisp_->IsCountEnd(1) && countStart[1])
 	{
 		SoundPlay(hCountSound_, 5);
+		pitch_ += 0.01f;
+		if (pDisp_->IsCountEnd(1))
+		{
+			pitch_ = 1.0f;
+		}
 	}
 
 	if (!pDisp_->IsCountEnd(2) && countStart[2])
 	{
 		SoundPlay(hCountSound_, 5);
+		pitch_ += 0.01f;
+		if (pDisp_->IsCountEnd(2))
+		{
+			pitch_ = 1.0f;
+		}
 	}
 
 	if (!pDisp_->IsCountEnd(3) && countStart[3])
 	{
 		SoundPlay(hCountSound_, 5);
+		pitch_ += 0.01f;
+		if (pDisp_->IsCountEnd(3))
+		{
+			pitch_ = 1.0f;
+		}
 	}
 
 	if (pDisp_->IsCountEnd(3) && !countEnd)
@@ -175,7 +202,7 @@ void ResultScene::Release()
 void ResultScene::SoundPlay(int  handle, int interval)
 {
 	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true,1.0f,Global::SE_VOLUME);
+		Audio::Play(handle, true,pitch_,Global::SE_VOLUME);
 	}
 	soundtimer++;
 }

@@ -15,9 +15,9 @@
 
 namespace
 {
-    int baseJewelScore = Global::GetJewelScore();
-    int baseKillScore = Global::GetKillScore();
-
+    int baseJewelScore;
+    int baseKillScore;
+    const int MAX_SCORE = 999999;
 }
 //コンストラクタ
 Score::Score(GameObject* parent)
@@ -36,6 +36,9 @@ void Score::Initialize()
 //更新
 void Score::Update()
 {
+    baseJewelScore = Global::GetJewelScore();
+    baseKillScore = Global::GetKillScore();
+
     // 表示スコアup_を徐々にscore_に近づける
     if (curScore_ != score_) {
         int difference = score_ - up_;
@@ -88,6 +91,13 @@ void Score::ScoreCaluc()
         bulletScore_ = ((JewelBox*)FindObject("JewelBox"))->GetKillScore();
     }
 
+    if (score_ >= MAX_SCORE)
+    {
+        score_ = MAX_SCORE;
+    }
+    else 
+    {
+        score_ = (jewel_ * baseJewelScore) + (kill_ * baseKillScore) + bulletScore_;
+    }
 
-    score_ = (jewel_ * baseJewelScore) + (kill_ * baseKillScore) + bulletScore_;
 }

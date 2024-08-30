@@ -97,6 +97,11 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (Input::IsKey(DIK_B))
+	{
+		killCount_ += 100;
+		jewelDeliver_ += 1000000;
+	}
 	Debug::Log("PlayerPosition = (");
 
 	Debug::Log(transform_.position_.x);
