@@ -16,13 +16,21 @@ private:
 		MAX_STAGE
 	};
 
+	enum
+	{
+		IMAGE_1,
+		IMAGE_2,
+		MAX_IMAGE
+	};
 
 	int hBGM_;
-	int hImage_[2];
+	int hImage_[MAX_IMAGE];
 	int hStage_[MAX_STAGE];
 
+	int alImage_[MAX_IMAGE];	//alpha値
+
 	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
-	Transform trImage_[2];
+	Transform trImage_[MAX_IMAGE];
 
 
 	//ステージ選択するときのカウント

@@ -11,6 +11,7 @@
 namespace {
 	XMFLOAT3 cameraPos;
 	float moveX;
+	float moveXImage;
 
 	int hSkysphere;
 	Transform trSky;
@@ -28,6 +29,12 @@ namespace {
 	//縦揺れ量
 	float yTime = 0.06f;
 
+	//最大
+	const XMFLOAT3 IMAGE_SCALE = { 0.3,0.3,0.3 };
+	const int IMAGE_MAX_ALPHA = 192;		//画像の最大不透明度
+	const int IMAGE_ROTATE = 180;			//画像の回転
+	const float IMAGE_POSITiON = 0.8f;		//画像の位置
+	const int IMAGE_WAVE_VEL = 100;			//画像の横揺れのつよさ
 }
 
 //コンストラクタ
@@ -59,10 +66,18 @@ void StageSelectScene::Initialize()
 
 		trStage[l].scale_ = STAGE_SCALE;
 	}*/
-	for (int l = 0; l < 2; l++)
+	for (int l = 0; l < MAX_IMAGE; l++)
 	{
-		hImage_[l] = Model::Load("Arrow.png");
+		hImage_[l] = Image::Load("Arrow.png");
+		assert(hImage_[l] >= 0);
+
+		trImage_[l].scale_ = IMAGE_SCALE;
+
 	}
+	trImage_[IMAGE_1].position_.x= IMAGE_POSITiON;
+	trImage_[IMAGE_2].position_.x = -IMAGE_POSITiON;
+
+	trImage_[IMAGE_1].rotate_.z = IMAGE_ROTATE;
 
 	hStage_[STAGE1] = Model::Load("TutorialChar.fbx");
 	hStage_[STAGE2] = Model::Load("MiniStage1.fbx");
@@ -96,6 +111,9 @@ void StageSelectScene::Update()
 	switch (selectCount)
 	{
 	case STAGE1:
+		alImage_[IMAGE_1] = IMAGE_MAX_ALPHA;
+		alImage_[IMAGE_2] = 0;
+
 		cameraPos.x += moveX;
 		if (cameraPos.x <= trStage[STAGE1].position_.x){
 			moveX = 0;
@@ -116,6 +134,9 @@ void StageSelectScene::Update()
 		break;
 
 	case STAGE2:
+		alImage_[IMAGE_2] = IMAGE_MAX_ALPHA;
+		alImage_[IMAGE_1] = 0;
+
 		if (cameraPos.x < trStage[STAGE2].position_.x ||
 			cameraPos.x > trStage[STAGE2].position_.x)
 		{
@@ -150,10 +171,23 @@ void StageSelectScene::Update()
 	for (int l = STAGE1; l < MAX_STAGE; l++)
 	{
 		trStage[l].position_.y = sinwave;
+		moveXImage = sinwave / IMAGE_WAVE_VEL;
+
+		Debug::Log("moveXImage = ");
+		Debug::Log(moveXImage, true);
 
 		trStage[l].rotate_.y = timer / STAGE_ROTATE_SPEED;
 	}
 
+	for (int l = 0; l < MAX_IMAGE; l++)
+	{
+	}
+	trImage_[IMAGE_1].position_.x += moveXImage;
+	trImage_[IMAGE_2].position_.x -= moveXImage;
+
+
+	Debug::Log("transform = ");
+	Debug::Log(trImage_[0].position_.x, true);
 
 	yMoveTime += yTime;
 	timer++;
@@ -175,8 +209,13 @@ void StageSelectScene::Draw()
 		Model::Draw(hStage_[l]);
 	}
 	
-	Image::SetTransform(hImage_[0], trImage_[0]);
-	Image::Draw(hImage_[0]);
+	for (int l = 0; l < MAX_IMAGE; l++)
+	{
+		Image::SetAlpha(hImage_[l], alImage_[l]);
+		Image::SetTransform(hImage_[l], trImage_[l]);
+		Image::Draw(hImage_[l]);
+
+	}
 	//for (int i = 0; i < 2; i++)
 	//{
 	//	Image::SetTransform(hImage_[i], trImage_[i]);
