@@ -7,6 +7,9 @@ namespace Global
 
 	int score;
 
+	int jewelScore;
+	int killScore;
+
 	const float MUSIC_VOLUME = 0.06f;
 	const float SE_VOLUME = 0.1f;
 
@@ -20,5 +23,12 @@ namespace Global
 	void AddJewelKill(int count) { jewelKill += count; }
 	int GetJewelKill() { return jewelKill; }
 
-	void SetScore(int count) { score = count; };
+	void SetScore(int count) { score = count; }
+
+	void SetJewelScore(int baseScore) { jewelScore = baseScore; };
+	void SetKillScore(int baseSocre) { killScore = baseSocre; };
+
+	int GetJewelScore() { return jewelScore; };
+	int GetKillScore() { return killScore; };
+
 }

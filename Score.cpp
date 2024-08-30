@@ -13,7 +13,12 @@
 #include <math.h>
 #include <cstdio>
 
+namespace
+{
+    int baseJewelScore = Global::GetJewelScore();
+    int baseKillScore = Global::GetKillScore();
 
+}
 //コンストラクタ
 Score::Score(GameObject* parent)
     : GameObject(parent, "CharacterDisplay"), pText_(nullptr)
@@ -25,6 +30,7 @@ void Score::Initialize()
 {
     pText_ = new Text;
     pText_->Initialize("score_number.png", 50,100, 10);
+
 }
 
 //更新
@@ -83,5 +89,5 @@ void Score::ScoreCaluc()
     }
 
 
-    score_ = (jewel_ * 200) + (kill_ * 25) + bulletScore_;
+    score_ = (jewel_ * baseJewelScore) + (kill_ * baseKillScore) + bulletScore_;
 }

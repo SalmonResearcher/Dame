@@ -9,16 +9,6 @@
 #include "Global.h"
 
 namespace {
-	enum
-	{
-		STAGE1,
-		STAGE2,
-		MAX_STAGE
-	};
-
-	int hStage_[MAX_STAGE];
-	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
-
 	XMFLOAT3 cameraPos;
 	float moveX;
 
@@ -58,7 +48,6 @@ void StageSelectScene::Initialize()
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 
-
 	/*
 	const char* modelName[] = { "MiniStage1.fbx" };
 	for (int l = 0; l < MAX_STAGE; l++)
@@ -70,6 +59,11 @@ void StageSelectScene::Initialize()
 
 		trStage[l].scale_ = STAGE_SCALE;
 	}*/
+	for (int l = 0; l < 2; l++)
+	{
+		hImage_[l] = Model::Load("Arrow.png");
+	}
+
 	hStage_[STAGE1] = Model::Load("TutorialChar.fbx");
 	hStage_[STAGE2] = Model::Load("MiniStage1.fbx");
 
@@ -180,7 +174,9 @@ void StageSelectScene::Draw()
 	{
 		Model::Draw(hStage_[l]);
 	}
-
+	
+	Image::SetTransform(hImage_[0], trImage_[0]);
+	Image::Draw(hImage_[0]);
 	//for (int i = 0; i < 2; i++)
 	//{
 	//	Image::SetTransform(hImage_[i], trImage_[i]);

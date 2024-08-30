@@ -7,6 +7,10 @@ namespace Global
 	extern const float MUSIC_VOLUME;
 	extern const float SE_VOLUME;
 
+	extern int jewelScore;
+	extern int killScore;
+
+
 
 	void SetKillCount(int count);
 	void AddKillCount(int count);
@@ -19,4 +23,10 @@ namespace Global
 	int GetJewelKill();
 
 	void SetScore(int count);
+
+	void SetJewelScore(int baseScore);
+	void SetKillScore(int baseScore);
+
+	int GetJewelScore();
+	int GetKillScore();
 }

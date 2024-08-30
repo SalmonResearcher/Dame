@@ -5,13 +5,20 @@
 #include "Stage.h"
 #include "TutorialStage.h"
 #include "Player.h"
-
+#include "Global.h"
 
 
 #include <cmath>
 
 namespace {
-    float grabity_ = 0.02f;
+    const float GRABITY = 0.02f;
+    const int JEWEL_BASE_SCORE = 200;
+
+    const float MAXROTATE = 360.0f;
+
+    const int CREATE_VFX_TIME = 70;
+    const int ROTATION_JEWEL_TIME = 90;
+    const int ROTATION_SPEED = 5.5f;
 }
 
 
@@ -47,19 +54,19 @@ void Jewel::Initialize()
     {
         transform_.position_.y = -data.dist;
     }
-
+    Global::SetJewelScore(JEWEL_BASE_SCORE);
 }
 
 //更新
 void Jewel::Update()
 {
-    if (time_ % 70 == 0 && !stopEmit_) {
+    if (time_ % CREATE_VFX_TIME == 0 && !stopEmit_) {
         CreateVFX();
     }
 
 
     // メインのプログラム
-    if (time_ % 90 == 0) {
+    if (time_ % ROTATION_JEWEL_TIME == 0) {
         jewelRotate_ = true;
     }
 
@@ -67,8 +74,8 @@ void Jewel::Update()
         float easingFactor = easeInOutCubic(static_cast<float>(rotY) / 360.0f);
         transform_.rotate_.y = rotY * easingFactor;
 
-        rotY += 5.5f;
-        if (rotY >= 360) {
+        rotY += ROTATION_SPEED;
+        if (rotY >= MAXROTATE) {
             rotY = 0;
             jewelRotate_ = false;
         }

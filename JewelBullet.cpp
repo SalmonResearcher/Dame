@@ -18,7 +18,12 @@
 #include "Global.h"
 
 namespace {
+    const int JEWEL_DEATH_TIME = 180;       //宝石弾が消えるフレーム
+    const float JEWEL_ROTATE_SPEED = 8.0f;  //宝石弾の回転速度
+    const float JEWEL_WALL_DEATH = 1.5f;    //宝石弾が壁にぶつかった判定
 
+    const float JEWEL_SHOOT_SPEED = 0.8f;   //宝石弾の速度
+    const float JEWEL_GRAUND_OFFSET = 0.5f; //宝石弾の生成時の底上げする高さ
 
 }
 
@@ -50,7 +55,7 @@ void JewelBullet::Initialize()
 //更新
 void JewelBullet::Update()
 {
-    transform_.rotate_.z += 8;
+    transform_.rotate_.z += JEWEL_ROTATE_SPEED;
 
     //壁にぶつかったら消える
     RayCastData front;
@@ -61,11 +66,11 @@ void JewelBullet::Update()
     Shoot();
 
 
-    if (front.dist <1.5f) {
+    if (front.dist <JEWEL_WALL_DEATH) {
         KillMe();
     }
 
-    if (deleteTime_ >= 180)
+    if (deleteTime_ >= JEWEL_DEATH_TIME)
     {
         KillMe();
         killCount_ = 0;
@@ -102,11 +107,11 @@ void JewelBullet::Shoot()
     XMFLOAT3 moveFloat;
     XMStoreFloat3(&moveFloat, playerForwardVec_);
 
-    bulletPos_.x += moveFloat.x * 0.8;
-    bulletPos_.z += moveFloat.z * 0.8;
+    bulletPos_.x += moveFloat.x * JEWEL_SHOOT_SPEED;
+    bulletPos_.z += moveFloat.z * JEWEL_SHOOT_SPEED;
 
     transform_.position_ = bulletPos_;
-    transform_.position_.y = bulletPos_.y + 0.5f;
+    transform_.position_.y = bulletPos_.y + JEWEL_GRAUND_OFFSET;
 }
 
 void JewelBullet::OnCollision(GameObject* pTarget)
@@ -121,7 +126,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
     {
         score_ = CalculateScore(killCount_);
         ((JewelBox*)FindObject("JewelBox"))->AddScore(score_);
-        if (score_ != 200)
+        if (score_ != Global::GetJewelScore())
         {
             Global::AddJewelKill(score_);
         }
@@ -133,7 +138,7 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 
 int JewelBullet::CalculateScore(int killCount)
 {
-    int baseScore = 200; // 固定の200点
+    int baseScore = Global::GetJewelScore(); // 固定の点
     int scores[] = {25, 50, 75, 150, 300, 1500};
 
     //倒した数が1～4の時

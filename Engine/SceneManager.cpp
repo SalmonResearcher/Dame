@@ -5,14 +5,10 @@
 #include "../StageSelectScene.h"
 #include "../ResultScene.h"
 #include "../Tutorial.h"
-//#include "../GameScene.h"
-//#include "../GameOverScene.h"
-
 
 #include "Model.h"
 #include "Image.h"
 #include "Audio.h"
-
 
 //コンストラクタ
 SceneManager::SceneManager(GameObject * parent)

@@ -11,7 +11,8 @@
 #include "Global.h"
 
 namespace {
-
+	int baseJewelScore;
+	int baseKillScore;
 }
 
 //コンストラクタ
@@ -44,8 +45,11 @@ void ResultScene::Initialize()
 	jewel_ = Global::GetJewel();
 	jewelKill_ = Global::GetJewelKill();
 
+	baseJewelScore = Global::GetJewelScore();
+	baseKillScore = Global::GetKillScore();
+
 	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
-	totalScore_ = (killCount_ * 25)+(jewel_ * 200) + jewelKill_ * (1 + (killCount_ * 0.01));
+	totalScore_ = (killCount_ * baseKillScore)+(jewel_ * baseJewelScore) + jewelKill_ * (1 + (killCount_ * 0.01));
 
 
 	pDisp_->CreateScores(4);

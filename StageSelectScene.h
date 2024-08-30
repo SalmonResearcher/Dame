@@ -8,7 +8,22 @@ class StageSelectScene :
     public GameObject
 {
 private:
+
+	enum
+	{
+		STAGE1,
+		STAGE2,
+		MAX_STAGE
+	};
+
+
 	int hBGM_;
+	int hImage_[2];
+	int hStage_[MAX_STAGE];
+
+	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
+	Transform trImage_[2];
+
 
 	//ステージ選択するときのカウント
 	int selectCount = 0;
