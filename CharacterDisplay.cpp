@@ -143,6 +143,14 @@ void CharacterDisplay::SetScoreIncrementStep(int index, int step)
     }
 }
 
+void CharacterDisplay::InstantSyncScore(int index)
+{
+    if (index >= 0 && index < static_cast<int>(scores.size())) {
+        scores[index]->InstantSyncScore();
+    }
+
+}
+
 bool CharacterDisplay::IsFinished(int index) 
 {
     if (index >= 0 && index < static_cast<int>(timers.size())) {

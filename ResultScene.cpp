@@ -19,7 +19,8 @@ namespace {
 
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
-	: GameObject(parent, "Title"), hImage_(0),pitch_(1.0)
+	: GameObject(parent, "Title"), hImage_(-1), hCountSound_(-1), hMoneySound_(-1), hBGM_(-1), pitch_(1.0), killCount_(-1),
+	jewel_(-1),jewelKill_(-1),totalScore_(-1),showScoreTime(0),soundtimer(0)
 {
 }
 
@@ -93,97 +94,96 @@ void ResultScene::Initialize()
 
 }
 
-//更新
 void ResultScene::Update()
 {
+	// スペースキーが押された場合、次のケースに進む
+	if (Input::IsKeyDown(DIK_SPACE))
+	{
+		switch (currentCaseIndex)
+		{
+		case 0:
+			showScoreTime = START_SCORE_COUNT_1; // 次のケースの開始時間に設定
+			pDisp_->InstantSyncScore(0);
+
+			break;
+		case 1:
+			showScoreTime = START_SCORE_COUNT_2;
+			pDisp_->InstantSyncScore(1);
+
+			break;
+		case 2:
+			showScoreTime = START_SCORE_COUNT_3;
+			pDisp_->InstantSyncScore(2);
+
+			break;
+		case 3:
+			showScoreTime = MAX_SHOW_SCORE_TIME; // 最後のケースが終わった後の時間
+			pDisp_->InstantSyncScore(3);
+
+			break;
+		default:
+			break;
+		}
+		currentCaseIndex++; // 次のケースに移行
+	}
+
 	switch (showScoreTime)
 	{
-	case 30:
+	case START_SCORE_COUNT_0:
 		pDisp_->ScoreCountStart(0);
 		countStart[0] = true;
+		currentCaseIndex = 1; // 現在のケースを更新
 		break;
-	case 90:
-		Audio::Play(hCountSound_, false,1.0,Global::SE_VOLUME);
 
+	case START_SCORE_COUNT_1:
+		Audio::Play(hCountSound_, false, 1.0, Global::SE_VOLUME);
 		pDisp_->ScoreCountStart(1);
 		countStart[1] = true;
-
-
+		currentCaseIndex = 2;
 		break;
-	case 150:
-		Audio::Play(hCountSound_, false, 1.0, Global::SE_VOLUME);
 
+	case START_SCORE_COUNT_2:
+		Audio::Play(hCountSound_, false, 1.0, Global::SE_VOLUME);
 		pDisp_->ScoreCountStart(2);
 		countStart[2] = true;
-
-
+		currentCaseIndex = 3;
 		break;
 
-	case 240:
+	case START_SCORE_COUNT_3:
 		countStart[3] = true;
 		pDisp_->ScoreCountStart(3);
+		currentCaseIndex = 4;
 		break;
 
 	default:
 		break;
 	}
 
-	if (!pDisp_->IsCountEnd(0) && countStart[0])
+	// スコアカウントが終了していない場合、音を再生する
+	for (int i = 0; i < 4; ++i)
 	{
-		SoundPlay(hCountSound_, 5);
-		pitch_ += 0.01f;
-		if (pDisp_->IsCountEnd(0))
+		if (!pDisp_->IsCountEnd(i) && countStart[i])
 		{
-			pitch_ = 1.0f;
+			SoundPlay(hCountSound_, SOUND_PLAY_INTERVAL);
 		}
 	}
 
-	if (!pDisp_->IsCountEnd(1) && countStart[1])
-	{
-		SoundPlay(hCountSound_, 5);
-		pitch_ += 0.01f;
-		if (pDisp_->IsCountEnd(1))
-		{
-			pitch_ = 1.0f;
-		}
-	}
-
-	if (!pDisp_->IsCountEnd(2) && countStart[2])
-	{
-		SoundPlay(hCountSound_, 5);
-		pitch_ += 0.01f;
-		if (pDisp_->IsCountEnd(2))
-		{
-			pitch_ = 1.0f;
-		}
-	}
-
-	if (!pDisp_->IsCountEnd(3) && countStart[3])
-	{
-		SoundPlay(hCountSound_, 5);
-		pitch_ += 0.01f;
-		if (pDisp_->IsCountEnd(3))
-		{
-			pitch_ = 1.0f;
-		}
-	}
-
+	// 全てのスコアカウントが終了した場合の処理
 	if (pDisp_->IsCountEnd(3) && !countEnd)
 	{
-		Audio::Play(hMoneySound_,false,1.0f,Global::SE_VOLUME);
+		Audio::Play(hMoneySound_, false, 1.0f, Global::SE_VOLUME);
 		countEnd = true;
 	}
 
-
 	showScoreTime++;
 
-	if (showScoreTime > 360 && Input::IsKey(DIK_SPACE))
-	{
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TITLE);
-	}
+	// シーンを切り替えるためのスペースキーの検知（既に切り替え可能な状態になっている場合）
+	//if (pDisp_->IsCountEnd(3) && Input::IsKey(DIK_SPACE))
+	//{
+	//	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+	//	pSceneManager->ChangeScene(SCENE_ID_TITLE);
+	//}
 }
-
 //描画
 void ResultScene::Draw()
 {

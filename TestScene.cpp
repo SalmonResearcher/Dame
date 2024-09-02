@@ -103,7 +103,6 @@ void TestScene::Update()
 			pSceneManager->ChangeScene(SCENE_ID_RESULT);
 		}
 		pDisplay_->CalcScoreValue(0);
-		
 
 		if (!pDisplay_->IsCountEnd(0))
 		{

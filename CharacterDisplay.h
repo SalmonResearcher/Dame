@@ -40,11 +40,12 @@ public:
     bool IsFinished(int index);  //タイマーが終わったかどうか
 
     void SetJewelPosition(int index, int x, int y);//〇番目の手持ちの宝石はどこに置くのか
-    void SetJewelValue(int index, int value);//〇番目の宝石は何を表示するのか
+    void SetJewelValue(int index, int value);//〇番目は何を表示するのか
 
-    void ScoreCountStart(int index);
-    void ScoreCountStop(int index);
-    void SetScoreIncrementStep(int index, int step);
+    void ScoreCountStart(int index);    //スコアのカウントアップを開始
+    void ScoreCountStop(int index);     //スコアのカウントアップを停止
+    void SetScoreIncrementStep(int index, int step);    //スコアのカウントアップ量
+    void InstantSyncScore(int index);   //表示スコアと内部スコアを一致させる
 
     void HideScore() { displayScore = false; }
     void HideTimer() { displayTimer = false; }

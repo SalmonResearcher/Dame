@@ -11,8 +11,6 @@ private:
 	Text* pText_;
 
 	int posX_,posY_;
-
-
 public:
 
 	//コンストラクタ

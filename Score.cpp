@@ -101,3 +101,8 @@ void Score::ScoreCaluc()
     }
 
 }
+
+void Score::InstantSyncScore()
+{
+    up_ = score_;
+}

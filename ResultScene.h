@@ -23,13 +23,28 @@ private:
 	int jewelKill_;
 
 	int totalScore_;
-	int showScoreTime = 0;
+	int showScoreTime;
 
 	int soundtimer;
 
 	bool countStart[4];
 
 	bool countEnd = false;
+
+	int currentCaseIndex; // 現在のケースを追跡する変数
+
+
+	//スコア表示時の定数たち
+	enum ScoreCountTimes
+	{
+		START_SCORE_COUNT_0 = 30,
+		START_SCORE_COUNT_1 = 90,
+		START_SCORE_COUNT_2 = 150,
+		START_SCORE_COUNT_3 = 240,
+		MAX_SHOW_SCORE_TIME = 360,
+		SOUND_PLAY_INTERVAL = 5
+	};
+
 public:
 
 	//コンストラクタ

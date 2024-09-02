@@ -41,7 +41,6 @@ void EnemyWalkState::ExitState()
 EnemyAttackState::EnemyAttackState(StateManager* manager) :StateBase(manager), attack{ 110,200,1 }
 {
     pEnemy_ = static_cast<Enemy*>(pStateManager_->GetGameObject());
-    Debug::Log("AttackState", true);
 
 }
 void EnemyAttackState::EnterState()
@@ -74,7 +73,6 @@ void EnemyAttackState::ExitState()
 EnemyDeadState::EnemyDeadState(StateManager* manager) :StateBase(manager), dead{ 210,400,1 }
 {
     pEnemy_ = static_cast<Enemy*>(pStateManager_->GetGameObject());
-    Debug::Log("DeadState", true);
 
 }
 

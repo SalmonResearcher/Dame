@@ -53,4 +53,6 @@ public:
 		if (score_ == up_) { return true; }
 		else { return false; }
 	}
+
+	void InstantSyncScore();
 };

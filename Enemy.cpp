@@ -15,6 +15,7 @@
 
 #include <algorithm> // std::maxを使う
 
+//敵のコンフィグファイルみたいなのほしいかも
 namespace 
 {
 	const int BASE_KILL_SCORE = 25;
@@ -30,7 +31,7 @@ namespace
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
 
-	float moveSpeed = 0.12f;
+	float moveSpeed = 0.12f *10;
 	float attackSpeed = 0.0f;
 
 
@@ -228,7 +229,7 @@ void Enemy::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted_)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
-
+		waitTime_ = deadWaitTime;
 		CreateVFX(JEWEL);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
@@ -262,7 +263,6 @@ void Enemy::ChasePlayer(XMFLOAT3& target_, float speed)
 
 void Enemy::JewelDeath()
 {
-	waitTime_ = deadWaitTime;
 	isDead_ = true;
 }
 
