@@ -1,6 +1,6 @@
 #include "sceneManager.h"
 
-#include "../TestScene.h"
+#include "../PlayScene.h"
 #include "../TitleScene.h"
 #include "../StageSelectScene.h"
 #include "../ResultScene.h"
@@ -42,11 +42,10 @@ void SceneManager::Update()
 		//éüÇÃÉVÅ[ÉìÇçÏê¨
 		switch (nextSceneID_)
 		{
-		case SCENE_ID_TEST: Instantiate<TestScene>(this); break;
 		case SCENE_ID_TITLE:Instantiate<TitleScene>(this); break;
 		case SCENE_ID_SELECT:Instantiate<StageSelectScene>(this); break;
 		case SCENE_ID_TUTORIAL:Instantiate<Tutorial>(this); break;
-//		case SCENE_ID_GAME: Instantiate<GameScene>(this); break;
+		case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
 		case SCENE_ID_RESULT: Instantiate<ResultScene>(this); break;
 		}
 		Audio::Initialize();

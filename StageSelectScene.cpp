@@ -55,17 +55,6 @@ void StageSelectScene::Initialize()
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 
-	/*
-	const char* modelName[] = { "MiniStage1.fbx" };
-	for (int l = 0; l < MAX_STAGE; l++)
-	{
-		num = std::to_string(l+1);
-
-		hStage_[l] = Model::Load(modelName[l]);
-		assert(hStage_[l] >= 0);
-
-		trStage[l].scale_ = STAGE_SCALE;
-	}*/
 	for (int l = 0; l < MAX_IMAGE; l++)
 	{
 		hImage_[l] = Image::Load("Arrow.png");
@@ -157,7 +146,7 @@ void StageSelectScene::Update()
 			if (isStageStop && Input::IsKeyDown(DIK_SPACE))
 			{
 				SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-				pSceneManager->ChangeScene(SCENE_ID_TEST);
+				pSceneManager->ChangeScene(SCENE_ID_PLAY);
 
 			}
 		}

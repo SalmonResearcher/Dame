@@ -42,9 +42,6 @@
     <Filter Include="ToyBox\Enemy\State">
       <UniqueIdentifier>{e6d238f1-46ca-4acd-80a5-3f7817c9b633}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ToyBox\Enemy\BossSlime">
-      <UniqueIdentifier>{0957ed7e-5683-4b48-bf69-64aa0a098d8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ToyBox\UI">
       <UniqueIdentifier>{44171772-60c9-4c70-a7dd-27bfd72c7ed8}</UniqueIdentifier>
     </Filter>
@@ -143,16 +140,6 @@
     <ClCompile Include="JewelBox.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\State\BossState.cpp">
-      <Filter>ToyBox\Enemy\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy\State\BossSpawn.cpp" />
     <ClCompile Include="JewelBullet.cpp">
       <Filter>ToyBox\Jewel</Filter>
     </ClCompile>
@@ -203,6 +190,7 @@
     </ClCompile>
     <ClCompile Include="Signboard.cpp" />
     <ClCompile Include="TutorialBoard.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -295,16 +283,6 @@
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\State\BossState.h">
-      <Filter>ToyBox\Enemy\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\BossSlime\FafroStateManager.h">
-      <Filter>ToyBox\Enemy\BossSlime</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy\State\BossSpawn.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
@@ -333,7 +311,6 @@
     </ClInclude>
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="PlayerParameter.h" />
     <ClInclude Include="PlayerCamera.h">
       <Filter>ToyBox\Player</Filter>
     </ClInclude>
@@ -357,6 +334,7 @@
     </ClInclude>
     <ClInclude Include="Signboard.h" />
     <ClInclude Include="TutorialBoard.h" />
+    <ClInclude Include="PlayScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

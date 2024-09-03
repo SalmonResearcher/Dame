@@ -130,10 +130,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAttack.cpp" />
     <ClCompile Include="EnemySpawn.cpp" />
-    <ClCompile Include="Enemy\BossSlime\Boss_Fafrotskies.cpp" />
-    <ClCompile Include="Enemy\BossSlime\FafroStateManager.cpp" />
-    <ClCompile Include="Enemy\State\BossSpawn.cpp" />
-    <ClCompile Include="Enemy\State\BossState.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
@@ -166,6 +162,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="EnemyState.cpp" />
@@ -186,10 +183,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAttack.h" />
     <ClInclude Include="EnemySpawn.h" />
-    <ClInclude Include="Enemy\BossSlime\Boss_Fafrotskies.h" />
-    <ClInclude Include="Enemy\BossSlime\FafroStateManager.h" />
-    <ClInclude Include="Enemy\State\BossSpawn.h" />
-    <ClInclude Include="Enemy\State\BossState.h" />
     <ClInclude Include="Enemy\State\StateBase.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\BillBoard.h" />
@@ -222,8 +215,8 @@
     <ClInclude Include="JewelNumber.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCamera.h" />
-    <ClInclude Include="PlayerParameter.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayScene.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="EnemyState.h" />
