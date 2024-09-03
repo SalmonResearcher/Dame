@@ -52,6 +52,16 @@ void ResultScene::Initialize()
 	{
 		killCount_ = MAX_SCORE;
 	}
+	if (jewel_ >= MAX_SCORE)
+	{
+		jewel_ = MAX_SCORE;
+	}
+	if (jewelKill_ >= MAX_SCORE)
+	{
+		jewelKill_ = MAX_SCORE;
+	}
+
+
 
 	baseJewelScore = Global::GetJewelScore();
 	baseKillScore = Global::GetKillScore();
@@ -59,36 +69,39 @@ void ResultScene::Initialize()
 	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
 	totalScore_ = (killCount_ * baseKillScore)+(jewel_ * baseJewelScore) + jewelKill_ * (1 + (killCount_ * 0.01));
 
-
-	pDisp_->CreateScores(4);
-
-	pDisp_->SetScoreValue(0, killCount_);
-	pDisp_->SetScorePosition(0, 780, 200);
-	pDisp_->SetScoreIncrementStep(0, 30);
-	if (killCount_ < 30 && killCount_ != 0){
-		pDisp_->SetScoreIncrementStep(0, killCount_);
+	if (totalScore_ >= MAX_SCORE) {
+		totalScore_ = MAX_SCORE;
 	}
 
-	pDisp_->SetScoreValue(1, jewel_);
-	pDisp_->SetScorePosition(1, 780, 335);
-	pDisp_->SetScoreIncrementStep(1, 30);
-		if (jewel_ < 30 && jewel_ != 0){
-		pDisp_->SetScoreIncrementStep(1, jewel_);
-	}
 
-	pDisp_->SetScoreValue(2, jewelKill_);
-	pDisp_->SetScorePosition(2, 780, 470);
-	pDisp_->SetScoreIncrementStep(2, 30);
-	if (jewelKill_ < 30 && jewelKill_ != 0) {
-		pDisp_->SetScoreIncrementStep(2, jewelKill_);
-	}
+	pDisp_->CreateScores(MAX_DISPLAY);
 
-	pDisp_->SetScoreValue(3, totalScore_);
-	pDisp_->SetScorePosition(3, 780, 605);
-	pDisp_->SetScoreIncrementStep(3, 120);
-	if (totalScore_ < 120 && totalScore_ != 0) {
-		pDisp_->SetScoreIncrementStep(3, totalScore_);
-	}
+pDisp_->SetScoreValue(KILL_COUNT, killCount_);
+pDisp_->SetScorePosition(KILL_COUNT, SCORE_POSITION_X, KILL_SCORE_POSITION_Y);
+pDisp_->SetScoreIncrementStep(KILL_COUNT, DEFAULT_INCREMENT_STEP);
+if (killCount_ < DEFAULT_SCORE_INCREMENT_FRAMES && killCount_ != 0) {
+    pDisp_->SetScoreIncrementStep(KILL_COUNT, killCount_);
+}
+
+pDisp_->SetScoreValue(JEWEL_COUNT, jewel_);
+pDisp_->SetScorePosition(JEWEL_COUNT, SCORE_POSITION_X, JEWEL_SCORE_POSITION_Y);
+pDisp_->SetScoreIncrementStep(JEWEL_COUNT, DEFAULT_INCREMENT_STEP);
+if (jewel_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewel_ != 0) {
+    pDisp_->SetScoreIncrementStep(JEWEL_COUNT, jewel_);
+}
+
+pDisp_->SetScoreValue(JEWEL_KILL_COUNT, jewelKill_);
+pDisp_->SetScorePosition(JEWEL_KILL_COUNT, SCORE_POSITION_X, JEWEL_KILL_SCORE_POSITION_Y);
+pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, DEFAULT_INCREMENT_STEP);
+if (jewelKill_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewelKill_ != 0) {
+    pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, jewelKill_);
+}
+
+pDisp_->SetScoreValue(TOTAL_SCORE, totalScore_);
+pDisp_->SetScorePosition(TOTAL_SCORE, SCORE_POSITION_X, TOTAL_SCORE_POSITION_Y);
+pDisp_->SetScoreIncrementStep(TOTAL_SCORE, TOTAL_SCORE_INCREMENT_STEP);
+if (totalScore_ < TOTAL_SCORE_INCREMENT_FRAMES && totalScore_ != 0) {
+    pDisp_->SetScoreIncrementStep(TOTAL_SCORE, totalScore_);	}
 
 
 
@@ -101,24 +114,24 @@ void ResultScene::Update()
 	{
 		switch (currentCaseIndex)
 		{
-		case 0:
+		case KILL_COUNT:
 			showScoreTime = START_SCORE_COUNT_1; // 次のケースの開始時間に設定
-			pDisp_->InstantSyncScore(0);
+			pDisp_->InstantSyncScore(KILL_COUNT);
 
 			break;
-		case 1:
+		case JEWEL_COUNT:
 			showScoreTime = START_SCORE_COUNT_2;
-			pDisp_->InstantSyncScore(1);
+			pDisp_->InstantSyncScore(JEWEL_COUNT);
 
 			break;
-		case 2:
+		case JEWEL_KILL_COUNT:
 			showScoreTime = START_SCORE_COUNT_3;
-			pDisp_->InstantSyncScore(2);
+			pDisp_->InstantSyncScore(JEWEL_KILL_COUNT);
 
 			break;
-		case 3:
+		case TOTAL_SCORE:
 			showScoreTime = MAX_SHOW_SCORE_TIME; // 最後のケースが終わった後の時間
-			pDisp_->InstantSyncScore(3);
+			pDisp_->InstantSyncScore(TOTAL_SCORE);
 
 			break;
 		default:
@@ -130,28 +143,28 @@ void ResultScene::Update()
 	switch (showScoreTime)
 	{
 	case START_SCORE_COUNT_0:
-		pDisp_->ScoreCountStart(0);
+		pDisp_->ScoreCountStart(KILL_COUNT);
 		countStart[0] = true;
 		currentCaseIndex = 1; // 現在のケースを更新
 		break;
 
 	case START_SCORE_COUNT_1:
 		Audio::Play(hCountSound_, false, 1.0, Global::SE_VOLUME);
-		pDisp_->ScoreCountStart(1);
+		pDisp_->ScoreCountStart(JEWEL_COUNT);
 		countStart[1] = true;
 		currentCaseIndex = 2;
 		break;
 
 	case START_SCORE_COUNT_2:
 		Audio::Play(hCountSound_, false, 1.0, Global::SE_VOLUME);
-		pDisp_->ScoreCountStart(2);
+		pDisp_->ScoreCountStart(JEWEL_KILL_COUNT);
 		countStart[2] = true;
 		currentCaseIndex = 3;
 		break;
 
 	case START_SCORE_COUNT_3:
 		countStart[3] = true;
-		pDisp_->ScoreCountStart(3);
+		pDisp_->ScoreCountStart(TOTAL_SCORE);
 		currentCaseIndex = 4;
 		break;
 
@@ -160,7 +173,7 @@ void ResultScene::Update()
 	}
 
 	// スコアカウントが終了していない場合、音を再生する
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < MAX_DISPLAY; ++i)
 	{
 		if (!pDisp_->IsCountEnd(i) && countStart[i])
 		{
@@ -169,7 +182,7 @@ void ResultScene::Update()
 	}
 
 	// 全てのスコアカウントが終了した場合の処理
-	if (pDisp_->IsCountEnd(3) && !countEnd)
+	if (pDisp_->IsCountEnd(TOTAL_SCORE) && !countEnd)
 	{
 		Audio::Play(hMoneySound_, false, 1.0f, Global::SE_VOLUME);
 		countEnd = true;
@@ -178,11 +191,11 @@ void ResultScene::Update()
 	showScoreTime++;
 
 	// シーンを切り替えるためのスペースキーの検知（既に切り替え可能な状態になっている場合）
-	//if (pDisp_->IsCountEnd(3) && Input::IsKey(DIK_SPACE))
-	//{
-	//	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//	pSceneManager->ChangeScene(SCENE_ID_TITLE);
-	//}
+	if (pDisp_->IsCountEnd(TOTAL_SCORE) && Input::IsKeyDown(DIK_SPACE ))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TITLE);
+	}
 }
 //描画
 void ResultScene::Draw()

@@ -7,6 +7,9 @@
 class Score :public GameObject
 {
 private:
+
+
+
 	Text* pText_;
 
 	int curScore_ = 0;    // 1フレーム前のスコア
@@ -50,7 +53,8 @@ public:
 	void Stop() { countUp_ = false; }
 	void SetIncrementSteps(int step) { incrementSteps_ = step; }
 	bool IsCountEnd() {
-		if (score_ == up_) { return true; }
+		if (score_ == up_) 
+		{ return true; }
 		else { return false; }
 	}
 

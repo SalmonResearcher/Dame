@@ -7,6 +7,15 @@ class CharacterDisplay;
 class ResultScene :public GameObject
 {
 private:
+	enum
+	{
+		KILL_COUNT,
+		JEWEL_COUNT,
+		JEWEL_KILL_COUNT,
+		TOTAL_SCORE,
+		MAX_DISPLAY
+	};
+
 	Transform trPict_;
 	int hImage_;
 	int hCountSound_;
@@ -33,6 +42,17 @@ private:
 
 	int currentCaseIndex; // 現在のケースを追跡する変数
 
+	const int SCORE_POSITION_X = 780;
+	const int KILL_SCORE_POSITION_Y = 200;
+	const int JEWEL_SCORE_POSITION_Y = 335;
+	const int JEWEL_KILL_SCORE_POSITION_Y = 470;
+	const int TOTAL_SCORE_POSITION_Y = 605;
+
+	const int DEFAULT_INCREMENT_STEP = 30; //トータルスコア以外の加算量
+	const int TOTAL_SCORE_INCREMENT_STEP = 120;	//トータルスコアの加算量
+
+	const int DEFAULT_SCORE_INCREMENT_FRAMES = 30; // デフォルトのフレーム数
+	const int TOTAL_SCORE_INCREMENT_FRAMES = 120;  // トータルスコアのフレーム数
 
 	//スコア表示時の定数たち
 	enum ScoreCountTimes
