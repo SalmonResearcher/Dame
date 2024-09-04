@@ -1,17 +1,23 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-//ステージを管理するクラス
-class Stage : public GameObject
+class Player;
+
+//空球を管理するクラス
+class SkySphere : public GameObject
 {
+    Player* pPlayer_;
+
     int hModel_;    //モデル番号
 
+    const float ROTATE_SPEED = 0.01f;
+    const XMFLOAT3 SCALE = { 0.75f,0.75f,0.75f };
 public:
     //コンストラクタ
-    Stage(GameObject* parent);
+    SkySphere(GameObject* parent);
 
     //デストラクタ
-    ~Stage();
+    ~SkySphere();
 
     //初期化
     void Initialize() override;

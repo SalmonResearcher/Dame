@@ -8,11 +8,17 @@
 #include "TutorialStage.h"
 #include "JewelBullet.h"
 
+namespace
+{
+    const XMFLOAT3 COLLIDER_POSITION = { 0,1,0 };
+    const float COLLIDER_RADIUS = 1.5f;
+}
+
 //コンストラクタ
 JewelBox::JewelBox(GameObject* parent)
-    :GameObject(parent, "JewelBox"), hModel_(-1), anim_Start(0), anim_End(10),anim_Speed(1)
+    :GameObject(parent, "JewelBox"), hModel_(-1),jewel_(0),score_(0)
 {
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 1.0f, 0), 1.5f);
+    SphereCollider* collision = new SphereCollider(COLLIDER_POSITION, COLLIDER_RADIUS);
     AddCollider(collision);
 }
 

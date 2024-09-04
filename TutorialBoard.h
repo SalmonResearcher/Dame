@@ -4,6 +4,7 @@
 //◆◆◆を管理するクラス
 class TutorialBoard : public GameObject
 {
+    //チュートリアルを表示する板B1～B7まで
     enum 
     {
         B_1,

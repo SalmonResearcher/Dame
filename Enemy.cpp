@@ -111,10 +111,6 @@ void Enemy::Update()
 	deathPitch = GenerateRandomFloat(MIN_PITCH,MAX_PITCH);
 	hitPitch = GenerateRandomFloat(MIN_PITCH, MAX_PITCH);
 
-
-	//’Ç‚¢‚©‚¯‚é•UŒ‚‚·‚é‚½‚ß‚ÌŠÖ”
-	//target_ = pPlayer->GetPlayerPosition();
-
 	//ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
 	toPlayerdir_ = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 

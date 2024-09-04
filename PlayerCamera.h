@@ -9,6 +9,14 @@ class PlayerCamera : public GameObject
 
     Player* pPlayer_;
 
+    // 定数の定義
+    const float MOUSE_SENSITIVITY_INCREMENT_NORMAL = 0.1f;
+    const float MOUSE_SENSITIVITY_INCREMENT_FAST = 0.5f;
+    const float MOUSE_SENSITIVITY_MIN = 0.01f; // 最小感度
+    const float MOUSE_SENSITIVITY_MAX = 5.0f;  // 最大感度
+    const float CAM_MOVE_SCALE = 0.1f;
+    const float MAX_LOOK_UP = 75.0f;
+    const float MIN_LOOK_DOWN = -85.0f;
 public:
     //コンストラクタ
 
@@ -46,4 +54,6 @@ public:
     XMFLOAT4X4 GetCameraRotateMatrix();
 
     XMFLOAT3 GetCameraPosition() { return transform_.position_; };
+
+    float Clamp(float value, float min, float max);
 };

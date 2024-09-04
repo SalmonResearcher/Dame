@@ -48,8 +48,13 @@ void TutorialBoard::Initialize()
 //更新
 void TutorialBoard::Update()
 {
+	//カメラ回転行列
 	XMFLOAT4X4 cameraRot = pCam->GetCameraRotateMatrix();
+
+	//カメラの水平回転角度を計算
 	float CameraYaw = atan2f(-cameraRot._13, cameraRot._11);
+
+	//カメラの向きにPI3.141592を足して逆方向にする
 	CameraYaw += XM_PI;
 
 	for (int l = 0; l < B_MAX; l++)

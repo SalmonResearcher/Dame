@@ -17,7 +17,7 @@
 #include "Engine/BoxCollider.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Audio.h"
-
+#include "Engine/Debug.h"
 //#include "math.h"
 
 namespace {
@@ -25,20 +25,24 @@ namespace {
 	// 基本的には中央が原点なので2で割る。
 	const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
 
-	float mouseSens = 1;
+	// 攻撃時の待ち時間とカウントダウン
+	const int ATTACK_WAIT_TIME = 20;
 
-    int attackWaitTime = 20;			//攻撃時の待ち時間
-	int attackCountDown = 0;			//攻撃時のカウントダウン
+
+	//これグローバルのほうがいいかも..?
     const float JEWEL_WEIGHT = 0.01f;
 
-    const float MAXSPEED = 0.15f;		//カメラの回転速度,プレイヤーの移動速度
-    float speed = 0.0f;
-	int walking = 1;
-    int dash = 2;
-    bool isHit;
+	// プレイヤーの加速度
+	const float PLAYER_ACCELERATION = 0.006f;
 
-	float jumpVelocity = 0.2f;
-	float gravity = 0.01f;
+	const float MAX_SPEED = 0.15f;
+
+	const int WALKING_SPEED = 1;
+	const int DASH_SPEED = 2;
+
+	const float JUMP_VELOCITY = 0.4f;
+	const float GRAVITY = 0.02f;
+	const float MAX_GRAVITY = 0.5f;
 
     int onCollisionTime = 0;
 	bool isKockBack = false;
@@ -52,7 +56,7 @@ namespace {
 Player::Player(GameObject* parent)
 	:GameObject(parent, "Player"), hModel_(-1), hStage_(-1), hEnemy_(-1), isJumping_(false),
 	moveY_(0), jewelCount_(0), weight_(0), killCount_(0), jewelDeliver_(0), pStateManager_(nullptr)
-	, attackEnd(false)
+	, attackEnd_(false)
 {
 }
 
@@ -96,14 +100,9 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (Input::IsKey(DIK_B))
-	{
-		killCount_ += 100;
-		jewelDeliver_ += 1000000;
-	}
 
-		//ランダム
-	jewelPitch = GenerateRandomFloat(min, max);
+	//ランダム
+	jewelPitch_ = GenerateRandomFloat(min, max);
 
 	hStage_ = SetStageHandle();
 
@@ -120,45 +119,46 @@ void Player::Update()
 	play.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &play); //レイを発射
 
+	Debug::Log(play.dist, true);
+
+	// 地面有り
 	if (data.hit)
 	{
+		// ジャンプしていないとき
 		if (InputManager::IsJump() && !isJumping_)
 		{
 			Jump();
 		}
-
+		// ジャンプしていたら
 		else if (isJumping_)
 		{
 			AddGravity();
-		}
 
-		//ジャンプ後地面に触ったら
-		if (play.dist < 0.4 && isJumping_)
+			// ジャンプ後地面に触ったら
+			if (play.dist < 0.498f)
+			{
+				moveY_ = 0.0f;
+				isJumping_ = false;
+				transform_.position_.y = -data.dist;  // 地面に位置を固定
+			}
+		}
+		else // ジャンプしていない, 地に足がつくなら
 		{
-			moveY_ = 0.0f;
-			isJumping_ = false;
+			if (play.hit)
+			{
+				transform_.position_.y = -data.dist;
+			}
+			else // 地に足がつかないのならば
+			{
+				isJumping_ = true;
+			}
 		}
-
-		//ジャンプしていない,地に足がつくなら
-		if (!isJumping_ && play.hit)
-		{
-			transform_.position_.y = -data.dist;
-		}
-
-		//地に足がつかないのならば
-		else if (!play.hit)
-		{
-			isJumping_ = true;
-		}
-
-		//Y座標移動
-		transform_.position_.y += moveY_;
-
 	}
-	else if (!data.hit)
+	else // 地面がない場合
 	{
 		AddGravity();
 	}
+
 	// ステージ外に落ちてしまった場合のリセット
 	if (transform_.position_.y <= -90)
 	{
@@ -169,22 +169,24 @@ void Player::Update()
 	// Y座標の更新
 	transform_.position_.y += moveY_;
 
-if (InputManager::IsWalk())
-{
-	speed += 0.006f;
-	if (speed >= MAXSPEED)
+	// 移動速度の管理
+	if (InputManager::IsWalk())
 	{
-		speed = MAXSPEED;
+		speed_ += PLAYER_ACCELERATION;
+		if (speed_ >= MAX_SPEED)
+		{
+			speed_ = MAX_SPEED;
+		}
 	}
-}
-else
-{
-	speed -= 0.01f;
-	if (speed <= 0)
+	else
 	{
-		speed = 0;
+		speed_ -= 0.01f;
+		if (speed_ <= 0)
+		{
+			speed_ = 0;
+		}
 	}
-}
+
 
 	if (Input::IsMouseButton(1))
 	{
@@ -232,7 +234,7 @@ void Player::Release()
 void Player::Walk()
 {
 	XMVECTOR moveVector = CalcMovementInput();
-	AddMovement(moveVector, walking);
+	AddMovement(moveVector, WALKING_SPEED);
 	RotatePlayer(moveVector);
 }
 
@@ -242,7 +244,7 @@ void Player::Jump()
 	if (!isJumping_)
 	{
 		isJumping_ = true;
-		moveY_ += jumpVelocity * weight_;
+		moveY_ += JUMP_VELOCITY * weight_;
 	}
 }
 
@@ -250,17 +252,17 @@ void Player::Run()
 {
 
 	XMVECTOR moveVector = CalcMovementInput();
-	AddMovement(moveVector, dash);
+	AddMovement(moveVector, DASH_SPEED);
 	RotatePlayer(moveVector);
 }
 void Player::AddGravity()
 {
 	//自由落下
-	moveY_ -= 0.01;
+	moveY_ -= GRAVITY;
 
-	if (moveY_ <= -0.2f)
+	if (moveY_ <= -MAX_GRAVITY)
 	{
-		moveY_ = -0.2f;
+		moveY_ = -MAX_GRAVITY;
 	}
 }
 
@@ -284,13 +286,13 @@ XMVECTOR Player::CalcMovementInput()
 	// 前後の移動
 	if (InputManager::IsMoveForward())
 	{
-		forwardMove = XMVectorSet(0, 0, speed* weight_, 0);
+		forwardMove = XMVectorSet(0, 0, speed_* weight_, 0);
 		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
 		moveVector += forwardMove;
 	}
 	if (InputManager::IsMoveBackward())
 	{
-		forwardMove = XMVectorSet(0, 0, -speed * weight_, 0);
+		forwardMove = XMVectorSet(0, 0, -speed_ * weight_, 0);
 		forwardMove = XMVector3TransformCoord(forwardMove, rotMatY);
 		moveVector += forwardMove;
 	}
@@ -298,13 +300,13 @@ XMVECTOR Player::CalcMovementInput()
 	// 左右の移動
 	if (InputManager::IsMoveLeft())
 	{
-		sideMove = XMVectorSet(-speed * weight_, 0, 0, 0);
+		sideMove = XMVectorSet(-speed_ * weight_, 0, 0, 0);
 		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
 		moveVector += sideMove;
 	}
 	if (InputManager::IsMoveRight())
 	{
-		sideMove = XMVectorSet(speed * weight_, 0, 0, 0);
+		sideMove = XMVectorSet(speed_ * weight_, 0, 0, 0);
 		sideMove = XMVector3TransformCoord(sideMove, rotMatY);
 		moveVector += sideMove;
 	}
@@ -315,19 +317,19 @@ XMVECTOR Player::CalcMovementInput()
 void Player::Attacking()
 {
 	// 攻撃クールダウンを設定
-	if (attackCountDown == 0)
+	if (attackCountDown_ == 0)
 	{
-		attackCountDown = attackWaitTime;
-		attackEnd = false;
+		attackCountDown_ = ATTACK_WAIT_TIME;
+		attackEnd_ = false;
 		Audio::Play(hSound_,true,2.0f,Global::SE_VOLUME);
 	}
 	else
 	{
-		attackCountDown--;
+		attackCountDown_--;
 	}
 
 	// 攻撃カウントダウンが特定の値以下で、攻撃が終了していない場合に攻撃を生成(ややこい)
-	if (attackCountDown <= 13 && !attackEnd)
+	if (attackCountDown_ <= 13 && !attackEnd_)
 	{
 		Attack* pAtk = Instantiate<Attack>(GetParent());
 		// プレイヤーの回転行列を作成
@@ -347,9 +349,9 @@ void Player::Attacking()
 	}
 
 	// 攻撃カウントダウンが0以下なら攻撃終了
-	if (attackCountDown <= 0)
+	if (attackCountDown_ <= 0)
 	{
-		attackEnd = true;
+		attackEnd_ = true;
 	}
 }
 
@@ -364,17 +366,17 @@ bool Player::IsJumping()
 
 bool Player::IsAttackEnd()
 {
-	return attackEnd;
+	return attackEnd_;
 }
 
 void Player::OnCollision(GameObject* pTarget)
 {
-	isHit = false;
+	isHit_ = false;
 
 	if (pTarget->GetObjectName() == "Jewel")
 	{
 		((Jewel*)FindObject("Jewel"))->DestroyVFX();
-		Audio::Play(hGetSound_, true, jewelPitch, Global::SE_VOLUME);
+		Audio::Play(hGetSound_, true, jewelPitch_, Global::SE_VOLUME);
 		pTarget->KillMe();
 		jewelCount_++;
 	}
@@ -437,7 +439,7 @@ XMVECTOR Player::GetKnockbackDirection()
 
 float Player::GetSpeed()
 {
-	return speed;
+	return speed_;
 }
 
 float Player::GetWeight()

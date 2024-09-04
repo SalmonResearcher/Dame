@@ -17,6 +17,12 @@ class JewelBullet :
     int deleteTime_;
     int killCount_;
     int score_;
+
+    /*スコア換算の定数たち*/
+    const int SCORE_BRACKETS[6] = { 25, 50, 75, 150, 300, 1500 };
+    const int SCORE_BRACKET_THRESHOLD1 = 5;
+    const int SCORE_BRACKET_THRESHOLD2 = 10;
+    const int SCORE_BRACKET_COUNT = 6;
 public:
     //コンストラクタ
     JewelBullet(GameObject* parent);

@@ -14,14 +14,16 @@ private:
     int hSound_;    //サウンド番号
     int hGetSound_;
 
-    float jewelPitch;   //音の高さ
-    float sordPitch;
+     int attackCountDown_;
+    float jewelPitch_;   //音の高さ
+    float sordPitch_;
 
     int hStage_;    //ステージモデル番号
     int hEnemy_;    //敵のモデル番号
 
     bool isJumping_; //ジャンプ中かどうか
 
+    float speed_ = 0.0f;
     float moveY_;   //Y軸の加速度
 
     float jewelCount_;  //持っている宝石の数
@@ -32,7 +34,8 @@ private:
     StateManager* pStateManager_;//状態を切り替える
     PlayerCamera* pCamera_;
 
-    bool attackEnd;
+    bool attackEnd_;
+    bool isHit_;
 
     RayCastData downRay;
     RayCastData play;

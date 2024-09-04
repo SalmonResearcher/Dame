@@ -8,12 +8,8 @@ class JewelBox : public GameObject
 {
     int hModel_;    //モデル番号
 
-    int jewel_ = 0;
-    int score_ = 0;
-
-    int anim_Start;
-    int anim_End;
-    int anim_Speed;
+    int jewel_;
+    int score_;
 
 public:
     //コンストラクタ

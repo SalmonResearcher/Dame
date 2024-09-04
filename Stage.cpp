@@ -1,14 +1,14 @@
 #include "Stage.h"
+#include "SkySphere.h"
 #include "Engine/Model.h"
-#include "Engine/Input.h"
-#include "Engine/Sprite.h"
 
-#include "Player.h"
-#include "JewelBox.h"
-
+namespace
+{
+    SkySphere* pSky_;
+}
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"), hModel_(-1), hModel2_(-1)
+    :GameObject(parent, "Stage"), hModel_(-1)
 {
 }
 
@@ -23,25 +23,20 @@ void Stage::Initialize()
     hModel_ = Model::Load("newStage3.fbx");
     assert(hModel_ >= 0);
 
-    hModel2_ = Model::Load("SkySphere.fbx");
-    assert(hModel2_ >= 0);
-
+    pSky_ = Instantiate<SkySphere>(this);
 }
 
 //更新
 void Stage::Update()
 {
-    transSky_.rotate_.y += 0.2f;
-    transSky_.scale_ = { 0.8,0.8,0.8 };
 }
 
 //描画
 void Stage::Draw()
 {
-    Model::SetTransform(hModel_, transStage_);
+    Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
-    Model::SetTransform(hModel2_, transSky_);
-    Model::Draw(hModel2_);
+
 }
 
 //開放

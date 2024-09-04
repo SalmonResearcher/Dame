@@ -2,14 +2,14 @@
 #include "Player.h"
 
 #include "Engine/Camera.h"
-
 #include "Engine/Input.h"
+
+#include <algorithm>
 
 namespace {
 	float mouseSens = 1;
 	bool debug = true;
 }
-
 
 PlayerCamera::PlayerCamera(GameObject* parent) :GameObject(parent, "PlayerCamera"),pPlayer_(nullptr)
 {
@@ -26,92 +26,84 @@ void PlayerCamera::Initialize()
 
 void PlayerCamera::Update()
 {
-	//マウス感度
-		if (Input::IsKeyDown(DIK_UP))
-		{
-			if (Input::IsKey(DIK_LSHIFT))
-				mouseSens += 0.5f;
-			else
-				mouseSens += 0.1f;
-		}
+    // マウス感度の調整
+    if (Input::IsKeyDown(DIK_UP))
+    {
+        mouseSens += Input::IsKey(DIK_LSHIFT) ? MOUSE_SENSITIVITY_INCREMENT_FAST : MOUSE_SENSITIVITY_INCREMENT_NORMAL;
+        mouseSens = Clamp(mouseSens, MOUSE_SENSITIVITY_MIN, MOUSE_SENSITIVITY_MAX);
+    }
 
-		if (Input::IsKeyDown(DIK_DOWN))
-		{
-			if (Input::IsKey(DIK_LSHIFT))
-				mouseSens -= 0.5f;
-			else
-				mouseSens -= 0.1f;
-		}
+    if (Input::IsKeyDown(DIK_DOWN))
+    {
+        mouseSens -= Input::IsKey(DIK_LSHIFT) ? MOUSE_SENSITIVITY_INCREMENT_FAST : MOUSE_SENSITIVITY_INCREMENT_NORMAL;
+        mouseSens = Clamp(mouseSens, MOUSE_SENSITIVITY_MIN, MOUSE_SENSITIVITY_MAX);
+    }
 
-	if (Input::IsKeyDown(DIK_RSHIFT))
-	{
-		if (debug)
-		{
-			debug = false;
-		} else {
-			debug = true;
-		}
-	}
+    // デバッグモードの切替
+    if (Input::IsKeyDown(DIK_RSHIFT))
+    {
+        debug = !debug;
+    }
 
-	//マウス位置固定
-	if (debug)
-		SetCursorPos(800, 400);
+    // デバッグモード時のマウス位置固定
+    if (debug)
+    {
+        SetCursorPos(800, 400);
+    }
 
-	static XMFLOAT3 move = { 0,0,0 };
-	static XMFLOAT3 camMove = { 0,0,0 };
+    static XMFLOAT3 move = { 0, 0, 0 };
+    static XMFLOAT3 camMove = { 0, 0, 0 };
 
-	//マウスの移動量
-	move.x += Input::GetMouseMove().x * mouseSens;
-	move.y += Input::GetMouseMove().y * mouseSens;
-	move.z += Input::GetMouseMove().z * mouseSens;	//マウスホイール
+    // マウスの移動量の計算
+    XMFLOAT3 mouseMove = Input::GetMouseMove();
+    move.x += mouseMove.x * mouseSens;
+    move.y += mouseMove.y * mouseSens;
+    move.z += mouseMove.z * mouseSens; // マウスホイール
 
-	//マウスの移動量に応じてカメラを回転させる
-	camMove.y = move.x;
-	camMove.x = move.y;
+    // マウスの移動量に基づくカメラ回転
+    camMove.y = move.x;
+    camMove.x = move.y;
 
-	//マウスセンシティビリティ
-	camMove.x *= 0.1;
-	camMove.y *= 0.1;
+    // カメラの回転量のスケーリング
+    camMove.x *= CAM_MOVE_SCALE;
+    camMove.y *= CAM_MOVE_SCALE;
 
-	//下を向きすぎないように
-	if (camMove.x >= 75)
-	{
-		camMove.x = 75;
-		move.y = 750;
-	}
+    // カメラの向き制限
+    if (camMove.x >= MAX_LOOK_UP)
+    {
+        camMove.x = MAX_LOOK_UP;
+        move.y = MAX_LOOK_UP*10;
+    }
+    else if (camMove.x <= MIN_LOOK_DOWN)
+    {
+        camMove.x = MIN_LOOK_DOWN;
+        move.y = MIN_LOOK_DOWN*10;
+    }
 
-	//上を向きすぎない
-	if (camMove.x <= -85)
-	{
-		camMove.x = -85;
-		move.y = -850;
-	}
-	//カメラをY軸で回転
-	transform_.rotate_ = camMove;
-	
-	//プレイヤーの位置ベクトル（カメラの注視点）を取る
-	SetMoveVector(pPlayer_->GetPlayerPosition());
+    // カメラの回転を適用
+    transform_.rotate_ = camMove;
 
-	//カメラの位置≒プレイヤーの位置ベクトル
-	XMStoreFloat3(&transform_.position_,moveVec_);
+    // プレイヤーの位置ベクトルを取得
+    SetMoveVector(pPlayer_->GetPlayerPosition());
 
-	//カメラ本体
-	XMVECTOR vCam = { 0,2,-10,0 };
+    // カメラの位置をプレイヤーの位置に設定
+    XMStoreFloat3(&transform_.position_, moveVec_);
 
-	//カメラ注視点はプレイヤー
-	XMFLOAT3 camTarget = pPlayer_->GetPlayerPosition();
+    // カメラ本体の位置
+    XMVECTOR vCam = XMVectorSet(0, 2, -10, 0);
 
-	Camera::SetTarget(camTarget);
+    // カメラの注視点をプレイヤーに設定
+    XMFLOAT3 camTarget = pPlayer_->GetPlayerPosition();
+    Camera::SetTarget(camTarget);
 
-	//カメラに回転行列を適用
-	vCam = XMVector3TransformCoord(vCam, GetRotateX() * GetRotateY());
+    // カメラの回転行列を適用
+    vCam = XMVector3TransformCoord(vCam, GetRotateX() * GetRotateY());
 
-	//カメラ座標更新
-	XMStoreFloat3(&transform_.position_, moveVec_ + vCam);
+    // カメラ座標の更新
+    XMStoreFloat3(&transform_.position_, moveVec_ + vCam);
 
-	//カメラを移動
-	Camera::SetPosition(transform_.position_);
-
+    // カメラの位置を設定
+    Camera::SetPosition(transform_.position_);
 }
 
 void PlayerCamera::Draw()
@@ -131,4 +123,11 @@ XMFLOAT4X4 PlayerCamera::GetCameraRotateMatrix()
 	XMFLOAT4X4 cameraRotate;
 	XMStoreFloat4x4(&cameraRotate, GetRotateX() * GetRotateY());
 	return cameraRotate;
+}
+
+float PlayerCamera::Clamp(float value, float min, float max)
+{
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
 }

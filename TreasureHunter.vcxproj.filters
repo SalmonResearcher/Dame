@@ -212,6 +212,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>ToyBox</Filter>
     </ClCompile>
+    <ClCompile Include="SkySphere.cpp">
+      <Filter>ToyBox\Stages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -369,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>ToyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="SkySphere.h">
+      <Filter>ToyBox\Stages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 class Attack : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
-    XMFLOAT3 move_ = { 0,0,0 };
+    XMFLOAT3 move_;
 
     int deleteTime_;
 

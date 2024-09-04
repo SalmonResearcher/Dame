@@ -66,7 +66,8 @@ void JewelBullet::Update()
     Shoot();
 
 
-    if (front.dist <JEWEL_WALL_DEATH) {
+    if (front.dist <JEWEL_WALL_DEATH) 
+    {
         KillMe();
     }
 
@@ -145,22 +146,26 @@ void JewelBullet::OnCollision(GameObject* pTarget)
 int JewelBullet::CalculateScore(int killCount)
 {
     int baseScore = Global::GetJewelScore(); // ŒÅ’è‚Ì“_
-    int scores[] = {25, 50, 75, 150, 300, 1500};
 
-    //“|‚µ‚½”‚ª1`4‚Ì
-    if (killCount >= 1 && killCount < 5) {
-        return scores[killCount - 1] + baseScore;
+    // “|‚µ‚½”‚ª1‚©‚ç4‚Ì”ÍˆÍ‚Ìê‡
+    if (killCount >= 1 && killCount < SCORE_BRACKET_THRESHOLD1) 
+    {
+        return SCORE_BRACKETS[killCount - 1] + baseScore;
     }
-    //“G‚ğ“|‚µ‚½”‚ª5ˆÈã‚Ì
-    else if (killCount >= 5 && killCount < 10) {
-        return scores[4] * (killCount - 4) + baseScore; // 6‚Ì‚Í300*2A7‚Ì‚Í300*3‚Æ‚È‚é
+    // “|‚µ‚½”‚ª5‚©‚ç9‚Ì”ÍˆÍ‚Ìê‡
+    else if (killCount >= SCORE_BRACKET_THRESHOLD1 && killCount < SCORE_BRACKET_THRESHOLD2)
+    {
+        return SCORE_BRACKETS[SCORE_BRACKET_THRESHOLD1 - 1] * (killCount - SCORE_BRACKET_THRESHOLD1 + 1) + baseScore;
     }
-    //10ˆÈã1500*kill-8
-    else if (killCount >= 10) {
-        return scores[5] * (killCount - 8) + baseScore;
+    // “|‚µ‚½”‚ª10ˆÈã‚Ìê‡
+    else if (killCount >= SCORE_BRACKET_THRESHOLD2) 
+    {
+        return SCORE_BRACKETS[SCORE_BRACKET_COUNT - 1] * (killCount - SCORE_BRACKET_THRESHOLD2 + 1) + baseScore;
     }
-    else {
-        return baseScore; // killCount‚ª0ˆÈ‰º‚Ì‚Í•óÎ‚Ì‚İ‚Ì“_
+    // killCount ‚ª0ˆÈ‰º‚Ìê‡
+    else 
+    {
+        return baseScore;
     }
 }
 
