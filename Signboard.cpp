@@ -37,7 +37,7 @@ SignBoard::~SignBoard()
 void SignBoard::Initialize()
 {
 
-    hModel_ = Model::Load("Sign.fbx");
+    hModel_ = Model::Load("Sign_1.fbx");
     assert(hModel_ >= 0);
 
 	hSound_ = Audio::Load("SE/SignAttack.wav");
