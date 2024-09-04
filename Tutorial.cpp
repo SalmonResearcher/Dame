@@ -23,7 +23,7 @@ Tutorial::Tutorial(GameObject* parent)
 //‰Šú‰»
 void Tutorial::Initialize()
 {
-	hBGM_ = Audio::Load("SE/Tutorial.wav", true);
+	hBGM_ = Audio::Load("Sounds/BGM/Tutorial.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 

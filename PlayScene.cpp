@@ -46,11 +46,11 @@ PlayScene::PlayScene(GameObject * parent)
 //‰Šú‰»
 void PlayScene::Initialize()
 {
-	hBGM_ = Audio::Load("SE/PlayScene.wav", true);
+	hBGM_ = Audio::Load("Sounds/BGM/PlayScene.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_,false,1.0f,Global::MUSIC_VOLUME);
 
-	hScoreSound_ = Audio::Load("SE/CountUp.wav", false);
+	hScoreSound_ = Audio::Load("Sounds/SE/CountUp.wav", false);
 	assert(hScoreSound_ >= 0);
 
 	//ŒÄ‚Ño‚µ

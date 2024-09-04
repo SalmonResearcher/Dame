@@ -31,7 +31,7 @@ TitleScene::TitleScene(GameObject* parent)
 //‰Šú‰»
 void TitleScene::Initialize()
 {
-	hBGM_ = Audio::Load("SE/TitleScene.wav", true);
+	hBGM_ = Audio::Load("Sounds/BGM/TitleScene.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 

@@ -65,9 +65,9 @@ void Player::Initialize()
   	hModel_ = Model::Load("NewPlayer.fbx");
 	assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load("SE/SordBig.wav", false, 2);
+	hSound_ = Audio::Load("Sounds/SE/SordBig.wav", false, 2);
 
-	hGetSound_ = Audio::Load("SE/GetJewel.wav", false, 1);
+	hGetSound_ = Audio::Load("Sounds/SE/GetJewel.wav", false, 1);
 
 
 	// ステートマネージャー

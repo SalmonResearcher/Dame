@@ -30,13 +30,13 @@ void ResultScene::Initialize()
 	hImage_ = Image::Load("Result.png");
 	assert(hImage_ >= 0);
 
-	hCountSound_ = Audio::Load("SE/CountUp.wav", false);
+	hCountSound_ = Audio::Load("Sounds/SE/CountUp.wav", false);
 	assert(hCountSound_ >= 0);
 
-	hMoneySound_ = Audio::Load("SE/money.wav", false);
+	hMoneySound_ = Audio::Load("Sounds/SE/money.wav", false);
 	assert(hMoneySound_ >= 0);
 
-	hBGM_ = Audio::Load("SE/Result.wav", true);
+	hBGM_ = Audio::Load("Sounds/BGM/Result.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_,false,1.0f,Global::MUSIC_VOLUME);
 

@@ -40,7 +40,7 @@ void SignBoard::Initialize()
     hModel_ = Model::Load("Sign_1.fbx");
     assert(hModel_ >= 0);
 
-	hSound_ = Audio::Load("SE/SignAttack.wav");
+	hSound_ = Audio::Load("Sounds/SE/SignAttack.wav");
 	assert(hModel_ >= 0);
 
     hStage_ = SetStageHandle();

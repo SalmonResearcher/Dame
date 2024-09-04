@@ -74,10 +74,10 @@ void Enemy::Initialize()
 	hModel_ = Model::Load("Slime_V2.fbx");
 	assert(hModel_ >= 0);
 
-	hDeathSound_ = Audio::Load("SE/SlimeDeath.WAV", false, 1);
+	hDeathSound_ = Audio::Load("Sounds/SE/SlimeDeath.WAV", false, 1);
 	assert(hDeathSound_ >= 0);
 
-	hHitSound_ = Audio::Load("SE/Attack2.wav", false, 1);
+	hHitSound_ = Audio::Load("Sounds/SE/Attack2.wav", false, 1);
 	assert(hHitSound_ >= 0);
 
 	transform_.scale_ = { enemyScale };

@@ -50,7 +50,7 @@ StageSelectScene::StageSelectScene(GameObject* parent)
 //‰Šú‰»
 void StageSelectScene::Initialize()
 {
-	hBGM_ = Audio::Load("SE/SelectScene.wav", true);
+	hBGM_ = Audio::Load("Sounds/BGM/SelectScene.wav", true);
 	assert(hBGM_ >= 0);
 	Audio::Play(hBGM_, false, 1.0f, Global::MUSIC_VOLUME);
 
