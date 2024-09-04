@@ -8,7 +8,6 @@
 
 namespace {
 	float mouseSens = 1;
-	bool debug = true;
 }
 
 PlayerCamera::PlayerCamera(GameObject* parent) :GameObject(parent, "PlayerCamera"),pPlayer_(nullptr)
@@ -37,18 +36,6 @@ void PlayerCamera::Update()
     {
         mouseSens -= Input::IsKey(DIK_LSHIFT) ? MOUSE_SENSITIVITY_INCREMENT_FAST : MOUSE_SENSITIVITY_INCREMENT_NORMAL;
         mouseSens = Clamp(mouseSens, MOUSE_SENSITIVITY_MIN, MOUSE_SENSITIVITY_MAX);
-    }
-
-    // デバッグモードの切替
-    if (Input::IsKeyDown(DIK_RSHIFT))
-    {
-        debug = !debug;
-    }
-
-    // デバッグモード時のマウス位置固定
-    if (debug)
-    {
-        SetCursorPos(800, 400);
     }
 
     static XMFLOAT3 move = { 0, 0, 0 };
@@ -90,7 +77,7 @@ void PlayerCamera::Update()
     XMStoreFloat3(&transform_.position_, moveVec_);
 
     // カメラ本体の位置
-    XMVECTOR vCam = XMVectorSet(0, 2, -10, 0);
+    XMVECTOR vCam = XMVectorSet(0, 3, -15, 0);
 
     // カメラの注視点をプレイヤーに設定
     XMFLOAT3 camTarget = pPlayer_->GetPlayerPosition();

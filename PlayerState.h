@@ -1,4 +1,3 @@
-// StateBase.h
 #pragma once
 #include "Engine/GameObject.h"
 #include "StateBase.h"
