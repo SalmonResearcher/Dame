@@ -31,6 +31,7 @@ class Enemy : public GameObject
     int hEmit_;     //エフェクト番号
     bool stopEmit_; //エフェクトを止める
 
+
     int killedByJewel_;
 
     XMVECTOR vPosition_;    //自身の位置ベクトル
@@ -114,7 +115,7 @@ public:
     void JewelDeath();//宝石によってやられた
 
     //距離に応じて音量を変える
-    float SoundDistance(float distance,float falloff);
+    float SoundDistance(float distance);
 
     //Floatのランダムな値を生成します
     float GenerateRandomFloat(float min, float max);

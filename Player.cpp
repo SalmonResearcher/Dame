@@ -14,7 +14,6 @@
 //エンジンの機能
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
-#include "Engine/Debug.h"
 #include "Engine/BoxCollider.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Audio.h"
@@ -102,16 +101,6 @@ void Player::Update()
 		killCount_ += 100;
 		jewelDeliver_ += 1000000;
 	}
-	Debug::Log("PlayerPosition = (");
-
-	Debug::Log(transform_.position_.x);
-	Debug::Log(", ");
-
-	Debug::Log(transform_.position_.y);
-	Debug::Log(", ");
-
-	Debug::Log(transform_.position_.z);
-	Debug::Log(")", true);
 
 		//ランダム
 	jewelPitch = GenerateRandomFloat(min, max);

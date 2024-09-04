@@ -3,7 +3,6 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
-#include "Engine/Debug.h"
 #include "Engine/Camera.h"
 #include "Engine/Audio.h"
 #include "Global.h"
@@ -162,9 +161,6 @@ void StageSelectScene::Update()
 		trStage[l].position_.y = sinwave;
 		moveXImage = sinwave / IMAGE_WAVE_VEL;
 
-		Debug::Log("moveXImage = ");
-		Debug::Log(moveXImage, true);
-
 		trStage[l].rotate_.y = timer / STAGE_ROTATE_SPEED;
 	}
 
@@ -174,9 +170,6 @@ void StageSelectScene::Update()
 	trImage_[IMAGE_1].position_.x += moveXImage;
 	trImage_[IMAGE_2].position_.x -= moveXImage;
 
-
-	Debug::Log("transform = ");
-	Debug::Log(trImage_[0].position_.x, true);
 
 	yMoveTime += yTime;
 	timer++;

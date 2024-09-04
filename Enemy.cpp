@@ -3,14 +3,14 @@
 #include "Player.h"
 #include "Jewel.h"
 #include "JewelBullet.h"
-#include "Engine/Model.h"
-#include "Engine/Debug.h"
-#include "EnemyAttack.h"
 #include "EnemySpawn.h"
-#include "Engine/Audio.h"
-#include "Engine/VFX.h"
+#include "EnemyAttack.h"
 #include "StateManager.h"
 #include "EnemyState.h"
+
+#include "Engine/Model.h"
+#include "Engine/Audio.h"
+#include "Engine/VFX.h"
 #include "Global.h"
 
 #include <algorithm> // std::maxを使う
@@ -18,39 +18,40 @@
 //敵のコンフィグファイルみたいなのほしいかも
 namespace 
 {
-	const int BASE_KILL_SCORE = 25;
 
 	XMFLOAT3 ColliderPosition = { 0.0f,0.0f,0.0f };
-	float ColliderScale = 1.25f;
+	const float COLLIDER_SCALE = 1.25f;
 
 	XMFLOAT3 enemyScale = { 1.0f,1.0f,1.0f };
-	float attackDistance = 1.5f;	//この値未満まで近づくと攻撃に移行
-	float moveDistance = 2.0f;		//この値を超える距離まで遠ざかると移動
-
+	const float ATTACK_DISTANCE = 1.5f;	//この値未満まで近づくと攻撃に移行
+	const float MOVE_DISTANCE = 2.0f;		//この値を超える距離まで遠ざかると移動
 
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
 
-	float moveSpeed = 0.12f *10;
+	float moveSpeed = 0.12f;
 	float attackSpeed = 0.0f;
 
 
-	int collisionCreateTime = 42;	//攻撃→判定までの時間
-	int collisionTime = 3;		//判定の持続フレーム
+	const int COLLISION_CREATE_TIME = 42;	//攻撃→判定までの時間
+	const int COLLISION_TIME = 3;		//判定の持続フレーム
 
-	int attackWaitTime = 90;
-	int deadWaitTime = 60;
+	const int ATTACK_WAIT_TIME = 90;
+	const int DEAD_WAIT_TIME = 60;
 
-	int deathSoundTime = 14;
-
-	float falloff = 100.0f;		//音が最小になるまでの距離
+	const int DEAD_SOUND_TIME = 14;
 
 	EnemySpawn* pEnemySpawn;
 
-	float soundVolume = Global::SE_VOLUME;	//最大音量
-	float maxSoundDistance = 10.0f;	//最大音量距離
-	float min = 0.8f;			//音の最低ピッチ
-	float max = 1.2f;			//音の最大ピッチ
+	float SOUND_VOLUME = Global::SE_VOLUME;	//最大音量
+	float MIN_SOUNDS_VOLUME = 0.05f;
+
+	float MAX_SOUNDS_DISTANCE = 15.0f;	//最大音量距離
+	float FALLOFF = 150.0f;		//音が最小になるまでの距離
+
+	const float MIN_PITCH = 0.8f;			//音の最低ピッチ
+	const float MAX_PITCH = 1.2f;			//音の最大ピッチ
+	const int BASE_KILL_SCORE = 25;
 
 	float deathPitch;			//倒された音のピッチ
 	float hitPitch;				//攻撃を受けたときピッチ
@@ -84,7 +85,7 @@ void Enemy::Initialize()
 	pEnemySpawn = static_cast<EnemySpawn*>(FindObject("EnemySpawn"));
 	transform_.position_ = pEnemySpawn->GetSpawnPoint();
 
-	pSpher_ = new SphereCollider(ColliderPosition, ColliderScale);
+	pSpher_ = new SphereCollider(ColliderPosition, COLLIDER_SCALE);
 	AddCollider(pSpher_);
 
 
@@ -107,8 +108,8 @@ void Enemy::Initialize()
 //更新
 void Enemy::Update()
 {
-	deathPitch = GenerateRandomFloat(min,max);
-	hitPitch = GenerateRandomFloat(min, max);
+	deathPitch = GenerateRandomFloat(MIN_PITCH,MAX_PITCH);
+	hitPitch = GenerateRandomFloat(MIN_PITCH, MAX_PITCH);
 
 
 	//追いかける＆攻撃するための関数
@@ -117,7 +118,7 @@ void Enemy::Update()
 	//プレイヤーまでの距離
 	toPlayerdir_ = sqrtf(pow((target_.x - transform_.position_.x), 2) + pow((target_.z - transform_.position_.z), 2));
 
-	volume_ = SoundDistance(toPlayerdir_, falloff);
+	volume_ = SoundDistance(toPlayerdir_);
 
 	// ステートマネージャーの更新
 	pStateManager_->Update();
@@ -128,11 +129,11 @@ void Enemy::Update()
 	data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
 	Model::RayCast(hStage_, &data); //レイを発射
 
-	if (toPlayerdir_ < moveDistance)
+	if (toPlayerdir_ < MOVE_DISTANCE)
 	{
 		isNearPlayer_ = true;
 	}
-	else if(waitTime_ <= 0 && toPlayerdir_ >= attackDistance)
+	else if(waitTime_ <= 0 && toPlayerdir_ >= ATTACK_DISTANCE)
 	{
 		isNearPlayer_ = false;
 	}
@@ -175,7 +176,7 @@ void Enemy::Attack()
 	speed_ = attackSpeed;
 	ChasePlayer(target_, speed_);
 
-	if ((attackWaitTime - collisionCreateTime) == waitTime_) {
+	if ((ATTACK_WAIT_TIME - COLLISION_CREATE_TIME) == waitTime_) {
 		AttackCollision();
 	}
 
@@ -193,7 +194,7 @@ void Enemy::Attack()
 void Enemy::Dead()
 {
 
-	if (waitTime_ == deathSoundTime)
+	if (waitTime_ == DEAD_SOUND_TIME)
 	{
 		Audio::Play(hDeathSound_, true, deathPitch, volume_);
 		CreateVFX(DEATH);
@@ -214,7 +215,7 @@ void Enemy::AttackCollision()
 {
 	EnemyAttack* pEAttack = Instantiate<EnemyAttack>(GetParent());
 	pEAttack->SetAttackPosition(transform_.position_);
-	pEAttack->SetTime(collisionTime);
+	pEAttack->SetTime(COLLISION_TIME);
 }
 
 void Enemy::OnCollision(GameObject* pTarget)
@@ -223,13 +224,13 @@ void Enemy::OnCollision(GameObject* pTarget)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
 		CreateVFX(HIT);
-		waitTime_ = deadWaitTime;
+		waitTime_ = DEAD_WAIT_TIME;
 		isDead_ = true;
 	}
 	if (pTarget->GetObjectName() == "JewelBullet" && !counted_)
 	{
 		Audio::Play(hHitSound_, true, hitPitch, volume_);
-		waitTime_ = deadWaitTime;
+		waitTime_ = DEAD_WAIT_TIME;
 		CreateVFX(JEWEL);
 		JewelBullet* pBullet = (JewelBullet*)pTarget;
 		pBullet->SetKillCount(1);
@@ -267,10 +268,22 @@ void Enemy::JewelDeath()
 }
 
 
-float Enemy::SoundDistance(float distance, float falloff)
+float Enemy::SoundDistance(float distance)
 {
-	float volume = soundVolume - ((distance - maxSoundDistance) / falloff);
-	return max(0.0f, volume);
+	if (distance <= MAX_SOUNDS_DISTANCE)
+	{
+		return SOUND_VOLUME;
+	}
+	else if (distance > MAX_SOUNDS_DISTANCE && distance <= FALLOFF)
+	{
+		//最大音量距離から最小音量距離の間の割合
+		float t = (distance - MAX_SOUNDS_DISTANCE) / (FALLOFF - MAX_SOUNDS_DISTANCE);
+		return max(MIN_SOUNDS_VOLUME,1.0f * (1.0f - t) / 100 );//100％から最小音量の値が出る
+	}
+	else
+	{
+		return MIN_SOUNDS_VOLUME;
+	}
 }
 
 float Enemy::GenerateRandomFloat(float min, float max)
@@ -348,10 +361,10 @@ void Enemy::DestroyVFX()
 
 void Enemy::SetAttackTime()
 {
-	waitTime_ = attackWaitTime;
+	waitTime_ = ATTACK_WAIT_TIME;
 }
 
 void Enemy::SetDeadTime()
 {
-	waitTime_ = deadWaitTime;
+	waitTime_ = DEAD_WAIT_TIME;
 }

@@ -53,15 +53,17 @@ void PlayScene::Initialize()
 	hScoreSound_ = Audio::Load("SE/CountUp.wav", false);
 	assert(hScoreSound_ >= 0);
 
+	//呼び出し
 	pPlayer = Instantiate<Player>(this);
 	pStage = Instantiate<Stage>(this);
-	pJewel = Instantiate<Jewel>(this);
 	pBox = Instantiate<JewelBox>(this);
 	pEnemySpawn = Instantiate<EnemySpawn>(this);
 	pBullet = Instantiate<JewelBullet>(this);
+	pJewel = Instantiate<Jewel>(this);
 
-	pBullet->BulletPosition(XMFLOAT3(INITAL_BULLET_POSITION,0,0));
-
+	pBullet->BulletPosition(INITAL_POSITION_X,0.0f,0.0f);
+	pJewel->SetPosition(INITAL_POSITION_X,0.0f,0.0f);
+	pJewel->KillMe();
 	pDisplay_ = Instantiate<CharacterDisplay>(this);
 
 	// ジュエル、スコア、タイマーの初期設定

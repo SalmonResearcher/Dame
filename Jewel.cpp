@@ -14,20 +14,21 @@ namespace {
     const float GRABITY = 0.02f;
     const int JEWEL_BASE_SCORE = 200;
 
-    const float MAXROTATE = 360.0f;
+    const float MAX_ROTATE = 360.0f;
 
     const int CREATE_VFX_TIME = 70;
     const int ROTATION_JEWEL_TIME = 90;
     const int ROTATION_SPEED = 5.5f;
+
+    const XMFLOAT3 COLLIDER_POSITION = XMFLOAT3(0, 0.5f, 0);
+    const float COLLIDER_RADIUS = 0.8f;
 }
 
-
-//コンストラクタ
+    // コンストラクタ
 Jewel::Jewel(GameObject* parent)
-    :GameObject(parent, "Jewel"), hModel_(-1),stopEmit_(false)
+    : GameObject(parent, "Jewel"), hModel_(-1), stopEmit_(false)
 {
-
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.5f, 0), 0.8f);
+    SphereCollider* collision = new SphereCollider(COLLIDER_POSITION, COLLIDER_RADIUS);
     AddCollider(collision);
 }
 
@@ -71,11 +72,11 @@ void Jewel::Update()
     }
 
     if (jewelRotate_) {
-        float easingFactor = easeInOutCubic(static_cast<float>(rotY) / 360.0f);
+        float easingFactor = easeInOutCubic(static_cast<float>(rotY) / MAX_ROTATE);
         transform_.rotate_.y = rotY * easingFactor;
 
         rotY += ROTATION_SPEED;
-        if (rotY >= MAXROTATE) {
+        if (rotY >= MAX_ROTATE) {
             rotY = 0;
             jewelRotate_ = false;
         }
@@ -122,16 +123,16 @@ void Jewel::CreateVFX()
     vfx.textureFileName = "paticleAssets/FlashB_B.png";
     vfx.position = (transform_.position_);
     vfx.number = 1;
-    vfx.positionRnd = XMFLOAT3(0.8, 0, 0.8);
-    vfx.direction = XMFLOAT3(0, 1, 0);
-    vfx.directionRnd = XMFLOAT3(10, 10, 10);
-    vfx.size = XMFLOAT2(1.5, 1.5);
-    vfx.scale = XMFLOAT2(0.99, 0.99);
-    vfx.lifeTime = 140;
-    vfx.speed = 0.05f;
-    vfx.spin = XMFLOAT3(0, 0, 0.1f);
-    vfx.gravity = 0;
-    vfx.delay = 0;
+    vfx.positionRnd = PARTICLE_POSITION_RND;
+    vfx.direction = PARTICLE_DIRECTION;
+    vfx.directionRnd = PARTICLE_DIRECTION_RND;
+    vfx.size = PARTICLE_SIZE;
+    vfx.scale = PARTICLE_SCALE;
+    vfx.lifeTime = PARTICLE_LIFETIME;
+    vfx.speed = PARTICLE_SPEED;
+    vfx.spin = PARTICLE_SPIN;
+    vfx.gravity = PARTICLE_GRAVITY;
+    vfx.delay = PARTICLE_DELAY;
     hEmit_ = VFX::Start(vfx);
 
 }

@@ -36,37 +36,24 @@ public:
     //開放
     void Release() override;
 
-    /// <summary>
-    /// 弾の方向をプレイヤーの前方ベクトルからもらう
-    /// </summary>
-    /// <param name="_dir">XMVECTOR：方向ベクトル</param>
+    // 弾の方向をプレイヤーの前方ベクトルからもらう
     void BulletDirection(XMVECTOR _dir);
 
-    /// <summary>
-    /// 弾の位置をプレイヤーの位置から算出する
-    /// </summary>
+    // 弾の位置をプレイヤーの位置から算出する
     void BulletPosition(XMFLOAT3 _pos);
+    void BulletPosition(float x, float y, float z);
 
-    /// <summary>
-    /// 弾丸のY軸回転角度を得る
-    /// </summary>
-    /// <param name="_rote"></param>
+    // 弾丸のY軸回転角度を得る
     void BulletRotate(XMFLOAT3 _rote) {transform_.rotate_.y = _rote.y + 180;};
-    /// <summary>
-    /// 弾を打つ処理
-    /// </summary>
+
+    // 弾を打つ処理
     void Shoot();
 
-    /// <summary>
-    /// 何かに当たったら
-    /// </summary>
+    // 何かに当たったら
     void OnCollision(GameObject* pTarget)override;
 
-    /// <summary>
-    /// 敵のキル数からスコアを計算します
-    /// </summary>
+    // 敵のキル数からスコアを計算します
     int CalculateScore(int killCount);
-
 
     void SetKillCount(int count);
 

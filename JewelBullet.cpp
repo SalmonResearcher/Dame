@@ -102,6 +102,12 @@ void JewelBullet::BulletPosition(XMFLOAT3 _pos)
     XMStoreFloat3(&bulletPos_, bulletInitPos);
 };
 
+void JewelBullet::BulletPosition(float x, float y, float z)
+{
+    XMFLOAT3 position{ x, y, z };
+    BulletPosition(position);
+}
+
 void JewelBullet::Shoot()
 {
     XMFLOAT3 moveFloat;

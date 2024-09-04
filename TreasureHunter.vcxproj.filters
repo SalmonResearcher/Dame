@@ -48,6 +48,15 @@
     <Filter Include="ToyBox\Player\PlayerState">
       <UniqueIdentifier>{2f728bfb-888b-4631-a59b-e551e23b699a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBox\Stages">
+      <UniqueIdentifier>{611a82a9-bc28-4b5f-9ab0-9003f3808bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\TutorialObjects">
+      <UniqueIdentifier>{4b773284-923d-43b1-98a6-3bacfd5b6c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToyBox\StateManager">
+      <UniqueIdentifier>{391d2dea-d4e6-48be-a1ae-4b46e494d6b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -116,9 +125,6 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>ToyBox</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -152,7 +158,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>ToyBox\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="JewelNumber.cpp">
       <Filter>ToyBox\UI</Filter>
     </ClCompile>
@@ -165,8 +170,6 @@
     <ClCompile Include="EnemySpawn.cpp">
       <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp" />
-    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="PlayerCamera.cpp">
       <Filter>ToyBox\Player</Filter>
     </ClCompile>
@@ -179,18 +182,36 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="TutorialStage.cpp">
-      <Filter>ToyBox</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyState.cpp">
       <Filter>ToyBox\Enemy\State</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>ToyBox\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Signboard.cpp" />
-    <ClCompile Include="TutorialBoard.cpp" />
-    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Global.cpp">
+      <Filter>ToyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ToyBox\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialStage.cpp">
+      <Filter>ToyBox\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Signboard.cpp">
+      <Filter>ToyBox\TutorialObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialBoard.cpp">
+      <Filter>ToyBox\TutorialObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>ToyBox\StateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>ToyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -259,9 +280,6 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>ToyBox</Filter>
-    </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -283,7 +301,6 @@
     <ClInclude Include="JewelBox.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\State\StateBase.h" />
     <ClInclude Include="JewelBullet.h">
       <Filter>ToyBox\Jewel</Filter>
     </ClInclude>
@@ -296,7 +313,6 @@
     <ClInclude Include="Timer.h">
       <Filter>ToyBox\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Global.h" />
     <ClInclude Include="JewelNumber.h">
       <Filter>ToyBox\UI</Filter>
     </ClInclude>
@@ -309,8 +325,6 @@
     <ClInclude Include="EnemySpawn.h">
       <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="StateManager.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="PlayerCamera.h">
       <Filter>ToyBox\Player</Filter>
     </ClInclude>
@@ -323,18 +337,39 @@
     <ClInclude Include="Tutorial.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="TutorialStage.h">
-      <Filter>ToyBox</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>ToyBox\Enemy\State</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>ToyBox\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Signboard.h" />
-    <ClInclude Include="TutorialBoard.h" />
-    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Global.h">
+      <Filter>ToyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ToyBox\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialStage.h">
+      <Filter>ToyBox\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Signboard.h">
+      <Filter>ToyBox\TutorialObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialBoard.h">
+      <Filter>ToyBox\TutorialObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy\State\StateBase.h">
+      <Filter>ToyBox\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>ToyBox\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>ToyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
