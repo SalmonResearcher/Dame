@@ -1,15 +1,18 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+class Player;
+
 //納品箱を管理するクラス
 class JewelBox : public GameObject
 {
     int hModel_;    //モデル番号
-    Transform trBox_;
 
-    int anim_Start;
-    int anim_End;
-    int anim_Speed;
+    int jewel_;
+    int score_;
+
+    const XMFLOAT3 COLLIDER_POSITION = { 0,1,0 };
+    const float COLLIDER_RADIUS = 1.5f;
 
 public:
     //コンストラクタ
@@ -31,8 +34,13 @@ public:
     void Release() override;
 
     //モデル番号を返す
-    int GetModelHandle() { return hModel_; }
+    int GetModelHandle() { return hModel_; };
 
     void OnCollision(GameObject* pTarget);
 
+    void AddScore(int _score) { score_ += _score; };
+
+    int ReturnJewel() { return jewel_; };
+    int GetKillScore() { return score_; };
+    int SetStageHandle();
 };

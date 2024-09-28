@@ -1,78 +1,131 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/Model.h"
-#include "Stage.h"
-#include "PlayerStateManager.h"
+#include "InputManager.h"
 
-class Stage;
 
-class Player :
-    public GameObject
+class PlayerCamera;
+class StateManager;
+
+class Player :public GameObject
 {
 private:
-    Transform tPlayer_; //プレイヤーのトランスフォーム
-    Transform tCamera;  //カメラのトランスフォーム
+    int hModel_;    //モデル番号
+    int hSound_;    //サウンド番号
+    int hGetSound_;
 
-    XMVECTOR vecPlayer_;    //プレイヤーの進んでいる方向ベクトル
-    XMFLOAT3 movePlayer;
+     int attackCountDown_;
+    float jewelPitch_;   //音の高さ
+    float sordPitch_;
 
-    XMFLOAT3 Camposition_;
-    XMFLOAT3 smoothCam;
-    
-    int hModel_;
-    int hStage_;
-    int hEnemy_;
+    int hStage_;    //ステージモデル番号
+    int hEnemy_;    //敵のモデル番号
 
-    float mouseSens = 1;
+    bool isJumping_; //ジャンプ中かどうか
 
-    float attackStart;
-    float attackEnd;
+    float speed_ = 0.0f;
+    float moveY_;   //Y軸の加速度
 
-    const float MAXSPEED = 0.15;  //カメラの回転速度,プレイヤーの移動速度
-    float speed_ = 0;
-    short moveSpeed;
-    short dash;
-    float moveY = 0;
-    bool isJumping = false;
-    bool isHit;
+    float jewelCount_;  //持っている宝石の数
+    float weight_;      //宝石の重さ
+    int killCount_;     //敵を倒した数
+    int jewelDeliver_;  //運んだ宝石の数重力最大量
 
-protected:
-    PlayerStateManager* pState_;
+    StateManager* pStateManager_;//状態を切り替える
+    PlayerCamera* pCamera_;
 
-    Stage* pStage_;    //モデル番号を取得
+    bool attackEnd_;
+    bool isHit_;
 
+    RayCastData downRay;
+    RayCastData play;
 
-
-public:
-    //プレイヤーの大きさ。
-    // 基本的には中央が原点なので2で割る。
+    // 中央が原点
     const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
 
-    Player(GameObject* parent);
+    // 攻撃時の待ち時間とカウントダウン
+    const int ATTACK_WAIT_TIME = 20;
+
+    //音のピッチ
+    const float MIN_SOUND_PITCH = 0.9f;
+    const float MAX_SOUND_PITCH = 1.1f;
+
+    //宝石の重さ（これグローバルで決められたほうがいい?）
+    const float JEWEL_WEIGHT = 0.01f;
+
+    // プレイヤーの加速量
+    const float PLAYER_ACCELERATION = 0.006f;
+
+    const float MAX_SPEED = 0.15f;
+
+    const int WALKING_SPEED = 1;
+    const int DASH_SPEED = 2;
+
+    const float JUMP_VELOCITY = 0.4f;
+    const float GRAVITY = 0.02f;
+    const float MAX_GRAVITY = 0.5f; //最大重量加速量
+
+public:
+    Player(GameObject* parent);     //コンストラクタ
+    ~Player();                      //デストラクタ
+
     void Initialize() override;
     void Update() override;
     void Draw() override;
     void Release() override;
 
-    void StageRay();
-    void GetState() {};
+    //動き
 
-    XMFLOAT3 GetPlayerPos()
-    {
-        return tPlayer_.position_;
-    }
+    void Walk();        //歩く
+    void Jump();        //ジャンプ
+    void Run();         //走り
+    void Attacking();   //攻撃
+    void Knockback();   //はじかれ
 
-    XMVECTOR GetPlayerVec()
-    {
-        return vecPlayer_;
-    }
+    bool IsJumping();   //接地しているか
 
-    //プレイヤーが判定するステージ
-    int GetPlayerStage()
-    {
-        return 0;
-    }
+    void AddGravity();  //重力をプレイヤーに加算
 
-    void OnCollision(GameObject* pTarget)override;
+    void AddMovement(XMVECTOR moveVector, float run);   //プレイヤーの移動ベクトルを計算
+
+    XMVECTOR CalcMovementInput();
+
+    XMFLOAT3 GetPlayerPosition() { return transform_.position_; };
+
+    void OnCollision(GameObject* pTarget)override;  //何かとぶつかったら
+
+    // ゲッターとセッター
+    int GetModelHandle() { return hModel_; }
+
+    int SendJewel() { return jewelDeliver_; };        //宝石箱に納品した宝石の数を送ります
+    int GetJewelCount();    //今手に持っている宝石の数を返します
+
+    void KillCountUp();     //プレイヤーが直接敵を倒した数を1増やします
+    int GetKillCount();     //プレイヤーが直接倒した敵の数を返します。
+
+    void SetVelocityY(float vY) { moveY_ = vY; };
+    float GetVelocityY() { return moveY_; };
+
+    void SetJumping(bool flag) { isJumping_ = flag; }
+
+    void SetMoveY(float moveY) { transform_.position_.y += moveY; }
+
+    XMVECTOR GetKnockbackDirection();
+
+    int SetStageHandle();
+
+    void RotatePlayer(XMVECTOR moveVector);
+    void RotatePlayer();
+
+    //プレイヤーの重量を返します
+    float GetWeight();
+
+    //プレイヤーの速度を返します。
+    float GetSpeed();
+
+    //プレイヤーの攻撃が終わったらtrue
+    bool IsAttackEnd();
+
+    //Floatのランダムな値を生成します
+    float GenerateRandomFloat(float min, float max);
 };
-

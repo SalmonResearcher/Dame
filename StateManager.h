@@ -1,13 +1,25 @@
 #pragma once
-#include "Player.h"
+#include "StateBase.h"
+#include <string>
+#include <map>
+
+class GameObject;
 
 class StateManager
 {
+private:
+	//ó‘Ô‚ğ•¶š—ñ‚ÅŠÇ—
+	std::map<std::string, StateBase*>statesMap_;
+	StateBase* currentState_;
+	GameObject* pParent_;
+
 public:
-	void Update(Player* _p);
+	StateManager(GameObject* parent);
+	~StateManager();
 
-	void Enter(Player* _p);
-
-	void HandleInput(Player* _p);
+	void Update();
+	void ChangeState(const std::string& stateName);
+	StateBase* AddState(const std::string& stateName, StateBase* state);
+	GameObject* GetGameObject() { return pParent_; }
 };
 

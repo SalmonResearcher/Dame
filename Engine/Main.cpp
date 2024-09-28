@@ -1,10 +1,3 @@
-
-//
-//　最終更新日：2023/10/20
-//
-
-
-
 #include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -28,14 +21,16 @@ const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 //プロトタイプ宣言
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+bool isFullscreen = true;
+WINDOWPLACEMENT wpPrev = { sizeof(wpPrev) };
 
 
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-//#if defined(DEBUG) | defined(_DEBUG)
-//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//#endif
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 
 	SetCurrentDirectory("Assets");
 
@@ -147,19 +142,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-				
+
 				//ちょっと休ませる
 				Sleep(1);
 			}
 			timeEndPeriod(1);	//時間計測の制度を戻す
 		}
-		
+
 		if (Input::IsKeyDown(DIK_ESCAPE))
 			break;
 
 	}
 
-	
+
+
 
 	//いろいろ解放
 	VFX::Release();
@@ -169,7 +165,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 	Direct3D::Release();
-
 
 	return 0;
 }
@@ -223,21 +218,94 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	return hWnd;
 }
 
+// フルスクリーンモードを切り替える関数
+void ToggleFullscreen(HWND hWnd)
+{
+	DWORD dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+	if (dwStyle & WS_OVERLAPPEDWINDOW)
+	{
+		MONITORINFO mi = { sizeof(mi) };
+		if (GetWindowPlacement(hWnd, &wpPrev) && GetMonitorInfo(MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY), &mi))
+		{
+			SetWindowLong(hWnd, GWL_STYLE, dwStyle & ~WS_OVERLAPPEDWINDOW);
+			SetWindowPos(hWnd, HWND_TOP,
+				mi.rcMonitor.left, mi.rcMonitor.top,
+				mi.rcMonitor.right - mi.rcMonitor.left,
+				mi.rcMonitor.bottom - mi.rcMonitor.top,
+				SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+			isFullscreen = true;
+			ShowCursor(FALSE); // マウスカーソルを非表示にする
+		}
+	}
+	else
+	{
+		SetWindowLong(hWnd, GWL_STYLE, dwStyle | WS_OVERLAPPEDWINDOW);
+		SetWindowPlacement(hWnd, &wpPrev);
+		SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
+			SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+		isFullscreen = false;
+		ShowCursor(TRUE); // マウスカーソルを表示する
+	}
+}
 
-//ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	//ウィンドウを閉じた
-	case WM_DESTROY:
-		PostQuitMessage(0);	//プログラム終了
-		return 0;
+    static bool updatingCursorPos = false; // 無限ループを防ぐためのフラグ
 
-	//マウスが動いた
-	case WM_MOUSEMOVE:
-		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
-		return 0;
-	}
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+    switch (msg)
+    {
+        // ウィンドウを閉じた
+        case WM_DESTROY:
+            PostQuitMessage(0); // プログラム終了
+            return 0;
+
+        // マウスが動いた
+        case WM_MOUSEMOVE:
+            if (!updatingCursorPos)
+            {
+                updatingCursorPos = true;
+
+                RECT rect;
+                GetClientRect(hWnd, &rect);
+                int centerX = (rect.right - rect.left) / 2;
+                int centerY = (rect.bottom - rect.top) / 2;
+                POINT center = { centerX, centerY };
+
+                POINT cursorPos;
+                GetCursorPos(&cursorPos);
+                ScreenToClient(hWnd, &cursorPos);
+
+                // カーソルが中央にない場合にのみ中央に移動
+                if (cursorPos.x != centerX || cursorPos.y != centerY)
+                {
+                    ClientToScreen(hWnd, &center);
+                    SetCursorPos(center.x, center.y);
+                }
+
+                updatingCursorPos = false;
+            }
+
+            Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+            break;
+
+        case WM_KEYDOWN:
+            if (wParam == VK_F11) {
+                ToggleFullscreen(hWnd);
+            }
+            break;
+
+        case WM_MOVE:
+        case WM_SIZE:
+        case WM_ACTIVATE:
+            RECT rect;
+            GetClientRect(hWnd, &rect);
+            int centerX = (rect.right - rect.left) / 2;
+            int centerY = (rect.bottom - rect.top) / 2;
+            POINT center = { centerX, centerY };
+            ClientToScreen(hWnd, &center);
+            SetCursorPos(center.x, center.y);
+            break;
+    }
+    return DefWindowProc(hWnd, msg, wParam, lParam);
 }

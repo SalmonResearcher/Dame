@@ -5,10 +5,38 @@
 class TitleScene :public GameObject
 {
 private:
-	Transform trPict_;
-	short hImage_;
-	float wave;
 
+	int hBGM_;
+
+	enum
+	{
+		BG,
+		SLIME,
+		GROUND,
+		HUMAN,
+		LOGO,
+		PRESS,
+		MAX_IMAGE
+	};
+
+	int hImage_[MAX_IMAGE];
+	Transform trImage_[MAX_IMAGE];
+
+	//—h‚ê‚é—Ê
+	float frequency_;
+
+	//‘å‚«‚³‚ªÅ‘å‚É‚È‚é‚Ü‚Å‚Ì‘¬“x
+	const float SCALE_SPEED = 0.05f;
+
+	//Å‘å‚Ì‘å‚«‚³
+	const float MAX_SCALE = 0.05f;
+
+	//U‚ê•‚ªÅ‘å‚É‚È‚é‚Ü‚Å‚Ì‘¬“x
+	const float SWAY_SPEED = 0.5f;
+	const float HUMAN_SWAY_SPEED = 2.0f;
+
+	//U‚ê•‚Ì‘å‚«‚³
+	const float SWAY_AMPLITUDE = 0.05f;
 
 public:
 

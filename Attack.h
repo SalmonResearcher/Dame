@@ -3,8 +3,15 @@
 class Attack : public GameObject
 {
     int hModel_;    //モデル番号
-    XMFLOAT3 move_ = { 0,0,0 };
-    int time;
+    XMFLOAT3 move_;
+
+    int deleteTime_;
+
+    XMFLOAT3 attackPos_;
+
+    //この数を変更すると攻撃判定がでかくなる
+    const float ATTACK_SIZE = 0.8f;
+
 
 public:
     //コンストラクタ
@@ -27,8 +34,18 @@ public:
 
     void SetMove(XMFLOAT3 move) { move_ = move; }
 
+    void SetDeleteTime(int _time) { deleteTime_ = _time; };
+
     //何かに当たった
     //引数：pTarget 当たった相手
     void OnCollision(GameObject* pTarget) override;
 
+    //攻撃判定の方向をプレイヤーの方向からもらう
+    void AttackDirection(XMVECTOR _dir);
+
+    //攻撃判定の位置をプレイヤーの位置から出す
+    void AttackPosition(XMFLOAT3 _pos);
+
+    //攻撃
+    void Attacking();
 };

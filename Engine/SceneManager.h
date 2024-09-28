@@ -8,8 +8,9 @@ enum SCENE_ID
 	SCENE_ID_TEST = 0,
 	SCENE_ID_TITLE,
 	SCENE_ID_SELECT,
-	SCENE_ID_GAME,
-	SCENE_ID_OVER
+	SCENE_ID_TUTORIAL,
+	SCENE_ID_PLAY,
+	SCENE_ID_RESULT,
 };
 
 //-----------------------------------------------------------
