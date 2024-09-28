@@ -19,7 +19,7 @@ SignBoard::SignBoard(GameObject* parent)
     :GameObject(parent, "SignBoard"),animTime_(0), hModel_(-1), stopEmit_(false),isAnimEnd_(true)
 {
 
-    SphereCollider* collision = new SphereCollider(colliderPosition,colliderScale);
+    SphereCollider* collision = new SphereCollider(colliderPosition,COLLIDER_SCARE);
     AddCollider(collision);
 }
 
@@ -65,7 +65,8 @@ void SignBoard::Update()
 	else if (animTime_ == 0)
 	{
 		isAnimEnd_ = true;
-		Model::SetAnimFrame(hModel_, startAnimation, startAnimation, animSpeed);
+		//’¼—§ó‘Ô
+		Model::SetAnimFrame(hModel_, START_ANIM, START_ANIM, ANIM_SPEED);
 	}
 }
 
@@ -92,18 +93,18 @@ void SignBoard::OnCollision(GameObject* pTarget)
 {
 	if (pTarget->GetObjectName() == "Attack" && isAnimEnd_)
 	{
-		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
+		Model::SetAnimFrame(hModel_, START_ANIM, END_ANIM, ANIM_SPEED);
 		CreateVFX(HIT);
 		Audio::Play(hSound_,true,1.0f,Global::SE_VOLUME);
-		animTime_ = endAnimation;
+		animTime_ = END_ANIM;
 	}    
 	
 	if (pTarget->GetObjectName() == "JewelBullet" && isAnimEnd_)
 	{
-		Model::SetAnimFrame(hModel_, startAnimation, endAnimation, animSpeed);
+		Model::SetAnimFrame(hModel_, START_ANIM, END_ANIM, ANIM_SPEED);
 		CreateVFX(JEWEL);
 		Audio::Play(hSound_, true, 1.0f, Global::SE_VOLUME);
-		animTime_ = endAnimation;
+		animTime_ = END_ANIM;
 	}
 
 }
