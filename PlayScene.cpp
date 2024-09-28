@@ -16,15 +16,6 @@
 #include "Engine/Audio.h"
 
 namespace {
-	int timer = 0;
-	int count = 0;
-
-	int jewel_;
-	int killCount_;
-	int score_ = 0;
-
-	XMFLOAT3 spawnPoint(0.0f, 0.0f, -50.0f);
-
 	Player* pPlayer;
 	Stage* pStage;
 	Jewel* pJewel;
@@ -33,13 +24,12 @@ namespace {
 	CharacterDisplay* pDisplay_;
 	EnemySpawn* pEnemySpawn;
 	JewelBullet* pBullet;
-
-	float pitch = 1.0;
 }
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"),hBGM_(-1),hScoreSound_(-1)
+	: GameObject(parent, "PlayScene"),hBGM_(-1),hScoreSound_(-1),
+	pitch_(1.0f),timer_(0),count_(0),jewel_(0),killCount_(0)
 {
 }
 
@@ -48,7 +38,7 @@ void PlayScene::Initialize()
 {
 	hBGM_ = Audio::Load("Sounds/BGM/PlayScene.wav", true);
 	assert(hBGM_ >= 0);
-	Audio::Play(hBGM_,false,1.0f,Global::MUSIC_VOLUME);
+	Audio::Play(hBGM_,false,INITIAL_PITCH,Global::MUSIC_VOLUME);
 
 	hScoreSound_ = Audio::Load("Sounds/SE/CountUp.wav", false);
 	assert(hScoreSound_ >= 0);
@@ -85,7 +75,7 @@ void PlayScene::Initialize()
 
 	// 敵のスポーン設定
 	pEnemySpawn->SetInterval(ENEMY_SPAWN_INTERVAL);
-	pEnemySpawn->SetSpawnPoint(spawnPoint);
+	pEnemySpawn->SetSpawnPoint(SPAWN_POINT);
 	pEnemySpawn->SetRandomX(SPAWN_RANDOM_X_MIN, SPAWN_RANDOM_X_MAX);
 	pEnemySpawn->StartSpawn();
 }
@@ -93,7 +83,7 @@ void PlayScene::Initialize()
 //更新
 void PlayScene::Update()
 {
-	count++;
+	count_++;
 
 	// 現在のジュエルとキルカウントを取得
 	jewel_ = pBox->ReturnJewel();
@@ -110,10 +100,10 @@ void PlayScene::Update()
 	// スコアカウントが終了していない場合の処理
 	if (!pDisplay_->IsCountEnd(SCORE_INDEX)) {
 		SoundPlay(hScoreSound_, SOUND_PRIORITY);
-		pitch += PITCH_INCREMENT;
+		pitch_ += PITCH_INCREMENT;
 	}
 	else {
-		pitch = INITIAL_PITCH;
+		pitch_ = INITIAL_PITCH;
 	}
 }
 
@@ -131,10 +121,10 @@ void PlayScene::Release()
 
 void PlayScene::SoundPlay(int  handle, int interval)
 {
-	if (soundtimer % interval == 0) {
-		Audio::Play(handle, true,pitch,COUNT_VOLUME);
+	if (soundtimer_ % interval == 0) {
+		Audio::Play(handle, true,pitch_,COUNT_VOLUME);
 	}
-	soundtimer++;
+	soundtimer_++;
 }
 
 // ゲーム終了時の処理

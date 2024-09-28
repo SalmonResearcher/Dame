@@ -7,12 +7,7 @@
 #include "Global.h"
 
 namespace {
-	int startAnimation = 0;
-	int endAnimation = 60;
-	float animSpeed = 1.0f;
 
-	XMFLOAT3 colliderPosition = { 0.0f,1.0f,0.0f };
-	float colliderScale = 1.25f;
 
 	XMFLOAT3 downLay(0, -1, 0);
 

@@ -11,10 +11,6 @@
 #include "Global.h"
 
 namespace {
-	int baseJewelScore;
-	int baseKillScore;
-
-	const int MAX_SCORE = 999999;
 }
 
 //コンストラクタ
@@ -63,8 +59,8 @@ void ResultScene::Initialize()
 
 
 
-	baseJewelScore = Global::GetJewelScore();
-	baseKillScore = Global::GetKillScore();
+	int baseJewelScore = Global::GetJewelScore();
+	int baseKillScore = Global::GetKillScore();
 
 	//合計スコア＝（納品数*200）+（宝石キルスコア）*（100％ +（敵を倒した数*1％））
 	totalScore_ = (killCount_ * baseKillScore)+(jewel_ * baseJewelScore) + jewelKill_ * (1 + (killCount_ * 0.01));
@@ -76,35 +72,37 @@ void ResultScene::Initialize()
 
 	pDisp_->CreateScores(MAX_DISPLAY);
 
-pDisp_->SetScoreValue(KILL_COUNT, killCount_);
-pDisp_->SetScorePosition(KILL_COUNT, SCORE_POSITION_X, KILL_SCORE_POSITION_Y);
-pDisp_->SetScoreIncrementStep(KILL_COUNT, DEFAULT_INCREMENT_STEP);
-if (killCount_ < DEFAULT_SCORE_INCREMENT_FRAMES && killCount_ != 0) {
-    pDisp_->SetScoreIncrementStep(KILL_COUNT, killCount_);
-}
+	//どのスコアを表示するか
+	pDisp_->SetScoreValue(KILL_COUNT, killCount_);
+	pDisp_->SetScorePosition(KILL_COUNT, SCORE_POSITION_X, KILL_SCORE_POSITION_Y);
+	pDisp_->SetScoreIncrementStep(KILL_COUNT, DEFAULT_INCREMENT_STEP);
+	if (killCount_ < DEFAULT_SCORE_INCREMENT_FRAMES && killCount_ != 0) 
+	{
+		pDisp_->SetScoreIncrementStep(KILL_COUNT, killCount_);
+	}
 
-pDisp_->SetScoreValue(JEWEL_COUNT, jewel_);
-pDisp_->SetScorePosition(JEWEL_COUNT, SCORE_POSITION_X, JEWEL_SCORE_POSITION_Y);
-pDisp_->SetScoreIncrementStep(JEWEL_COUNT, DEFAULT_INCREMENT_STEP);
-if (jewel_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewel_ != 0) {
-    pDisp_->SetScoreIncrementStep(JEWEL_COUNT, jewel_);
-}
+	pDisp_->SetScoreValue(JEWEL_COUNT, jewel_);
+	pDisp_->SetScorePosition(JEWEL_COUNT, SCORE_POSITION_X, JEWEL_SCORE_POSITION_Y);
+	pDisp_->SetScoreIncrementStep(JEWEL_COUNT, DEFAULT_INCREMENT_STEP);
+	if (jewel_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewel_ != 0) 
+	{
+		pDisp_->SetScoreIncrementStep(JEWEL_COUNT, jewel_);
+	}
 
-pDisp_->SetScoreValue(JEWEL_KILL_COUNT, jewelKill_);
-pDisp_->SetScorePosition(JEWEL_KILL_COUNT, SCORE_POSITION_X, JEWEL_KILL_SCORE_POSITION_Y);
-pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, DEFAULT_INCREMENT_STEP);
-if (jewelKill_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewelKill_ != 0) {
-    pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, jewelKill_);
-}
+	pDisp_->SetScoreValue(JEWEL_KILL_COUNT, jewelKill_);
+	pDisp_->SetScorePosition(JEWEL_KILL_COUNT, SCORE_POSITION_X, JEWEL_KILL_SCORE_POSITION_Y);
+	pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, DEFAULT_INCREMENT_STEP);
+	if (jewelKill_ < DEFAULT_SCORE_INCREMENT_FRAMES && jewelKill_ != 0) {
+		pDisp_->SetScoreIncrementStep(JEWEL_KILL_COUNT, jewelKill_);
+	}
 
-pDisp_->SetScoreValue(TOTAL_SCORE, totalScore_);
-pDisp_->SetScorePosition(TOTAL_SCORE, SCORE_POSITION_X, TOTAL_SCORE_POSITION_Y);
-pDisp_->SetScoreIncrementStep(TOTAL_SCORE, TOTAL_SCORE_INCREMENT_STEP);
-if (totalScore_ < TOTAL_SCORE_INCREMENT_FRAMES && totalScore_ != 0) {
-    pDisp_->SetScoreIncrementStep(TOTAL_SCORE, totalScore_);	}
-
-
-
+	pDisp_->SetScoreValue(TOTAL_SCORE, totalScore_);
+	pDisp_->SetScorePosition(TOTAL_SCORE, SCORE_POSITION_X, TOTAL_SCORE_POSITION_Y);
+	pDisp_->SetScoreIncrementStep(TOTAL_SCORE, TOTAL_SCORE_INCREMENT_STEP);
+	if (totalScore_ < TOTAL_SCORE_INCREMENT_FRAMES && totalScore_ != 0) 
+	{
+	    pDisp_->SetScoreIncrementStep(TOTAL_SCORE, totalScore_);	
+	}
 }
 
 void ResultScene::Update()

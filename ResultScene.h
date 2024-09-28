@@ -16,14 +16,17 @@ private:
 		MAX_DISPLAY
 	};
 
-	Transform trPict_;
 	int hImage_;
+	Transform trPict_;
+
 	int hCountSound_;
 	int hMoneySound_;
 
 	int hBGM_;
 
 	float pitch_;
+
+	const int MAX_SCORE = 999999;
 
 	CharacterDisplay* pDisp_;
 
@@ -42,6 +45,7 @@ private:
 
 	int currentCaseIndex; // 現在のケースを追跡する変数
 
+	//スコアの位置など
 	const int SCORE_POSITION_X = 780;
 	const int KILL_SCORE_POSITION_Y = 200;
 	const int JEWEL_SCORE_POSITION_Y = 335;
@@ -54,7 +58,7 @@ private:
 	const int DEFAULT_SCORE_INCREMENT_FRAMES = 30; // デフォルトのフレーム数
 	const int TOTAL_SCORE_INCREMENT_FRAMES = 120;  // トータルスコアのフレーム数
 
-	//スコア表示時の定数たち
+	//スコア表示時の定数
 	enum ScoreCountTimes
 	{
 		START_SCORE_COUNT_0 = 30,

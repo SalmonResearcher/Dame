@@ -9,6 +9,8 @@ class Attack : public GameObject
 
     XMFLOAT3 attackPos_;
 
+    //‚±‚Ì”‚ğ•ÏX‚·‚é‚ÆUŒ‚”»’è‚ª‚Å‚©‚­‚È‚é
+    const float ATTACK_SIZE = 0.8f;
 
 
 public:

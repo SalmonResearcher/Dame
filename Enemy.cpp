@@ -29,29 +29,7 @@ namespace
 	float moveY = 0.0f;
 	float speed_ = 0.0f;
 
-	float moveSpeed = 0.12f;
-	float attackSpeed = 0.0f;
-
-
-	const int COLLISION_CREATE_TIME = 42;	//攻撃→判定までの時間
-	const int COLLISION_TIME = 3;		//判定の持続フレーム
-
-	const int ATTACK_WAIT_TIME = 90;
-	const int DEAD_WAIT_TIME = 60;
-
-	const int DEAD_SOUND_TIME = 14;
-
 	EnemySpawn* pEnemySpawn;
-
-	float SOUND_VOLUME = Global::SE_VOLUME;	//最大音量
-	float MIN_SOUNDS_VOLUME = 0.05f;
-
-	float MAX_SOUNDS_DISTANCE = 15.0f;	//最大音量距離
-	float FALLOFF = 150.0f;		//音が最小になるまでの距離
-
-	const float MIN_PITCH = 0.8f;			//音の最低ピッチ
-	const float MAX_PITCH = 1.2f;			//音の最大ピッチ
-	const int BASE_KILL_SCORE = 25;
 
 	float deathPitch;			//倒された音のピッチ
 	float hitPitch;				//攻撃を受けたときピッチ
@@ -59,7 +37,7 @@ namespace
 
 //コンストラクタ
 Enemy::Enemy(GameObject* parent)
-	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), pPlayer_(nullptr), counted_(false)
+	:GameObject(parent, "Enemy"), hModel_(-1), hStage_(-1), pPlayer_(nullptr), isDead_(false),counted_(false)
 {
 }
 
@@ -163,13 +141,13 @@ void Enemy::Walk()
 {
 	//追いかける＆攻撃するための関数
 	target_ = pPlayer_->GetPlayerPosition();
-	speed_ = moveSpeed;
+	speed_ = MOVE_SPEED;
 	ChasePlayer(target_, speed_);
 }
 
 void Enemy::Attack() 
 {
-	speed_ = attackSpeed;
+	speed_ = ATTACK_MOVE_SPEED;
 	ChasePlayer(target_, speed_);
 
 	if ((ATTACK_WAIT_TIME - COLLISION_CREATE_TIME) == waitTime_) {

@@ -14,8 +14,6 @@ class Tutorial : public GameObject
 
 	Player* pPlayer_;
 	TutorialStage* pStage_;
-	
-
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

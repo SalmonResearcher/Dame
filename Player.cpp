@@ -21,36 +21,13 @@
 //#include "math.h"
 
 namespace {
-	//プレイヤーの大きさ。
-	// 基本的には中央が原点なので2で割る。
-	const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
 
-	// 攻撃時の待ち時間とカウントダウン
-	const int ATTACK_WAIT_TIME = 20;
-
-
-	//これグローバルのほうがいいかも..?
-    const float JEWEL_WEIGHT = 0.01f;
-
-	// プレイヤーの加速度
-	const float PLAYER_ACCELERATION = 0.006f;
-
-	const float MAX_SPEED = 0.15f;
-
-	const int WALKING_SPEED = 1;
-	const int DASH_SPEED = 2;
-
-	const float JUMP_VELOCITY = 0.4f;
-	const float GRAVITY = 0.02f;
-	const float MAX_GRAVITY = 0.5f;
 
     int onCollisionTime = 0;
 	bool isKockBack = false;
 	float knock;
 
-	//音のピッチ
-	float min = 0.9f;
-	float max = 1.1f;
+
 }
 
 Player::Player(GameObject* parent)
@@ -102,7 +79,7 @@ void Player::Update()
 {
 
 	//ランダム
-	jewelPitch_ = GenerateRandomFloat(min, max);
+	jewelPitch_ = GenerateRandomFloat(MIN_SOUND_PITCH, MAX_SOUND_PITCH);
 
 	hStage_ = SetStageHandle();
 

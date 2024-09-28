@@ -20,6 +20,15 @@ class SignBoard :
     bool stopEmit_;
     EmitterData vfx_;
 
+    //アニメーション定数
+    const int START_ANIM = 0;
+    const int END_ANIM = 60;
+    const float ANIM_SPEED = 1.0f;
+
+    //コライダー
+    XMFLOAT3 colliderPosition = { 0.0f,1.0f,0.0f };
+    const float COLLIDER_SCARE = 1.25f;
+
         /*VFXの定数達*/
     // 位置オフセットの定数
     static constexpr float HIT_EFFECT_OFFSET_Y = 0.7f;

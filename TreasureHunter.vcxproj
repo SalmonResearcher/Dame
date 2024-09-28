@@ -171,7 +171,6 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="StateManager.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Tutorial.cpp" />
@@ -226,7 +225,6 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="StateManager.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Tutorial.h" />

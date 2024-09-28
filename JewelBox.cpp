@@ -8,11 +8,6 @@
 #include "TutorialStage.h"
 #include "JewelBullet.h"
 
-namespace
-{
-    const XMFLOAT3 COLLIDER_POSITION = { 0,1,0 };
-    const float COLLIDER_RADIUS = 1.5f;
-}
 
 //コンストラクタ
 JewelBox::JewelBox(GameObject* parent)

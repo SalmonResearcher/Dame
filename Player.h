@@ -40,6 +40,30 @@ private:
     RayCastData downRay;
     RayCastData play;
 
+    // 中央が原点
+    const XMFLOAT3 PLAYER_SIZE{ 1,1,1 };
+
+    // 攻撃時の待ち時間とカウントダウン
+    const int ATTACK_WAIT_TIME = 20;
+
+    //音のピッチ
+    const float MIN_SOUND_PITCH = 0.9f;
+    const float MAX_SOUND_PITCH = 1.1f;
+
+    //宝石の重さ（これグローバルで決められたほうがいい?）
+    const float JEWEL_WEIGHT = 0.01f;
+
+    // プレイヤーの加速量
+    const float PLAYER_ACCELERATION = 0.006f;
+
+    const float MAX_SPEED = 0.15f;
+
+    const int WALKING_SPEED = 1;
+    const int DASH_SPEED = 2;
+
+    const float JUMP_VELOCITY = 0.4f;
+    const float GRAVITY = 0.02f;
+    const float MAX_GRAVITY = 0.5f; //最大重量加速量
 
 public:
     Player(GameObject* parent);     //コンストラクタ

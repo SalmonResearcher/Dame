@@ -8,23 +8,9 @@
 #include "Engine/Debug.h"
 #include "Engine/Audio.h"
 
-namespace {
-	//周波数
-	float Frequency = 0;
-	//大きさが最大値になるまでの速度
-	float ScaleSpeed = 0.05f;
-	//最大の大きさ
-	float ScaleAmplitude = 0.05f;
-	//振れ幅が最大になるまでの速度
-	float SwaySpeed = 0.5f;
-	float SwaySpeedHuman = 2.0f;
-	//振れ幅の大きさ
-	float SwayAmplitude = 0.05f;
-}
-
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "Title"), hImage_{-1,-1,-1,-1,-1}
+	: GameObject(parent, "Title"), hImage_{-1,-1,-1,-1,-1},frequency_(0)
 {
 }
 
@@ -43,6 +29,7 @@ void TitleScene::Initialize()
 		hImage_[l] = Image::Load(ImageName[l]);
 		assert(hImage_[l] >= 0);
 	}
+
 	Global::jewel = 0;
 	Global::killcount = 0;
 	Global::jewelKill = 0;
@@ -51,20 +38,20 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-		float scale = 1.0f + ScaleAmplitude * sin(Frequency);
-		float scaleSlime = 1.0f+ScaleAmplitude * sin(Frequency*0.5);
-		trImage_[1].scale_.x = scaleSlime;
-		trImage_[1].scale_.y = scaleSlime;
+		float scale = 1.0f + SCALE_SPEED * sin(frequency_);
+		float scaleSlime = 1.0f+SCALE_SPEED * sin(frequency_*0.5);
+		trImage_[SLIME].scale_.x = scaleSlime;
+		trImage_[SLIME].scale_.y = scaleSlime;
 
-		float swaySlime = SwayAmplitude * sin(Frequency * SwaySpeed);
-		float swayHuman = SwayAmplitude * sin(Frequency * SwaySpeedHuman);
-		trImage_[1].position_.x = swaySlime;
+		float swaySlime = SWAY_AMPLITUDE * sin(frequency_ * SWAY_SPEED);
+		float swayHuman = SWAY_AMPLITUDE * sin(frequency_ * HUMAN_SWAY_SPEED);
+		trImage_[SLIME].position_.x = swaySlime;
 
-		trImage_[3].position_.y = swayHuman;
-		trImage_[4].scale_.x = scale;
-		trImage_[4].scale_.y = scale;
+		trImage_[HUMAN].position_.y = swayHuman;
+		trImage_[LOGO].scale_.x = scale;
+		trImage_[LOGO].scale_.y = scale;
 
-	Frequency += ScaleSpeed;
+	frequency_ += SCALE_SPEED;
 
 	if (Input::IsKeyDown(DIK_SPACE))
 	{

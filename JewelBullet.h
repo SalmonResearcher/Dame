@@ -18,6 +18,12 @@ class JewelBullet :
     int killCount_;
     int score_;
 
+    const int JEWEL_DEATH_TIME = 180;       //宝石弾が消えるフレーム
+    const float JEWEL_ROTATE_SPEED = 8.0f;  //宝石弾の回転速度
+    const float JEWEL_WALL_DEATH = 1.5f;    //宝石弾が壁にぶつかった判定
+    const float JEWEL_SHOOT_SPEED = 0.8f;   //宝石弾の速度
+    const float JEWEL_GRAUND_OFFSET = 0.5f; //宝石弾の生成時の底上げする高さ
+
     /*スコア換算の定数たち*/
     const int SCORE_BRACKETS[6] = { 25, 50, 75, 150, 300, 1500 };
     const int SCORE_BRACKET_THRESHOLD1 = 5;

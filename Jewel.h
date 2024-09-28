@@ -13,9 +13,23 @@ class Jewel :
 
     int hEmit_;//VFXÇÃî‘çÜ
     bool stopEmit_;
-    EmitterData vfx;
 
+    const float GRABITY = 0.02f;
+    const int JEWEL_BASE_SCORE = 200;//ïÛêŒÇÃì_êî
+
+    const float MAX_ROTATE = 360.0f;
+
+    const int ROTATION_JEWEL_TIME = 90;
+    const int ROTATION_SPEED = 5.5f;
+
+    const XMFLOAT3 COLLIDER_POSITION = XMFLOAT3(0, 0.5f, 0);
+    const float COLLIDER_RADIUS = 0.8f;
+
+
+    EmitterData vfx;
     /*VFXÇÃíËêîÇΩÇø*/
+    const int CREATE_VFX_TIME = 70;
+
     const XMFLOAT3 PARTICLE_POSITION_RND = XMFLOAT3(0.8f, 0.0f, 0.8f);
     const XMFLOAT3 PARTICLE_DIRECTION = XMFLOAT3(0.0f, 1.0f, 0.0f);
     const XMFLOAT3 PARTICLE_DIRECTION_RND = XMFLOAT3(10.0f, 10.0f, 10.0f);

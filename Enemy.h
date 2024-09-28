@@ -3,6 +3,7 @@
 #include "Engine/SphereCollider.h"
 
 #include "Player.h"
+#include "Global.h"
 #include "Engine/VFX.h"
 
 
@@ -42,22 +43,38 @@ class Enemy : public GameObject
 
     int waitTime_ = 0;
 
-    //死んでいるかどうか
-    bool isDead_ = false;
+    bool isDead_;
+    bool counted_;
+    bool isNearPlayer_;
+    bool isAttackEnd_; 
 
-    //倒されたカウントされたかどうか
-    bool counted_;           
+    const float MOVE_SPEED = 0.12f;
+    const float ATTACK_MOVE_SPEED = 0.0f;
 
+
+    const int COLLISION_CREATE_TIME = 42;	//攻撃→判定までの時間
+    const int COLLISION_TIME = 3;		//判定の持続フレーム
+
+    const int ATTACK_WAIT_TIME = 90;
+    const int DEAD_WAIT_TIME = 60;
+
+    const int DEAD_SOUND_TIME = 14; //やられた時の音を出すタイミング
+
+    const float SOUND_VOLUME = Global::SE_VOLUME;	//最大音量
+    const float MIN_SOUNDS_VOLUME = 0.05f;         //最小音量
+
+    const float MAX_SOUNDS_DISTANCE = 15.0f;	//最大音量距離
+    const float FALLOFF = 150.0f;		//音が最小になるまでの距離
+
+    const float MIN_PITCH = 0.8f;			//音の最低ピッチ
+    const float MAX_PITCH = 1.2f;			//音の最大ピッチ
+    const int BASE_KILL_SCORE = 25;		//倒したときのスコア
+
+
+    //音量
     float volume_;
 
     EmitterData vfx_;
-
-    //プレイヤーが近くにいるか
-    bool isNearPlayer_;
-
-    //攻撃が終わったか
-    bool isAttackEnd_; 
-    
     /*VFXの定数達*/
     // 位置オフセットの定数
     static constexpr float HIT_EFFECT_OFFSET_Y = 0.7f;

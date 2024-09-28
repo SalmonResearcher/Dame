@@ -22,6 +22,11 @@ private:
 		IMAGE_2,
 		MAX_IMAGE
 	};
+	XMFLOAT3 cameraPos;
+
+
+	int hSkysphere;
+	Transform trSky;
 
 	int hBGM_;
 	int hImage_[MAX_IMAGE];
@@ -32,19 +37,30 @@ private:
 	Transform trStage[MAX_STAGE];	//ステージプレビューのトランスフォーム
 	Transform trImage_[MAX_IMAGE];
 
+	//ミニステージの移動
+	float moveX;
+	//左右の＜＞の動き
+	float moveXImage;
+
+	//ステージの移動量
+	const float STAGE_MOVE = 0.25f;
+
+	//回転用の時間
+	float timer_;
+
+	//縦に揺れる速さ
+	const float Y_MOVE_SPEED = 0.06f;
 
 	//ステージ選択するときのカウント
-	int selectCount = 0;
+	int selectCount_;
 
 	//そのステージで止まったかどうか
 	bool isStageStop = false;
 
-	XMFLOAT3 cameraPos;
-
 	//縦揺れ時間
 	float yMoveTime;
 
-	//ゆっくり上下
+	//ゆっくり上下させる変数
 	float sinwave;
 
 	const float STAGE_ROTATE_SPEED = 3.0f;
@@ -53,6 +69,14 @@ private:
 	const float SCALE_DOWN_SPEED = 0.05f;
 	const XMFLOAT3 STAGE_SCALE = { 0.2f,0.2f,0.2f };
 	const XMFLOAT3 STAGE_BIG = { 0.4f,0.4f,0.4f };
+
+	//最大
+	const XMFLOAT3 IMAGE_SCALE = { 0.3,0.3,0.3 };
+	const int IMAGE_MAX_ALPHA = 192;		//画像の最大不透明度
+	const int IMAGE_ROTATE = 180;			//画像の回転
+	const float IMAGE_POSITiON = 0.8f;		//画像の位置
+	const int IMAGE_WAVE_VEL = 100;			//画像の横揺れのつよさ
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

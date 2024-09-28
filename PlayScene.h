@@ -10,8 +10,17 @@ class PlayScene : public GameObject
 	int hBGM_;
 
 	int hScoreSound_;
-	int soundtimer;
+	int soundtimer_;
 	Text* pText;
+
+	int timer_;
+	int count_;
+
+	int jewel_;
+	int killCount_;
+	int score_;
+
+	float pitch_;
 
 	// ’è”‚Ì’è‹`
 	const float INITAL_POSITION_X = 500;
@@ -36,6 +45,8 @@ class PlayScene : public GameObject
 	const int ENEMY_SPAWN_INTERVAL = 30;
 	const float SPAWN_RANDOM_X_MIN = -80.0f;
 	const float SPAWN_RANDOM_X_MAX = 60.0f;
+	const XMFLOAT3 SPAWN_POINT = { 0.0f, 0.0f, -50.0f };
+
 
 	//‰¹Œn“‚Ì’è”
 	const int SOUND_PRIORITY = 5;

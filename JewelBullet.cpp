@@ -17,15 +17,7 @@
 #include <cmath>
 #include "Global.h"
 
-namespace {
-    const int JEWEL_DEATH_TIME = 180;       //宝石弾が消えるフレーム
-    const float JEWEL_ROTATE_SPEED = 8.0f;  //宝石弾の回転速度
-    const float JEWEL_WALL_DEATH = 1.5f;    //宝石弾が壁にぶつかった判定
 
-    const float JEWEL_SHOOT_SPEED = 0.8f;   //宝石弾の速度
-    const float JEWEL_GRAUND_OFFSET = 0.5f; //宝石弾の生成時の底上げする高さ
-
-}
 
 //コンストラクタ
 JewelBullet::JewelBullet(GameObject* parent)

@@ -1,18 +1,14 @@
 #include "Tutorial.h"
 #include "Global.h"
-
 #include "Player.h"
 #include "TutorialStage.h"
 #include "Jewel.h"
 #include "JewelBox.h"
 #include "CharacterDisplay.h"
 
-
 #include "Engine/SceneManager.h"
 #include "Engine/Audio.h"
 
-namespace {
-}
 
 //コンストラクタ
 Tutorial::Tutorial(GameObject* parent)

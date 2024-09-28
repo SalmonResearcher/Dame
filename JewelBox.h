@@ -11,6 +11,9 @@ class JewelBox : public GameObject
     int jewel_;
     int score_;
 
+    const XMFLOAT3 COLLIDER_POSITION = { 0,1,0 };
+    const float COLLIDER_RADIUS = 1.5f;
+
 public:
     //コンストラクタ
     JewelBox(GameObject* parent);

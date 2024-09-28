@@ -8,37 +8,14 @@
 #include "Global.h"
 
 namespace {
-	XMFLOAT3 cameraPos;
-	float moveX;
-	float moveXImage;
-
-	int hSkysphere;
-	Transform trSky;
-
 	std::string name = "MiniStage";
 	std::string num;
 	std::string ext = ".fbx";
-
-	//ステージの移動量
-	float moveStage = 0.25f;
-
-	//回転用の時間
-	float timer;
-
-	//縦揺れ量
-	float yTime = 0.06f;
-
-	//最大
-	const XMFLOAT3 IMAGE_SCALE = { 0.3,0.3,0.3 };
-	const int IMAGE_MAX_ALPHA = 192;		//画像の最大不透明度
-	const int IMAGE_ROTATE = 180;			//画像の回転
-	const float IMAGE_POSITiON = 0.8f;		//画像の位置
-	const int IMAGE_WAVE_VEL = 100;			//画像の横揺れのつよさ
 }
 
 //コンストラクタ
 StageSelectScene::StageSelectScene(GameObject* parent)
-	: GameObject(parent, "StageSelectScene"),hBGM_(-1)
+	: GameObject(parent, "StageSelectScene"),hBGM_(-1),selectCount_(0)
 {
 	//ステージプレビューモデル変数の初期化
 	for (int i = 0; i < MAX_STAGE; i++)
@@ -82,21 +59,21 @@ void StageSelectScene::Initialize()
 //更新
 void StageSelectScene::Update()
 {
-	if (Input::IsKeyDown(DIK_A) && selectCount > 0)
+	if (Input::IsKeyDown(DIK_A) && selectCount_ > 0)
 	{
-		selectCount--;
+		selectCount_--;
 		isStageStop = false;
-		moveX = -moveStage;
+		moveX = -STAGE_MOVE;
 	}
 
-	if (Input::IsKeyDown(DIK_D) && selectCount < MAX_STAGE - 1)
+	if (Input::IsKeyDown(DIK_D) && selectCount_ < MAX_STAGE - 1)
 	{
-		selectCount++;
+		selectCount_++;
 		isStageStop = false;
-		moveX = moveStage;
+		moveX = STAGE_MOVE;
 	}
 
-	switch (selectCount)
+	switch (selectCount_)
 	{
 	case STAGE1:
 		alImage_[IMAGE_1] = IMAGE_MAX_ALPHA;
@@ -161,7 +138,7 @@ void StageSelectScene::Update()
 		trStage[l].position_.y = sinwave;
 		moveXImage = sinwave / IMAGE_WAVE_VEL;
 
-		trStage[l].rotate_.y = timer / STAGE_ROTATE_SPEED;
+		trStage[l].rotate_.y = timer_ / STAGE_ROTATE_SPEED;
 	}
 
 	for (int l = 0; l < MAX_IMAGE; l++)
@@ -171,8 +148,8 @@ void StageSelectScene::Update()
 	trImage_[IMAGE_2].position_.x -= moveXImage;
 
 
-	yMoveTime += yTime;
-	timer++;
+	yMoveTime += Y_MOVE_SPEED;
+	timer_++;
 }
 
 //描画

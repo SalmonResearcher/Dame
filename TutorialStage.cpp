@@ -24,26 +24,6 @@ namespace
     CharacterDisplay* pDisplay_;
     JewelBullet* pBullet_;
     SkySphere* pSky_;
-
-    // 定数の定義
-    const XMFLOAT3 INIT_POSITION = { 500, -6, 0 };
-
-    const float SIGN_POSITION_Z[] = { 7.0f, 25.0f, 35.0f, 45.0f };
-    const float JEWEL_POSITION_Z = 20.0f;
-    const float PLAYER_POSITION_Y_THRESHOLD = -15.0f;
-    const float PLAYER_POSITION_Z_THRESHOLD = 65.0f;
-
-
-    // スコアとタイマーの初期値
-    const int INITIAL_SCORE = 0;
-    const int INITIAL_TIMER_LIMIT = 0;
-
-    // ジュエルボックスの位置
-    const XMFLOAT3 JEWEL_BOX_POSITION = { 0, -7, 55 };
-
-    //看板の反転
-    const XMFLOAT3 DEFAULT_SIGN_ROTATION = { 0, 180, 0 };
-
 }
 
 // コンストラクタ

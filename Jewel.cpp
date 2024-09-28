@@ -7,24 +7,9 @@
 #include "Player.h"
 #include "Global.h"
 
-
 #include <cmath>
 
-namespace {
-    const float GRABITY = 0.02f;
-    const int JEWEL_BASE_SCORE = 200;
-
-    const float MAX_ROTATE = 360.0f;
-
-    const int CREATE_VFX_TIME = 70;
-    const int ROTATION_JEWEL_TIME = 90;
-    const int ROTATION_SPEED = 5.5f;
-
-    const XMFLOAT3 COLLIDER_POSITION = XMFLOAT3(0, 0.5f, 0);
-    const float COLLIDER_RADIUS = 0.8f;
-}
-
-    // コンストラクタ
+// コンストラクタ
 Jewel::Jewel(GameObject* parent)
     : GameObject(parent, "Jewel"), hModel_(-1), stopEmit_(false)
 {
