@@ -15,7 +15,8 @@
 #include "Engine/Input.h"
 #include "Engine/Audio.h"
 
-namespace {
+namespace
+{
 	Player* pPlayer;
 	Stage* pStage;
 	Jewel* pJewel;

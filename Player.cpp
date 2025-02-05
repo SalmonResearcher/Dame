@@ -20,14 +20,8 @@
 #include "Engine/Debug.h"
 //#include "math.h"
 
-namespace {
-
-
-    int onCollisionTime = 0;
-	bool isKockBack = false;
-	float knock;
-
-
+namespace 
+{
 }
 
 Player::Player(GameObject* parent)

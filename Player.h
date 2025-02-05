@@ -14,7 +14,7 @@ private:
     int hSound_;    //サウンド番号
     int hGetSound_;
 
-     int attackCountDown_;
+    int attackCountDown_;
     float jewelPitch_;   //音の高さ
     float sordPitch_;
 
@@ -23,13 +23,18 @@ private:
 
     bool isJumping_; //ジャンプ中かどうか
 
-    float speed_ = 0.0f;
+    float speed_;
     float moveY_;   //Y軸の加速度
 
     float jewelCount_;  //持っている宝石の数
     float weight_;      //宝石の重さ
     int killCount_;     //敵を倒した数
     int jewelDeliver_;  //運んだ宝石の数重力最大量
+
+    int onCollisionTime;
+    bool isKockBack;
+    float knock;
+
 
     StateManager* pStateManager_;//状態を切り替える
     PlayerCamera* pCamera_;
