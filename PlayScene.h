@@ -28,11 +28,11 @@ class PlayScene : public GameObject
 	/*UIÇÃà íuíËêî*/
 	const int INITIAL_UI = 1;
 
-	const int JEWEL_POSITION_X = 45;
-	const int JEWEL_POSITION_Y = 650;
+	const int JEWEL_POSITION_X = 1150;
+	const int JEWEL_POSITION_Y = 110;
 	const int SCORE_POSITION_X = 950;
 	const int SCORE_POSITION_Y = 45;
-	const int TIMER_POSITION_X = 850;
+	const int TIMER_POSITION_X = 600;
 	const int TIMER_POSITION_Y = 45;
 
 	const int SCORE_INDEX = 0;

@@ -11,6 +11,8 @@
 #include "JewelBullet.h"
 #include "SkySphere.h"
 
+#include "Engine/Debug.h"
+
 namespace
 {
     JewelBox* pJewelBox_;
@@ -65,9 +67,9 @@ void TutorialStage::Initialize()
     pDisplay_->CreateScores(1);
     pDisplay_->CreateTimers(1);
 
-    pDisplay_->SetJewelPosition(0, 45, 650);
-    pDisplay_->SetScorePosition(0, 950, 45);
-    pDisplay_->SetTimerPosition(0, 850, 45);
+    pDisplay_->SetJewelPosition(0, JEWEL_POSITION_X, JEWEL_POSITION_Y);
+    pDisplay_->SetScorePosition(0, SCORE_POSITION_X, SCORE_POSITION_Y);
+    pDisplay_->SetTimerPosition(0, TIMER_POSITION_X, TIMER_POSITION_Y);
 
     pDisplay_->ScoreCountStart(INITIAL_SCORE);
     pDisplay_->SetTimerLimit(INITIAL_TIMER_LIMIT, INITIAL_TIMER_LIMIT);    
@@ -88,17 +90,24 @@ void TutorialStage::Initialize()
 // 更新
 void TutorialStage::Update()
 {
-    // ジュエルのスポーン管理
-    if (pPlayer_->GetJewelCount() <= 0 && !spawned_)
+    // ジュエルのスポーン管理(スポーンされてないなら)
+    if (!spawned_) 
     {
-        pJewel_ = Instantiate<Jewel>(this);
-        pJewel_->SetPosition(0, jewelY_, JEWEL_POSITION_Z);
         spawned_ = true;
+        if (pPlayer_->GetJewelCount() == 0)
+        {
+            pJewel_ = Instantiate<Jewel>(this);
+            pJewel_->SetPosition(0, jewelY_, JEWEL_POSITION_Z);
+        }
     }
+    
+    //プレイヤーの持っている宝石量が1以上なら
     if (pPlayer_->GetJewelCount() >= 1)
     {
         spawned_ = false;
     }
+
+    Debug::Log(pPlayer_->GetJewelCount(), true);
 
     // サインボードの位置を設定
     pSign1_->SetPosition(0, signY_, SIGN_POSITION_Z[0]);

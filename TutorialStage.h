@@ -22,6 +22,14 @@ class TutorialStage : public GameObject
     const float PLAYER_POSITION_Y_THRESHOLD = -15.0f;
     const float PLAYER_POSITION_Z_THRESHOLD = 65.0f;
 
+    //UI情報
+    const int JEWEL_POSITION_X = 1150;
+    const int JEWEL_POSITION_Y = 110;
+    const int SCORE_POSITION_X = 950;
+    const int SCORE_POSITION_Y = 45;
+    const int TIMER_POSITION_X = 600;
+    const int TIMER_POSITION_Y = 45;
+
     // スコアとタイマーの初期値
     const int INITIAL_SCORE = 0;
     const int INITIAL_TIMER_LIMIT = 0;
